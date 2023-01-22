@@ -157,7 +157,9 @@ public class MapMaker : MonoBehaviour
                 GameObject EmptyParentObject = new GameObject("Room " + i + " " + j);
                 EmptyParentObject.transform.position = new Vector3((float)j * 20.0f, 0.0f, (float)i * -20.0f);
                 EmptyParentObject.transform.SetParent(Warehouse.transform);
-                UnityEngine.Object roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + "-thin"); // note: not .prefab!
+                string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
+                Debug.Log("ROOM WIDTH" + roomWidth);
+                UnityEngine.Object roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
                 GameObject placedRoomObject = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
                 placedRoomObject.transform.position = EmptyParentObject.transform.position;
             }
