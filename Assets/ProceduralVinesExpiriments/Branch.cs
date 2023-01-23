@@ -18,6 +18,7 @@ public class Branch : MonoBehaviour
     int meshFaces = 3;
 
     bool animate;
+    public float GrowMultiplyer = 1;
     float growthSpeed = 0.5f;
     float shrinkSpeed = 0.3f;
     float currentAmount = -1;
@@ -58,7 +59,7 @@ public class Branch : MonoBehaviour
     {
         if (animate)
         {
-            currentAmount += Time.deltaTime * growthSpeed;
+            currentAmount += Time.deltaTime * growthSpeed * GrowMultiplyer;
             material.SetFloat(AMOUNT, currentAmount);
 
             if (currentAmount >= MAX)
@@ -76,7 +77,7 @@ public class Branch : MonoBehaviour
         }
         if(deAnimate)
         {
-            currentAmount -= Time.deltaTime * shrinkSpeed;
+            currentAmount -= Time.deltaTime * shrinkSpeed * GrowMultiplyer;
             material.SetFloat(AMOUNT, currentAmount);
             if(currentAmount <= -0.5)
             {

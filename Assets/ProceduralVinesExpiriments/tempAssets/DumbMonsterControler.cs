@@ -5,6 +5,7 @@ using UnityEngine;
 public class DumbMonsterControler : MonoBehaviour
 {
     public float MoveSpeed = 1;
+    public ProceduralIvy ivyManager;
     int corner = 1;
     Rigidbody body;
 
@@ -17,6 +18,7 @@ public class DumbMonsterControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //move in a square
             switch (corner) {
 
                 case 1:
@@ -53,5 +55,21 @@ public class DumbMonsterControler : MonoBehaviour
                 break;
 
         }
+
+        //change speed
+        if (Input.GetButtonDown("Fire1")) { speedUp(); }
+        if(Input.GetButtonDown("Fire2")) { slowDown(); }
+    }
+    void speedUp()
+    {
+        MoveSpeed *= 1.1f;
+        ivyManager.branchSpeed *= 1.1f;
+        ivyManager.branchDelay *= 0.9f;
+    }
+    void slowDown()
+    {
+        MoveSpeed *= 0.9f;
+        ivyManager.branchSpeed *= 0.9f;
+        ivyManager.branchDelay *= 1.1f;
     }
 }

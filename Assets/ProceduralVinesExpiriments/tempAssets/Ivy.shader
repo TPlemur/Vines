@@ -6,6 +6,8 @@ Shader "TNTC/Ivy"{
         _NormalMap ("Normal Map", 2D) = "bump" {}
         _Amount("Amount", Range(-1.0, 0.5)) = 0
         _Radius("Radius", float) = 0
+		_Frames("Frames", int) = 1
+		_Fwidth("Fwidth", int) = 0
         [MaterialToggle] _Horizontal("Horizontal", Float) = 0.1
     }
 

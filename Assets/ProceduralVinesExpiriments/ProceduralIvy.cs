@@ -13,36 +13,33 @@ public class ProceduralIvy : MonoBehaviour
     public int maxPointsForBranch = 20;
     public float segmentLength = .002f;
     public float branchRadius = 0.02f;
+    public float branchDelay = 0.75f;
+    public float branchSpeed = 1;
     [Space]
     public Material branchMaterial;
 
     int ivyCount = 0;
+    float ivyTimer = 0;
 
     void Start()
     {
-        InvokeRepeating("GenIvy", 0.1f, 0.5f);
+        //generate ivy clusters at regular static intervals
+        //InvokeRepeating("GenIvy", 0.1f, branchDelay);
     }
 
-    void Update()
+    public void Update()
     {
-
-        if (Input.GetKeyUp(KeyCode.Space))
+        //create ivy clusters at regular (but dynamic) intervals
+        ivyTimer += Time.deltaTime;
+        if (ivyTimer >= branchDelay)
         {
-            // call this method when you are ready to group your meshes
-            combineAndClear();
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = new Ray(targetObj.transform.position, new Vector3(0,-1,0));
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                createIvy(hit);
-            }
+            ivyTimer = 0;
+            GenIvy();
         }
     }
 
+
+    //generates an ivy cluster at the location directly below the target transform
     void GenIvy()
     {
         Ray ray = new Ray(targetObj.transform.position, new Vector3(0, -1, 0));
@@ -77,18 +74,12 @@ public class ProceduralIvy : MonoBehaviour
             Branch b = branch.AddComponent<Branch>();
             b.init(nodes, branchRadius, branchMaterial);
             branch.transform.SetParent(ivy.transform);
+            branch.GetComponent<Branch>().GrowMultiplyer = branchSpeed;
         }
 
         ivyCount++;
     }
 
-    Vector3 calculateTangent(Vector3 p0, Vector3 p1, Vector3 normal)
-    {
-        var heading = p1 - p0;
-        var distance = heading.magnitude;
-        var direction = heading / distance;
-        return Vector3.Cross(normal, direction).normalized;
-    }
 
     Vector3 applyCorrection(Vector3 p, Vector3 normal)
     {
