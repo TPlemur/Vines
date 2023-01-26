@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum directionOfExit
+public enum exitDirection
 {
     LEFT,
     RIGHT,
     UP,
-    DOWN
+    DOWN,
+    NONE
 }
 
 public class MapMaker : MonoBehaviour
@@ -19,7 +20,7 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private int startingRoomColumn;
     [SerializeField] private GameObject Warehouse;
 
-    public List<List<roomData>> warehouseDataArray = new List<List<roomData>>();
+    public List<List<roomData>> warehouseData = new List<List<roomData>>();
 
     void Start()
     {
@@ -34,13 +35,16 @@ public class MapMaker : MonoBehaviour
             List<roomData> rowOfEmptyRooms = new List<roomData>();
             for(int j = 0; j < columns; j++){
                 roomData emptyRoom = new roomData();
+                emptyRoom.rowIndex = i;
+                emptyRoom.columnIndex = j;
                 rowOfEmptyRooms.Add(emptyRoom);
             }
-            warehouseDataArray.Add(rowOfEmptyRooms);
+            warehouseData.Add(rowOfEmptyRooms);
         }
-        warehouseDataArray[startingRoomRow][startingRoomColumn].roomType = "STARTING ROOM";
+        warehouseData[startingRoomRow][startingRoomColumn].roomType = "STARTING ROOM";
         GenerateRoomExits(startingRoomRow, startingRoomColumn);
         // PrintWarehouseData();
+        FixDeadEnds();
         PlaceRooms();
     }
 
@@ -55,67 +59,67 @@ public class MapMaker : MonoBehaviour
      * exits which is handled by RollForMoreExits().
      */
     void GenerateRoomExits(int currentRow, int currentColumn){
-        if(warehouseDataArray[currentRow][currentColumn].exitsMade){
+        if(warehouseData[currentRow][currentColumn].exitsMade){
             return;
         }
         // fill an array with all the exit directions
-        List<directionOfExit> potentialExits = new List<directionOfExit>(new directionOfExit[] {
-                              directionOfExit.LEFT, directionOfExit.RIGHT, directionOfExit.UP, directionOfExit.DOWN
+        List<exitDirection> potentialExits = new List<exitDirection>(new exitDirection[] {
+                              exitDirection.LEFT, exitDirection.RIGHT, exitDirection.UP, exitDirection.DOWN
                               });
         float distToStartingRoom = Mathf.Sqrt((Mathf.Pow((currentRow - startingRoomRow), 2f)) + Mathf.Pow((currentColumn - startingRoomColumn), 2f));
-        // if distance of the current room to the start room is greater less than 2 then we up the RNG of choosing more exits
-        int numOfPotentialExits = distToStartingRoom < 2 ? UnityEngine.Random.Range(3, 4) : UnityEngine.Random.Range(2, 3);
+        // if distance of the current room to the start room is less or equal to 1 then we up the RNG of choosing more exits
+        int numOfPotentialExits = distToStartingRoom <= 1 ? UnityEngine.Random.Range(3, 4) : UnityEngine.Random.Range(2, 3);
         for(; numOfPotentialExits > 0; numOfPotentialExits--){
             // get random index from potentialExits which gives random a room direction
             int indexOfExitDirection = UnityEngine.Random.Range(0, potentialExits.Count);
             // if current room doesn't already have a room equal to the value at the random index
             //  then make the exit in the current room of the value at the random index
-            if(!warehouseDataArray[currentRow][currentColumn].roomExits.Contains(potentialExits[indexOfExitDirection])){
+            if(!warehouseData[currentRow][currentColumn].roomExits.Contains(potentialExits[indexOfExitDirection])){
                 switch(potentialExits[indexOfExitDirection]){
-                    case directionOfExit.LEFT:
+                    case exitDirection.LEFT:
                         if(currentColumn != 0){                                                                     // bounds checking to not add a room exit to an index that doesn't exit
-                            warehouseDataArray[currentRow][currentColumn].roomExits.Add(directionOfExit.LEFT);      // update roomExits array to have the desired room
-                            warehouseDataArray[currentRow][currentColumn - 1].roomExits.Add(directionOfExit.RIGHT); // update adjacent room to have a corresponding exit as well
+                            warehouseData[currentRow][currentColumn].roomExits.Add(exitDirection.LEFT);      // update roomExits array to have the desired room
+                            warehouseData[currentRow][currentColumn - 1].roomExits.Add(exitDirection.RIGHT); // update adjacent room to have a corresponding exit as well
                         }
                         break;
-                    case directionOfExit.RIGHT:
+                    case exitDirection.RIGHT:
                         if(currentColumn != columns - 1){
-                            warehouseDataArray[currentRow][currentColumn].roomExits.Add(directionOfExit.RIGHT);
-                            warehouseDataArray[currentRow][currentColumn + 1].roomExits.Add(directionOfExit.LEFT);
+                            warehouseData[currentRow][currentColumn].roomExits.Add(exitDirection.RIGHT);
+                            warehouseData[currentRow][currentColumn + 1].roomExits.Add(exitDirection.LEFT);
                         }
                         break;
-                    case directionOfExit.UP:
+                    case exitDirection.UP:
                         if(currentRow != 0){
-                            warehouseDataArray[currentRow][currentColumn].roomExits.Add(directionOfExit.UP);
-                            warehouseDataArray[currentRow - 1][currentColumn].roomExits.Add(directionOfExit.DOWN);
+                            warehouseData[currentRow][currentColumn].roomExits.Add(exitDirection.UP);
+                            warehouseData[currentRow - 1][currentColumn].roomExits.Add(exitDirection.DOWN);
                         }
                         break;
-                    case directionOfExit.DOWN:
+                    case exitDirection.DOWN:
                         if(currentRow != rows - 1){
-                            warehouseDataArray[currentRow][currentColumn].roomExits.Add(directionOfExit.DOWN);
-                            warehouseDataArray[currentRow + 1][currentColumn].roomExits.Add(directionOfExit.UP);
+                            warehouseData[currentRow][currentColumn].roomExits.Add(exitDirection.DOWN);
+                            warehouseData[currentRow + 1][currentColumn].roomExits.Add(exitDirection.UP);
                         }
                         break;
                 }
             }
             potentialExits.RemoveAt(indexOfExitDirection);  // then remove that random index so it doesn't get chosen again
         }
-        warehouseDataArray[currentRow][currentColumn].exitsMade = true;
+        warehouseData[currentRow][currentColumn].exitsMade = true;
         // for all of the exits we just made in the current room roll a random number to see if we make more exits in that respective room
-        if(warehouseDataArray[currentRow][currentColumn].roomExits.Contains(directionOfExit.LEFT)
-           && !warehouseDataArray[currentRow][currentColumn - 1].exitsMade){
+        if(warehouseData[currentRow][currentColumn].roomExits.Contains(exitDirection.LEFT)
+           && !warehouseData[currentRow][currentColumn - 1].exitsMade){
             RollForMoreExits(currentRow, currentColumn - 1);
         }
-        if(warehouseDataArray[currentRow][currentColumn].roomExits.Contains(directionOfExit.RIGHT)
-           && !warehouseDataArray[currentRow][currentColumn + 1].exitsMade){
+        if(warehouseData[currentRow][currentColumn].roomExits.Contains(exitDirection.RIGHT)
+           && !warehouseData[currentRow][currentColumn + 1].exitsMade){
             RollForMoreExits(currentRow, currentColumn + 1);
         }
-        if(warehouseDataArray[currentRow][currentColumn].roomExits.Contains(directionOfExit.UP)
-           && !warehouseDataArray[currentRow - 1][currentColumn].exitsMade){
+        if(warehouseData[currentRow][currentColumn].roomExits.Contains(exitDirection.UP)
+           && !warehouseData[currentRow - 1][currentColumn].exitsMade){
             RollForMoreExits(currentRow - 1, currentColumn);
         }
-        if(warehouseDataArray[currentRow][currentColumn].roomExits.Contains(directionOfExit.DOWN)
-           && !warehouseDataArray[currentRow + 1][currentColumn].exitsMade){
+        if(warehouseData[currentRow][currentColumn].roomExits.Contains(exitDirection.DOWN)
+           && !warehouseData[currentRow + 1][currentColumn].exitsMade){
             RollForMoreExits(currentRow + 1, currentColumn);
         }
         return;
@@ -127,10 +131,110 @@ public class MapMaker : MonoBehaviour
      */
     void RollForMoreExits(int row, int column){
         if(UnityEngine.Random.Range(0, 14) == 0){
-            warehouseDataArray[row][column].exitsMade = true;
+            warehouseData[row][column].exitsMade = true;
             return;
         }
         GenerateRoomExits(row, column);
+    }
+
+    void FixDeadEnds(){
+        for(int i = 0; i < warehouseData.Count; i++){
+            for(int j = 0; j < warehouseData[i].Count; j++){
+                if(warehouseData[i][j].roomExits.Count == 1){
+                    Debug.Log("DEAD END AT ROW " + i + " COLUMN " + j);
+                    List<exitDirection> exitsToConsider = MakeExitsToConsider(i, j);
+                    Debug.Log(exitsToConsider.Count);
+                    (roomData leastExitRoom, exitDirection exitToMake, exitDirection opposingExitToMake) = FindLeastExits(i, j, exitsToConsider);
+                    if(leastExitRoom != null){
+                        warehouseData[i][j].roomExits.Add(exitToMake);
+                        leastExitRoom.roomExits.Add(opposingExitToMake);
+                    }
+                    else{
+                        // pick random room from exitToConsider and then start generating rooms from there
+                        Debug.Log("CANT PATCH DEAD END MAKING MORE RANDOM ROOMS");
+                        (int newRow, int newColumn) = warehouseData[i][j].getIndexFromDirection(exitsToConsider[0]);
+                        Debug.Log("MAKING MORE ROOMS AT ROW " + newRow + " COLUMN " + newColumn);
+                        GenerateRoomExits(newRow, newColumn);
+                        exitToMake = warehouseData[i][j].getDirectionFromIndex(newRow, newColumn);
+                        opposingExitToMake = warehouseData[newRow][newColumn].getDirectionFromIndex(i, j);
+                        Debug.Log("PATCHIN DEAD END BETWEEN ROW " + i + " COLUMN " + j + " AND ROW " + newRow + " COLUMN " + newColumn);
+                        warehouseData[i][j].roomExits.Add(exitToMake);
+                        warehouseData[newRow][newColumn].roomExits.Add(opposingExitToMake);
+                        // consider the case in which we make a try to fix a dead end room by making another room
+                        // but that new room creates another dead end at an index that has already been skipped over
+                        // in the nested for loops above
+                    }
+                }
+            }
+        }
+    }
+
+    List<exitDirection> MakeExitsToConsider (int row, int column){
+        List<exitDirection> exitsToConsider = new List<exitDirection>(new exitDirection[] {
+                        exitDirection.LEFT, exitDirection.RIGHT, exitDirection.UP, exitDirection.DOWN
+                        });
+        exitsToConsider.RemoveAt(exitsToConsider.IndexOf(warehouseData[row][column].roomExits[0]));
+        if(row == 0){
+            exitsToConsider.RemoveAt(exitsToConsider.IndexOf(exitDirection.UP));
+        }
+        if(row == rows - 1){
+            exitsToConsider.RemoveAt(exitsToConsider.IndexOf(exitDirection.DOWN));
+        }
+        if(column == 0){
+            exitsToConsider.RemoveAt(exitsToConsider.IndexOf(exitDirection.LEFT));
+        }
+        if(column == columns - 1){
+            exitsToConsider.RemoveAt(exitsToConsider.IndexOf(exitDirection.RIGHT));
+        }
+        return exitsToConsider;
+    }
+
+    (roomData leastExitsRoom, exitDirection exitToMake, exitDirection opposingExitToMake) FindLeastExits(int row, int column, List<exitDirection> exits){
+        int leastExits = 4;
+        roomData leastExitsRoom = null;
+        exitDirection exitToMake = exitDirection.NONE;
+        exitDirection opposingExitToMake = exitDirection.NONE;
+        for(int i = 0; i < exits.Count; i++){
+            switch (exits[i]){
+                case exitDirection.UP:
+                    if(warehouseData[row - 1][column].roomExits.Count != 0 && 
+                       warehouseData[row - 1][column].roomExits.Count < leastExits){
+                        opposingExitToMake = exitDirection.DOWN;
+                        exitToMake     = exitDirection.UP;
+                        leastExitsRoom = warehouseData[row - 1][column];
+                        leastExits     = warehouseData[row - 1][column].roomExits.Count;
+                    }
+                    break;
+                case exitDirection.DOWN:
+                    if(warehouseData[row + 1][column].roomExits.Count != 0 && 
+                       warehouseData[row + 1][column].roomExits.Count < leastExits){
+                        opposingExitToMake = exitDirection.UP;
+                        exitToMake     = exitDirection.DOWN;
+                        leastExitsRoom = warehouseData[row + 1][column];
+                        leastExits     = warehouseData[row + 1][column].roomExits.Count;
+                    }
+                    break;
+                case exitDirection.RIGHT:
+                    if(warehouseData[row][column + 1].roomExits.Count != 0 && 
+                       warehouseData[row][column + 1].roomExits.Count < leastExits){
+                        opposingExitToMake = exitDirection.LEFT;
+                        exitToMake     = exitDirection.RIGHT;
+                        leastExitsRoom = warehouseData[row][column + 1];
+                        leastExits     = warehouseData[row][column + 1].roomExits.Count;
+                    }
+                    break;
+                case exitDirection.LEFT:
+                    if(warehouseData[row][column - 1].roomExits.Count != 0 && 
+                       warehouseData[row][column - 1].roomExits.Count < leastExits){
+                        opposingExitToMake = exitDirection.RIGHT;
+                        exitToMake     = exitDirection.LEFT;
+                        leastExitsRoom = warehouseData[row][column - 1];
+                        leastExits     = warehouseData[row][column - 1].roomExits.Count;
+                    }
+                    break;
+            }
+        }
+        return (leastExitsRoom, exitToMake, opposingExitToMake);
     }
 
     /* PlaceRooms() will iterate through the 2D array of roomData and
@@ -144,21 +248,20 @@ public class MapMaker : MonoBehaviour
      * sets its position to the previously mentioned EmptyGameObject.
      */
     void PlaceRooms(){
-        for(int i = 0; i < warehouseDataArray.Count; i++){
-            for(int j = 0; j < warehouseDataArray[i].Count; j++){
-                if(warehouseDataArray[i][j].roomExits.Count == 0){
+        for(int i = 0; i < warehouseData.Count; i++){
+            for(int j = 0; j < warehouseData[i].Count; j++){
+                if(warehouseData[i][j].roomExits.Count == 0){
                     continue;
                 }
                 string roomExits = System.String.Empty;
-                roomExits += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.LEFT)  ? "L" : "_";
-                roomExits += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.UP)    ? "U" : "_";
-                roomExits += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.DOWN)  ? "D" : "_";
-                roomExits += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.RIGHT) ? "R" : "_";
+                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.LEFT)  ? "L" : "_";
+                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
+                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
+                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
                 GameObject EmptyParentObject = new GameObject("Room " + i + " " + j);
                 EmptyParentObject.transform.position = new Vector3((float)j * 20.0f, 0.0f, (float)i * -20.0f);
                 EmptyParentObject.transform.SetParent(Warehouse.transform);
                 string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
-                Debug.Log("ROOM WIDTH" + roomWidth);
                 UnityEngine.Object roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
                 GameObject placedRoomObject = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
                 placedRoomObject.transform.position = EmptyParentObject.transform.position;
@@ -171,13 +274,13 @@ public class MapMaker : MonoBehaviour
      */
     void PrintWarehouseData(){
         Debug.Log("PRINTING WAREHOUSE ROOM DATA");
-        for(int i = 0; i < warehouseDataArray.Count; i++){
+        for(int i = 0; i < warehouseData.Count; i++){
             string rowData = System.String.Empty;
-            for(int j = 0; j < warehouseDataArray[i].Count; j++){
-                rowData += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.LEFT)  ? "L" : "_";
-                rowData += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.UP)    ? "U" : "_";
-                rowData += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.DOWN)  ? "D" : "_";
-                rowData += warehouseDataArray[i][j].roomExits.Contains(directionOfExit.RIGHT) ? "R" : "_";
+            for(int j = 0; j < warehouseData[i].Count; j++){
+                rowData += warehouseData[i][j].roomExits.Contains(exitDirection.LEFT)  ? "L" : "_";
+                rowData += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
+                rowData += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
+                rowData += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
                 rowData += " ";
             }
             rowData += "\n";
@@ -189,7 +292,39 @@ public class MapMaker : MonoBehaviour
 // class primarily used for holding data about what exits are in each room
 public class roomData
 {
-    public List<directionOfExit> roomExits = new List<directionOfExit>();
+    public List<exitDirection> roomExits = new List<exitDirection>();
     public string roomType = "NONE";
     public bool exitsMade = false;
+    public int rowIndex;
+    public int columnIndex;
+
+    public (int row, int column) getIndexFromDirection(exitDirection dir){
+        if(dir == exitDirection.UP){
+            return (rowIndex - 1, columnIndex);
+        }
+        else if(dir == exitDirection.DOWN){
+            return (rowIndex + 1, columnIndex);
+        }
+        else if(dir == exitDirection.LEFT){
+            return (rowIndex, columnIndex - 1);
+        }
+        else{
+            return (rowIndex, columnIndex + 1);
+        }
+    }
+
+    public exitDirection getDirectionFromIndex(int row, int column){
+        if(row == rowIndex && column + 1 == columnIndex){
+            return exitDirection.LEFT;
+        }
+        else if(row == rowIndex && column - 1 == columnIndex){
+            return exitDirection.RIGHT;
+        }
+        else if(row + 1 == rowIndex && column == columnIndex){
+            return exitDirection.UP;
+        }
+        else{
+            return exitDirection.DOWN;
+        }
+    }
 }
