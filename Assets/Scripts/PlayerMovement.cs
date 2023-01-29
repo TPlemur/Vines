@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    public bool IsGrounded() { return grounded; }
+    public bool IsCrouching() { return crouching; }
+
     // Start is called before the first frame update
     void Start()
     {
