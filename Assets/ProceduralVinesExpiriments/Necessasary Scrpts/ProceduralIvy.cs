@@ -54,7 +54,7 @@ public class ProceduralIvy : MonoBehaviour
     //generates an ivy cluster at the location directly below the target transform
     void GenIvy(GameObject target)
     {
-        Ray ray = new Ray(target.transform.position, new Vector3(0, -1, 0));
+        Ray ray = new Ray(target.transform.position, -target.transform.up);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {

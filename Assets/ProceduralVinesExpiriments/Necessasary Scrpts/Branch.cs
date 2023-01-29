@@ -26,8 +26,8 @@ public class Branch : MonoBehaviour
     bool deAnimate = false;
     float delayTime = 2;
     float delayTimer = 0;
-    [Space]
-    bool thisDoesntWorkYet;
+
+    //doesn't work yet
     bool iscloth = false;
 
     public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
