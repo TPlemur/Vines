@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProceduralIvy : MonoBehaviour
 {
 
-    public GameObject targetObj;
+    public GameObject[] targetObjs;
     [Space]
     public float recycleInterval = 30;
     [Space]
@@ -15,6 +15,8 @@ public class ProceduralIvy : MonoBehaviour
     public float branchRadius = 0.02f;
     public float branchDelay = 0.75f;
     public float branchSpeed = 1;
+    public bool WitherBranch = true;
+    public bool continuousVines = true;
     [Space]
     public Material branchMaterial;
 
@@ -25,24 +27,34 @@ public class ProceduralIvy : MonoBehaviour
     {
         //generate ivy clusters at regular static intervals
         //InvokeRepeating("GenIvy", 0.1f, branchDelay);
+        if (!continuousVines)
+        {
+            foreach (GameObject obj in targetObjs)
+            {
+                GenIvy(obj);
+            }
+        }
     }
 
     public void Update()
     {
         //create ivy clusters at regular (but dynamic) intervals
         ivyTimer += Time.deltaTime;
-        if (ivyTimer >= branchDelay)
+        if (continuousVines && ivyTimer >= branchDelay)
         {
             ivyTimer = 0;
-            GenIvy();
+            foreach (GameObject obj in targetObjs)
+            {
+                GenIvy(obj);
+            }
         }
     }
 
 
     //generates an ivy cluster at the location directly below the target transform
-    void GenIvy()
+    void GenIvy(GameObject target)
     {
-        Ray ray = new Ray(targetObj.transform.position, new Vector3(0, -1, 0));
+        Ray ray = new Ray(target.transform.position, new Vector3(0, -1, 0));
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
@@ -75,6 +87,7 @@ public class ProceduralIvy : MonoBehaviour
             b.init(nodes, branchRadius, branchMaterial);
             branch.transform.SetParent(ivy.transform);
             branch.GetComponent<Branch>().GrowMultiplyer = branchSpeed;
+            branch.GetComponent<Branch>().shrink = WitherBranch;
         }
 
         ivyCount++;
