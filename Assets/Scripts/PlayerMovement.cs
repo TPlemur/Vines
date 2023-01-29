@@ -7,23 +7,25 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
+    public CapsuleCollider capsuleCol;
 
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
-
-
     public Transform orientation;
+    bool grounded;
+    
+    private Vector3 moveDirection;
+    private Rigidbody rb;
 
-    float horizontalInput;
-    float verticalInput;
-
-    Vector3 moveDirection;
-
-    Rigidbody rb;
+    [Header("Movement Inputs")]
+    public KeyCode crouchKey = KeyCode.LeftControl;
+    public bool ToggleCrouch = false;
+    public KeyCode sprintKey = KeyCode.LeftShift;
+    private bool crouching = false;
+    private float horizontalInput;
+    private float verticalInput;
 
     // Start is called before the first frame update
     void Start()
@@ -36,41 +38,36 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        
-        MyInput();
+        grounded = Physics.Raycast(transform.position, Vector3.down, 1.0f, whatIsGround);
+        // get inputs
+        GetInputs();
+        Crouch();
         SpeedCapper();
-
         //handle drag
         if(grounded){
             rb.drag = groundDrag;
         }else{
             rb.drag = 0;
         }
-
     }
 
     private void FixedUpdate(){
         MovePlayer();
     }
 
-    private void MyInput(){
+    private void GetInputs(){
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
     }
 
     private void MovePlayer(){
         //calculate movement direction
-
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
     }
 
     private void SpeedCapper(){
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         //limit velocity if exceeds max
         if(flatVel.magnitude > moveSpeed){
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -78,5 +75,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Crouch(){
+        if(Input.GetKeyDown(crouchKey)){
+            if(!crouching){
+                crouching = true;
+                capsuleCol.height = 1;
+                moveSpeed /= 2;
+            }
+            else if(crouching && ToggleCrouch){
+                UnCrouch();
+            }
+            else if(!ToggleCrouch && crouching){
+                UnCrouch();
+            }
+        }
+        if(Input.GetKeyUp(crouchKey) && !ToggleCrouch && crouching){
+            UnCrouch();
+        }
+    }
 
+    private void UnCrouch(){
+        capsuleCol.height = 2;
+        crouching = false;
+        moveSpeed *= 2;
+    }
 }
