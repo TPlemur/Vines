@@ -22,7 +22,7 @@ public class Branch : MonoBehaviour
     public bool shrink = true;
     float growthSpeed = 0.5f;
     float shrinkSpeed = 0.3f;
-    float currentAmount = -1;
+    float currentAmount = 0;
     bool deAnimate = false;
     float delayTime = 2;
     float delayTimer = 0;

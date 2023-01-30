@@ -30,6 +30,7 @@ public class ProceduralIvy : MonoBehaviour
 
     void Start()
     {
+        ivyTimer = branchDelay;//start first cluster
         //generate ivy clusters at regular static intervals
         //InvokeRepeating("GenIvy", 0.1f, branchDelay);
         if (vinesAtStart)
@@ -45,6 +46,7 @@ public class ProceduralIvy : MonoBehaviour
         if (continuousVines && ivyTimer >= branchDelay)
         {
             GenIvy();
+            ivyTimer = 0;
         }
     }
 
