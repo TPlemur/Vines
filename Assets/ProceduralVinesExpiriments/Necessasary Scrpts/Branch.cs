@@ -28,7 +28,7 @@ public class Branch : MonoBehaviour
     float delayTimer = 0;
 
     //doesn't work yet
-    bool iscloth = false;
+    //bool iscloth = false;
 
     public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
     {

@@ -16,7 +16,7 @@ public class ProceduralIvy : MonoBehaviour
     public float branchDelay = 0.75f;
     public float branchSpeed = 1;
     public bool WitherBranch = true;
-    public bool continuousVines = true;
+    public bool vinesAtStart = false;
     [Space]
     public Material branchMaterial;
 
@@ -27,12 +27,9 @@ public class ProceduralIvy : MonoBehaviour
     {
         //generate ivy clusters at regular static intervals
         //InvokeRepeating("GenIvy", 0.1f, branchDelay);
-        if (!continuousVines)
+        if (vinesAtStart)
         {
-            foreach (GameObject obj in targetObjs)
-            {
-                GenIvy(obj);
-            }
+            GenIvy();
         }
     }
 
@@ -40,25 +37,24 @@ public class ProceduralIvy : MonoBehaviour
     {
         //create ivy clusters at regular (but dynamic) intervals
         ivyTimer += Time.deltaTime;
-        if (continuousVines && ivyTimer >= branchDelay)
+        if (!vinesAtStart && ivyTimer >= branchDelay)
         {
-            ivyTimer = 0;
-            foreach (GameObject obj in targetObjs)
-            {
-                GenIvy(obj);
-            }
+            GenIvy();
         }
     }
 
 
     //generates an ivy cluster at the location directly below the target transform
-    void GenIvy(GameObject target)
+    public void GenIvy()
     {
-        Ray ray = new Ray(target.transform.position, -target.transform.up);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100))
+        foreach (GameObject target in targetObjs)
         {
-            createIvy(hit);
+            Ray ray = new Ray(target.transform.position, -target.transform.up);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                createIvy(hit);
+            }
         }
     }
 
