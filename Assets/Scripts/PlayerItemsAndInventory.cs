@@ -19,7 +19,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public Camera mainCamera;
     public LayerMask interactableLayer;
 
-    private ItemInventory inventory = new ItemInventory();
+    public ItemInventory inventory = new ItemInventory();
 
     void Update()
     {
@@ -73,7 +73,9 @@ public class ItemInventory{
     }
 
     public void UseEquippedItem(){
-        items[equippedIndex].Use();
+        if(equippedIndex != -1){
+            items[equippedIndex].Use();
+        }
     }
 
     public void CycleEquippedItem(CycleDirection dir){
@@ -100,16 +102,18 @@ public class ItemInventory{
 // ability to store items of different types to a list
 public class Item{
     public bool obtained = false;
-    public virtual void Use(){
+    public string name = "";
+    public virtual void Equip(){
         // overwritten by sub class
     }
-    public virtual void Equip(){
+    public virtual void Use(){
         // overwritten by sub class
     }
 }
 
 // PVTM subclass
 public class PVTM : Item{
+    public new string name = "PVTM";
     public override void Equip(){
         // code/animation/sound for equipping PVTM
         Debug.Log("EQUIPPING PVTM");
@@ -122,6 +126,7 @@ public class PVTM : Item{
 
 // MedKit subclass
 public class MedKit : Item{
+    public new string name = "Med Kit";
     public override void Equip(){
         // code/animation/sound for equipping med kit
         Debug.Log("EQUIPPING MED KIT");
@@ -134,6 +139,7 @@ public class MedKit : Item{
 
 // Flashlight subclass
 public class Flashlight : Item{
+    public new string name = "Flashlight";
     public override void Equip(){
         // code/animation/sound for equipping med kit
         Debug.Log("EQUIPPING FLASHLIGHT");
