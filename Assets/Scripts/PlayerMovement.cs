@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, 1.0f, whatIsGround);
+        grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f, whatIsGround);
         // get inputs
         GetInputs();
         Crouch();
