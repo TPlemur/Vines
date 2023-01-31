@@ -13,7 +13,7 @@ Shader "TNTC/Ivy"{
 
     SubShader{
         Tags { "RenderType"="Opaque"}
-        LOD 100
+        LOD 200
         
         CGPROGRAM
         #pragma surface surf WrapLambert vertex:vert addshadow
