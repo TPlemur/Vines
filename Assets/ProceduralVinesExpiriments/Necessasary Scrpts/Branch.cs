@@ -58,7 +58,6 @@ public class Branch : MonoBehaviour
         material.SetFloat(RADIUS, branchRadius);
         material.SetFloat(AMOUNT, currentAmount);
         animate = true;
-        ///*
         if (iscloth)
         {
             Cloth cloth = gameObject.AddComponent(typeof(Cloth)) as Cloth;
@@ -74,7 +73,6 @@ public class Branch : MonoBehaviour
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
         }
-        //*/
     }
 
     void Update()
