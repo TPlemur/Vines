@@ -20,6 +20,9 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private int startRoomRow;
     [SerializeField] private int startRoomColumn;
     [SerializeField] private GameObject Warehouse;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject monster;
 
     public List<List<Room>> warehouseData = new List<List<Room>>();
 
@@ -45,7 +48,7 @@ public class MapMaker : MonoBehaviour
             }
             warehouseData.Add(rowOfEmptyRooms);
         }
-        warehouseData[startRoomRow][startRoomColumn].roomType = "STARTING ROOM";
+        warehouseData[startRoomRow][startRoomColumn].type = "STARTING ROOM";
         GenerateRoomExits(warehouseData[startRoomRow][startRoomColumn]);
         FixDeadEnds();
         PlaceRooms();
@@ -241,24 +244,57 @@ public class MapMaker : MonoBehaviour
      * sets its position to the previously mentioned EmptyGameObject.
      */
     void PlaceRooms(){
+        List<Room> monsterSpawnRooms = new List<Room>();
+        float minSpawnDist = Mathf.Pow((rows * columns), 0.25f);
         for(int i = 0; i < warehouseData.Count; i++){
             for(int j = 0; j < warehouseData[i].Count; j++){
                 if(warehouseData[i][j].roomExits.Count == 0){
                     continue;
                 }
+                // build string for correct prefab name
                 string roomExits = System.String.Empty;
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.LEFT)  ? "L" : "_";
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
+                // create empty GameObject, move it to correct position and set its parent
                 GameObject EmptyParentObject = new GameObject("Room " + i + " " + j);
                 EmptyParentObject.transform.position = new Vector3((float)j * 20.0f, 0.0f, (float)i * -20.0f);
                 EmptyParentObject.transform.SetParent(Warehouse.transform);
+                // choose random room width then load and instantiate prefab then move the prefab to the empty gameobject above
                 string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
                 UnityEngine.Object roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
-                GameObject placedRoomObject = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
-                placedRoomObject.transform.position = EmptyParentObject.transform.position;
+                GameObject roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                roomObj.transform.position = EmptyParentObject.transform.position;
+                warehouseData[i][j].prefab = roomObj;
+                // if current room is starting room spawn the player inside that room
+                if(warehouseData[i][j].type == "STARTING ROOM"){
+                    player.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                    playerCamera.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                }
+                // calculate current room distance to the start room
+                // if greater then the min spawn distance we add it to
+                // a list of rooms to consider when spawning the monster
+                float distToStart = Mathf.Sqrt((Mathf.Pow((warehouseData[i][j].row - startRoomRow), 2f)) + Mathf.Pow((warehouseData[i][j].column - startRoomColumn), 2f));
+                if(distToStart >= minSpawnDist){
+                    monsterSpawnRooms.Add(warehouseData[i][j]);
+                }
             }
+        }
+        while(true){
+            if(monsterSpawnRooms.Count == 1){
+                monster.transform.position = new Vector3(monsterSpawnRooms[0].prefab.transform.position.x, 2f, monsterSpawnRooms[0].prefab.transform.position.z);
+                break;
+            }
+            // choose a random room from the rooms to consider
+            Room spawnRoom = monsterSpawnRooms[UnityEngine.Random.Range(0, monsterSpawnRooms.Count)];
+            // if that room doesnt have to same row or columnd index then spawn the monster at that room
+            // this was done to ensure that the monster doens't spawn within direct LOS of the player
+            if(spawnRoom.row != startRoomRow && spawnRoom.column != startRoomColumn){
+                monster.transform.position = new Vector3(spawnRoom.prefab.transform.position.x, 2f, spawnRoom.prefab.transform.position.z);
+                break;
+            }
+            monsterSpawnRooms.RemoveAt(monsterSpawnRooms.IndexOf(spawnRoom));
         }
     }
 
@@ -324,11 +360,12 @@ public class MapMaker : MonoBehaviour
 public class Room
 {
     public List<exitDirection> roomExits = new List<exitDirection>();
-    public string roomType = "NONE";
+    public string type = "NONE";
     public bool exitsMade = false;
     public List<List<Room>> warehouseData = null;
     public int row;
     public int column;
+    public GameObject prefab;
 
     // DirectionToRoom() returns a Room object based on the direction passed
     // This does not account for bounds checking
