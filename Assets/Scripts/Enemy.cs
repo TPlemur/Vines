@@ -34,22 +34,17 @@ public class Enemy : MonoBehaviour
 
         if (distance < MobDetectionDistance)
         {
-            Vector3 dirToPlayer = transform.position - Player.transform.position;
-
-            Vector3 newPos = transform.position - dirToPlayer;
-
-            Mob.SetDestination(newPos);
-            
+            Mob.SetDestination(Player.transform.position);
 
             //Shoot();
         }
         //animating the bear
 
-        if (Mob.velocity.x > 0 || Mob.velocity.z > 0){
-            animator.Play("RunForward");
-        }else{
-            animator.Play("Idle");
-        }
+        // if (Mob.velocity.x > 0 || Mob.velocity.z > 0){
+        //     animator.Play("RunForward");
+        // }else{
+        //     animator.Play("Idle");
+        // }
     }
 
     // public void Shoot()
