@@ -194,10 +194,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 392228121}
-  - component: {fileID: 392228125}
   - component: {fileID: 392228124}
   - component: {fileID: 392228123}
   - component: {fileID: 392228122}
+  - component: {fileID: 392228125}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -311,14 +311,19 @@ MonoBehaviour:
   sensX: 400
   sensY: 400
   orientation: {fileID: 1739954035}
---- !u!81 &392228125
-AudioListener:
+--- !u!114 &392228125
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392228120}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &632779873
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196891581}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.65, y: 34.52, z: -27.16}
+  m_LocalPosition: {x: -7.43, y: 34.52, z: -11.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -540,6 +545,8 @@ GameObject:
   - component: {fileID: 1545987717}
   - component: {fileID: 1545987716}
   - component: {fileID: 1545987715}
+  - component: {fileID: 1545987720}
+  - component: {fileID: 1545987719}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -555,7 +562,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1545987713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.65, y: 34.02, z: -27.16}
+  m_LocalPosition: {x: -7.4300003, y: 34.02, z: -11.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -641,6 +648,59 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1545987719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545987713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4f923a26e510140a353283d36a2abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultTerrain: 2
+  minTime: 0.5
+  maxMoveSpeed: -1
+--- !u!114 &1545987720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545987713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2109296407
+      Data2: 1221860785
+      Data3: -932464450
+      Data4: -657763460
+    Path: event:/SFX/Player Footsteps
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params:
+  - Name: Metal Walkway
+    Value: 0.6
+  - Name: Metal Creak
+    Value: 0.78
+  - Name: Water Splash
+    Value: 0
+  - Name: Terrain
+    Value: 1
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1719924515
 GameObject:
   m_ObjectHideFlags: 0

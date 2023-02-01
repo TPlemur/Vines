@@ -19,7 +19,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public Camera mainCamera;
     public LayerMask interactableLayer;
 
-    private ItemInventory inventory = new ItemInventory();
+    public Inventory inventory = new Inventory();
 
     void Update()
     {
@@ -57,13 +57,13 @@ public class PlayerItemsAndInventory : MonoBehaviour
     }
 }
 
-public class ItemInventory{
+// inventory  class which manages adding items, swaping items and using them
+public class Inventory{
     public List<Item> items = new List<Item>();
     private int equippedIndex = -1;
     public Item equippedItem;
 
     public void AddItem(Item item){
-        item.obtained = true;
         items.Add(item);
         if(items.Count == 1){
             equippedItem = item;
@@ -73,7 +73,9 @@ public class ItemInventory{
     }
 
     public void UseEquippedItem(){
-        items[equippedIndex].Use();
+        if(equippedIndex != -1){
+            items[equippedIndex].Use();
+        }
     }
 
     public void CycleEquippedItem(CycleDirection dir){
@@ -99,11 +101,10 @@ public class ItemInventory{
 // Item base class mainly used for clarity and the
 // ability to store items of different types to a list
 public class Item{
-    public bool obtained = false;
-    public virtual void Use(){
+    public virtual void Equip(){
         // overwritten by sub class
     }
-    public virtual void Equip(){
+    public virtual void Use(){
         // overwritten by sub class
     }
 }

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public Transform Player;
 
     public float MobDetectionDistance = 100.0f;
+    public float patrolRadius = 100.0f;
     public Animator animator;
 
     //public GameObject projectile;
@@ -32,24 +33,44 @@ public class Enemy : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, Player.transform.position);
 
-        if (distance < MobDetectionDistance)
-        {
-            Vector3 dirToPlayer = transform.position - Player.transform.position;
+        // Initializes raycasting variables
+        Ray monVis = new Ray(transform.position, (Player.transform.position-transform.position));
+        RaycastHit hit;
 
-            Vector3 newPos = transform.position - dirToPlayer;
-
-            Mob.SetDestination(newPos);
-            
-
-            //Shoot();
+        // If able to raycast to player, move to player
+        if(Physics.Raycast(monVis, out hit, MobDetectionDistance)){
+            if(hit.collider.tag == "Player"){
+                Mob.SetDestination(Player.transform.position);
+            }
         }
+
+        // Patrols randomly if it cant see player
+        if(!Mob.hasPath){
+            Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
+        }
+
+        
+            
+                        //Shoot();
         //animating the bear
 
-        if (Mob.velocity.x > 0 || Mob.velocity.z > 0){
-            animator.Play("RunForward");
-        }else{
-            animator.Play("Idle");
+        // if (Mob.velocity.x > 0 || Mob.velocity.z > 0){
+        //     animator.Play("RunForward");
+        // }else{
+        //     animator.Play("Idle");
+        // }
+    }
+
+    // Finds random location within a radius to patrol in
+    public Vector3 RandomNavmeshLocation(float radius) {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit NavMeshEnemy;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
+            finalPosition = NavMeshEnemy.position;            
         }
+        return finalPosition;
     }
 
     // public void Shoot()

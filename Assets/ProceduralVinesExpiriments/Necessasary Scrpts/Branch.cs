@@ -5,7 +5,7 @@ public class Branch : MonoBehaviour
 {
     const string AMOUNT = "_Amount";
     const string RADIUS = "_Radius";
-    const float MAX = 0.5f;
+    const float MAX = 0.91f;
 
     List<IvyNode> branchNodes;
 
@@ -19,12 +19,16 @@ public class Branch : MonoBehaviour
 
     bool animate;
     public float GrowMultiplyer = 1;
+    public bool shrink = true;
     float growthSpeed = 0.5f;
     float shrinkSpeed = 0.3f;
-    float currentAmount = -1;
+    float currentAmount = 0;
     bool deAnimate = false;
     float delayTime = 2;
     float delayTimer = 0;
+
+    //doesn't work yet
+    //bool iscloth = false;
 
     public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
     {
@@ -53,6 +57,17 @@ public class Branch : MonoBehaviour
         material.SetFloat(RADIUS, branchRadius);
         material.SetFloat(AMOUNT, currentAmount);
         animate = true;
+        /*
+        if (iscloth)
+        {
+            Cloth cloth = gameObject.AddComponent(typeof(Cloth)) as Cloth;
+            ClothSkinningCoefficient[] newConstraints;
+            newConstraints = cloth.coefficients;
+            newConstraints[5].maxDistance = 0.1f;
+            cloth.stiffnessFrequency = 100;
+            cloth.coefficients = newConstraints;
+        }
+        */
     }
 
     void Update()
@@ -69,7 +84,7 @@ public class Branch : MonoBehaviour
         }
         else
         {
-            if (delayTimer > delayTime)
+            if (delayTimer > delayTime && shrink)
             {
                 deAnimate = true;
             }
@@ -165,7 +180,7 @@ public class Branch : MonoBehaviour
         return branchMesh;
     }
 
-
+    /*
     void OnDrawGizmosSelected()
     {
 
@@ -220,4 +235,5 @@ public class Branch : MonoBehaviour
         }
 
     }
+    */
 }

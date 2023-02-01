@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum exitDirection
 {
@@ -21,6 +22,8 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private GameObject Warehouse;
 
     public List<List<Room>> warehouseData = new List<List<Room>>();
+
+    public NavMeshSurface surface;
 
     void Start()
     {
@@ -46,6 +49,8 @@ public class MapMaker : MonoBehaviour
         GenerateRoomExits(warehouseData[startRoomRow][startRoomColumn]);
         FixDeadEnds();
         PlaceRooms();
+
+        surface.BuildNavMesh();
     }
 
     /* GenerateRoomExits() is the driving algorithm for procedurally filling a 2D array with

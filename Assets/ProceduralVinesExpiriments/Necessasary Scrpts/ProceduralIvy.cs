@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProceduralIvy : MonoBehaviour
 {
 
-    public GameObject targetObj;
+    public GameObject[] targetObjs;
     [Space]
     public float recycleInterval = 30;
     [Space]
@@ -15,6 +15,8 @@ public class ProceduralIvy : MonoBehaviour
     public float branchRadius = 0.02f;
     public float branchDelay = 0.75f;
     public float branchSpeed = 1;
+    public bool WitherBranch = true;
+    public bool vinesAtStart = false;
     [Space]
     public Material branchMaterial;
 
@@ -23,30 +25,38 @@ public class ProceduralIvy : MonoBehaviour
 
     void Start()
     {
+        ivyTimer = branchDelay;//start first cluster
         //generate ivy clusters at regular static intervals
         //InvokeRepeating("GenIvy", 0.1f, branchDelay);
+        if (vinesAtStart)
+        {
+            GenIvy();
+        }
     }
 
     public void Update()
     {
         //create ivy clusters at regular (but dynamic) intervals
         ivyTimer += Time.deltaTime;
-        if (ivyTimer >= branchDelay)
+        if (!vinesAtStart && ivyTimer >= branchDelay)
         {
-            ivyTimer = 0;
             GenIvy();
+            ivyTimer = 0;
         }
     }
 
 
     //generates an ivy cluster at the location directly below the target transform
-    void GenIvy()
+    public void GenIvy()
     {
-        Ray ray = new Ray(targetObj.transform.position, new Vector3(0, -1, 0));
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100))
+        foreach (GameObject target in targetObjs)
         {
-            createIvy(hit);
+            Ray ray = new Ray(target.transform.position, -target.transform.up);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                createIvy(hit);
+            }
         }
     }
 
@@ -75,6 +85,7 @@ public class ProceduralIvy : MonoBehaviour
             b.init(nodes, branchRadius, branchMaterial);
             branch.transform.SetParent(ivy.transform);
             branch.GetComponent<Branch>().GrowMultiplyer = branchSpeed;
+            branch.GetComponent<Branch>().shrink = WitherBranch;
         }
 
         ivyCount++;
