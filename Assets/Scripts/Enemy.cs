@@ -32,12 +32,24 @@ public class Enemy : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, Player.transform.position);
 
-        if (distance < MobDetectionDistance)
-        {
-            Mob.SetDestination(Player.transform.position);
+        // Initializes raycasting variables
+        Ray monVis = new Ray(transform.position, (Player.transform.position-transform.position));
+        RaycastHit hit;
 
-            //Shoot();
+        // If able to raycast to player, move to player
+        if(Physics.Raycast(monVis, out hit, MobDetectionDistance)){
+            if(hit.collider.tag == "Player"){
+                Debug.Log("I see you");
+                Mob.SetDestination(Player.transform.position);
+            }
         }
+        if(!Mob.hasPath){
+            Mob.SetDestination(RandomNavmeshLocation(100));
+        }
+
+        
+            
+                        //Shoot();
         //animating the bear
 
         // if (Mob.velocity.x > 0 || Mob.velocity.z > 0){
@@ -45,6 +57,17 @@ public class Enemy : MonoBehaviour
         // }else{
         //     animator.Play("Idle");
         // }
+    }
+
+    public Vector3 RandomNavmeshLocation(float radius) {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit NavMeshEnemy;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
+            finalPosition = NavMeshEnemy.position;            
+        }
+        return finalPosition;
     }
 
     // public void Shoot()
