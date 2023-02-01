@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public Transform Player;
 
     public float MobDetectionDistance = 100.0f;
+    public float patrolRadius = 100.0f;
     public Animator animator;
 
     //public GameObject projectile;
@@ -39,12 +40,13 @@ public class Enemy : MonoBehaviour
         // If able to raycast to player, move to player
         if(Physics.Raycast(monVis, out hit, MobDetectionDistance)){
             if(hit.collider.tag == "Player"){
-                Debug.Log("I see you");
                 Mob.SetDestination(Player.transform.position);
             }
         }
+
+        // Patrols randomly if it cant see player
         if(!Mob.hasPath){
-            Mob.SetDestination(RandomNavmeshLocation(100));
+            Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
         }
 
         
@@ -59,6 +61,7 @@ public class Enemy : MonoBehaviour
         // }
     }
 
+    // Finds random location within a radius to patrol in
     public Vector3 RandomNavmeshLocation(float radius) {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
         randomDirection += transform.position;
