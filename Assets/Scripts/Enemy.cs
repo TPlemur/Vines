@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public Transform Player;
 
     private MonsterSounds sounds = null;
+    public MonsterMusic music;
 
     public float MobDetectionDistance = 100.0f;
     public float patrolRadius = 100.0f;
@@ -48,6 +49,8 @@ public class Enemy : MonoBehaviour
                 Mob.SetDestination(Player.transform.position);
                 if (sounds)
                     sounds.Roar();
+                if (music)
+                    music.Chase();
             }
         }
 
@@ -55,6 +58,8 @@ public class Enemy : MonoBehaviour
         if(!Mob.hasPath){
             // entering PATROLLING state from CHASE state or continuing PATROLLING state
             Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
+            if (music)
+                music.EndChase();
         }
 
         
