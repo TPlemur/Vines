@@ -244,12 +244,44 @@ public class MapMaker : MonoBehaviour
      * sets its position to the previously mentioned EmptyGameObject.
      */
     void PlaceRooms(){
-        List<Room> monsterSpawnRooms = new List<Room>();
+        int upper = 2;
+        bool monsterPlaced = false;
         float minSpawnDist = Mathf.Pow((rows * columns), 0.25f);
         for(int i = 0; i < warehouseData.Count; i++){
             for(int j = 0; j < warehouseData[i].Count; j++){
                 if(warehouseData[i][j].roomExits.Count == 0){
                     continue;
+                }
+                // create empty GameObject, move it to correct position and set its parent
+                GameObject EmptyParentObject = new GameObject("Room " + i + " " + j);
+                EmptyParentObject.transform.position = new Vector3((float)j * 20.0f, 0.0f, (float)i * -20.0f);
+                EmptyParentObject.transform.SetParent(Warehouse.transform);
+                UnityEngine.Object roomPrefab = null;
+                GameObject roomObj = null;
+                // check if room is far enough away to be a PVTM room
+                float distToStart = Mathf.Sqrt((Mathf.Pow((warehouseData[i][j].row - startRoomRow), 2f)) + Mathf.Pow((warehouseData[i][j].column - startRoomColumn), 2f));
+                if(i == startRoomRow && j == startRoomColumn){
+                    Debug.Log("LOADING START ROOM");
+                    roomPrefab = Resources.Load("ProcgenGreyboxes/room-elevator-quad");
+                    roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                    roomObj.transform.position = EmptyParentObject.transform.position;
+                    warehouseData[i][j].prefab = roomObj;
+                    player.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                    playerCamera.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                }
+                else if(distToStart >= minSpawnDist && !monsterPlaced){
+                    if(UnityEngine.Random.Range(0, upper) == 0){
+                        Debug.Log("PLACING MONSTER AT " + i + " " + j);
+                        roomPrefab = Resources.Load("ProcgenGreyboxes/room-pvtm-elbow");
+                        roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                        roomObj.transform.position = EmptyParentObject.transform.position;
+                        warehouseData[i][j].prefab = roomObj;
+                        monster.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                        monsterPlaced = true;
+                    }
+                    else{
+                        upper -= 1;
+                    }
                 }
                 // build string for correct prefab name
                 string roomExits = System.String.Empty;
@@ -257,46 +289,19 @@ public class MapMaker : MonoBehaviour
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
                 roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
-                // create empty GameObject, move it to correct position and set its parent
-                GameObject EmptyParentObject = new GameObject("Room " + i + " " + j);
-                EmptyParentObject.transform.position = new Vector3((float)j * 20.0f, 0.0f, (float)i * -20.0f);
-                EmptyParentObject.transform.SetParent(Warehouse.transform);
                 // choose random room width then load and instantiate prefab then move the prefab to the empty gameobject above
                 string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
-                UnityEngine.Object roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
-                GameObject roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
+                roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
                 roomObj.transform.position = EmptyParentObject.transform.position;
                 warehouseData[i][j].prefab = roomObj;
-                // if current room is starting room spawn the player inside that room
-                if(warehouseData[i][j].type == "STARTING ROOM"){
-                    player.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
-                    playerCamera.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
-                }
-                // calculate current room distance to the start room
-                // if greater then the min spawn distance we add it to
-                // a list of rooms to consider when spawning the monster
-                float distToStart = Mathf.Sqrt((Mathf.Pow((warehouseData[i][j].row - startRoomRow), 2f)) + Mathf.Pow((warehouseData[i][j].column - startRoomColumn), 2f));
-                if(distToStart >= minSpawnDist){
-                    monsterSpawnRooms.Add(warehouseData[i][j]);
-                }
             }
-        }
-        while(true){
-            if(monsterSpawnRooms.Count == 1){
-                monster.transform.position = new Vector3(monsterSpawnRooms[0].prefab.transform.position.x, 2f, monsterSpawnRooms[0].prefab.transform.position.z);
-                break;
-            }
-            // choose a random room from the rooms to consider
-            Room spawnRoom = monsterSpawnRooms[UnityEngine.Random.Range(0, monsterSpawnRooms.Count)];
-            // if that room doesnt have to same row or columnd index then spawn the monster at that room
-            // this was done to ensure that the monster doens't spawn within direct LOS of the player
-            if(spawnRoom.row != startRoomRow && spawnRoom.column != startRoomColumn){
-                monster.transform.position = new Vector3(spawnRoom.prefab.transform.position.x, 2f, spawnRoom.prefab.transform.position.z);
-                break;
-            }
-            monsterSpawnRooms.RemoveAt(monsterSpawnRooms.IndexOf(spawnRoom));
         }
     }
+
+    // int RotatePrefab(List<exitDirection> exits){
+
+    // }
 
     /* PrintWarehouseData() logs the exits of each index to the console
      * "L" "U" "D" "R" signify the direction of the exit at each index
