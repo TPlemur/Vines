@@ -10,6 +10,9 @@ public class MonsterMusic : MonoBehaviour
 
     private FMODUnity.StudioEventEmitter emitter = null;
 
+    // probably just temp for now
+    public bool muted = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,9 @@ public class MonsterMusic : MonoBehaviour
 
     public void Chase()
     {
+        if (muted)
+            return;
+
         if (!emitter.IsPlaying())
             emitter.Play();
 
