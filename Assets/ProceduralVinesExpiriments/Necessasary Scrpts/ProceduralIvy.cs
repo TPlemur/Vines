@@ -16,7 +16,13 @@ public class ProceduralIvy : MonoBehaviour
     public float branchDelay = 0.75f;
     public float branchSpeed = 1;
     public bool WitherBranch = true;
+    public float initialDelay = 0;
     public bool vinesAtStart = false;
+    public bool continuousVines = true;
+    [Space]
+    public bool isCloth = false;
+    public float bendstiffness = 5;
+    public float maxDist = 0.5f;
     [Space]
     public Material branchMaterial;
 
@@ -25,12 +31,10 @@ public class ProceduralIvy : MonoBehaviour
 
     void Start()
     {
-        ivyTimer = branchDelay;//start first cluster
-        //generate ivy clusters at regular static intervals
-        //InvokeRepeating("GenIvy", 0.1f, branchDelay);
+        //run vines once
         if (vinesAtStart)
         {
-            GenIvy();
+            StartCoroutine(genOnDelay());
         }
     }
 
@@ -38,11 +42,17 @@ public class ProceduralIvy : MonoBehaviour
     {
         //create ivy clusters at regular (but dynamic) intervals
         ivyTimer += Time.deltaTime;
-        if (!vinesAtStart && ivyTimer >= branchDelay)
+        if (continuousVines && ivyTimer >= branchDelay)
         {
             GenIvy();
             ivyTimer = 0;
         }
+    }
+
+    IEnumerator genOnDelay()
+    {
+        yield return initialDelay;
+        GenIvy();
     }
 
 
@@ -86,7 +96,10 @@ public class ProceduralIvy : MonoBehaviour
             branch.transform.SetParent(ivy.transform);
             branch.GetComponent<Branch>().GrowMultiplyer = branchSpeed;
             branch.GetComponent<Branch>().shrink = WitherBranch;
-        }
+            branch.GetComponent<Branch>().iscloth = isCloth;
+            branch.GetComponent<Branch>().bendStiff = bendstiffness;
+            branch.GetComponent<Branch>().maxMove = maxDist;
+}
 
         ivyCount++;
     }

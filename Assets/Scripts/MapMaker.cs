@@ -20,6 +20,9 @@ public class MapMaker : MonoBehaviour
     [SerializeField] private int startRoomRow;
     [SerializeField] private int startRoomColumn;
     [SerializeField] private GameObject Warehouse;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject monster;
 
     public List<List<Room>> warehouseData = new List<List<Room>>();
 
@@ -45,7 +48,7 @@ public class MapMaker : MonoBehaviour
             }
             warehouseData.Add(rowOfEmptyRooms);
         }
-        warehouseData[startRoomRow][startRoomColumn].roomType = "STARTING ROOM";
+        warehouseData[startRoomRow][startRoomColumn].type = "STARTING ROOM";
         GenerateRoomExits(warehouseData[startRoomRow][startRoomColumn]);
         FixDeadEnds();
         PlaceRooms();
@@ -69,9 +72,15 @@ public class MapMaker : MonoBehaviour
         }
         // create list with possible exits the room could have excluding the exit the room already has if it has any
         List<exitDirection> possibleExits = MakeExitsToConsider(currentRoom);
-        float distToStart = Mathf.Sqrt((Mathf.Pow((currentRoom.row - startRoomRow), 2f)) + Mathf.Pow((currentRoom.column - startRoomColumn), 2f));
         // if distance of the current room to the start room is less or equal to 1 then we up the RNG of choosing more exits
-        int potentialExits = distToStart <= 1 ? UnityEngine.Random.Range(possibleExits.Count - 1, possibleExits.Count) : UnityEngine.Random.Range(1, possibleExits.Count - 1);
+        int potentialExits = 0;
+        if(currentRoom.row == startRoomRow && currentRoom.column == startRoomColumn){
+            potentialExits = 4;
+        }
+        else{
+            float distToStart = Mathf.Sqrt((Mathf.Pow((currentRoom.row - startRoomRow), 2f)) + Mathf.Pow((currentRoom.column - startRoomColumn), 2f));
+            potentialExits = distToStart <= 1 ? UnityEngine.Random.Range(possibleExits.Count - 1, possibleExits.Count) : UnityEngine.Random.Range(1, possibleExits.Count - 1);
+        }
         for(; potentialExits > 0; potentialExits--){
             exitDirection randomExit = RandomExitFromList(possibleExits);
             Room room = null;
@@ -241,25 +250,127 @@ public class MapMaker : MonoBehaviour
      * sets its position to the previously mentioned EmptyGameObject.
      */
     void PlaceRooms(){
+        int upper = 2;
+        bool monsterPlaced = false;
+        float minSpawnDist = Mathf.Pow((rows * columns), 0.25f);
         for(int i = 0; i < warehouseData.Count; i++){
             for(int j = 0; j < warehouseData[i].Count; j++){
                 if(warehouseData[i][j].roomExits.Count == 0){
                     continue;
                 }
-                string roomExits = System.String.Empty;
-                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.LEFT)  ? "L" : "_";
-                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
-                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
-                roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
+                // create empty GameObject, move it to correct position and set its parent
                 GameObject EmptyParentObject = new GameObject("Room " + i + " " + j);
                 EmptyParentObject.transform.position = new Vector3((float)j * 20.0f, 0.0f, (float)i * -20.0f);
                 EmptyParentObject.transform.SetParent(Warehouse.transform);
-                string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
-                UnityEngine.Object roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
-                GameObject placedRoomObject = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
-                placedRoomObject.transform.position = EmptyParentObject.transform.position;
+                UnityEngine.Object roomPrefab = null;
+                GameObject roomObj = null;
+                // check if room is far enough away to be a PVTM room
+                float distToStart = Mathf.Sqrt((Mathf.Pow((warehouseData[i][j].row - startRoomRow), 2f)) + Mathf.Pow((warehouseData[i][j].column - startRoomColumn), 2f));
+                if(i == startRoomRow && j == startRoomColumn){
+                    Debug.Log("LOADING START ROOM");
+                    roomPrefab = Resources.Load("ProcgenGreyboxes/room-elevator-quad");
+                    roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                    roomObj.transform.position = EmptyParentObject.transform.position;
+                    warehouseData[i][j].prefab = roomObj;
+                    player.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                    playerCamera.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                }
+                else if(distToStart >= minSpawnDist && !monsterPlaced){
+                    if(UnityEngine.Random.Range(0, upper) == 0){
+                        Debug.Log("PLACING MONSTER AT " + i + " " + j);
+                        if(warehouseData[i][j].roomExits.Count == 2){
+                            exitDirection opposing = FindOpposingDirection(warehouseData[i][j].roomExits[0]);
+                            if(warehouseData[i][j].roomExits.Contains(opposing)){
+                                roomPrefab = Resources.Load("ProcgenGreyboxes/room-pvtm-straight");
+                            }
+                            else{
+                                roomPrefab = Resources.Load("ProcgenGreyboxes/room-pvtm-elbow");
+                            }
+                        }
+                        else if(warehouseData[i][j].roomExits.Count == 3){
+                            roomPrefab = Resources.Load("ProcgenGreyboxes/room-pvtm-tri");
+                        }
+                        else{
+                            roomPrefab = Resources.Load("ProcgenGreyboxes/room-pvtm-quad");
+                        }
+                        roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                        roomObj.transform.position = EmptyParentObject.transform.position;
+                        int rotation = RotatePrefab(warehouseData[i][j].roomExits);
+                        roomObj.transform.Rotate(0 ,rotation ,0);
+                        warehouseData[i][j].prefab = roomObj;
+                        monster.transform.position = new Vector3(roomObj.transform.position.x, 2f, roomObj.transform.position.z);
+                        monsterPlaced = true;
+                    }
+                    else{
+                        upper -= 1;
+                        string roomExits = System.String.Empty;
+                        roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.LEFT)  ? "L" : "_";
+                        roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
+                        roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
+                        roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
+                        // choose random room width then load and instantiate prefab then move the prefab to the empty gameobject above
+                        string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
+                        roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
+                        roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                        roomObj.transform.position = EmptyParentObject.transform.position;
+                        warehouseData[i][j].prefab = roomObj;
+                    }
+                }
+                else{
+                    string roomExits = System.String.Empty;
+                    roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.LEFT)  ? "L" : "_";
+                    roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.UP)    ? "U" : "_";
+                    roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.DOWN)  ? "D" : "_";
+                    roomExits += warehouseData[i][j].roomExits.Contains(exitDirection.RIGHT) ? "R" : "_";
+                    // choose random room width then load and instantiate prefab then move the prefab to the empty gameobject above
+                    string roomWidth = UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
+                    roomPrefab = Resources.Load("ProcgenGreyboxes/room-" + roomExits + roomWidth); // note: not .prefab!
+                    roomObj = (GameObject)Instantiate(roomPrefab, EmptyParentObject.transform);
+                    roomObj.transform.position = EmptyParentObject.transform.position;
+                    warehouseData[i][j].prefab = roomObj;
+                }
             }
         }
+    }
+
+    int RotatePrefab(List<exitDirection> exits){
+        if(exits.Count == 2){
+            exitDirection opposite = FindOpposingDirection(exits[0]);
+            if(exits.Contains(opposite)){
+                if(exits.Contains(exitDirection.LEFT) && exits.Contains(exitDirection.RIGHT)){
+                    return 90;
+                }
+            }
+            else{
+                if(exits.Contains(exitDirection.DOWN) && exits.Contains(exitDirection.RIGHT)){
+                    return 90;
+                }
+                if(exits.Contains(exitDirection.DOWN) && exits.Contains(exitDirection.LEFT)){
+                    return 180;
+                }
+                if(exits.Contains(exitDirection.LEFT) && exits.Contains(exitDirection.UP)){
+                    return -90;
+                }
+            }
+        }
+        else if(exits.Count == 3){
+            if(exits.Contains(exitDirection.DOWN) && 
+               exits.Contains(exitDirection.RIGHT) && 
+               exits.Contains(exitDirection.UP)){
+                return 180;
+            }
+            if(exits.Contains(exitDirection.DOWN) && 
+               exits.Contains(exitDirection.RIGHT) && 
+               exits.Contains(exitDirection.LEFT)){
+                return -90;
+            }
+            if(exits.Contains(exitDirection.LEFT) && 
+               exits.Contains(exitDirection.RIGHT) && 
+               exits.Contains(exitDirection.UP)){
+                return 90;
+            }
+        }
+        return 0;
     }
 
     /* PrintWarehouseData() logs the exits of each index to the console
@@ -324,11 +435,12 @@ public class MapMaker : MonoBehaviour
 public class Room
 {
     public List<exitDirection> roomExits = new List<exitDirection>();
-    public string roomType = "NONE";
+    public string type = "NONE";
     public bool exitsMade = false;
     public List<List<Room>> warehouseData = null;
     public int row;
     public int column;
+    public GameObject prefab;
 
     // DirectionToRoom() returns a Room object based on the direction passed
     // This does not account for bounds checking

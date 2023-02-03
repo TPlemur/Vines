@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour
 
     public Transform Player;
 
+    private MonsterSounds sounds = null;
+    public MonsterMusic music;
+
     public float MobDetectionDistance = 100.0f;
     public float patrolRadius = 100.0f;
     public Animator animator;
@@ -26,6 +29,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         //Mob = GetComponent<NavMeshAgent>();
+        if (sounds == null)
+            sounds = GetComponent<MonsterSounds>();
     }
 
     // Update is called once per frame
@@ -40,13 +45,21 @@ public class Enemy : MonoBehaviour
         // If able to raycast to player, move to player
         if(Physics.Raycast(monVis, out hit, MobDetectionDistance)){
             if(hit.collider.tag == "Player"){
+                // entering CHASE state from PATROLLING state or continuing CHASE state
                 Mob.SetDestination(Player.transform.position);
+                if (sounds)
+                    sounds.Roar();
+                if (music)
+                    music.Chase();
             }
         }
 
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
+            // entering PATROLLING state from CHASE state or continuing PATROLLING state
             Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
+            if (music)
+                music.EndChase();
         }
 
         

@@ -27,8 +27,9 @@ public class Branch : MonoBehaviour
     float delayTime = 2;
     float delayTimer = 0;
 
-    //doesn't work yet
-    //bool iscloth = false;
+    public bool iscloth = true;
+    public float bendStiff = 5f;
+    public float maxMove = 0.5f;
 
     public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
     {
@@ -57,17 +58,21 @@ public class Branch : MonoBehaviour
         material.SetFloat(RADIUS, branchRadius);
         material.SetFloat(AMOUNT, currentAmount);
         animate = true;
-        /*
         if (iscloth)
         {
             Cloth cloth = gameObject.AddComponent(typeof(Cloth)) as Cloth;
             ClothSkinningCoefficient[] newConstraints;
             newConstraints = cloth.coefficients;
-            newConstraints[5].maxDistance = 0.1f;
-            cloth.stiffnessFrequency = 100;
+            for(int i = 0; i < newConstraints.Length; i++)
+            {
+                newConstraints[i].maxDistance = maxMove;
+            }
+            newConstraints[0].maxDistance = 0.0f;
+            cloth.bendingStiffness = bendStiff;
+            cloth.stretchingStiffness = 100;
+            //cloth.damping = 0;
             cloth.coefficients = newConstraints;
         }
-        */
     }
 
     void Update()

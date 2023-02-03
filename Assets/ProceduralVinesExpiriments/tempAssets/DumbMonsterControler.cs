@@ -15,6 +15,32 @@ public class DumbMonsterControler : MonoBehaviour
         body = GetComponent<Rigidbody>();
     }
 
+    void rotate()
+    {
+        Cloth[] branches = GetComponentsInChildren<Cloth>();
+        foreach (Cloth c in branches)
+        {
+            c.damping = 1;
+        }
+        StartCoroutine(rotTrans(branches));
+
+    }
+    //questionable code that tries to reduce swining from sudden 90 degree rotations
+    IEnumerator rotTrans(Cloth[] branches)
+    {
+        yield return new WaitForSeconds(0.125f);
+        transform.Rotate(new Vector3(0, -90, 0));
+        StartCoroutine(unPause(branches));
+    }
+    IEnumerator unPause(Cloth[] branches)
+    {
+        yield return new WaitForSeconds(0.125f);
+        foreach (Cloth c in branches)
+        {
+            c.damping = 0;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -22,11 +48,11 @@ public class DumbMonsterControler : MonoBehaviour
             switch (corner) {
 
                 case 1:
-                transform.position += (new Vector3(1, 0, 0) * MoveSpeed*Time.deltaTime);
-                if (transform.position.x >= 2.75)
+                    transform.position += (new Vector3(1, 0, 0) * MoveSpeed*Time.deltaTime);
+                    if (transform.position.x >= 2.75)
                     {
                         corner = 2;
-                    transform.Rotate(new Vector3(0, -90, 0));
+                        rotate();                    
                     }
                     break;
             case 2:
@@ -34,7 +60,7 @@ public class DumbMonsterControler : MonoBehaviour
                 if (transform.position.z >= 2.75)
                 {
                     corner = 3;
-                    transform.Rotate(new Vector3(0, -90, 0));
+                    rotate();
                 }
                 break;
             case 3:
@@ -42,7 +68,7 @@ public class DumbMonsterControler : MonoBehaviour
                 if (transform.position.x <= -2.75)
                 {
                     corner = 4;
-                    transform.Rotate(new Vector3(0, -90, 0));
+                    rotate();
                 }
                 break;
             case 4:
@@ -50,7 +76,7 @@ public class DumbMonsterControler : MonoBehaviour
                 if (transform.position.z <= -2.75)
                 {
                     corner = 1;
-                    transform.Rotate(new Vector3(0, -90, 0));
+                    rotate();
                 }
                 break;
 
