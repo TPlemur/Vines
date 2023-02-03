@@ -250,7 +250,7 @@ public class MapMaker : MonoBehaviour
      * sets its position to the previously mentioned EmptyGameObject.
      */
     void PlaceRooms(){
-        int upper = 5;
+        int upper = 2;
         bool monsterPlaced = false;
         float minSpawnDist = Mathf.Pow((rows * columns), 0.25f);
         for(int i = 0; i < warehouseData.Count; i++){
