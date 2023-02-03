@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExtractCheck : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class ExtractCheck : MonoBehaviour
             var item = playerItems.Find(x => x.GetType() == typeof(PVTM));
             if(item != null){
                 Debug.Log("PLAYER EXTRACTING WITH PVTM");
+                //go to winning ending the scene
+                SceneManager.LoadScene(2);
             }
         }
     }
