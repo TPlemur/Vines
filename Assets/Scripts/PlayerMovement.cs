@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -101,5 +102,14 @@ public class PlayerMovement : MonoBehaviour
         capsuleCol.height = 2;
         crouching = false;
         moveSpeed *= 2;
+    }
+
+    //collision check
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == "Monster")
+        {
+            SceneManager.LoadScene(3);
+        }
     }
 }
