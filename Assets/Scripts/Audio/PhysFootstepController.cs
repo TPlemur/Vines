@@ -102,7 +102,7 @@ public class PhysFootstepController : MonoBehaviour
         if (referenecEvent != null)
         {
             // create new instance from event name of reference object
-            footstep = FMODUnity.RuntimeManager.CreateInstance(referenecEvent.EventReference.Path);
+            footstep = FMODUnity.RuntimeManager.CreateInstance(referenecEvent.EventReference);
             // set parameters from reference event object
             foreach (FMODUnity.ParamRef param in referenecEvent.Params)
             {
