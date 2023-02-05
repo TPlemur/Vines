@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    public bool IsGrounded() { return grounded; }
+    public bool IsCrouching() { return crouching; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, 1.0f, whatIsGround);
+        grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f, whatIsGround);
         // get inputs
         GetInputs();
         Crouch();
@@ -98,5 +102,14 @@ public class PlayerMovement : MonoBehaviour
         capsuleCol.height = 2;
         crouching = false;
         moveSpeed *= 2;
+    }
+
+    //collision check
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == "Monster")
+        {
+            SceneManager.LoadScene(3);
+        }
     }
 }

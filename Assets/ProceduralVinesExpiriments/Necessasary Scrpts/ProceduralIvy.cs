@@ -16,6 +16,7 @@ public class ProceduralIvy : MonoBehaviour
     public float branchDelay = 0.75f;
     public float branchSpeed = 1;
     public bool WitherBranch = true;
+    public float initialDelay = 0;
     public bool vinesAtStart = false;
     public bool continuousVines = true;
     [Space]
@@ -30,12 +31,10 @@ public class ProceduralIvy : MonoBehaviour
 
     void Start()
     {
-        ivyTimer = branchDelay;//start first cluster
-        //generate ivy clusters at regular static intervals
-        //InvokeRepeating("GenIvy", 0.1f, branchDelay);
+        //run vines once
         if (vinesAtStart)
         {
-            GenIvy();
+            StartCoroutine(genOnDelay());
         }
     }
 
@@ -48,6 +47,12 @@ public class ProceduralIvy : MonoBehaviour
             GenIvy();
             ivyTimer = 0;
         }
+    }
+
+    IEnumerator genOnDelay()
+    {
+        yield return initialDelay;
+        GenIvy();
     }
 
 
