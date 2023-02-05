@@ -31,7 +31,7 @@ public class ProceduralIvy : MonoBehaviour
     public bool continuousVines = true;
     public bool WitherBranch = true;
     public float timeAtGrown = 2;
-    public bool canSense = true;
+    public bool canSense = false;
 
     [Header("Cloth Settings")]
     public bool isCloth = false;
