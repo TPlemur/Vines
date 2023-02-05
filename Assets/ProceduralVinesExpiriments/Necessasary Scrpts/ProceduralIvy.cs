@@ -4,27 +4,42 @@ using UnityEngine;
 
 public class ProceduralIvy : MonoBehaviour
 {
-
+    [Header("Required")]
     public GameObject[] targetObjs;
+    public Material branchMaterial;
     [Space]
-    public float recycleInterval = 30;
-    [Space]
+    [Header("Physical Characteristics")]
     public int branches = 3;
     public int maxPointsForBranch = 20;
     public float segmentLength = .002f;
     public float branchRadius = 0.02f;
+
+    [Space]
+    [Header("Spawning Characteristics")]
+    public float lowAngle = 0;
+    public float highAngle = 360f;
+    public bool useTargetForAngle = false;
+    [Space]
     public float branchDelay = 0.75f;
     public float branchSpeed = 1;
-    public bool WitherBranch = true;
     public float initialDelay = 0;
+    
+    [Space]
+    [Header("Branch Behavior")]
+    [Space]
     public bool vinesAtStart = false;
     public bool continuousVines = true;
-    [Space]
+    public bool WitherBranch = true;
+    public float timeAtGrown = 2;
+    public bool canSense = false;
+
+    [Header("Cloth Settings")]
     public bool isCloth = false;
     public float bendstiffness = 5;
     public float maxDist = 0.5f;
     [Space]
-    public Material branchMaterial;
+    public float recycleInterval = 30;
+
 
     int ivyCount = 0;
     float ivyTimer = 0;
@@ -72,6 +87,10 @@ public class ProceduralIvy : MonoBehaviour
 
     Vector3 findTangentFromArbitraryNormal(Vector3 normal)
     {
+        if(useTargetForAngle)
+        {
+            return targetObjs[0].transform.forward;
+        }
         Vector3 t1 = Vector3.Cross(normal, Vector3.forward);
         Vector3 t2 = Vector3.Cross(normal, Vector3.up);
         if (t1.magnitude > t2.magnitude)
@@ -88,17 +107,19 @@ public class ProceduralIvy : MonoBehaviour
         ivy.transform.SetParent(transform);
         for (int i = 0; i < branches; i++)
         {
-            Vector3 dir = Quaternion.AngleAxis(360 / branches * i + Random.Range(0, 360 / branches), hit.normal) * tangent;
+            Vector3 dir = Quaternion.AngleAxis(highAngle / branches * i + Random.Range(lowAngle, highAngle / branches), hit.normal) * tangent;
             List<IvyNode> nodes = createBranch(maxPointsForBranch, hit.point, hit.normal, dir);
             GameObject branch = new GameObject("Branch " + i);
             Branch b = branch.AddComponent<Branch>();
             b.init(nodes, branchRadius, branchMaterial);
             branch.transform.SetParent(ivy.transform);
-            branch.GetComponent<Branch>().GrowMultiplyer = branchSpeed;
-            branch.GetComponent<Branch>().shrink = WitherBranch;
-            branch.GetComponent<Branch>().iscloth = isCloth;
-            branch.GetComponent<Branch>().bendStiff = bendstiffness;
-            branch.GetComponent<Branch>().maxMove = maxDist;
+            b.GrowMultiplyer = branchSpeed;
+            b.shrink = WitherBranch;
+            b.iscloth = isCloth;
+            b.bendStiff = bendstiffness;
+            b.maxMove = maxDist;
+            b.isSense = canSense;
+            b.delayTime = timeAtGrown;
 }
 
         ivyCount++;

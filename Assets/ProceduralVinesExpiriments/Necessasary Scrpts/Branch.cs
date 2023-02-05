@@ -24,12 +24,14 @@ public class Branch : MonoBehaviour
     float shrinkSpeed = 0.3f;
     float currentAmount = 0;
     bool deAnimate = false;
-    float delayTime = 2;
+    public float delayTime = 2;
     float delayTimer = 0;
 
     public bool iscloth = true;
     public float bendStiff = 5f;
     public float maxMove = 0.5f;
+
+    public bool isSense = false;
 
     public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
     {
@@ -57,6 +59,7 @@ public class Branch : MonoBehaviour
 
         material.SetFloat(RADIUS, branchRadius);
         material.SetFloat(AMOUNT, currentAmount);
+
         animate = true;
         if (iscloth)
         {
@@ -73,10 +76,23 @@ public class Branch : MonoBehaviour
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
         }
+        if (isSense)
+        {
+            gameObject.tag = "Vine";
+            SphereCollider[] colliders = new SphereCollider[branchNodes.Count];
+            for (int i = 0; i < branchNodes.Count; i++)
+            {
+                colliders[i] = gameObject.AddComponent<SphereCollider>();
+                colliders[i].radius = branchRadius;
+                colliders[i].center = branchNodes[i].getPosition();
+                colliders[i].isTrigger = true;
+            }
+        }
     }
 
     void Update()
     {
+        //grow
         if (animate)
         {
             currentAmount += Time.deltaTime * growthSpeed * GrowMultiplyer;
@@ -87,6 +103,7 @@ public class Branch : MonoBehaviour
                 animate = false;
             }
         }
+        //wait
         else
         {
             if (delayTimer > delayTime && shrink)
@@ -95,6 +112,7 @@ public class Branch : MonoBehaviour
             }
             delayTimer += Time.deltaTime;
         }
+        //shrink
         if(deAnimate)
         {
             currentAmount -= Time.deltaTime * shrinkSpeed * GrowMultiplyer;
@@ -184,61 +202,4 @@ public class Branch : MonoBehaviour
         branchMesh.uv = uv;
         return branchMesh;
     }
-
-    /*
-    void OnDrawGizmosSelected()
-    {
-
-        if (branchNodes != null)
-        {
-            for (int i = 0; i < branchNodes.Count; i++)
-            {
-                Gizmos.DrawSphere(branchNodes[i].getPosition(), .002f);
-                Gizmos.color = Color.white;
-
-                Gizmos.color = Color.blue;
-
-                var fw = Vector3.zero;
-                if (i > 0)
-                {
-                    fw = branchNodes[i - 1].getPosition() - branchNodes[i].getPosition();
-                }
-
-                if (i < branchNodes.Count - 1)
-                {
-                    fw += branchNodes[i].getPosition() - branchNodes[i + 1].getPosition();
-                }
-
-                fw.Normalize();
-
-                var up = branchNodes[i].getNormal();
-                up.Normalize();
-
-                Vector3.OrthoNormalize(ref up, ref fw);
-
-                float vStep = (2f * Mathf.PI) / meshFaces;
-                for (int v = 0; v < meshFaces; v++)
-                {
-
-                    Gizmos.DrawLine(branchNodes[i].getPosition(), branchNodes[i].getPosition() + fw * .05f);
-
-                    var orientation = Quaternion.LookRotation(fw, up);
-                    Vector3 xAxis = Vector3.up;
-                    Vector3 yAxis = Vector3.right;
-                    Vector3 pos = branchNodes[i].getPosition();
-                    pos += orientation * xAxis * (branchRadius * Mathf.Sin(v * vStep));
-                    pos += orientation * yAxis * (branchRadius * Mathf.Cos(v * vStep));
-
-                    Gizmos.color = new Color(
-                        (float)v / meshFaces,
-                        (float)v / meshFaces,
-                        1f
-                    );
-                    Gizmos.DrawSphere(pos, .002f);
-                }
-            }
-        }
-
-    }
-    */
 }

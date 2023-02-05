@@ -12973,14 +12973,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 956169803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 361449507}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &989053983
 GameObject:
   m_ObjectHideFlags: 0
@@ -16757,7 +16757,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -17388,27 +17388,33 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417188505}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c6b7b94cce72d4698d0e2890313913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetObjs:
   - {fileID: 1417188505}
-  recycleInterval: 6
+  branchMaterial: {fileID: 2100000, guid: bd4e06200c88a7c4d99fc3cf87dfe2b1, type: 2}
   branches: 10
   maxPointsForBranch: 40
   segmentLength: 0.05
   branchRadius: 0.04
+  lowAngle: 0
+  highAngle: 360
+  useTargetForAngle: 0
   branchDelay: 0.08
   branchSpeed: 100
-  WitherBranch: 0
+  initialDelay: 0
   vinesAtStart: 1
   continuousVines: 1
+  WitherBranch: 0
+  timeAtGrown: 2
+  canSense: 1
   isCloth: 0
   bendstiffness: 5
   maxDist: 0.5
-  branchMaterial: {fileID: 2100000, guid: bd4e06200c88a7c4d99fc3cf87dfe2b1, type: 2}
+  recycleInterval: 6
 --- !u!1 &1429289494
 GameObject:
   m_ObjectHideFlags: 0
@@ -17704,20 +17710,26 @@ MonoBehaviour:
   targetObjs:
   - {fileID: 77358777}
   - {fileID: 1294474436}
-  recycleInterval: 30
+  branchMaterial: {fileID: 2100000, guid: bd4e06200c88a7c4d99fc3cf87dfe2b1, type: 2}
   branches: 1
   maxPointsForBranch: 60
   segmentLength: 0.01
   branchRadius: 0.04
+  lowAngle: 0
+  highAngle: 360
+  useTargetForAngle: 0
   branchDelay: 2
   branchSpeed: 10
-  WitherBranch: 0
+  initialDelay: 0
   vinesAtStart: 1
   continuousVines: 0
+  WitherBranch: 0
+  timeAtGrown: 2
+  canSense: 0
   isCloth: 1
   bendstiffness: 5
   maxDist: 2
-  branchMaterial: {fileID: 2100000, guid: bd4e06200c88a7c4d99fc3cf87dfe2b1, type: 2}
+  recycleInterval: 30
 --- !u!1 &1469930678
 GameObject:
   m_ObjectHideFlags: 0
@@ -19197,20 +19209,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObjs:
   - {fileID: 956169803}
-  recycleInterval: 6
+  branchMaterial: {fileID: 2100000, guid: bd4e06200c88a7c4d99fc3cf87dfe2b1, type: 2}
   branches: 1
-  maxPointsForBranch: 60
+  maxPointsForBranch: 90
   segmentLength: 0.1
   branchRadius: 0.04
+  lowAngle: -30
+  highAngle: 30
+  useTargetForAngle: 1
   branchDelay: 0.05
   branchSpeed: 1
-  WitherBranch: 1
+  initialDelay: 0
   vinesAtStart: 0
   continuousVines: 1
+  WitherBranch: 1
+  timeAtGrown: 2
+  canSense: 1
   isCloth: 0
   bendstiffness: 5
   maxDist: 0.5
-  branchMaterial: {fileID: 2100000, guid: bd4e06200c88a7c4d99fc3cf87dfe2b1, type: 2}
+  recycleInterval: 6
 --- !u!4 &1605131269
 Transform:
   m_ObjectHideFlags: 0
@@ -23374,20 +23392,26 @@ MonoBehaviour:
   - {fileID: 77358777}
   - {fileID: 1294474436}
   - {fileID: 892100027}
-  recycleInterval: 30
+  branchMaterial: {fileID: 2100000, guid: f160de297c3d4294d8cfec69ed6ed6ef, type: 2}
   branches: 1
   maxPointsForBranch: 60
   segmentLength: 0.1
   branchRadius: 0.04
+  lowAngle: 0
+  highAngle: 360
+  useTargetForAngle: 0
   branchDelay: 1
   branchSpeed: 0.25
-  WitherBranch: 1
+  initialDelay: 0
   vinesAtStart: 0
   continuousVines: 1
+  WitherBranch: 1
+  timeAtGrown: 2
+  canSense: 0
   isCloth: 0
   bendstiffness: 5
   maxDist: 0.5
-  branchMaterial: {fileID: 2100000, guid: f160de297c3d4294d8cfec69ed6ed6ef, type: 2}
+  recycleInterval: 30
 --- !u!1001 &2057194942
 PrefabInstance:
   m_ObjectHideFlags: 0
