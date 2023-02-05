@@ -39,6 +39,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //commented out to allow for vine based sensing
+        /*
         Vector3 playerDir = Player.transform.position - transform.position;
         playerDir.Normalize();
         float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, transform.forward));
@@ -58,6 +60,7 @@ public class Enemy : MonoBehaviour
                     music.Chase();
             }
         }
+        */
 
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
@@ -109,5 +112,9 @@ public class Enemy : MonoBehaviour
     //     alreadyAttacked = false;
     // }
     
+    public void setTargetLocation(Vector3 TargetPosition)
+    {
+        Mob.SetDestination(TargetPosition);
+    }
 
 }

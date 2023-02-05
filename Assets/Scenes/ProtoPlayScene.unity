@@ -135,6 +135,10 @@ PrefabInstance:
       value: WarehouseVines
       objectReference: {fileID: 0}
     - target: {fileID: 8400405021686405813, guid: bf73e122cfc58b5448d145de7c96545c, type: 3}
+      propertyPath: canSense
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400405021686405813, guid: bf73e122cfc58b5448d145de7c96545c, type: 3}
       propertyPath: branchSpeed
       value: 0.005
       objectReference: {fileID: 0}
@@ -600,6 +604,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 3927693503736918548, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693503736918548, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693503736918548, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 3927693503829810913, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -611,6 +627,10 @@ PrefabInstance:
     - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: branches
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: canSense
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: branchSpeed
@@ -635,6 +655,10 @@ PrefabInstance:
     - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: maxPointsForBranch
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693505177301178, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: canSense
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927693505177301178, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: bendstiffness
@@ -1061,6 +1085,7 @@ GameObject:
   - component: {fileID: 1571679559}
   - component: {fileID: 1571679564}
   - component: {fileID: 1571679563}
+  - component: {fileID: 1571679565}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1215,6 +1240,19 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &1571679565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571679557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f01d505494a05d4cae896afb807dc9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 1952833647}
 --- !u!1 &1612720611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,6 +1851,7 @@ MonoBehaviour:
   music: {fileID: 436040849}
   MobDetectionDistance: 1000
   patrolRadius: 100
+  visionAngle: 1
   animator: {fileID: 0}
 --- !u!4 &1952833649
 Transform:
@@ -2139,12 +2178,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: lowAngle
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: highAngle
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: branchSpeed
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: timeAtGrown
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: segmentLength
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: useTargetForAngle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: maxPointsForBranch
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: targetObjs.Array.data[0]
