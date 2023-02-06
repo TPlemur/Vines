@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8400405021686405813, guid: bf73e122cfc58b5448d145de7c96545c, type: 3}
       propertyPath: canSense
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8400405021686405813, guid: bf73e122cfc58b5448d145de7c96545c, type: 3}
       propertyPath: branchSpeed
@@ -633,6 +633,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: branchDelay
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: branchSpeed
       value: 10
       objectReference: {fileID: 0}
@@ -656,13 +660,25 @@ PrefabInstance:
       propertyPath: maxPointsForBranch
       value: 45
       objectReference: {fileID: 0}
+    - target: {fileID: 3927693504834544995, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: validGrowSurfaces.m_Bits
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3927693505177301178, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: canSense
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3927693505177301178, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: branchDelay
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693505177301178, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: bendstiffness
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693505177301178, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: validGrowSurfaces.m_Bits
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4197515104056089445, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: m_Name
@@ -2178,6 +2194,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: canSense
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: lowAngle
       value: -15
       objectReference: {fileID: 0}
@@ -2209,6 +2229,10 @@ PrefabInstance:
       propertyPath: targetObjs.Array.data[0]
       value: 
       objectReference: {fileID: 1655846565}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: validGrowSurfaces.m_Bits
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471910, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: m_Name
       value: vinesForSplitjaw
