@@ -431,50 +431,50 @@ public class MapMaker : MonoBehaviour
     }
 }
 
-// class primarily used for holding data about what exits are in each room
-public class Room
-{
-    public List<exitDirection> roomExits = new List<exitDirection>();
-    public string type = "NONE";
-    public bool exitsMade = false;
-    public List<List<Room>> warehouseData = null;
-    public int row;
-    public int column;
-    public GameObject prefab;
+// // class primarily used for holding data about what exits are in each room
+// public class Room
+// {
+//     public List<exitDirection> roomExits = new List<exitDirection>();
+//     public string type = "NONE";
+//     public bool exitsMade = false;
+//     public List<List<Room>> warehouseData = null;
+//     public int row;
+//     public int column;
+//     public GameObject prefab;
 
-    // DirectionToRoom() returns a Room object based on the direction passed
-    // This does not account for bounds checking
-    public Room DirectionToRoom (exitDirection dir){
-        switch (dir){
-            case exitDirection.UP:
-                return warehouseData[this.row - 1][ this.column];
-            case exitDirection.DOWN:
-                return warehouseData[this.row + 1][ this.column];
-            case exitDirection.LEFT:
-                return warehouseData[this.row][ this.column - 1];
-            case exitDirection.RIGHT:
-                return warehouseData[this.row][ this.column + 1];
-        }
-        return null;
-    }
+//     // DirectionToRoom() returns a Room object based on the direction passed
+//     // This does not account for bounds checking
+//     public Room DirectionToRoom (exitDirection dir){
+//         switch (dir){
+//             case exitDirection.UP:
+//                 return warehouseData[this.row - 1][ this.column];
+//             case exitDirection.DOWN:
+//                 return warehouseData[this.row + 1][ this.column];
+//             case exitDirection.LEFT:
+//                 return warehouseData[this.row][ this.column - 1];
+//             case exitDirection.RIGHT:
+//                 return warehouseData[this.row][ this.column + 1];
+//         }
+//         return null;
+//     }
 
-    // RoomToDirection() returns a direction based on a provided room
-    // This does not account for bounds checking
-    public exitDirection RoomToDirection(Room room){
-        if(room.row + 1 == this.row && room.column == this.column){
-            return exitDirection.DOWN;
-        }
-        else if(room.row - 1 == this.row && room.column == this.column){
-            return exitDirection.UP;
-        }
-        else if(room.row == this.row && room.column + 1 == this.column){
-            return exitDirection.LEFT;
-        }
-        else if(room.row == this.row && room.column - 1 == this.column){
-            return exitDirection.RIGHT;
-        }
-        else{
-            return exitDirection.NONE;
-        }
-    }
-}
+//     // RoomToDirection() returns a direction based on a provided room
+//     // This does not account for bounds checking
+//     public exitDirection RoomToDirection(Room room){
+//         if(room.row + 1 == this.row && room.column == this.column){
+//             return exitDirection.DOWN;
+//         }
+//         else if(room.row - 1 == this.row && room.column == this.column){
+//             return exitDirection.UP;
+//         }
+//         else if(room.row == this.row && room.column + 1 == this.column){
+//             return exitDirection.LEFT;
+//         }
+//         else if(room.row == this.row && room.column - 1 == this.column){
+//             return exitDirection.RIGHT;
+//         }
+//         else{
+//             return exitDirection.NONE;
+//         }
+//     }
+// }
