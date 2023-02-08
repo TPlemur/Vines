@@ -2,31 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 // class primarily used for holding data about what this.exits are in each room
 public class Room
 {
-
     private Warehouse warehouse;
-    public List<Exit> exits = new List<Exit>();
-    public Landmark type;
-    public GameObject prefab;
-    public bool exitsMade = false;
-    public int row;
-    public int column;
+    private GameObject warehouseEmpty;
+    public  Exits exits = new Exits(false);
+    public  Landmark type;
+    public  bool exitsMade = false;
+    public  int row;
+    public  int column;
 
-    public Room(int row, int column, Warehouse warehouse){
+    public Room(int row, int column, Warehouse warehouse, GameObject warehouseEmpty){
         this.row = row;
         this.column = column;
         this.warehouse = warehouse;
-        this.type = new GenericRoom();
+        this.warehouseEmpty = warehouseEmpty;
+        this.type = this.IsStartRoom() ? new Start(warehouseEmpty) : new Generic(warehouseEmpty);
     }
 
-    // public void LoadAndPlacePrefab(){
-    //     Debug.Log("LOADING AND PLACING PREFAB");
-    // }
+    ~Room(){
+        exitsMade = false;
+        warehouse = null;
+        exits     = null;
+        type      = null;
+    }
 
+    public void LoadAndPlace(){
+        this.type.PlacePrefab(this.row, this.column, this.exits);
+    }
     
     /* MakeExitsToConsider() creates a list of exits that the
      * current room could possibly have with respect to bounds
@@ -34,91 +38,51 @@ public class Room
      * accepts a Room object and return a list with elements
      * of type Direction.
      */
-    public List<Exit> MakeExitsToConsider (bool flag){
-        // creat a list of possible exits
-        List<Exit> exitsToConsider = new List<Exit>(new Exit[] {
-                        new Exit("Left"), new Exit("Right"), new Exit("Up"), new Exit("Down")
-                        });
-        // remove all exits from exitsToConsider that the room already has
-        foreach(Exit direction in this.exits){
-            Exit temp = exitsToConsider.Find(x => x.type == direction.type);
-            exitsToConsider.RemoveAt(exitsToConsider.IndexOf(temp));
+    public Exits MakeExitsToConsider (bool flag){
+        Exits toConsider = new Exits(true);
+        // remove exits the room already has for consideration
+        foreach(string dir in this.exits.types){ 
+            toConsider.Remove(dir);
         }
-        //////////////////////////////////////////////// for not adding exits existing landmark rooms
-        // if(flag){
-        //     List<Room> adjacentLandmarks = this.FindAdjacentLandmarks();
-        //     foreach(Room adjacent in adjacentLandmarks){
-        //         string dir = this.RoomToDirection(adjacent);
-        //         Exit temp = exitsToConsider.Find(x => x.type == dir);
-        //         exitsToConsider.RemoveAt(exitsToConsider.IndexOf(temp));
-        //     }
-        // }
-        // List<Room> adjacentLandmarks = this.FindAdjacentLandmarks();
-        // foreach(Room adjacent in adjacentLandmarks){
-        //     string dir = this.RoomToDirection(adjacent);
-        //     Exit temp = exitsToConsider.Find(x => x.type == dir);
-        //     exitsToConsider.RemoveAt(exitsToConsider.IndexOf(temp));
-        // }
-        ////////////////////////////////////////////////
-        // remove exits with respect to bounds checking
-        if(this.row == 0){
-            var upExit = exitsToConsider.Find(x => x.type == "Up");
-            if(upExit != null){
-                exitsToConsider.RemoveAt(exitsToConsider.IndexOf(upExit));
-                Debug.Log("REMOVING UP EXIT");
+        // dont consider exits to that lead to landmark rooms
+        if(flag){
+            List<Room> adjacentLandmarks = this.FindAdjacentLandmarks();
+            foreach(Room landmark in adjacentLandmarks){
+                toConsider.Remove(this.RoomToDirection(landmark));
             }
-            // exitsToConsider.RemoveAt(exitsToConsider.IndexOf(upExit));
         }
-        if(this.row == warehouse.rows - 1){
-            // exitsToConsider.RemoveAt(exitsToConsider.IndexOf(Direction.DOWN));
-            var downExit = exitsToConsider.Find(x => x.type == "Down");
-            if(downExit != null){
-                exitsToConsider.RemoveAt(exitsToConsider.IndexOf(downExit));
-                Debug.Log("REMOVING DOWN EXIT");
-            }
-            
-        }
-        if(this.column == 0){
-            var leftExit = exitsToConsider.Find(x => x.type == "Left");
-            if(leftExit != null){
-                exitsToConsider.RemoveAt(exitsToConsider.IndexOf(leftExit));
-                Debug.Log("REMOVING LEFT EXIT");
-            }
-            
-        }
-        if(this.column == warehouse.columns - 1){
-            var rightExit = exitsToConsider.Find(x => x.type == "Right");
-            if(rightExit != null){
-                exitsToConsider.RemoveAt(exitsToConsider.IndexOf(rightExit));
-                Debug.Log("REMOVING RIGHT EXIT");
-            }
-            
-        }
-        Debug.Log("FINAL EXITS TO CONSIDER " + exitsToConsider.Count);
-        return exitsToConsider;
+        if(this.IsOnRightEdge()) { toConsider.Remove("Right");}
+        if(this.IsOnLeftEdge())  { toConsider.Remove("Left"); }
+        if(this.IsOnBottomEdge()){ toConsider.Remove("Down"); }
+        if(this.IsOnTopEdge())   { toConsider.Remove("Up");   }
+        return toConsider;
     }
 
     // Find Adjacent Landmarks
-    private List<Room> FindAdjacentLandmarks(){
+    public List<Room> FindAdjacentLandmarks(){
         List<Room> adjacents = new List<Room>();
-        if(this.row != 0){ // add above room to list if its a landmark
-            if(warehouse.room2DArray[this.row - 1][this.column].type.GetType() != typeof(GenericRoom)){
-                adjacents.Add(warehouse.room2DArray[this.row - 1][this.column]);
+        // add above room to list if its a landmark
+        if(!this.IsOnTopEdge()){ 
+            if(this.RoomAbove().type.GetType() != typeof(Generic)){
+                adjacents.Add(this.RoomAbove());
             }
         }
-        if(this.row != warehouse.rows - 1){ // add room below if its a landmark
-            if(warehouse.room2DArray[this.row + 1][this.column].type.GetType() != typeof(GenericRoom)){
-                adjacents.Add(warehouse.room2DArray[this.row + 1][this.column]);
+        // add room below if its a landmark
+        if(!this.IsOnBottomEdge()){ 
+            if(this.RoomUnderneath().type.GetType() != typeof(Generic)){
+                adjacents.Add(this.RoomUnderneath());
             }
         }
-        if(this.column != 0){ // add room to the left if its a landmark
-            if(warehouse.room2DArray[this.row][this.column - 1].type.GetType() != typeof(GenericRoom)){
-                adjacents.Add(warehouse.room2DArray[this.row][this.column - 1]);
+        // add room to the left if its a landmark
+        if(!this.IsOnLeftEdge()){ 
+            if(this.RoomToLeft().type.GetType() != typeof(Generic)){
+                adjacents.Add(this.RoomToLeft());
             }
         }
-        if(this.column != warehouse.columns - 1){ // add room to the right if its a landmark
-            if(warehouse.room2DArray[this.row][this.column + 1].type.GetType() != typeof(GenericRoom)){
-                adjacents.Add(warehouse.room2DArray[this.row][this.column + 1]);
+        // add room to the right if its a landmark
+        if(!this.IsOnRightEdge()){ 
+            if(this.RoomToRight().type.GetType() != typeof(Generic)){
+                adjacents.Add(this.RoomToRight());
             }
         }
         return adjacents;
@@ -135,68 +99,127 @@ public class Room
     //  * to the current room that has the least amount of exits, the direction towards that
     //  * room, and the opposing direction.
     //  */
-    // private (Room leastExitsRoom, Direction exitToMake, Direction opposingExitToMake) FindLeastExits(Room room, List<Direction> exits){
-    //     int leastExits = 4;
-    //     Room leastExitsRoom = null;
-    //     Direction exitToMake = Direction.NONE;
-    //     Direction opposingExitToMake = Direction.NONE;
-    //     for(int i = 0; i < exits.Count; i++){
-    //         if(room.DirectionToRoom(exits[i]).roomExits.Count != 0 && 
-    //             room.DirectionToRoom(exits[i]).roomExits.Count < leastExits){
-    //             opposingExitToMake = FindOpposingDirection(exits[i]);
-    //             exitToMake     = exits[i];
-    //             leastExitsRoom = room.DirectionToRoom(exits[i]);
-    //             leastExits     = room.DirectionToRoom(exits[i]).roomExits.Count;
-    //         }
-    //     }
-    //     return (leastExitsRoom, exitToMake, opposingExitToMake);
-    // }
+    public (Room leastExits, string exit, string opposing) FindLeastExits(){
+        int leastNum = 4;
+        Room leastExits = null;
+        string exit = System.String.Empty;
+        string opposing = System.String.Empty;
+        Exits possible = this.MakeExitsToConsider(false);
+        foreach(string dir in possible.types){
+            if(this.DirectionToRoom(dir).exits.NumberOf() != 0 &&
+               this.DirectionToRoom(dir).exits.NumberOf() < leastNum){
+                opposing   = possible.OppositeDirection(dir);
+                exit       = dir;
+                leastExits = this.DirectionToRoom(dir);
+                leastNum   = this.DirectionToRoom(dir).exits.NumberOf();
+            }
+        }
+        return (leastExits, exit, opposing);
+    }
 
     // DirectionToRoom() returns a Room object based on the direction passed
-    // This does not account for bounds checking
-    public Room DirectionToRoom (Exit dir){
-        switch (dir.type){
-            case "Up":
-                if(this.row != 0){
-                    return warehouse.room2DArray[this.row - 1][ this.column];
-                }
-                break;
-            case "Down":
-                if(this.row != warehouse.rows - 1){
-                    return warehouse.room2DArray[this.row + 1][ this.column];
-                }
-                break;
-            case "Left":
-                if(this.column != 0){
-                    return warehouse.room2DArray[this.row][this.column - 1];
-                }
-                break;
-            case "Right":
-                if(this.column != warehouse.columns - 1){
-                    return warehouse.room2DArray[this.row][this.column + 1];
-                }
-                break;
+    public Room DirectionToRoom (string dir){
+        if(dir == "Up"    && !this.IsOnTopEdge()){
+            return this.RoomAbove();
+        }
+        if(dir == "Down"  && !this.IsOnBottomEdge()){
+            return this.RoomUnderneath();
+        }
+        if(dir == "Left"  && !this.IsOnLeftEdge()){
+            return this.RoomToLeft();
+        }
+        if(dir == "Right" && !this.IsOnRightEdge()){
+            return this.RoomToRight();
         }
         return null;
     }
 
     // RoomToDirection() returns a direction based on a provided room
-    // This does not account for bounds checking
     public string RoomToDirection(Room room){
-        if(this.row + 1 == room.row && this.column == room.column){
+        // if this is the room above room, then the direction to room is down
+        if(this == room.RoomAbove()){
             return "Down";
         }
-        else if(this.row - 1 == room.row && this.column == room.column){
+        if(this == room.RoomUnderneath()){
             return "Up";
         }
-        else if(this.row == room.row && this.column + 1 == room.column){
+        if(this == room.RoomToRight()){
+            return "Left";
+        }
+        if(this == room.RoomToLeft()){
             return "Right";
         }
-        else if(this.row == room.row && this.column - 1 == room.column){
-            return "Right";
+        return "None";
+    }
+
+    // DistanceTo() return the distance from this room to the argument passed, based on position in 2D array
+    public float DistanceTo(int row, int col){
+        return Mathf.Sqrt((Mathf.Pow((this.row - row), 2f)) + Mathf.Pow((this.column - col), 2f));
+    }
+
+    // DistanceTo() return the distance from this room to the argument passed, based on position in 2D array
+    public float DistanceTo(Room room){
+        return Mathf.Sqrt((Mathf.Pow((this.row - room.row), 2f)) + Mathf.Pow((this.column - room.column), 2f));
+    }
+
+    // Functions used to get rooms based on direction
+    // takes into account bounds checking
+    public Room RoomToLeft(){
+        if(!this.IsOnLeftEdge()){
+            return warehouse.data[this.row][this.column - 1];
         }
-        else{
-            return "None";
+        return null;
+    }
+
+    public Room RoomToRight(){
+        if(!this.IsOnRightEdge()){
+            return warehouse.data[this.row][this.column + 1];
         }
+        return null;
+    }
+
+    public Room RoomAbove(){
+        if(!this.IsOnTopEdge()){
+            return warehouse.data[this.row - 1][this.column];
+        }
+        return null;
+    }
+
+    public Room RoomUnderneath(){
+        if(!this.IsOnBottomEdge()){
+            return warehouse.data[this.row + 1][this.column];
+        }
+        return null;
+    }
+
+    // Check if current room is the start room
+    public bool IsStartRoom(){
+        return this.row == warehouse.startRow && this.column == warehouse.startCol;
+    }
+
+    // Bounds checking related functions
+    public bool IsOnLeftEdge(){
+        return this.column == 0;
+    }
+
+    public bool IsOnRightEdge(){
+        return this.column == warehouse.columns - 1;
+    }
+
+    public bool IsOnTopEdge(){
+        return this.row == 0;
+    }
+
+    public bool IsOnBottomEdge(){
+        return this.row == warehouse.rows - 1;
+    }
+
+    // Random number between two values
+    public int RandomNum(int lower, int upper){
+        return UnityEngine.Random.Range(lower, upper);
+    }
+
+    public void Print(){
+        Debug.Log("THIS ROOM IS AT ROW " + this.row + " COLUMN " + this.column);
     }
 }
