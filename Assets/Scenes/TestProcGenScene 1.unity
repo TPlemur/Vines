@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571336, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -319,7 +319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &947391576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,8 +790,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 5
   columns: 5
-  startRoomRow: 2
-  startRoomColumn: 2
+  startRow: 2
+  startCol: 2
   Warehouse: {fileID: 1279386217}
   player: {fileID: 1571679557}
   playerCamera: {fileID: 794638950}
@@ -958,7 +958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1952833647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,6 +973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mob: {fileID: 1952833650}
   Player: {fileID: 1571679558}
+  music: {fileID: 0}
   MobDetectionDistance: 1000
   patrolRadius: 100
   animator: {fileID: 0}

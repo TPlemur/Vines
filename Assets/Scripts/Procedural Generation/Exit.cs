@@ -2,24 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// public enum Direction
+// {
+//     LEFT,
+//     RIGHT,
+//     UP,
+//     DOWN,
+//     NONE
+// }
+
+// // FindOpposingDirection() returns the direction opposite from the one provided
+// public string OppositeDirection(Direction exit){
+//     switch (exit){
+//         case Direction.UP:
+//             return Direction.DOWN;
+//         case Direction.DOWN:
+//             return Direction.UP;
+//         case Direction.LEFT:
+//             return Direction.RIGHT;
+//         case Direction.RIGHT:
+//             return Direction.LEFT;
+//     }
+//     return Direction.NONE;
+// }
+
 public class Exit{
-    // printDirection() just prints a string based on the parameter dir
-    public virtual void PrintExit(){
-        // switch (dir){
-        //     case typeof(Up):
-        //         Debug.Log("UP");
-        //         return;
-        //     case typeof(Down):
-        //         Debug.Log("DOWN");
-        //         return;
-        //     case typeof(Left):
-        //         Debug.Log("LEFT");
-        //         return;
-        //     case typeof(Right):
-        //         Debug.Log("RIGHT");
-        //         return;
-        // }
-        // Debug.Log(type);
+    public string type;
+
+    public Exit(string type){
+        this.type = type;
+    }
+
+    // printExit() just prints a string based on the parameter dir
+    public void PrintExit(){
+        Debug.Log(this.type);
+    }
+
+    public string OppositeDirection(){
+        switch(this.type){
+            case "Right":
+                return "Left";
+            case "Left":
+                return "Right";
+            case "Up":
+                return "Down";
+            case "Down":
+                return "Up";
+        }
+        return "None";
     }
 
     // // RandomExitFromList() returns a random Exit from a list
@@ -41,40 +71,4 @@ public class Exit{
     //     }
     //     return "None";
     // }
-}
-
-public class Right : Exit{
-    public override void PrintExit(){
-        Debug.Log(typeof(Right));
-    }
-    public System.Type OppositeDirection(){
-        return typeof(Left);
-    }
-}
-
-public class Left : Exit{
-    public override void PrintExit(){
-        Debug.Log(typeof(Left));
-    }
-    public System.Type OppositeDirection(){
-        return typeof(Right);
-    }
-}
-
-public class Up : Exit{
-    public override void PrintExit(){
-        Debug.Log(typeof(Up));
-    }
-    public System.Type OppositeDirection(){
-        return typeof(Down);
-    }
-}
-
-public class Down : Exit{
-    public override void PrintExit(){
-        Debug.Log(typeof(Down));
-    }
-    public System.Type OppositeDirection(){
-        return typeof(Up);
-    }
 }
