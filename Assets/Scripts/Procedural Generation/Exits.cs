@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Exits class contains information about the types of
+ * exits a room has. It essentially functions as a List
+ * but provides functionality for giving the opposite
+ * direction for a type of exits.
+ */
 public class Exits{
     
     public List<string> types;
 
     public Exits(bool allExits){
+        this.types = new List<string>();
         if(allExits){
-            this.types = new List<string>();
             List<string> temp = new List<string>(new string[] {"Left", "Right", "Down", "Up"});
+            // add exits to types in a random order
             for(int i = 0; i < 4; i++){
                 int index = UnityEngine.Random.Range(0, temp.Count - 1);
                 this.types.Add(temp[index]);
                 temp.RemoveAt(index);
             }
-        }
-        else{
-            this.types = new List<string>();
         }
     }
 
@@ -49,7 +52,6 @@ public class Exits{
         return this.types.Count;
     }
 
-    // printExit() just prints a string based on the parameter dir
     public void Print(){
         foreach(string dir in this.types){
             Debug.Log(dir);
@@ -71,6 +73,9 @@ public class Exits{
     }
 
     public string Random(){
-        return this.types[UnityEngine.Random.Range(0, this.types.Count - 1)];
+        if(this.types.Count > 0){
+            return this.types[UnityEngine.Random.Range(0, this.types.Count - 1)];
+        }
+        return "None";
     }
 }

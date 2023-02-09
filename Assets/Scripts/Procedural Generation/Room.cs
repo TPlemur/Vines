@@ -2,23 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// class primarily used for holding data about what this.exits are in each room
-public class Room
+/* Room class contains information about its type, what exits it
+ * has, its prefab GameObject, and where it lies within the warehouse.
+ * Contains functionality for bounds checking, returning another Room
+ * based on a direction, creating possible exits, finding adjacent Landmark
+ * rooms, finding an adjacent room with the least amount of exits, and
+ * instantiating and placing a prefab based on its type, position, and exits.
+ */
+public class Room : MonoBehaviour
 {
     private Warehouse warehouse;
-    private GameObject warehouseEmpty;
-    public  Exits exits = new Exits(false);
+    public  GameObject obj;
     public  Landmark type;
-    public  bool exitsMade = false;
-    public  int row;
-    public  int column;
+    public  Exits exits = new Exits(false);
+    public  bool  exitsMade = false;
+    public  int   column;
+    public  int   row;
 
-    public Room(int row, int column, Warehouse warehouse, GameObject warehouseEmpty){
+    public Room(int row, int column, Warehouse warehouse){
         this.row = row;
         this.column = column;
         this.warehouse = warehouse;
-        this.warehouseEmpty = warehouseEmpty;
-        this.type = this.IsStartRoom() ? new Start(warehouseEmpty) : new Generic(warehouseEmpty);
+        this.type = this.IsStartRoom() ? new Start() : new Generic();
     }
 
     ~Room(){
@@ -28,15 +33,26 @@ public class Room
         type      = null;
     }
 
-    public void LoadAndPlace(){
-        this.type.PlacePrefab(this.row, this.column, this.exits);
+    /* LoadAndPlace() will load a prefab based on its type then create and
+     * position an empty parent object, instantiate the prefab, then move
+     * the prefab to the location of the empty parent object. It returns
+     * an empty parent object that contains a nested prefab object.
+     */
+    public GameObject LoadAndPlace(){
+        (UnityEngine.Object prefab, int rotation) = this.type.LoadPrefab(this.exits);
+        GameObject emptyParent = new GameObject("Room " + this.row + " " + this.column);
+        emptyParent.transform.position = new Vector3((float)this.column * 20.0f, 0.0f, (float)this.row * -20.0f);
+        GameObject prefabObj = (GameObject)Instantiate(prefab, emptyParent.transform);
+        prefabObj.transform.position = emptyParent.transform.position;
+        prefabObj.transform.Rotate(0, rotation, 0);
+        obj = emptyParent;
+        return emptyParent;
     }
     
     /* MakeExitsToConsider() creates a list of exits that the
      * current room could possibly have with respect to bounds
      * checking as well as the exits the room already has. It
-     * accepts a Room object and return a list with elements
-     * of type Direction.
+     * returns an Exits object that contains exits the room could have.
      */
     public Exits MakeExitsToConsider (bool flag){
         Exits toConsider = new Exits(true);
@@ -51,6 +67,7 @@ public class Room
                 toConsider.Remove(this.RoomToDirection(landmark));
             }
         }
+        // remove exits with respect to bounds checking
         if(this.IsOnRightEdge()) { toConsider.Remove("Right");}
         if(this.IsOnLeftEdge())  { toConsider.Remove("Left"); }
         if(this.IsOnBottomEdge()){ toConsider.Remove("Down"); }
@@ -58,7 +75,10 @@ public class Room
         return toConsider;
     }
 
-    // Find Adjacent Landmarks
+    /* FindAdjacentLandmarks() will check if anu surrounding rooms are
+     * not Generic rooms. If any are it will add them to that list. It
+     * then returns that list.
+     */
     public List<Room> FindAdjacentLandmarks(){
         List<Room> adjacents = new List<Room>();
         // add above room to list if its a landmark
@@ -67,19 +87,16 @@ public class Room
                 adjacents.Add(this.RoomAbove());
             }
         }
-        // add room below if its a landmark
         if(!this.IsOnBottomEdge()){ 
             if(this.RoomUnderneath().type.GetType() != typeof(Generic)){
                 adjacents.Add(this.RoomUnderneath());
             }
         }
-        // add room to the left if its a landmark
         if(!this.IsOnLeftEdge()){ 
             if(this.RoomToLeft().type.GetType() != typeof(Generic)){
                 adjacents.Add(this.RoomToLeft());
             }
         }
-        // add room to the right if its a landmark
         if(!this.IsOnRightEdge()){ 
             if(this.RoomToRight().type.GetType() != typeof(Generic)){
                 adjacents.Add(this.RoomToRight());
@@ -88,17 +105,12 @@ public class Room
         return adjacents;
     }
 
-    // /* FindLeastExits() an adjacent room that has the least amount of exits.
-    //  * It accepts a room as well as a list of Directions that inform
-    //  * the function of what rooms to examine. It first assumes that none of the
-    //  * adjacent rooms exist. The for loop iterates through the exits list and refutes
-    //  * this by checking the amount of exits described by each Direction. It
-    //  * iterates through the exits list, finds the room based on that exit with respect
-    //  * to room, checks if that room has less exits than leastExits, if so change some
-    //  * return values and update leastExits. It returns a tuple with the room adjacent 
-    //  * to the current room that has the least amount of exits, the direction towards that
-    //  * room, and the opposing direction.
-    //  */
+    /* FindLeastExits() will examine all adjacent rooms an return the
+     * room with the least amount of exits. It first creates possible
+     * exits the room could have, checks if the room has exits, if the
+     * number of exits it has is greater than leastNum, and then return
+     * that room.
+     */
     public (Room leastExits, string exit, string opposing) FindLeastExits(){
         int leastNum = 4;
         Room leastExits = null;
@@ -117,7 +129,15 @@ public class Room
         return (leastExits, exit, opposing);
     }
 
-    // DirectionToRoom() returns a Room object based on the direction passed
+    /* These functions are mainly helper functions that aid in
+     * determining a rooms position within a 2D array as well as
+     * finding other rooms in that array. There are a few functions
+     * that perform bounds checking as well as a distance function
+     * from this room to another or this room to another room's
+     * coordinates.
+     */
+    
+    // DirectionToRoom() returns a Room object based on a given direction
     public Room DirectionToRoom (string dir){
         if(dir == "Up"    && !this.IsOnTopEdge()){
             return this.RoomAbove();
@@ -136,7 +156,7 @@ public class Room
 
     // RoomToDirection() returns a direction based on a provided room
     public string RoomToDirection(Room room){
-        // if this is the room above room, then the direction to room is down
+        // if thi is above room, then the direction to room is down
         if(this == room.RoomAbove()){
             return "Down";
         }
@@ -162,7 +182,7 @@ public class Room
         return Mathf.Sqrt((Mathf.Pow((this.row - room.row), 2f)) + Mathf.Pow((this.column - room.column), 2f));
     }
 
-    // Functions used to get rooms based on direction
+    // Functions used for accessing rooms based on direction
     // takes into account bounds checking
     public Room RoomToLeft(){
         if(!this.IsOnLeftEdge()){
@@ -220,6 +240,6 @@ public class Room
     }
 
     public void Print(){
-        Debug.Log("THIS ROOM IS AT ROW " + this.row + " COLUMN " + this.column);
+        Debug.Log(this.type.GetType() + " ROOM AT " + this.row + " " + this.column);
     }
 }

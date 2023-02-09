@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MapMaker : MonoBehaviour
+public class WarehouseMaker : MonoBehaviour
 {
     [SerializeField] private GameObject warehouseEmpty;
     [SerializeField] private GameObject playerCamera;
