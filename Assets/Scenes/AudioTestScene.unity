@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -682,7 +682,7 @@ MonoBehaviour:
       Data2: 1221860785
       Data3: -932464450
       Data4: -657763460
-    Path: event:/SFX/Player Footsteps
+    Path: event:/SFX/Player/Player Footsteps
   Event: 
   PlayEvent: 0
   StopEvent: 0
@@ -735,6 +735,10 @@ MonoBehaviour:
   startRoomRow: 2
   startRoomColumn: 2
   Warehouse: {fileID: 1279386217}
+  player: {fileID: 0}
+  playerCamera: {fileID: 0}
+  monster: {fileID: 0}
+  surface: {fileID: 0}
 --- !u!4 &1719924517
 Transform:
   m_ObjectHideFlags: 0
