@@ -600,6 +600,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 3927693503736918548, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693503736918548, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927693503736918548, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 3927693503829810913, guid: 389f29568341abb42bf2ef058c9de4ca, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -1121,9 +1133,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfeac4e6b67b3d4fb6512389f0dbe3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Monster: {fileID: 1952833646}
   moveSpeed: 6
   groundDrag: 2
-  capsuleCol: {fileID: 0}
+  capsuleCol: {fileID: 1571679568}
   playerHeight: 1
   whatIsGround:
     serializedVersion: 2
@@ -2212,12 +2225,44 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: canSense
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: lowAngle
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: highAngle
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: branchSpeed
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: timeAtGrown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: segmentLength
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: branchGrowSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: branchShrinkSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: useTargetForAngle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
+      propertyPath: maxPointsForBranch
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1262993501404471905, guid: eebfeed230179614dbb668489182947a, type: 3}
       propertyPath: targetObjs.Array.data[0]

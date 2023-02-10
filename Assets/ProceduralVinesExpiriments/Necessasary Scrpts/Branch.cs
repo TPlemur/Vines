@@ -42,14 +42,13 @@ public class Branch : MonoBehaviour
         float colliderAmount = currentAmount / MAX;
         //find perportion of coliders that should be visible
         activeColliders = branchNodes.Count * colliderAmount;
-        //Debug.Log((int)activeColliders + " / " + branchNodes.Count + " : " + prevColliders);
+
         if (activeColliders > prevColliders) //if growing
         {
             for(int i = (int)prevColliders;i< (int)activeColliders && i <branchNodes.Count;i++)
             {
                 
                 //add coliders as necessasary
-                Debug.Log("Adding collider: " + i);
                 colliders[i] = this.gameObject.AddComponent<SphereCollider>();
                 colliders[i].radius = branchRadius;
                 colliders[i].center = branchNodes[i].getPosition();
@@ -58,10 +57,9 @@ public class Branch : MonoBehaviour
         }
         else // if shrinking
         {
-            for(int i = (int)prevColliders; i < (int)activeColliders && i < branchNodes.Count; i--)
+            for(int i = (int)prevColliders; i > (int)activeColliders && i < branchNodes.Count && i >= 0; i--)
             {
                 //remove colliders as necessasary
-                Debug.Log("Removing collider: " + i);
                 Destroy(colliders[i]);
             }
         }

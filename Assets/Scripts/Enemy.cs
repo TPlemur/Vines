@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
         playerDir.Normalize();
         float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, transform.forward));
 
+        /*
         // Initializes raycasting variables
         Ray monVis = new Ray(transform.position, (Player.transform.position-transform.position));
         RaycastHit hit;
@@ -61,6 +62,7 @@ public class Enemy : MonoBehaviour
                     playerSounds.Chase();
             }
         }
+        */
 
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
