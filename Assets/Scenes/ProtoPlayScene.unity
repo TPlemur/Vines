@@ -1063,6 +1063,8 @@ GameObject:
   - component: {fileID: 1571679563}
   - component: {fileID: 1571679566}
   - component: {fileID: 1571679565}
+  - component: {fileID: 1571679568}
+  - component: {fileID: 1571679567}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1121,7 +1123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   groundDrag: 2
-  capsuleCol: {fileID: 1612720613}
+  capsuleCol: {fileID: 0}
   playerHeight: 1
   whatIsGround:
     serializedVersion: 2
@@ -1263,6 +1265,34 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!136 &1571679567
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571679557}
+  m_Material: {fileID: 13400000, guid: 16d6f688b2c273f498d7f003c5325353, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &1571679568
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571679557}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1612720611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1304,6 @@ GameObject:
   - component: {fileID: 1612720612}
   - component: {fileID: 1612720615}
   - component: {fileID: 1612720614}
-  - component: {fileID: 1612720613}
   m_Layer: 8
   m_Name: PlayerObj
   m_TagString: Player
@@ -1297,20 +1326,6 @@ Transform:
   m_Father: {fileID: 1571679558}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1612720613
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612720611}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1612720614
 MeshRenderer:
   m_ObjectHideFlags: 0

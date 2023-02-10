@@ -89,13 +89,13 @@ public class DumbMonsterControler : MonoBehaviour
     void speedUp()
     {
         MoveSpeed *= 1.1f;
-        ivyManager.branchSpeed *= 1.1f;
+        //ivyManager.branchSpeed *= 1.1f;
         ivyManager.branchDelay *= 0.9f;
     }
     void slowDown()
     {
         MoveSpeed *= 0.9f;
-        ivyManager.branchSpeed *= 0.9f;
+        //ivyManager.branchSpeed *= 0.9f;
         ivyManager.branchDelay *= 1.1f;
     }
 }

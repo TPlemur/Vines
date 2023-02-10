@@ -13,6 +13,7 @@ public class ProceduralIvy : MonoBehaviour
     public int maxPointsForBranch = 20;
     public float segmentLength = .002f;
     public float branchRadius = 0.02f;
+    public LayerMask validSurfaces = ~0;
 
     [Space]
     [Header("Spawning Characteristics")]
@@ -21,7 +22,8 @@ public class ProceduralIvy : MonoBehaviour
     public bool useTargetForAngle = false;
     [Space]
     public float branchDelay = 0.75f;
-    public float branchSpeed = 1;
+    public float branchGrowSpeed = 1;
+    public float branchShrinkSpeed = 1;
     public float initialDelay = 0;
     
     [Space]
@@ -78,7 +80,7 @@ public class ProceduralIvy : MonoBehaviour
         {
             Ray ray = new Ray(target.transform.position, -target.transform.up);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
+            if (Physics.Raycast(ray, out hit, 100, validSurfaces))
             {
                 createIvy(hit);
             }
@@ -113,7 +115,8 @@ public class ProceduralIvy : MonoBehaviour
             Branch b = branch.AddComponent<Branch>();
             b.init(nodes, branchRadius, branchMaterial);
             branch.transform.SetParent(ivy.transform);
-            b.GrowMultiplyer = branchSpeed;
+            b.growthSpeed = branchGrowSpeed;
+            b.shrinkSpeed = branchShrinkSpeed;
             b.shrink = WitherBranch;
             b.iscloth = isCloth;
             b.bendStiff = bendstiffness;
@@ -134,7 +137,7 @@ public class ProceduralIvy : MonoBehaviour
     bool isOccluded(Vector3 from, Vector3 to)
     {
         Ray ray = new Ray(from, (to - from) / (to - from).magnitude);
-        return Physics.Raycast(ray, (to - from).magnitude);
+        return Physics.Raycast(ray, (to - from).magnitude, validSurfaces);
     }
 
     bool isOccluded(Vector3 from, Vector3 to, Vector3 normal)
@@ -171,13 +174,13 @@ public class ProceduralIvy : MonoBehaviour
             Ray ray = new Ray(pos, normal);
             Vector3 p1 = pos + normal * segmentLength;
 
-            if (Physics.Raycast(ray, out hit, segmentLength))
+            if (Physics.Raycast(ray, out hit, segmentLength, validSurfaces))
             {
                 p1 = hit.point;
             }
             ray = new Ray(p1, dir);
 
-            if (Physics.Raycast(ray, out hit, segmentLength))
+            if (Physics.Raycast(ray, out hit, segmentLength, validSurfaces))
             {
                 Vector3 p2 = hit.point;
                 IvyNode p2Node = new IvyNode(p2, -dir);
@@ -187,7 +190,7 @@ public class ProceduralIvy : MonoBehaviour
             {
                 Vector3 p2 = p1 + dir * segmentLength;
                 ray = new Ray(applyCorrection(p2, normal), -normal);
-                if (Physics.Raycast(ray, out hit, segmentLength))
+                if (Physics.Raycast(ray, out hit, segmentLength, validSurfaces))
                 {
                     Vector3 p3 = hit.point;
                     IvyNode p3Node = new IvyNode(p3, normal);
@@ -212,7 +215,7 @@ public class ProceduralIvy : MonoBehaviour
                     Vector3 p3 = p2 - normal * segmentLength;
                     ray = new Ray(applyCorrection(p3, normal), -normal);
 
-                    if (Physics.Raycast(ray, out hit, segmentLength))
+                    if (Physics.Raycast(ray, out hit, segmentLength, validSurfaces))
                     {
                         Vector3 p4 = hit.point;
                         IvyNode p4Node = new IvyNode(p4, normal);

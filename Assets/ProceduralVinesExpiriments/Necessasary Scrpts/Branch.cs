@@ -18,10 +18,9 @@ public class Branch : MonoBehaviour
     int meshFaces = 3;
 
     bool animate;
-    public float GrowMultiplyer = 1;
     public bool shrink = true;
-    float growthSpeed = 0.5f;
-    float shrinkSpeed = 0.3f;
+    public float growthSpeed = 0.5f;
+    public float shrinkSpeed = 0.3f;
     float currentAmount = 0;
     bool deAnimate = false;
     public float delayTime = 2;
@@ -33,12 +32,50 @@ public class Branch : MonoBehaviour
 
     public bool isSense = false;
 
+    SphereCollider[] colliders;
+    float activeColliders = 0;
+    float prevColliders = 0;
+
+    void checkColliders()
+    {
+        //adjust amount to a scale of 0 to 1
+        float colliderAmount = currentAmount / MAX;
+        //find perportion of coliders that should be visible
+        activeColliders = branchNodes.Count * colliderAmount;
+        //Debug.Log((int)activeColliders + " / " + branchNodes.Count + " : " + prevColliders);
+        if (activeColliders > prevColliders) //if growing
+        {
+            for(int i = (int)prevColliders;i< (int)activeColliders && i <branchNodes.Count;i++)
+            {
+                
+                //add coliders as necessasary
+                Debug.Log("Adding collider: " + i);
+                colliders[i] = this.gameObject.AddComponent<SphereCollider>();
+                colliders[i].radius = branchRadius;
+                colliders[i].center = branchNodes[i].getPosition();
+                colliders[i].isTrigger = true;
+            }
+        }
+        else // if shrinking
+        {
+            for(int i = (int)prevColliders; i < (int)activeColliders && i < branchNodes.Count; i--)
+            {
+                //remove colliders as necessasary
+                Debug.Log("Removing collider: " + i);
+                Destroy(colliders[i]);
+            }
+        }
+
+        prevColliders = activeColliders;
+    }
+
     public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
     {
         this.branchNodes = branchNodes;
         this.branchRadius = branchRadius;
         this.material = new Material(material);
         mesh = createMesh(branchNodes);
+        colliders = new SphereCollider[branchNodes.Count];
     }
 
 
@@ -76,17 +113,9 @@ public class Branch : MonoBehaviour
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
         }
-        if (isSense)
+        if (!isSense)
         {
-            gameObject.tag = "Vine";
-            SphereCollider[] colliders = new SphereCollider[branchNodes.Count];
-            for (int i = 0; i < branchNodes.Count; i++)
-            {
-                colliders[i] = gameObject.AddComponent<SphereCollider>();
-                colliders[i].radius = branchRadius;
-                colliders[i].center = branchNodes[i].getPosition();
-                colliders[i].isTrigger = true;
-            }
+            colliders = null;
         }
     }
 
@@ -95,7 +124,7 @@ public class Branch : MonoBehaviour
         //grow
         if (animate)
         {
-            currentAmount += Time.deltaTime * growthSpeed * GrowMultiplyer;
+            currentAmount += Time.deltaTime * growthSpeed;
             material.SetFloat(AMOUNT, currentAmount);
 
             if (currentAmount >= MAX)
@@ -115,12 +144,17 @@ public class Branch : MonoBehaviour
         //shrink
         if(deAnimate)
         {
-            currentAmount -= Time.deltaTime * shrinkSpeed * GrowMultiplyer;
+            currentAmount -= Time.deltaTime * shrinkSpeed;
             material.SetFloat(AMOUNT, currentAmount);
             if(currentAmount <= -0.5)
             {
                 Destroy(transform.parent.gameObject);
             }
+        }
+        //update colliders if necccasary
+        if (isSense)
+        {
+            checkColliders();
         }
 
     }
