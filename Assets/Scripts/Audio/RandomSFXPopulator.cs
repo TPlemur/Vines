@@ -19,9 +19,14 @@ public class RandomSFXPopulator : MonoBehaviour
     private int maxNumber = -1;
 
     [SerializeField]
+    private bool createNewObject = true;
+
+    [SerializeField]
     private bool populateOnStart = false;
     [SerializeField]
-    private bool muteAndDestroyReference = true;
+    private bool destroyReference = true;
+    [SerializeField]
+    private bool playSoundOnStart = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +37,7 @@ public class RandomSFXPopulator : MonoBehaviour
         if (populateOnStart)
             StartCoroutine(PopulateAfterSeconds(0.001f));
 
-        if (muteAndDestroyReference)
+        if (destroyReference)
             referenceEvent.Stop();
     }
 
@@ -45,10 +50,21 @@ public class RandomSFXPopulator : MonoBehaviour
 
     public void Populate()
     {
-        foreach (GameObject obj in GetGameObjects())
+        foreach (GameObject matchObj in GetGameObjects())
         {
             if (Random.value > probability)
                 continue;
+
+            GameObject obj;
+            if (createNewObject)
+            {
+                obj = new GameObject("Generated SFX");
+                obj.transform.parent = gameObject.transform;
+                obj.transform.position = matchObj.transform.position;
+                obj.transform.rotation = matchObj.transform.rotation;
+            }
+            else
+                obj = matchObj;
 
             var emitter = obj.AddComponent<FMODUnity.StudioEventEmitter>();
             // copy referenec event component fields
@@ -58,11 +74,11 @@ public class RandomSFXPopulator : MonoBehaviour
                 field.SetValue(emitter, field.GetValue(referenceEvent));
             }
             // because the object is already started, manually fulfill this requirement
-            if (emitter.PlayEvent == FMODUnity.EmitterGameEvent.ObjectStart)
+            if (playSoundOnStart || emitter.PlayEvent == FMODUnity.EmitterGameEvent.ObjectStart)
                 emitter.Play();
         }
 
-        if (muteAndDestroyReference)
+        if (destroyReference)
         {
             referenceEvent.Stop();
             Destroy(referenceEvent);

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
+
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent Mob;
@@ -12,9 +13,12 @@ public class Enemy : MonoBehaviour
 
     private MonsterSounds sounds = null;
     public MonsterMusic music;
+    public PlayerSounds playerSounds;
 
     public float MobDetectionDistance = 100.0f;
     public float patrolRadius = 100.0f;
+
+    public float visionAngle = 1f;
     public Animator animator;
 
     //public GameObject projectile;
@@ -36,14 +40,17 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(transform.position, Player.transform.position);
+        Vector3 playerDir = Player.transform.position - transform.position;
+        playerDir.Normalize();
+        float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, transform.forward));
 
+        /*
         // Initializes raycasting variables
         Ray monVis = new Ray(transform.position, (Player.transform.position-transform.position));
         RaycastHit hit;
 
         // If able to raycast to player, move to player
-        if(Physics.Raycast(monVis, out hit, MobDetectionDistance)){
+        if(playerAngle < visionAngle && Physics.Raycast(monVis, out hit, MobDetectionDistance)){
             if(hit.collider.tag == "Player"){
                 // entering CHASE state from PATROLLING state or continuing CHASE state
                 Mob.SetDestination(Player.transform.position);
@@ -51,8 +58,11 @@ public class Enemy : MonoBehaviour
                     sounds.Roar();
                 if (music)
                     music.Chase();
+                if (playerSounds)
+                    playerSounds.Chase();
             }
         }
+        */
 
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
@@ -60,6 +70,8 @@ public class Enemy : MonoBehaviour
             Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
             if (music)
                 music.EndChase();
+            if (playerSounds)
+                playerSounds.EndChase();
         }
 
         

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameObject Monster;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -110,6 +112,10 @@ public class PlayerMovement : MonoBehaviour
         if (collision.tag == "Monster")
         {
             SceneManager.LoadScene(3);
+        }
+        else if(collision.tag == "Vine")
+        {
+            Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
         }
     }
 }
