@@ -1061,6 +1061,8 @@ GameObject:
   - component: {fileID: 1571679559}
   - component: {fileID: 1571679564}
   - component: {fileID: 1571679563}
+  - component: {fileID: 1571679566}
+  - component: {fileID: 1571679565}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1196,7 +1198,7 @@ MonoBehaviour:
       Data2: 1221860785
       Data3: -932464450
       Data4: -657763460
-    Path: event:/SFX/Player Footsteps
+    Path: event:/SFX/Player/Player Footsteps
   Event: 
   PlayEvent: 0
   StopEvent: 2
@@ -1214,6 +1216,50 @@ MonoBehaviour:
     Value: 0
   - Name: Vine
     Value: 0
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1571679565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571679557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d856b0adc94e4d46a14c895705d90c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breathingEmitter: {fileID: 1571679566}
+  muted: 0
+--- !u!114 &1571679566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571679557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1135532070
+      Data2: 1221633835
+      Data3: -306495816
+      Data4: 358896796
+    Path: event:/SFX/Player/Player Breathing
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
@@ -1819,8 +1865,10 @@ MonoBehaviour:
   Mob: {fileID: 1952833650}
   Player: {fileID: 1571679558}
   music: {fileID: 436040849}
+  playerSounds: {fileID: 1571679565}
   MobDetectionDistance: 1000
   patrolRadius: 100
+  visionAngle: 1
   animator: {fileID: 0}
 --- !u!4 &1952833649
 Transform:
@@ -1893,7 +1941,7 @@ MonoBehaviour:
       Data2: 1239085567
       Data3: -1220466762
       Data4: 154559069
-    Path: event:/SFX/Monster Footsteps
+    Path: event:/SFX/Monster/Monster Footsteps
   Event: 
   PlayEvent: 0
   StopEvent: 2
@@ -1964,7 +2012,7 @@ MonoBehaviour:
       Data2: 1293816132
       Data3: -493079375
       Data4: -969143674
-    Path: event:/SFX/Monster Sounds
+    Path: event:/SFX/Monster/Monster Sounds
   Event: 
   PlayEvent: 0
   StopEvent: 2
