@@ -16,7 +16,11 @@ public class Enemy : MonoBehaviour
     public PlayerSounds playerSounds;
 
     public float MobDetectionDistance = 100.0f;
-    public float patrolRadius = 100.0f;
+    public float patrolRadius;
+
+    public float mobHintTimer;
+    float tempTimer = 0;
+    bool timeForHint = false;
 
     public float visionAngle = 1f;
     public Animator animator;
@@ -67,6 +71,10 @@ public class Enemy : MonoBehaviour
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
             // entering PATROLLING state from CHASE state or continuing PATROLLING state
+            if(timeForHint){
+                tempTimer = 0;
+                Mob.SetDestination(Player.transform.position);
+            }
             Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
             if (music)
                 music.EndChase();
@@ -74,7 +82,16 @@ public class Enemy : MonoBehaviour
                 playerSounds.EndChase();
         }
 
-        
+        // Timer to send hint
+        if(tempTimer < mobHintTimer){
+            tempTimer += Time.deltaTime;
+            Debug.Log(tempTimer);
+        }else{
+            // tempTimer = 0;
+            // Mob.SetDestination(Player.transform.position);
+            // Debug.Log("HINT");
+            timeForHint = true;
+        }
             
                         //Shoot();
         //animating the bear
