@@ -14,6 +14,8 @@ public class ProceduralIvy : MonoBehaviour
     public float segmentLength = .002f;
     public float branchRadius = 0.02f;
     public LayerMask validSurfaces = ~0;
+    public bool AnimCompatible = false;
+    public Transform RootBone;
 
     [Space]
     [Header("Spawning Characteristics")]
@@ -112,17 +114,38 @@ public class ProceduralIvy : MonoBehaviour
             Vector3 dir = Quaternion.AngleAxis(highAngle / branches * i + Random.Range(lowAngle, highAngle / branches), hit.normal) * tangent;
             List<IvyNode> nodes = createBranch(maxPointsForBranch, hit.point, hit.normal, dir);
             GameObject branch = new GameObject("Branch " + i);
-            Branch b = branch.AddComponent<Branch>();
-            b.init(nodes, branchRadius, branchMaterial);
-            branch.transform.SetParent(ivy.transform);
-            b.growthSpeed = branchGrowSpeed;
-            b.shrinkSpeed = branchShrinkSpeed;
-            b.shrink = WitherBranch;
-            b.iscloth = isCloth;
-            b.bendStiff = bendstiffness;
-            b.maxMove = maxDist;
-            b.isSense = canSense;
-            b.delayTime = timeAtGrown;
+
+            //I know this is bad, but Inheritance in unity is worse
+            if (AnimCompatible) {
+                SMRBranch b;
+                b = branch.AddComponent<SMRBranch>();
+                b.init(nodes, branchRadius, branchMaterial,RootBone);
+                branch.transform.SetParent(ivy.transform);
+                b.growthSpeed = branchGrowSpeed;
+                b.shrinkSpeed = branchShrinkSpeed;
+                b.shrink = WitherBranch;
+                b.iscloth = isCloth;
+                b.bendStiff = bendstiffness;
+                b.maxMove = maxDist;
+                b.isSense = canSense;
+                b.delayTime = timeAtGrown;
+            }
+            else
+            {
+                Branch b;
+                b = branch.AddComponent<Branch>();
+                b.init(nodes, branchRadius, branchMaterial);
+                branch.transform.SetParent(ivy.transform);
+                b.growthSpeed = branchGrowSpeed;
+                b.shrinkSpeed = branchShrinkSpeed;
+                b.shrink = WitherBranch;
+                b.iscloth = isCloth;
+                b.bendStiff = bendstiffness;
+                b.maxMove = maxDist;
+                b.isSense = canSense;
+                b.delayTime = timeAtGrown;
+            }
+
 }
 
         ivyCount++;

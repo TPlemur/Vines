@@ -1,8 +1,13 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Branch : MonoBehaviour
+public class SMRBranch : MonoBehaviour
 {
+    SkinnedMeshRenderer SMR;
+
+
+
     const string AMOUNT = "_Amount";
     const string RADIUS = "_Radius";
     const float MAX = 0.91f;
@@ -13,6 +18,7 @@ public class Branch : MonoBehaviour
     Material material;
     MeshFilter meshFilter;
     MeshRenderer meshRenderer;
+    public Transform rootBone;
 
     float branchRadius = 0.02f;
     int meshFaces = 3;
@@ -36,33 +42,44 @@ public class Branch : MonoBehaviour
     float activeColliders = 0;
     float prevColliders = 0;
 
-    public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
+    public void init(List<IvyNode> branchNodes, float branchRadius, Material material,Transform RB)
     {
         this.branchNodes = branchNodes;
         this.branchRadius = branchRadius;
         this.material = new Material(material);
         mesh = createMesh(branchNodes);
         colliders = new SphereCollider[branchNodes.Count];
+        rootBone = RB;
     }
 
-    //creates meshFilter and Render
+    //creates creates skinnedMeshRender
     void setupMesh()
     {
-        meshFilter = gameObject.AddComponent<MeshFilter>();
-        meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        SMR = gameObject.AddComponent<SkinnedMeshRenderer>();
+        SMR.rootBone = rootBone;
+
+        //meshFilter = gameObject.AddComponent<MeshFilter>();
+        //meshRenderer = gameObject.AddComponent<MeshRenderer>();
+
         if (material == null)
         {
+            Debug.Log("MatNotFound");
             material = new Material(Shader.Find("Specular"));
         }
-
-        meshRenderer.material = material;
-        if (mesh != null)
-        {
-            meshFilter.mesh = mesh;
-        }
-
+        Debug.Log(material);
         material.SetFloat(RADIUS, branchRadius);
         material.SetFloat(AMOUNT, currentAmount);
+
+        Material[] smrMat = { material };
+        SMR.materials = smrMat;
+
+
+        if (mesh != null)
+        {
+            SMR.sharedMesh = mesh;
+        }
+
+
     }
 
 
@@ -77,7 +94,7 @@ public class Branch : MonoBehaviour
             Cloth cloth = gameObject.AddComponent(typeof(Cloth)) as Cloth;
             ClothSkinningCoefficient[] newConstraints;
             newConstraints = cloth.coefficients;
-            for(int i = 0; i < newConstraints.Length; i++)
+            for (int i = 0; i < newConstraints.Length; i++)
             {
                 newConstraints[i].maxDistance = maxMove;
             }
@@ -87,7 +104,7 @@ public class Branch : MonoBehaviour
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
         }
-        tag = "Vine";
+
         if (!isSense)
         {
             colliders = null;
@@ -117,11 +134,11 @@ public class Branch : MonoBehaviour
             delayTimer += Time.deltaTime;
         }
         //shrink
-        if(deAnimate)
+        if (deAnimate)
         {
             currentAmount -= Time.deltaTime * shrinkSpeed;
             material.SetFloat(AMOUNT, currentAmount);
-            if(currentAmount <= -0.5)
+            if (currentAmount <= -0.5)
             {
                 Destroy(transform.parent.gameObject);
             }
@@ -131,9 +148,8 @@ public class Branch : MonoBehaviour
         {
             checkColliders();
         }
-
     }
-    
+
 
     float remap(float input, float oldLow, float oldHigh, float newLow, float newHigh)
     {
