@@ -61,6 +61,7 @@ public class Landmark{
         int rotation = 0;
         if(this.GetType() != typeof(Generic)){
             (string type, int rot) = this.GetRotationAndType(dirs);
+            Debug.Log("SPECIAL ROOM PATH " + path + type);
             roomPrefab = Resources.Load(path + type);
             rotation = rot;
         }
@@ -70,7 +71,10 @@ public class Landmark{
             roomExits += dirs.Has("Up")    ? "U" : "_";
             roomExits += dirs.Has("Down")  ? "D" : "_";
             roomExits += dirs.Has("Right") ? "R" : "_";
+            // List<string> types = new List<string>(new string[] {"-thin", "-wide", "-cam", "-hide"});
+            // roomExits += types[UnityEngine.Random.Range(0, 4)];
             roomExits += UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
+            // Debug.Log("GENERIC ROOM TYPE" + path + roomExits);
             roomPrefab = Resources.Load(path + roomExits);
         }
         return (roomPrefab, rotation);
@@ -116,7 +120,7 @@ public class Start : Landmark{
 public class Monster : Landmark{
     public Monster(){
         path = "ProcgenGreyboxes/room-pvtm-";
-        weight  = 5;
+        weight  = 4;
         minDist = 2.2f;
         maxDist = 4f;
     }
@@ -134,7 +138,7 @@ public class AlphaTeam : Landmark{
 public class PVTMCamera : Landmark{
     public PVTMCamera(){
         path = "ProcgenGreyboxes/room-pvtm-";
-        weight  = 5;
+        weight  = 6;
         minDist = 1.5f;
         maxDist = 3f;
     }

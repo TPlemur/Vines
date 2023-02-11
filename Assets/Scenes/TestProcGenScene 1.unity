@@ -629,6 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfeac4e6b67b3d4fb6512389f0dbe3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Monster: {fileID: 0}
   moveSpeed: 6
   groundDrag: 2
   capsuleCol: {fileID: 1612720613}
@@ -965,8 +966,10 @@ MonoBehaviour:
   Mob: {fileID: 1952833650}
   Player: {fileID: 1571679558}
   music: {fileID: 0}
+  playerSounds: {fileID: 0}
   MobDetectionDistance: 1000
   patrolRadius: 100
+  visionAngle: 1
   animator: {fileID: 0}
 --- !u!4 &1952833649
 Transform:
