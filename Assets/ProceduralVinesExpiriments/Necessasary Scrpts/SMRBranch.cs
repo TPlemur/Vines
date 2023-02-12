@@ -41,8 +41,10 @@ public class SMRBranch : MonoBehaviour
     SphereCollider[] colliders;
     float activeColliders = 0;
     float prevColliders = 0;
+    float colliderSize = 1;
+    float colliderFrequency = 1;
 
-    public void init(List<IvyNode> branchNodes, float branchRadius, Material material,Transform RB)
+    public void init(List<IvyNode> branchNodes, float branchRadius, Material material,Transform RB, float segmentLength, float colliderSize)
     {
         this.branchNodes = branchNodes;
         this.branchRadius = branchRadius;
@@ -50,6 +52,12 @@ public class SMRBranch : MonoBehaviour
         mesh = createMesh(branchNodes);
         colliders = new SphereCollider[branchNodes.Count];
         rootBone = RB;
+        //calculate spacing to minimize collider overlap
+        this.colliderSize = colliderSize;
+        while (segmentLength * colliderFrequency < colliderSize * branchRadius * 2)
+        {
+            colliderFrequency++;
+        }
     }
 
     //creates creates skinnedMeshRender
@@ -66,7 +74,6 @@ public class SMRBranch : MonoBehaviour
             Debug.Log("MatNotFound");
             material = new Material(Shader.Find("Specular"));
         }
-        Debug.Log(material);
         material.SetFloat(RADIUS, branchRadius);
         material.SetFloat(AMOUNT, currentAmount);
 
@@ -240,12 +247,14 @@ public class SMRBranch : MonoBehaviour
         {
             for (int i = (int)prevColliders; i < (int)activeColliders && i < branchNodes.Count; i++)
             {
-
-                //add coliders as necessasary
-                colliders[i] = this.gameObject.AddComponent<SphereCollider>();
-                colliders[i].radius = branchRadius;
-                colliders[i].center = branchNodes[i].getPosition();
-                colliders[i].isTrigger = true;
+                if (i % colliderFrequency == 0)//check spacing
+                {
+                    //add coliders as necessasary
+                    colliders[i] = this.gameObject.AddComponent<SphereCollider>();
+                    colliders[i].radius = branchRadius * colliderSize;
+                    colliders[i].center = branchNodes[i].getPosition();
+                    colliders[i].isTrigger = true;
+                }
             }
         }
         else // if shrinking
@@ -253,7 +262,10 @@ public class SMRBranch : MonoBehaviour
             for (int i = (int)prevColliders; i > (int)activeColliders && i < branchNodes.Count && i >= 0; i--)
             {
                 //remove colliders as necessasary
-                Destroy(colliders[i]);
+                if (colliders[i] != null)
+                {
+                    Destroy(colliders[i]);
+                }
             }
         }
 

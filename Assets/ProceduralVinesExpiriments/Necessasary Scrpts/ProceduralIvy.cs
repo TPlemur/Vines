@@ -10,9 +10,9 @@ public class ProceduralIvy : MonoBehaviour
     [Space]
     [Header("Physical Characteristics")]
     public int branches = 3;
-    public int maxPointsForBranch = 20;
-    public float segmentLength = .002f;
-    public float branchRadius = 0.02f;
+    public int maxPointsForBranch = 60;
+    public float segmentLength = .15f;
+    public float branchRadius = 0.04f;
     public LayerMask validSurfaces = ~0;
     public bool AnimCompatible = false;
     public Transform RootBone;
@@ -36,6 +36,7 @@ public class ProceduralIvy : MonoBehaviour
     public bool WitherBranch = true;
     public float timeAtGrown = 2;
     public bool canSense = false;
+    public float senseMultiplier = 1;
 
     [Header("Cloth Settings")]
     public bool isCloth = false;
@@ -119,7 +120,7 @@ public class ProceduralIvy : MonoBehaviour
             if (AnimCompatible) {
                 SMRBranch b;
                 b = branch.AddComponent<SMRBranch>();
-                b.init(nodes, branchRadius, branchMaterial,RootBone);
+                b.init(nodes, branchRadius, branchMaterial,RootBone, segmentLength, senseMultiplier);
                 branch.transform.SetParent(ivy.transform);
                 b.growthSpeed = branchGrowSpeed;
                 b.shrinkSpeed = branchShrinkSpeed;
@@ -134,7 +135,7 @@ public class ProceduralIvy : MonoBehaviour
             {
                 Branch b;
                 b = branch.AddComponent<Branch>();
-                b.init(nodes, branchRadius, branchMaterial);
+                b.init(nodes, branchRadius, branchMaterial, segmentLength, senseMultiplier);
                 branch.transform.SetParent(ivy.transform);
                 b.growthSpeed = branchGrowSpeed;
                 b.shrinkSpeed = branchShrinkSpeed;
