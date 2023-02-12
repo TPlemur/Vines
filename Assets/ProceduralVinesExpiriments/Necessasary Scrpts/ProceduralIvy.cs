@@ -37,6 +37,7 @@ public class ProceduralIvy : MonoBehaviour
     public float timeAtGrown = 2;
     public bool canSense = false;
     public float senseMultiplier = 1;
+    public string objTag = "Vine";
 
     [Header("Cloth Settings")]
     public bool isCloth = false;
@@ -130,6 +131,7 @@ public class ProceduralIvy : MonoBehaviour
                 b.maxMove = maxDist;
                 b.isSense = canSense;
                 b.delayTime = timeAtGrown;
+                b.tag = objTag;
             }
             else
             {
@@ -145,6 +147,7 @@ public class ProceduralIvy : MonoBehaviour
                 b.maxMove = maxDist;
                 b.isSense = canSense;
                 b.delayTime = timeAtGrown;
+                b.tag = objTag;
             }
 
 }

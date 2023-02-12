@@ -95,7 +95,6 @@ public class Branch : MonoBehaviour
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
         }
-        tag = "Vine";
         if (!isSense)
         {
             colliders = null;
