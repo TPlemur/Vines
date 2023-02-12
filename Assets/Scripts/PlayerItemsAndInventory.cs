@@ -100,7 +100,7 @@ public class Inventory{
 
 // Item base class mainly used for clarity and the
 // ability to store items of different types to a list
-public class Item{
+public class Item : MonoBehaviour{
     public virtual void Equip(){
         // overwritten by sub class
     }
@@ -135,8 +135,17 @@ public class MedKit : Item{
 
 // Flashlight subclass
 public class Flashlight : Item{
+    private bool hasFlashlight = false;
     public override void Equip(){
-        // code/animation/sound for equipping med kit
+        // code/animation/sound for equipping flashlight
+        if (!hasFlashlight){
+            var loadedFl = Resources.Load("Prefabs/Flashlight");
+            GameObject iPos = GameObject.Find("ItemPos");
+            GameObject fl = (GameObject)Instantiate(loadedFl, iPos.transform.position, iPos.transform.rotation, iPos.transform);
+            fl.GetComponent<Collider>().enabled = false;
+            //fl.transform.parent = GameObject.Find("Player").transform;
+            hasFlashlight = true;
+        }
         Debug.Log("EQUIPPING FLASHLIGHT");
     }
     public override void Use(){
