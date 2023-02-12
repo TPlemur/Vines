@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
 
     private MonsterSounds sounds = null;
     public MonsterMusic music;
+    public PlayerSounds playerSounds;
 
     public float MobDetectionDistance = 100.0f;
     public float patrolRadius = 100.0f;
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
         playerDir.Normalize();
         float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, transform.forward));
 
+        /*
         // Initializes raycasting variables
         Ray monVis = new Ray(transform.position, (Player.transform.position-transform.position));
         RaycastHit hit;
@@ -56,8 +58,11 @@ public class Enemy : MonoBehaviour
                     sounds.Roar();
                 if (music)
                     music.Chase();
+                if (playerSounds)
+                    playerSounds.Chase();
             }
         }
+        */
 
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
@@ -65,6 +70,8 @@ public class Enemy : MonoBehaviour
             Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
             if (music)
                 music.EndChase();
+            if (playerSounds)
+                playerSounds.EndChase();
         }
 
         

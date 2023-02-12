@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameObject Monster;
 
     [Header("Movement")]
     public float moveSpeed;
     public float groundDrag;
+    public float vineDrag = 0.5f;
+    public float dragCap = 4;
     public CapsuleCollider capsuleCol;
+
+    float numVines = 0;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -48,11 +54,17 @@ public class PlayerMovement : MonoBehaviour
         Crouch();
         SpeedCapper();
         //handle drag
+        float drag = vineDrag * numVines + groundDrag;
+        if(dragCap < drag) { drag = dragCap; }
         if(grounded){
-            rb.drag = groundDrag;
+            rb.drag = drag;
         }else{
             rb.drag = 0;
         }
+
+        //reset numVines
+        numVines = 0;
+
     }
 
     private void FixedUpdate(){
@@ -111,5 +123,19 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene(3);
         }
+        else if(collision.tag == "Vine")
+        {
+            Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
+        }
     }
+
+    //count currently active vine collisions
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.tag == "Vine")
+        {
+            numVines++;
+        }
+    }
+
 }
