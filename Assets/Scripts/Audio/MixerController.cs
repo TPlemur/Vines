@@ -40,12 +40,13 @@ public class MixerController : MonoBehaviour
     [Range(0.0F, 1.0F)]
     private float defaultSFXPlayerVolume = 1.0f;
 
-    string masterBusString = "Bus:/";
-    string musicBusString = "Bus:/Music";
-    string sfxBusString = "Bus:/SFX";
-    string sfxEnvironmentBusString = "Bus:/SFX/Environment";
-    string sfxMonsterBusString = "Bus:/SFX/Monster";
-    string sfxPlayerBusString = "Bus:/SFX/Player";
+    static string masterBusString = "Bus:/";
+    static string musicBusString = "Bus:/Music";
+    static string sfxBusString = "Bus:/SFX";
+    static string sfxEnvironmentBusString = "Bus:/SFX/Environment";
+    static string sfxMonsterBusString = "Bus:/SFX/Monster";
+    static string sfxPlayerBusString = "Bus:/SFX/Player";
+    static string cameraReceiverBusString = "Bus:/SFX/CameraReceiver";
 
     // Start is called before the first frame update
     void Start()
@@ -70,13 +71,13 @@ public class MixerController : MonoBehaviour
 
     }
 
-    public void SetBusVolume(string busName, float volume)
+    static public void SetBusVolume(string busName, float volume)
     {
         FMOD.Studio.Bus bus;
         bus = FMODUnity.RuntimeManager.GetBus(busName);
         bus.setVolume(volume);
     }
-    public float GetBusVolume(string busName)
+    static public float GetBusVolume(string busName)
     {
         FMOD.Studio.Bus bus;
         bus = FMODUnity.RuntimeManager.GetBus(busName);
@@ -84,58 +85,99 @@ public class MixerController : MonoBehaviour
         bus.getVolume(out volume);
         return volume;
     }
+    static public FMOD.Studio.Bus GetBus(string busName)
+    {
+        return FMODUnity.RuntimeManager.GetBus(busName);
+    }
 
-    public void SetMasterVolume(float volume)
+    static public void SetMasterVolume(float volume)
     {
         SetBusVolume(masterBusString, volume);
     }
-    public float GetMasterVolume()
+    static public float GetMasterVolume()
     {
         return GetBusVolume(masterBusString);
     }
+    static public FMOD.Studio.Bus GetMasterBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(masterBusString);
+    }
 
-    public void SetMusicVolume(float volume)
+    static public void SetMusicVolume(float volume)
     {
         SetBusVolume(musicBusString, volume);
     }
-    public float GetMusicVolume()
+    static public float GetMusicVolume()
     {
         return GetBusVolume(musicBusString);
     }
+    static public FMOD.Studio.Bus GetMusicBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(musicBusString);
+    }
 
-    public void SetSFXVolume(float volume)
+    static public void SetSFXVolume(float volume)
     {
         SetBusVolume(sfxBusString, volume);
     }
-    public float GetSFXVolume()
+    static public float GetSFXVolume()
     {
         return GetBusVolume(sfxBusString);
     }
+    static public FMOD.Studio.Bus GetSFXBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxBusString);
+    }
 
-    public void SetSFXEnvironmentVolume(float volume)
+    static public void SetSFXEnvironmentVolume(float volume)
     {
         SetBusVolume(sfxEnvironmentBusString, volume);
     }
-    public float GetSFXEnvironmentVolume()
+    static public float GetSFXEnvironmentVolume()
     {
         return GetBusVolume(sfxEnvironmentBusString);
     }
+    static public FMOD.Studio.Bus GetSFXEnvironmentBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxEnvironmentBusString);
+    }
 
-    public void SetSFXMonsterVolume(float volume)
+    static public void SetSFXMonsterVolume(float volume)
     {
         SetBusVolume(sfxMonsterBusString, volume);
     }
-    public float GetSFXMonsterVolume()
+    static public float GetSFXMonsterVolume()
     {
         return GetBusVolume(sfxBusString);
     }
+    static public FMOD.Studio.Bus GetSFXMonsterBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxMonsterBusString);
+    }
 
-    public void SetSFXPlayerVolume(float volume)
+    static public void SetSFXPlayerVolume(float volume)
     {
         SetBusVolume(sfxPlayerBusString, volume);
     }
-    public float GetSFXPlayerVolume()
+    static public float GetSFXPlayerVolume()
     {
         return GetBusVolume(sfxPlayerBusString);
+    }
+    static public FMOD.Studio.Bus GetSFXPlayerBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxPlayerBusString);
+    }
+
+    static public void SetCameraReceiverVolume(float volume)
+    {
+        SetBusVolume(cameraReceiverBusString, volume);
+    }
+    static public float GetCameraReceiverVolume()
+    {
+        return GetBusVolume(cameraReceiverBusString);
+    }
+    static public FMOD.Studio.Bus GetCameraReceiverBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(cameraReceiverBusString);
     }
 }

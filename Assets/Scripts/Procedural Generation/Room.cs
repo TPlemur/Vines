@@ -23,7 +23,7 @@ public class Room : MonoBehaviour
         this.row = row;
         this.column = column;
         this.warehouse = warehouse;
-        this.type = this.IsStartRoom() ? new Start() : new Generic();
+        this.type = this.IsStartRoom() ? (Landmark)(new Start()) : (Landmark)(new Generic());
     }
 
     ~Room(){
