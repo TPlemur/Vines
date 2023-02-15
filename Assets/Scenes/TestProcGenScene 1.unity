@@ -373,7 +373,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1279386218}
-  - component: {fileID: 1279386219}
   - component: {fileID: 1279386220}
   m_Layer: 0
   m_Name: Warehouse
@@ -397,27 +396,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279386219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279386217}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 571ea968633671447a0ba0edfbd9b471, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warehouseEmpty: {fileID: 1279386217}
-  playerCamera: {fileID: 794638950}
-  monster: {fileID: 1952833646}
-  player: {fileID: 1571679557}
-  startRow: 2
-  startCol: 1
-  columns: 4
-  rows: 5
-  surface: {fileID: 947391576}
 --- !u!114 &1279386220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,10 +412,10 @@ MonoBehaviour:
   playerCamera: {fileID: 794638950}
   monster: {fileID: 1952833646}
   player: {fileID: 1571679557}
-  startRow: 2
-  startCol: 1
-  columns: 4
-  rows: 5
+  startRow: 3
+  startCol: 2
+  columns: 5
+  rows: 6
   surface: {fileID: 947391576}
 --- !u!1 &1481180023
 GameObject:
@@ -632,6 +610,8 @@ MonoBehaviour:
   Monster: {fileID: 0}
   moveSpeed: 6
   groundDrag: 2
+  vineDrag: 0.5
+  dragCap: 4
   capsuleCol: {fileID: 1612720613}
   playerHeight: 1
   whatIsGround:
