@@ -10,10 +10,12 @@ public class ProceduralIvy : MonoBehaviour
     [Space]
     [Header("Physical Characteristics")]
     public int branches = 3;
-    public int maxPointsForBranch = 20;
-    public float segmentLength = .002f;
-    public float branchRadius = 0.02f;
+    public int maxPointsForBranch = 60;
+    public float segmentLength = .15f;
+    public float branchRadius = 0.04f;
     public LayerMask validSurfaces = ~0;
+    public bool AnimCompatible = false;
+    public Transform RootBone;
 
     [Space]
     [Header("Spawning Characteristics")]
@@ -34,6 +36,7 @@ public class ProceduralIvy : MonoBehaviour
     public bool WitherBranch = true;
     public float timeAtGrown = 2;
     public bool canSense = false;
+    public float senseMultiplier = 1;
 
     [Header("Cloth Settings")]
     public bool isCloth = false;
@@ -112,17 +115,38 @@ public class ProceduralIvy : MonoBehaviour
             Vector3 dir = Quaternion.AngleAxis(highAngle / branches * i + Random.Range(lowAngle, highAngle / branches), hit.normal) * tangent;
             List<IvyNode> nodes = createBranch(maxPointsForBranch, hit.point, hit.normal, dir);
             GameObject branch = new GameObject("Branch " + i);
-            Branch b = branch.AddComponent<Branch>();
-            b.init(nodes, branchRadius, branchMaterial);
-            branch.transform.SetParent(ivy.transform);
-            b.growthSpeed = branchGrowSpeed;
-            b.shrinkSpeed = branchShrinkSpeed;
-            b.shrink = WitherBranch;
-            b.iscloth = isCloth;
-            b.bendStiff = bendstiffness;
-            b.maxMove = maxDist;
-            b.isSense = canSense;
-            b.delayTime = timeAtGrown;
+
+            //I know this is bad, but Inheritance in unity is worse
+            if (AnimCompatible) {
+                SMRBranch b;
+                b = branch.AddComponent<SMRBranch>();
+                b.init(nodes, branchRadius, branchMaterial,RootBone, segmentLength, senseMultiplier);
+                branch.transform.SetParent(ivy.transform);
+                b.growthSpeed = branchGrowSpeed;
+                b.shrinkSpeed = branchShrinkSpeed;
+                b.shrink = WitherBranch;
+                b.iscloth = isCloth;
+                b.bendStiff = bendstiffness;
+                b.maxMove = maxDist;
+                b.isSense = canSense;
+                b.delayTime = timeAtGrown;
+            }
+            else
+            {
+                Branch b;
+                b = branch.AddComponent<Branch>();
+                b.init(nodes, branchRadius, branchMaterial, segmentLength, senseMultiplier);
+                branch.transform.SetParent(ivy.transform);
+                b.growthSpeed = branchGrowSpeed;
+                b.shrinkSpeed = branchShrinkSpeed;
+                b.shrink = WitherBranch;
+                b.iscloth = isCloth;
+                b.bendStiff = bendstiffness;
+                b.maxMove = maxDist;
+                b.isSense = canSense;
+                b.delayTime = timeAtGrown;
+            }
+
 }
 
         ivyCount++;
