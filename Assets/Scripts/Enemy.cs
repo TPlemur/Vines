@@ -19,7 +19,8 @@ public class Enemy : MonoBehaviour
     public float patrolRadius;
 
     public float mobHintTimer;
-    float tempTimer = 0;
+    [HideInInspector]
+    public float tempTimer = 0;
     bool timeForHint = false;
 
     public float visionAngle = 1f;
@@ -74,18 +75,20 @@ public class Enemy : MonoBehaviour
             if(timeForHint){
                 tempTimer = 0;
                 Mob.SetDestination(Player.transform.position);
+                timeForHint = false;
+            }else{
+                Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
+                if (music)
+                    music.EndChase();
+                if (playerSounds)
+                    playerSounds.EndChase();
             }
-            Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
-            if (music)
-                music.EndChase();
-            if (playerSounds)
-                playerSounds.EndChase();
         }
 
         // Timer to send hint
         if(tempTimer < mobHintTimer){
             tempTimer += Time.deltaTime;
-            Debug.Log(tempTimer);
+            //Debug.Log(tempTimer);
         }else{
             // tempTimer = 0;
             // Mob.SetDestination(Player.transform.position);
