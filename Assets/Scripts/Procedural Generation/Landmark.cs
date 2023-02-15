@@ -8,6 +8,8 @@ public class Landmark{
     public float minDist;
     public string path;
     public int weight;
+    public int rotation;
+    public string num;
 
     /* GetRotationAndType() calculates the type of a room based off the number
      * of exits it has. It calculates a rotation based on the exits the room has
@@ -51,43 +53,32 @@ public class Landmark{
         return ("quad", 0);
     }
 
-    // actually loading and placing prefab and attaching it to empty and parent objects
-    /* LoadPrefab() will load a prefab given a file path. If the room isn't a generic room
-     * then it will calculate the type of room as well as what y rotation to apply.
-     * It returns a tuple containing the prefab and its appropriate rotation.
+    /* LoadPrefab() is overwritten by child classes but essentially loads
+     * a prefab based on a Landmarks type.
      */
-    public (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+    public virtual (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        // overwritten by child classes
+        return (null, 0);
+    }
+    
+    // load landmark comments
+    public (UnityEngine.Object prefab, int rotation) LoadLandmark(Exits dirs){
         UnityEngine.Object roomPrefab = null;
         int rotation = 0;
-        if(this.GetType() != typeof(Generic)){
-            (string type, int rot) = this.GetRotationAndType(dirs);
-            Debug.Log("SPECIAL ROOM PATH " + path + type);
-            roomPrefab = Resources.Load(path + type);
-            rotation = rot;
-        }
-        else{
-            string roomExits = System.String.Empty;
-            roomExits += dirs.Has("Left")  ? "L" : "_";
-            roomExits += dirs.Has("Up")    ? "U" : "_";
-            roomExits += dirs.Has("Down")  ? "D" : "_";
-            roomExits += dirs.Has("Right") ? "R" : "_";
-            // List<string> types = new List<string>(new string[] {"-thin", "-wide", "-cam", "-hide"});
-            // roomExits += types[UnityEngine.Random.Range(0, 4)];
-            roomExits += UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
-            // Debug.Log("GENERIC ROOM TYPE" + path + roomExits);
-            roomPrefab = Resources.Load(path + roomExits);
-        }
+        (string type, int rot) = this.GetRotationAndType(dirs);
+        roomPrefab = Resources.Load(path + type);
+        rotation = rot;
         return (roomPrefab, rotation);
     }
 
-    // PlaceLandmark() will determine whether a Landmark is chosen given its 
-    // current weight. If it isn't chosen then it will decrement its weight.
-    public bool PlaceLandmark(){
-        if(UnityEngine.Random.Range(0, weight) == 0){
-            return true;
-        }
-        weight -= 1;
-        return false;
+    // Used for Generic and PVTMCamera room prefab paths
+    public string BuildExitString(Exits dirs){
+        string exits = System.String.Empty;
+        exits += dirs.Has("Left")  ? "L" : "_";
+        exits += dirs.Has("Up")    ? "U" : "_";
+        exits += dirs.Has("Down")  ? "D" : "_";
+        exits += dirs.Has("Right") ? "R" : "_";
+        return exits;
     }
 
     /* InRange() will determine if a provided distance is between the Landmarks
@@ -102,12 +93,17 @@ public class Landmark{
     }
 }
 
-// Child classes of Landmark, holds information about its weight, a
-// file path where the prefab can be found and its minimum and 
+// Child classes of Landmark, holds information about a file 
+// path where the prefab can be found and its minimum and the
 // maximum spawn distance from the starting room.
 public class Generic : Landmark{
     public Generic(){
         path = "ProcgenGreyboxes/room-";
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        path += this.BuildExitString(dirs);
+        path += UnityEngine.Random.Range(0, 2) == 0 ? "-thin" : "-wide";
+        return (Resources.Load(path), 0);
     }
 }
 
@@ -115,41 +111,80 @@ public class Start : Landmark{
     public Start(){
         path = "ProcgenGreyboxes/room-elevator-";
     }
-}
-
-public class Monster : Landmark{
-    public Monster(){
-        path = "ProcgenGreyboxes/room-pvtm-";
-        weight  = 4;
-        minDist = 2.2f;
-        maxDist = 4f;
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return this.LoadLandmark(dirs);
     }
 }
 
+//  Monster Spawn Specific
+public class Monster : Landmark{
+    public Monster(string type, int rot){
+        path = "ProcgenGreyboxes/room-monster-quadrant";
+        rotation = rot;
+        num = type;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return (Resources.Load(path + num), rotation);
+    }
+}
+
+// Notable Landmark rooms like AlphaTeam, Generator, etc.
 public class AlphaTeam : Landmark{
     public AlphaTeam(){
         path = "ProcgenGreyboxes/room-pvtm-";
-        weight  = 8;
-        minDist = 1f;
-        maxDist = 2f;
+        minDist = 1.3f;
+        maxDist = 2.5f;
     }
-}
-
-public class PVTMCamera : Landmark{
-    public PVTMCamera(){
-        path = "ProcgenGreyboxes/room-pvtm-";
-        weight  = 6;
-        minDist = 1.5f;
-        maxDist = 3f;
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return this.LoadLandmark(dirs);
     }
 }
 
 public class Generator : Landmark{
     public Generator(){
         path = "ProcgenGreyboxes/room-pvtm-";
-        weight  = 8;
-        minDist = 1f;
-        maxDist = 2f;
+        minDist = 1.3f;
+        maxDist = 2.5f;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return this.LoadLandmark(dirs);
     }
 }
 
+// Trip wire, Camera, and Hiding Rooms
+public class TripWire : Landmark{
+    public TripWire(){
+        path = "ProcgenGreyboxes/room-trap-";
+        minDist = 1f;
+        maxDist = 4f;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return this.LoadLandmark(dirs);
+    }
+}
+
+public class PVTMCamera : Landmark{
+    public PVTMCamera(){
+        path = "ProcgenGreyboxes/room-";
+        minDist = 1f;
+        maxDist = 3f;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        path += this.BuildExitString(dirs);
+        path += "-cam";
+        return (Resources.Load(path), 0);
+    }
+}
+
+public class Hide : Landmark{
+    public Hide(){
+        path = "ProcgenGreyboxes/room-";
+        minDist = 1f;
+        maxDist = 4f;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        path += this.BuildExitString(dirs);
+        path += "-hide";
+        return (Resources.Load(path), 0);
+    }
+}
