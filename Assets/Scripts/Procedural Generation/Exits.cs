@@ -14,13 +14,7 @@ public class Exits{
     public Exits(bool allExits){
         this.types = new List<string>();
         if(allExits){
-            List<string> temp = new List<string>(new string[] {"Left", "Right", "Down", "Up"});
-            // add exits to types in a random order
-            for(int i = 0; i < 4; i++){
-                int index = UnityEngine.Random.Range(0, temp.Count - 1);
-                this.types.Add(temp[index]);
-                temp.RemoveAt(index);
-            }
+            this.AddRandom(4);
         }
     }
 
@@ -38,13 +32,30 @@ public class Exits{
         this.types.Add(dir);
     }
 
+    public void Add(List<string> dirs){
+        foreach(string dir in dirs){
+            types.Add(dir);
+        }
+    }
+
     public bool Has(string dir){
-        return this.types.Contains(dir);
+        var index = this.types.Find(x => x == dir);
+        if(index != null){
+            return true;
+        }
+        return false;
     }
 
     public void Remove(string dir){
-        if(this.types.Contains(dir)){
+        var index = this.types.Find(x => x == dir);
+        if(index != null){
             this.types.RemoveAt(this.types.IndexOf(dir));
+        }
+    }
+
+    public void Remove(List<string> dirs){
+        foreach(string dir in dirs){
+            this.Remove(dir);
         }
     }
 
@@ -72,10 +83,37 @@ public class Exits{
         return "None";
     }
 
+    public void AddOpposite(string dir){
+        switch(dir){
+            case "Right":
+                types.Add("Left");
+                break;
+            case "Left":
+                types.Add("Right");
+                break;
+            case "Up":
+                types.Add("Down");
+                break;
+            case "Down":
+                types.Add("Up");
+                break;
+        }
+    }
+
     public string Random(){
         if(this.types.Count > 0){
             return this.types[UnityEngine.Random.Range(0, this.types.Count - 1)];
         }
         return "None";
+    }
+
+    public void AddRandom(int count){
+        List<string> temp = new List<string>(new string[] {"Left", "Right", "Down", "Up"});
+        // add exits to types in a random order
+        for(int i = 0; i < count; i++){
+            int index = UnityEngine.Random.Range(0, temp.Count);
+            this.types.Add(temp[index]);
+            temp.RemoveAt(index);
+        }
     }
 }

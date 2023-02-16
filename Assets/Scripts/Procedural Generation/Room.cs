@@ -12,12 +12,13 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     private Warehouse warehouse;
-    public  GameObject obj;
-    public  Landmark type;
-    public  Exits exits = new Exits(false);
-    public  bool  exitsMade = false;
-    public  int   column;
-    public  int   row;
+    public GameObject obj;
+    public Landmark type;
+    public Exits exits = new Exits(false);
+    public bool exitsMade = false;
+    public bool placed = false;
+    public int column;
+    public int row;
 
     public Room(int row, int column, Warehouse warehouse){
         this.row = row;
@@ -46,87 +47,91 @@ public class Room : MonoBehaviour
         prefabObj.transform.position = emptyParent.transform.position;
         prefabObj.transform.Rotate(0, rotation, 0);
         obj = emptyParent;
+        this.placed = true;
         return emptyParent;
     }
-    
-    /* MakeExitsToConsider() creates a list of exits that the
-     * current room could possibly have with respect to bounds
-     * checking as well as the exits the room already has. It
-     * returns an Exits object that contains exits the room could have.
+
+    /* ConnectToRandom() will connect a random to random exits. It
+     * first creates a list of possible rooms to connect to that
+     * aren't of type Start or Monster. It then determines the number
+     * of rooms to connect to and then chooses random rooms to connect to.
      */
-    public Exits MakeExitsToConsider (bool flag){
-        Exits toConsider = new Exits(true);
-        // remove exits the room already has for consideration
-        foreach(string dir in this.exits.types){ 
-            toConsider.Remove(dir);
+    public void ConnectToRandom(){
+        List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
+        List<Room> possible = this.RoomsToNotOfType(temp);
+        int numExits = 0;
+        if(this.IsStartRoom()){
+            numExits = 3;
         }
-        // dont consider exits to that lead to landmark rooms
-        if(flag){
-            List<Room> adjacentLandmarks = this.FindAdjacentLandmarks();
-            foreach(Room landmark in adjacentLandmarks){
-                toConsider.Remove(this.RoomToDirection(landmark));
-            }
+        else if(possible.Count == 1){
+            numExits = 1;
         }
-        // remove exits with respect to bounds checking
-        if(this.IsOnRightEdge()) { toConsider.Remove("Right");}
-        if(this.IsOnLeftEdge())  { toConsider.Remove("Left"); }
-        if(this.IsOnBottomEdge()){ toConsider.Remove("Down"); }
-        if(this.IsOnTopEdge())   { toConsider.Remove("Up");   }
-        return toConsider;
+        else if(possible.Count > 1){
+            numExits = UnityEngine.Random.Range(2, possible.Count - 2);
+        }
+        for(;numExits > 0; numExits--){
+            int index = UnityEngine.Random.Range(0, possible.Count);
+            this.ConnectTo(possible[index]);
+            possible.RemoveAt(index);
+        }
     }
 
-    /* FindAdjacentLandmarks() will check if anu surrounding rooms are
-     * not Generic rooms. If any are it will add them to that list. It
-     * then returns that list.
+    /* RoomsToConnect() creates a list of possible rooms that
+     * could be connedted to with respect to bounds checking.
      */
-    public List<Room> FindAdjacentLandmarks(){
-        List<Room> adjacents = new List<Room>();
-        // add above room to list if its a landmark
-        if(!this.IsOnTopEdge()){ 
-            if(this.RoomAbove().type.GetType() != typeof(Generic)){
-                adjacents.Add(this.RoomAbove());
-            }
-        }
-        if(!this.IsOnBottomEdge()){ 
-            if(this.RoomUnderneath().type.GetType() != typeof(Generic)){
-                adjacents.Add(this.RoomUnderneath());
-            }
-        }
-        if(!this.IsOnLeftEdge()){ 
-            if(this.RoomToLeft().type.GetType() != typeof(Generic)){
-                adjacents.Add(this.RoomToLeft());
-            }
-        }
-        if(!this.IsOnRightEdge()){ 
-            if(this.RoomToRight().type.GetType() != typeof(Generic)){
-                adjacents.Add(this.RoomToRight());
-            }
-        }
-        return adjacents;
+    public List<Room> RoomsToConnect(){
+        List<Room> possible = new List<Room>();
+        if(!this.IsOnRightEdge()) { possible.Add(this.RoomToRight());}
+        if(!this.IsOnLeftEdge())  { possible.Add(this.RoomToLeft());}
+        if(!this.IsOnBottomEdge()){ possible.Add(this.RoomUnderneath());}
+        if(!this.IsOnTopEdge())   { possible.Add(this.RoomAbove());}
+        return possible;
     }
 
-    /* FindLeastExits() will examine all adjacent rooms an return the
-     * room with the least amount of exits. It first creates possible
-     * exits the room could have, checks if the room has exits, if the
-     * number of exits it has is greater than leastNum, and then return
-     * that room.
+    /* NotAlreadyLinkedRooms() creates a list of possible rooms that
+     * could be connedted to with respect to bounds checking as well as
+     * what exits the room already has. So if a room has a left exit and
+     * it is to the left of a room with the possible list. It removes that
+     * room as it is alread connected to that room.
      */
-    public (Room leastExits, string exit, string opposing) FindLeastExits(){
-        int leastNum = 4;
-        Room leastExits = null;
-        string exit = System.String.Empty;
-        string opposing = System.String.Empty;
-        Exits possible = this.MakeExitsToConsider(false);
-        foreach(string dir in possible.types){
-            if(this.DirectionToRoom(dir).exits.NumberOf() != 0 &&
-               this.DirectionToRoom(dir).exits.NumberOf() < leastNum){
-                opposing   = possible.OppositeDirection(dir);
-                exit       = dir;
-                leastExits = this.DirectionToRoom(dir);
-                leastNum   = this.DirectionToRoom(dir).exits.NumberOf();
+    public List<Room> NotAlreadyLinkedRooms(){
+        List<Room> possible = this.RoomsToConnect();
+        foreach(string dir in this.exits.types){
+            for(int i = 0; i < possible.Count; i++){
+                if(dir == "Left" && this.IsToRightOf(possible[i])){
+                    possible.RemoveAt(i);
+                }
+                if(dir == "Right" && this.IsToLeftOf(possible[i])){
+                    possible.RemoveAt(i);
+                }
+                if(dir == "Down" && this.IsAbove(possible[i])){
+                    possible.RemoveAt(i);
+                }
+                if(dir == "Up" && this.IsUnderneath(possible[i])){
+                    possible.RemoveAt(i);
+                }
             }
         }
-        return (leastExits, exit, opposing);
+        return possible;
+    }
+
+    /* RoomsToNotOfType() will return a list of rooms that a room
+     * could connect to with respect to bounds checking, rooms it is
+     * already connected to, and adjacent rooms of a certain type.
+     * The types of rooms it excludes are determined by the types list
+     * which contains Landmark rooms of a certain type.
+     */
+    public List<Room> RoomsToNotOfType(List<Landmark> types){
+        List<Room> possible = this.NotAlreadyLinkedRooms();
+        foreach(Landmark landmark in types){
+            for(int i = 0; i < possible.Count; i++){
+                if(possible[i].type.GetType() == landmark.GetType()){
+                    possible.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+        return possible;
     }
 
     /* These functions are mainly helper functions that aid in
@@ -136,40 +141,70 @@ public class Room : MonoBehaviour
      * from this room to another or this room to another room's
      * coordinates.
      */
-    
-    // DirectionToRoom() returns a Room object based on a given direction
-    public Room DirectionToRoom (string dir){
-        if(dir == "Up"    && !this.IsOnTopEdge()){
-            return this.RoomAbove();
-        }
-        if(dir == "Down"  && !this.IsOnBottomEdge()){
-            return this.RoomUnderneath();
-        }
-        if(dir == "Left"  && !this.IsOnLeftEdge()){
-            return this.RoomToLeft();
-        }
-        if(dir == "Right" && !this.IsOnRightEdge()){
-            return this.RoomToRight();
-        }
-        return null;
-    }
 
     // RoomToDirection() returns a direction based on a provided room
     public string RoomToDirection(Room room){
-        // if thi is above room, then the direction to room is down
-        if(this == room.RoomAbove()){
-            return "Down";
-        }
-        if(this == room.RoomUnderneath()){
+        // if this is above room, then the direction to room is down
+        if(this.row - 1 == room.row && this.column == room.column){
             return "Up";
         }
-        if(this == room.RoomToRight()){
+        if(this.row + 1 == room.row && this.column == room.column){
+            return "Down";
+        }
+        if(this.row == room.row && this.column - 1 == room.column){
             return "Left";
         }
-        if(this == room.RoomToLeft()){
+        if(this.row == room.row && this.column + 1 == room.column){
             return "Right";
         }
+        Debug.Log("RETURNING NONE ROOM");
         return "None";
+    }
+
+    /* ConnectTo will connect a room to another if the room
+     * it is trying to connect to doesn't already have an exit
+     * to the original room.
+     */ 
+    public void ConnectTo(Room room){
+        string dir = this.RoomToDirection(room);
+        if(!this.exits.Has(dir)){
+            this.exits.Add(dir);
+        }
+        this.ConnectTo(dir);
+    }
+
+    /* A different variation of ConnectTo() above. It accepts a
+     * string as an input.
+     */
+    public void ConnectTo(string dir){
+        Room toConnect = null;
+        if(dir == "Up"){
+            toConnect = this.RoomAbove();
+        }
+        if(dir == "Down"){
+            toConnect = this.RoomUnderneath();
+        }
+        if(dir == "Right"){
+            toConnect = this.RoomToRight();
+        }
+        if(dir == "Left"){
+            toConnect = this.RoomToLeft();
+        }
+        if(!toConnect.HasOpposite(dir)){
+            toConnect.AddOpposite(dir);
+        }
+    }
+
+    // HasOpposite() has determines if a room has an opposite direction
+    public bool HasOpposite(string dir){
+        string opposite = this.exits.OppositeDirection(dir);
+        return this.exits.Has(opposite);
+    }
+
+    // AddOpposite() adds an opposing exit to itself
+    public void AddOpposite(string dir){
+        string opposite = this.exits.OppositeDirection(dir);
+        this.exits.Add(opposite);
     }
 
     // DistanceTo() return the distance from this room to the argument passed, based on position in 2D array
@@ -182,8 +217,7 @@ public class Room : MonoBehaviour
         return Mathf.Sqrt((Mathf.Pow((this.row - room.row), 2f)) + Mathf.Pow((this.column - room.column), 2f));
     }
 
-    // Functions used for accessing rooms based on direction
-    // takes into account bounds checking
+    // Accessing rooms with respect to itself and bounds checking
     public Room RoomToLeft(){
         if(!this.IsOnLeftEdge()){
             return warehouse.data[this.row][this.column - 1];
@@ -212,12 +246,53 @@ public class Room : MonoBehaviour
         return null;
     }
 
-    // Check if current room is the start room
-    public bool IsStartRoom(){
-        return this.row == warehouse.startRow && this.column == warehouse.startCol;
+    // Check if a room is in a particular corner of the warehouse
+    public bool IsTopLeftCorner(){
+        if(this.row == 0 && this.column == 0){
+            return true;
+        }
+        return false;
     }
 
-    // Bounds checking related functions
+    public bool IsTopRightCorner(){
+        if(this.row == 0 && this.column == warehouse.columns - 1){
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsBottomLeftCorner(){
+        if(this.row == warehouse.rows - 1 && this.column == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsBottomRightCorner(){
+        if(this.row == warehouse.rows - 1 && this.column == warehouse.columns - 1){
+            return true;
+        }
+        return false;
+    }
+
+    // Positional checking to see a room is adjacent to another
+    public bool IsToLeftOf(Room room){
+        return this.row == room.row && this.column + 1 == room.column;
+    }
+
+    public bool IsToRightOf(Room room){
+        return this.row == room.row && this.column - 1 == room.column;
+    }
+
+    public bool IsUnderneath(Room room){
+        return this.row - 1 == room.row && this.column == room.column;
+    }
+
+    public bool IsAbove(Room room){
+        return this.row + 1 == room.row && this.column == room.column;
+    }
+
+    // Bounds checking related
     public bool IsOnLeftEdge(){
         return this.column == 0;
     }
@@ -234,12 +309,18 @@ public class Room : MonoBehaviour
         return this.row == warehouse.rows - 1;
     }
 
+    // Check if current room is the start room
+    public bool IsStartRoom(){
+        return this.row == warehouse.startRow && this.column == warehouse.startCol;
+    }
+
     // Random number between two values
     public int RandomNum(int lower, int upper){
         return UnityEngine.Random.Range(lower, upper);
     }
 
     public void Print(){
-        Debug.Log(this.type.GetType() + " ROOM AT " + this.row + " " + this.column);
+        Debug.Log(this.type.GetType() + " ROOM AT " + this.row + " " + this.column + " THIS ROOM HAS EXITS ");
+        this.exits.Print();
     }
 }
