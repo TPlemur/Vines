@@ -20,8 +20,13 @@ public class Enemy : MonoBehaviour
 
     public float mobHintTimer;
     [HideInInspector]
-    public float tempTimer = 0;
+    public float hintTimer = 0;
     bool timeForHint = false;
+    public float mobPursuitTimer;
+    [HideInInspector]
+    public float tempPursuitTimer;
+
+    public float patrolDistFromPlayer;
 
     public float visionAngle = 1f;
     public Animator animator;
@@ -72,29 +77,41 @@ public class Enemy : MonoBehaviour
         // Patrols randomly if it cant see player
         if(!Mob.hasPath){
             // entering PATROLLING state from CHASE state or continuing PATROLLING state
-            if(timeForHint){
-                tempTimer = 0;
-                Mob.SetDestination(Player.transform.position);
+            if(timeForHint || tempPursuitTimer > 0){
+                hintTimer = 0;
+                // Mob.SetDestination(Player.transform.position);
+                Mob.SetDestination(getClosestNavPointToPlayer(Player));
                 timeForHint = false;
+                Debug.Log("seeking player");
             }else{
                 Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
                 if (music)
                     music.EndChase();
                 if (playerSounds)
                     playerSounds.EndChase();
+                Debug.Log("patrolling");
             }
         }
 
         // Timer to send hint
-        if(tempTimer < mobHintTimer){
-            tempTimer += Time.deltaTime;
-            //Debug.Log(tempTimer);
+        if(hintTimer < mobHintTimer){
+            hintTimer += Time.deltaTime;
+            //Debug.Log(hintTimer);
         }else{
-            // tempTimer = 0;
+            // hintTimer = 0;
             // Mob.SetDestination(Player.transform.position);
             // Debug.Log("HINT");
             timeForHint = true;
         }
+
+        if(tempPursuitTimer > 0){
+            tempPursuitTimer -= Time.deltaTime;
+            Debug.Log(tempPursuitTimer);
+        }else{
+            timeForHint = false;
+        }
+
+        // Timer to give up pursuit
             
                         //Shoot();
         //animating the bear
@@ -109,13 +126,20 @@ public class Enemy : MonoBehaviour
     // Finds random location within a radius to patrol in
     public Vector3 RandomNavmeshLocation(float radius) {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += transform.position;
+        randomDirection += Player.transform.position;
         NavMeshHit NavMeshEnemy;
         Vector3 finalPosition = Vector3.zero;
         if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
             finalPosition = NavMeshEnemy.position;            
         }
         return finalPosition;
+    }
+
+    public Vector3 getClosestNavPointToPlayer(Transform target){
+        NavMeshHit navHit;
+        NavMesh.FindClosestEdge(target.position, out navHit, NavMesh.AllAreas);
+        Debug.Log("finding closest position");
+        return navHit.position;
     }
 
     // public void Shoot()
