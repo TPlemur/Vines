@@ -21,17 +21,21 @@ public class PlayerItemsAndInventory : MonoBehaviour
 
     public Inventory inventory = new Inventory();
 
+    public static bool usingPVTM = false;
+
     void Update()
     {
         // check for inputs 
-        if(Input.GetKeyDown(interactKey)){
-            Interact();
-        }
-        if(Input.GetKeyDown(cycleRightKey)){
-            inventory.CycleEquippedItem(CycleDirection.RIGHT);
-        }
-        else if(Input.GetKeyDown(cycleLeftKey)){
-            inventory.CycleEquippedItem(CycleDirection.LEFT);
+        if (!usingPVTM){
+            if(Input.GetKeyDown(interactKey)){
+                Interact();
+            }
+            if(Input.GetKeyDown(cycleRightKey)){
+                inventory.CycleEquippedItem(CycleDirection.RIGHT);
+            }
+            else if(Input.GetKeyDown(cycleLeftKey)){
+                inventory.CycleEquippedItem(CycleDirection.LEFT);
+            }
         }
         if(Input.GetMouseButtonDown(1)){ // right click
             inventory.UseEquippedItem();
@@ -64,12 +68,13 @@ public class Inventory{
     public Item equippedItem;
 
     public void AddItem(Item item){
-        items.Add(item);
-        if(items.Count == 1){
-            equippedItem = item;
-            item.Equip();
-            equippedIndex = 0;
+        if(items.Count > 0){
+            equippedItem.Dequip();
         }
+        items.Add(item);
+        equippedItem = item;
+        item.Equip();
+        equippedIndex += 1;
     }
 
     public void UseEquippedItem(){
@@ -80,6 +85,7 @@ public class Inventory{
 
     public void CycleEquippedItem(CycleDirection dir){
         if(items.Count > 1){
+            equippedItem.Dequip();
             if(dir == CycleDirection.LEFT){
                 // subtract indexes and move to the left
                 // -1 * (items.Count - 1) subtracts a negative number to
@@ -100,23 +106,55 @@ public class Inventory{
 
 // Item base class mainly used for clarity and the
 // ability to store items of different types to a list
-public class Item{
+public class Item : MonoBehaviour{
     public virtual void Equip(){
+        // overwritten by sub class
+    }
+    public virtual void Dequip(){
         // overwritten by sub class
     }
     public virtual void Use(){
         // overwritten by sub class
     }
+    public GameObject itemLoad(string objName){
+        var loadedItem = Resources.Load("Prefabs/" + objName);
+        GameObject iPos = GameObject.Find("ItemPos");
+        GameObject itemInst = (GameObject)Instantiate(loadedItem, iPos.transform.position, iPos.transform.rotation, iPos.transform);
+        itemInst.GetComponent<Collider>().enabled = false;
+        return itemInst;
+    }
 }
 
 // PVTM subclass
 public class PVTM : Item{
+    GameObject PVTMinst = null;
+    Vector3 PVTMorigPos;
     public override void Equip(){
         // code/animation/sound for equipping PVTM
+        if (PVTMinst == null){
+            PVTMinst = itemLoad("PVTM");
+            PVTMorigPos = PVTMinst.transform.localPosition;
+        }
+        else{
+            PVTMinst.SetActive(true);
+        }
         Debug.Log("EQUIPPING PVTM");
+    }
+    public override void Dequip(){
+        PVTMinst.SetActive(false);
     }
     public override void Use(){
         // code/animation/sound for using PVTM
+        if (!PlayerItemsAndInventory.usingPVTM){
+            PlayerItemsAndInventory.usingPVTM = true;
+            PVTMinst.transform.localPosition = new Vector3((float) 0.23, (float) 0.23, (float) -0.45);
+            PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, -15);
+        }
+        else{
+            PlayerItemsAndInventory.usingPVTM = false;
+            PVTMinst.transform.localPosition = PVTMorigPos;
+            PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
         Debug.Log("USING PVTM");
     }
 }
@@ -135,12 +173,28 @@ public class MedKit : Item{
 
 // Flashlight subclass
 public class Flashlight : Item{
+    GameObject FLinst = null;
     public override void Equip(){
-        // code/animation/sound for equipping med kit
+        // code/animation/sound for equipping flashlight
+        if (FLinst == null){
+            FLinst = itemLoad("Flashlight");
+        }
+        else{
+            FLinst.SetActive(true);
+        }
         Debug.Log("EQUIPPING FLASHLIGHT");
+    }
+    public override void Dequip(){
+        FLinst.SetActive(false);
     }
     public override void Use(){
         // code/animation/sound for using flashlight
+        if (FLinst.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.activeSelf == false){
+            FLinst.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else{
+            FLinst.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        }
         Debug.Log("USING FLASHLIGHT");
     }
 }

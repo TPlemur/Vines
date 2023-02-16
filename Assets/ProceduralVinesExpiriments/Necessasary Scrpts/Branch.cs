@@ -35,14 +35,22 @@ public class Branch : MonoBehaviour
     SphereCollider[] colliders;
     float activeColliders = 0;
     float prevColliders = 0;
+    float colliderSize = 1;
+    float colliderFrequency = 1;
 
-    public void init(List<IvyNode> branchNodes, float branchRadius, Material material)
+    public void init(List<IvyNode> branchNodes, float branchRadius, Material material, float segmentLength, float colliderSize)
     {
         this.branchNodes = branchNodes;
         this.branchRadius = branchRadius;
         this.material = new Material(material);
         mesh = createMesh(branchNodes);
         colliders = new SphereCollider[branchNodes.Count];
+        //calculate spacing to minimize collider overlap
+        this.colliderSize = colliderSize;
+        while (segmentLength*colliderFrequency < colliderSize*branchRadius*2)
+        {
+            colliderFrequency++;
+        }
     }
 
     //creates meshFilter and Render
@@ -224,12 +232,14 @@ public class Branch : MonoBehaviour
         {
             for (int i = (int)prevColliders; i < (int)activeColliders && i < branchNodes.Count; i++)
             {
-
-                //add coliders as necessasary
-                colliders[i] = this.gameObject.AddComponent<SphereCollider>();
-                colliders[i].radius = branchRadius;
-                colliders[i].center = branchNodes[i].getPosition();
-                colliders[i].isTrigger = true;
+                if (i % colliderFrequency == 0)//check spacing
+                {
+                    //add coliders as necessasary
+                    colliders[i] = this.gameObject.AddComponent<SphereCollider>();
+                    colliders[i].radius = branchRadius * colliderSize;
+                    colliders[i].center = branchNodes[i].getPosition();
+                    colliders[i].isTrigger = true;
+                }
             }
         }
         else // if shrinking
@@ -237,7 +247,10 @@ public class Branch : MonoBehaviour
             for (int i = (int)prevColliders; i > (int)activeColliders && i < branchNodes.Count && i >= 0; i--)
             {
                 //remove colliders as necessasary
-                Destroy(colliders[i]);
+                if (colliders[i] != null)
+                {
+                    Destroy(colliders[i]);
+                }
             }
         }
 

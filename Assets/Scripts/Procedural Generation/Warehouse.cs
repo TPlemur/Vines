@@ -23,10 +23,13 @@ public class Warehouse{
     public int rows;
 
     // List containing landmark rooms to make, add appropriate landmark subclass to list
-    private List<Landmark> toMake = new List<Landmark>(new Landmark[] {new Monster(), new PVTMCamera(), new Generator(), new AlphaTeam()});
-    
+    private List<Landmark> special  = new List<Landmark>(new Landmark[] {new AlphaTeam(),  new Generator()});
+    private List<Landmark> cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
+    private List<Landmark> hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
+    private List<Landmark> tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
+
     public Warehouse(int row, int columns, int startRow, int startCol, GameObject empty){
-        this.warehouseEmpty = empty;
+        this.warehouseEmpty = empty; 
         this.startRow = startRow;
         this.startCol = startCol;
         this.columns  = columns;
@@ -44,7 +47,7 @@ public class Warehouse{
     public void Generate(){
         // Add empty "rooms" to the 2D Array based on the provided dimensions
         this.data = new List<List<Room>>();
-        for(int i = 0; i < this.rows; i++){ 
+        for(int i = 0; i < this.rows; i++){
             List<Room> rowOfEmptyRooms = new List<Room>();
             for(int j = 0; j < this.columns; j++){
                 Room emptyRoom = new Room(i, j, this);
@@ -53,12 +56,11 @@ public class Warehouse{
             data.Add(rowOfEmptyRooms);
         }
         this.startRoom = data[this.startRow][this.startCol];
-        GenerateExitsFor(data[this.startRow][this.startCol]);
+        this.startRoom.ConnectToRandom();
+        PlaceMonsterSpawn();
+        PlaceLandmarks();
         FixDeadEnds();
         PlaceRooms();
-        if(toMake.Count != 0){
-            Debug.Log("DIDNT FIND A SPOT FOR " + toMake.Count + " ROOMS");
-        }
     }
 
     /* Regenerate() will teardown the warehouse and then generate it
@@ -81,82 +83,12 @@ public class Warehouse{
         this.data = null;
     }
 
-    /* GenerateExitsFor() is the driving algorithm for procedurally 
-     * filling a 2D array with "rooms". The algorithm will first determine
-     * the possible exits this room could have. It then decides the amount of
-     * potential exits the room could have. It then selects a random exit from
-     * the list of possible ones, creates that exit in the current room, creates
-     * the opposing exit in the opposing room. It will then checks its own exits
-     * and if other rooms exits have been made and then calls RollForMoreExits()
-     * to see if the other rooms will generate more exits.
-     */
-    private void GenerateExitsFor(Room current){
-        Exits possible = current.MakeExitsToConsider(true);
-        int potential = 0;
-        if(current.IsStartRoom()){
-            potential = 3;
-        }
-        else{
-            // if distance of the current room to the start room is less or equal to 1 then we up the RNG of choosing more exits
-            potential = current.DistanceTo(this.startRow, this.startCol) <= 1 ? possible.NumberOf() : current.RandomNum(1, possible.NumberOf());
-        }
-        for(; potential > 0; potential--){
-            string randomExit = possible.Random();
-            switch(randomExit){
-                case "Left":
-                    current.exits.Add("Left");
-                    current.RoomToLeft().exits.Add("Right");
-                    break;
-                case "Right":
-                    current.exits.Add("Right");
-                    current.RoomToRight().exits.Add("Left");
-                    break;
-                case "Up":
-                    current.exits.Add("Up");
-                    current.RoomAbove().exits.Add("Down");
-                    break;
-                case "Down":
-                    current.exits.Add("Down");
-                    current.RoomUnderneath().exits.Add("Up");
-                    break;
-            }
-            // then remove that random direction so it doesn't get chosen again
-            possible.Remove(randomExit);
-        }
-        current.exitsMade = true;
-        if(current.exits.Has("Left") && !current.RoomToLeft().exitsMade){
-            RollForMoreExits(current.RoomToLeft());
-        }
-        if(current.exits.Has("Right") && !current.RoomToRight().exitsMade){
-            RollForMoreExits(current.RoomToRight());
-        }
-        if(current.exits.Has("Up") && !current.RoomAbove().exitsMade){
-            RollForMoreExits(current.RoomAbove());
-        }
-        if(current.exits.Has("Down") && !current.RoomUnderneath().exitsMade){
-            RollForMoreExits(current.RoomUnderneath());
-        }
-        return;
-    }
-
-    /* RollForMoreExits() basically rolls a random number for the current room and
-     * has a 1 in 15 chance to not create adittional exits for that room. If we
-     * don't hit that 1 in 15 we generate more exits for the room at that index.
-     */
-    private void RollForMoreExits(Room room){
-        if(UnityEngine.Random.Range(0, 16) == 0){
-            room.exitsMade = true;
-            return;
-        }
-        GenerateExitsFor(room);
-    }
-
     /* FixDeadEnds() iterates through data to find and fix dead ends.
      * It first determines if a room is a dead end. If so then it finds
      * an adjacent room with the least amount of exits. If a room exists
      * then it will connect the dead end room to that room. If not then
      * it examines all adjacent rooms, chooses one at random, connects the
-     * dead end room to the room chosen, and then sets deadEnd as to the
+     * dead end room to the room chosen, and then sets deadEnd to the
      * room randomly chosen.
      */
     private void FixDeadEnds(){
@@ -164,22 +96,25 @@ public class Warehouse{
             for(int j = 0; j < this.columns; j++){
                 Room deadEnd = data[i][j];
                 while(deadEnd.exits.NumberOf() == 1){
-                    // get adjacent room with the least amount of exits
-                    (Room leastExits, string exit, string opposing) = deadEnd.FindLeastExits();
-                    if(leastExits != null){
-                        deadEnd.exits.Add(exit);
-                        leastExits.exits.Add(opposing);
-                        break;
+                    int index = -1;
+                    int leastNum = 4;
+                    List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
+                    List<Room> possible = deadEnd.RoomsToNotOfType(temp);
+                    for(int k = 0; k < possible.Count; k++){
+                        if(possible[k].exits.NumberOf() != 0 && possible[k].exits.NumberOf() < leastNum){
+                            leastNum = possible[k].exits.NumberOf();
+                            index = k;
+                        }
+                    }
+                    // some room with the least amount of exits was found
+                    if(index != -1){
+                        deadEnd.ConnectTo(possible[index]);
                     }
                     else{
-                        Exits toConsider = deadEnd.MakeExitsToConsider(false);
-                        string randomExit = toConsider.Random();
-                        // make exit to a random adjacent room
-                        // this room may have no exits at all or some
-                        deadEnd.exits.Add(randomExit);
-                        Room newDeadEnd = deadEnd.DirectionToRoom(randomExit);
-                        newDeadEnd.exits.Add(toConsider.OppositeDirection(randomExit));
-                        // set current dead end room to the new dead room we just made
+                        // no room was found and this dead end has no adjacent room so make a
+                        // new one and then check if that room has adjacent rooms to connect to
+                        Room newDeadEnd = possible[UnityEngine.Random.Range(0, possible.Count)];
+                        deadEnd.ConnectTo(newDeadEnd);
                         deadEnd = newDeadEnd;
                     }
                 }
@@ -188,12 +123,7 @@ public class Warehouse{
     }
 
     /* PlaceRooms() will iterate through the 2D array of Rooms to
-     * instantiate and place prefabs based on each rooms exits. It
-     * will also loop through the list of Landmarks to make. It 
-     * calculates the rooms distance to the start room, the calls
-     * landmark.InRange() and landmark.PlaceLandmark() to determine
-     * if whether or not we change the current rooms type to be a 
-     * Landmark.
+     * instantiate and place prefabs based on each rooms exits.
      */
     private void PlaceRooms(){
         foreach(List<Room> row in data){
@@ -201,25 +131,121 @@ public class Warehouse{
                 if(room.exits.NumberOf() == 0){
                     continue;
                 }
-                // iterate through list of landmarks to make
-                foreach(Landmark landmark in toMake){
-                    float dist = room.DistanceTo(data[this.startRow][this.startCol]);
-                    if(landmark.InRange(dist)){
-                        if(landmark.PlaceLandmark()){
-                            if(landmark.GetType() == typeof(Monster)){
-                                this.monsterRoom = room;
-                            }
-                            room.type = landmark;
-                            room.Print();
-                            toMake.RemoveAt(toMake.IndexOf(landmark));
-                            break;
-                        }
-                    }
-                }
                 // get empty parent object with nested prefab and 
                 // set its parent to the warehouse object
                 GameObject prefabParent = room.LoadAndPlace();
                 prefabParent.transform.SetParent(warehouseEmpty.transform);
+            }
+        }
+    }
+
+    /* PlaceMonsterSpawn() will first choose a random corner of the 2D
+     * array for the location of the spawn room. It then determines what
+     * corner it is and then determines the appropriate quadrants
+     * for adjacent rooms and one diagonal room. It also calculates a
+     * rotation to apply to each quadrant which is used when placing each prefab.
+     */
+    private void PlaceMonsterSpawn(){
+        Room corner = GetRandomCorner();
+        Room q2 = null;
+        Room q3 = null;
+        Room q4 = null;
+        Room opposite = null;
+        int rotation = 0;
+        if(corner.IsTopLeftCorner()){
+            q2 = corner.RoomToRight();
+            q3 = q2.RoomUnderneath();
+            q4 = corner.RoomUnderneath();
+            // get room opposite of q4 aka room leading into the spawn room
+            opposite = q4.RoomUnderneath();
+        }
+        else if(corner.IsTopRightCorner()){
+            q2 = corner.RoomUnderneath();
+            q3 = q2.RoomToLeft();
+            q4 = corner.RoomToLeft();
+            rotation = 90;
+            opposite = q4.RoomToLeft();
+        }
+        else if(corner.IsBottomLeftCorner()){
+            q2 = corner.RoomAbove();
+            q3 = q2.RoomToRight();
+            q4 = corner.RoomToRight();
+            rotation = -90;
+            opposite = q4.RoomToRight();
+        }
+        else if(corner.IsBottomRightCorner()){
+            q2 = corner.RoomToLeft();
+            q3 = q2.RoomAbove();
+            q4 = corner.RoomAbove();
+            rotation = 180;
+            opposite = q4.RoomAbove();
+        }
+        // set new rooms to respective quadrant types
+        corner.type = new Monster("1", rotation);
+        q2.type = new Monster("2", rotation);
+        q3.type = new Monster("3", rotation);
+        q4.type = new Monster("4", rotation);
+        corner.exitsMade = true;
+        q2.exitsMade = true;
+        q3.exitsMade = true;
+        q4.exitsMade = true;
+        // connect q4 to opposite and create a dead end in opposite
+        q4.ConnectTo(opposite);
+        corner.ConnectTo(q2);
+        corner.ConnectTo(q4);
+        q3.ConnectTo(q2);
+        q3.ConnectTo(q4);
+        this.monsterRoom = q4;
+    }
+
+    // Place All Landmark rooms
+    private void PlaceLandmarks(){
+        this.PlaceLandmarksFrom(this.special);
+        this.PlaceLandmarksFrom(this.cameras);
+        this.PlaceLandmarksFrom(this.hiding);
+        this.PlaceLandmarksFrom(this.tripwire);
+    }
+
+    /* PlaceLandmarksFrom() will place landmark rooms found in a list.
+     * It first check if the list has any rooms to place. It then gets
+     * a random Generic room and determines if this room is within the
+     * Landmarks minimum and maximum spawn distance form the start room.
+     * If so then we place the room at that location and choose random
+     * exits for that room and then remove the Landmark from the list of
+     * Landmarks to place.
+     */
+    private void PlaceLandmarksFrom(List<Landmark> list){
+        while(list.Count != 0){
+            Room random = GetRandomGeneric();
+            foreach(Landmark landmark in list){
+                float dist = random.DistanceTo(this.startRoom);
+                if(landmark.InRange(dist)){
+                    random.type = landmark;
+                    random.ConnectToRandom();
+                    list.RemoveAt(list.IndexOf(landmark));
+                    break;
+                }
+            }
+        }
+    }
+
+    /* GetRandomCorner() will choose a random corner of the
+     * 2D array and return the room at that position
+     */
+    private Room GetRandomCorner(){
+        int row = UnityEngine.Random.Range(0, 2) == 0 ? 0 : this.rows - 1;
+        int column = UnityEngine.Random.Range(0, 2) == 0 ? 0 : this.columns - 1;
+        return data[row][column];
+    }
+
+    /* GetRandomGeneric() will choose a random genric room
+     */
+    private Room GetRandomGeneric(){
+        while(true){
+            int row = UnityEngine.Random.Range(0, this.rows - 1);
+            int column = UnityEngine.Random.Range(0, this.columns -1);
+            if(data[row][column].type.GetType() == typeof(Generic)){
+                return data[row][column];
             }
         }
     }
@@ -232,8 +258,6 @@ public class Warehouse{
         cam.transform.position     = new Vector3(this.startRoom.obj.transform.position.x, 2f, this.startRoom.obj.transform.position.z);
         monster.transform.position = this.monsterRoom.obj.transform.position;
     }
-
-
 
     /* PrintWarehouse() logs the exits of each index to the console
      * "L" "U" "D" "R" signify the direction of the exit at each index
