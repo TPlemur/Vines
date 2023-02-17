@@ -29,6 +29,7 @@ public class Branch : MonoBehaviour
     public bool iscloth = true;
     public float bendStiff = 5f;
     public float maxMove = 0.5f;
+    public CapsuleCollider[] clothColliders;
 
     public bool isSense = false;
 
@@ -94,6 +95,7 @@ public class Branch : MonoBehaviour
             cloth.stretchingStiffness = 100;
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
+            cloth.capsuleColliders = clothColliders;
         }
         if (!isSense)
         {
