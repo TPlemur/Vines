@@ -108,12 +108,14 @@ public class Branch : MonoBehaviour
         //grow
         if (animate)
         {
-            currentAmount += Time.deltaTime * growthSpeed;
+            delayTimer += Time.deltaTime;
+            currentAmount = (delayTimer*MAX) / growthSpeed;
             material.SetFloat(AMOUNT, currentAmount);
 
             if (currentAmount >= MAX)
             {
                 animate = false;
+                delayTime = 0;
             }
         }
         //wait
@@ -121,14 +123,17 @@ public class Branch : MonoBehaviour
         {
             if (delayTimer > delayTime && shrink)
             {
+                shrink = false;
                 deAnimate = true;
+                delayTime = shrinkSpeed;
             }
             delayTimer += Time.deltaTime;
         }
         //shrink
         if(deAnimate)
         {
-            currentAmount -= Time.deltaTime * shrinkSpeed;
+            delayTime -= Time.deltaTime * 2;
+            currentAmount = delayTime * MAX / shrinkSpeed;
             material.SetFloat(AMOUNT, currentAmount);
             if(currentAmount <= -0.5)
             {
