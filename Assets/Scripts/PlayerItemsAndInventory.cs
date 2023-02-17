@@ -232,7 +232,7 @@ public class PVTM : Item{
     }
 
     public override void Dequip(){
-        // PVTMinst.SetActive(false);
+        PVTMinst.SetActive(false);
     }
 
     public override void Primary(){
