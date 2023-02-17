@@ -10,6 +10,10 @@ public class trapScript : MonoBehaviour
     [SerializeField] private float MonTrapTime = 5;
     [SerializeField] private float PlayerTrapTime = 5;
 
+    [SerializeField] private Material powering;
+    [SerializeField] private Material ready;
+    [SerializeField] private Material active;
+
     enum State
     {
         off,
@@ -18,18 +22,10 @@ public class trapScript : MonoBehaviour
         set,
         triggered
     }
-    bool set = false;
     State currentState = State.off;
-
-    [SerializeField] private Material powering;
-    [SerializeField] private Material ready;
-    [SerializeField] private Material active;
 
     MeshRenderer rend;
     bool PlayerContact = false;
-    bool ispowering = false;
-    bool charged = false;
-    bool triggered = false;
     float timer = 0;
 
     private void Update()
