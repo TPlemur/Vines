@@ -29,6 +29,7 @@ public class Branch : MonoBehaviour
     public bool iscloth = true;
     public float bendStiff = 5f;
     public float maxMove = 0.5f;
+    public CapsuleCollider[] clothColliders;
 
     public bool isSense = false;
 
@@ -94,6 +95,7 @@ public class Branch : MonoBehaviour
             cloth.stretchingStiffness = 100;
             //cloth.damping = 0;
             cloth.coefficients = newConstraints;
+            cloth.capsuleColliders = clothColliders;
         }
         if (!isSense)
         {
@@ -106,12 +108,14 @@ public class Branch : MonoBehaviour
         //grow
         if (animate)
         {
-            currentAmount += Time.deltaTime * growthSpeed;
+            delayTimer += Time.deltaTime;
+            currentAmount = (delayTimer*MAX) / growthSpeed;
             material.SetFloat(AMOUNT, currentAmount);
 
             if (currentAmount >= MAX)
             {
                 animate = false;
+                delayTime = 0;
             }
         }
         //wait
@@ -119,14 +123,17 @@ public class Branch : MonoBehaviour
         {
             if (delayTimer > delayTime && shrink)
             {
+                shrink = false;
                 deAnimate = true;
+                delayTime = shrinkSpeed;
             }
             delayTimer += Time.deltaTime;
         }
         //shrink
         if(deAnimate)
         {
-            currentAmount -= Time.deltaTime * shrinkSpeed;
+            delayTime -= Time.deltaTime * 2;
+            currentAmount = delayTime * MAX / shrinkSpeed;
             material.SetFloat(AMOUNT, currentAmount);
             if(currentAmount <= -0.5)
             {

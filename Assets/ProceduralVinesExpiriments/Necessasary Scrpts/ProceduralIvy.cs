@@ -14,8 +14,9 @@ public class ProceduralIvy : MonoBehaviour
     public float segmentLength = .15f;
     public float branchRadius = 0.04f;
     public LayerMask validSurfaces = ~0;
-    public bool AnimCompatible = false;
-    public Transform RootBone;
+    //Dynamic animation of vines did not work
+    //public bool AnimCompatible = false;
+    //public Transform RootBone;
 
     [Space]
     [Header("Spawning Characteristics")]
@@ -43,6 +44,7 @@ public class ProceduralIvy : MonoBehaviour
     public bool isCloth = false;
     public float bendstiffness = 5;
     public float maxDist = 0.5f;
+    public CapsuleCollider[] clothColliders;
     [Space]
     public float recycleInterval = 30;
 
@@ -118,6 +120,7 @@ public class ProceduralIvy : MonoBehaviour
             GameObject branch = new GameObject("Branch " + i);
 
             //I know this is bad, but Inheritance in unity is worse
+            /*
             if (AnimCompatible) {
                 SMRBranch b;
                 b = branch.AddComponent<SMRBranch>();
@@ -133,8 +136,9 @@ public class ProceduralIvy : MonoBehaviour
                 b.delayTime = timeAtGrown;
                 b.tag = objTag;
             }
-            else
-            {
+            */
+            //else
+            //{
                 Branch b;
                 b = branch.AddComponent<Branch>();
                 b.init(nodes, branchRadius, branchMaterial, segmentLength, senseMultiplier);
@@ -148,7 +152,8 @@ public class ProceduralIvy : MonoBehaviour
                 b.isSense = canSense;
                 b.delayTime = timeAtGrown;
                 b.tag = objTag;
-            }
+                b.clothColliders = clothColliders;
+            //}
 
 }
 

@@ -5,25 +5,33 @@ using UnityEngine.AI;
 
 public class trapScript : MonoBehaviour
 {
-    public float setTime = 2;
-    public bool set = false;
-     
+    [SerializeField] private float setTime = 2;
+    [SerializeField] private float DelayTime = 2;
+    [SerializeField] private float MonTrapTime = 5;
+    [SerializeField] private float PlayerTrapTime = 5;
 
     [SerializeField] private Material powering;
     [SerializeField] private Material ready;
     [SerializeField] private Material active;
 
+    enum State
+    {
+        off,
+        isPowering,
+        charged,
+        set,
+        triggered
+    }
+    State currentState = State.off;
+
     MeshRenderer rend;
     bool PlayerContact = false;
-    bool ispowering = false;
-    bool charged = false;
-    bool triggered = false;
     float timer = 0;
 
     private void Update()
     {
         //check if trap can be charged
-        if (!charged && !set) {
+        if (currentState == State.off) {
             if (PlayerContact && Input.GetKey(KeyCode.F))
             {
                 //accumulate charge
@@ -60,15 +68,15 @@ public class trapScript : MonoBehaviour
         if(collision.transform.tag == "Player")
         {
             PlayerContact = true;
-            if (set && !triggered)
+            if (currentState == State.set)
             {
-                triggered = true;
+                currentState = State.triggered;
                 StartCoroutine(trapPlayer(collision.gameObject));
             }
         }
-        if(set && !triggered && collision.transform.tag == "Monster" )
+        if(currentState == State.set && collision.transform.tag == "Monster" )
         {
-            triggered = true;
+            currentState = State.triggered;
             StartCoroutine(trapMonster(collision.gameObject));
         }
     }
@@ -81,11 +89,10 @@ public class trapScript : MonoBehaviour
     //wait two seconds then activate
     IEnumerator powerUp()
     {
-        charged = true;
-        yield return new WaitForSeconds(2);
+        currentState = State.charged;
+        yield return new WaitForSeconds(DelayTime);
         rend.material = active;
-        set = true;
-        charged = false;
+        currentState = State.set;
     }
 
     //stop the monster for a bit
@@ -94,12 +101,10 @@ public class trapScript : MonoBehaviour
         NavMeshAgent monAgent = mon.GetComponent<NavMeshAgent>();
         float monSpeed = monAgent.speed;
         monAgent.speed = 0;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(MonTrapTime);
         monAgent.speed = monSpeed;
-        set = false;
-        rend.enabled = false;
         timer = 0;
-        triggered = false;
+        currentState = State.off;
     }
 
     //stop the player for a bit
@@ -108,11 +113,9 @@ public class trapScript : MonoBehaviour
         PlayerMovement pm = player.GetComponent<PlayerMovement>();
         float moveSpeed = pm.moveSpeed;
         pm.moveSpeed = 0;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(PlayerTrapTime);
         pm.moveSpeed = moveSpeed;
-        set = false;
-        rend.enabled = false;
         timer = 0;
-        triggered = false;
+        currentState = State.off;
     }
 }
