@@ -126,9 +126,6 @@ public class PlayerMovement : MonoBehaviour
         else if(collision.tag == "Vine")
         {
             Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
-            // Debug.Log("I see you");
-            Monster.GetComponent<Enemy>().hintTimer = 0;
-            Monster.GetComponent<Enemy>().tempPursuitTimer = Monster.GetComponent<Enemy>().mobPursuitTimer;
         }
     }
 
