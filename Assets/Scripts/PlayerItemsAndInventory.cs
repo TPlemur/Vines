@@ -141,7 +141,7 @@ public class PVTM : Item{
         Debug.Log("EQUIPPING PVTM");
     }
     public override void Dequip(){
-        PVTMinst.SetActive(false);
+        // PVTMinst.SetActive(false);
     }
     public override void Use(){
         // code/animation/sound for using PVTM
