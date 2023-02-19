@@ -64,28 +64,30 @@ public class PlayerItemsAndInventory : MonoBehaviour
             }
         }
 
-        //Pic flash code
+        //Pic flash code (needs debugging)
         if (isFlash){
-            color = FlashMat.color;
-            if (flashTimer < 250f){
-                color.a = 255f;
+            if (flashTimer < .25f){
+                color = FlashMat.color;
+                color.a = 7;
+                FlashMat.color = color;
             }
-            if (color.a > 0f){
-                color.a -= 1f * Time.deltaTime;
+            if (color.a > 1){
+                color = FlashMat.color;
+                color.a -= 1 * Time.deltaTime;
+                FlashMat.color =  color;
             }
-            FlashMat.color = color;
             flashTimer += Time.deltaTime;
-            if (flashTimer > 5000f){
+            if (flashTimer > 1f){
                 isFlash = false;
             }
         }
         if (!isFlash){
             color = FlashMat.color;
-            color.a = 0f;
+            color.a = 0;
             FlashMat.color = color;
             flashTimer = 0;
         }
-
+        //Debug.Log(color.a);
 
         // PRESSED
         if(Input.GetMouseButtonDown(0)){ // left click
