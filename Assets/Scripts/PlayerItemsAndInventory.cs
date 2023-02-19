@@ -20,10 +20,15 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public LayerMask interactable;
     public GameObject RealPVTMCamera;
     public LayerMask PVTMCameras;
+    public Material FlashMat;
 
     public Inventory inventory = new Inventory();
 
     public static bool usingPVTM = false;
+    public static bool isFlash = false;
+    private float flashTimer = 0;
+
+    private Color color;
 
     void Update()
     {
@@ -41,7 +46,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
                 inventory.CycleEquippedItem(CycleDirection.LEFT);
             }
         }
-        if(usingPVTM){
+        if (usingPVTM){
             if(Input.GetKeyDown(cycleRightKey)){
                 // int index = inventory.equippedIndex;
                 // var pvtm = inventory.items[index];
@@ -58,6 +63,31 @@ public class PlayerItemsAndInventory : MonoBehaviour
                 // inventory.CycleEquippedItem(CycleDirection.LEFT);
             }
         }
+
+        //Pic flash code (needs debugging)
+        if (isFlash){
+            if (flashTimer < .25f){
+                color = FlashMat.color;
+                color.a = 7;
+                FlashMat.color = color;
+            }
+            if (color.a > 1){
+                color = FlashMat.color;
+                color.a -= 1 * Time.deltaTime;
+                FlashMat.color =  color;
+            }
+            flashTimer += Time.deltaTime;
+            if (flashTimer > 1f){
+                isFlash = false;
+            }
+        }
+        if (!isFlash){
+            color = FlashMat.color;
+            color.a = 0;
+            FlashMat.color = color;
+            flashTimer = 0;
+        }
+        //Debug.Log(color.a);
 
         // PRESSED
         if(Input.GetMouseButtonDown(0)){ // left click
@@ -193,9 +223,9 @@ public class Item : MonoBehaviour{
         var loadedItem = Resources.Load("Prefabs/" + objName);
         GameObject iPos = GameObject.Find("ItemPos");
         GameObject itemInst = (GameObject)Instantiate(loadedItem, iPos.transform.position, iPos.transform.rotation, iPos.transform);
-        itemInst.GetComponent<Collider>().enabled = false;
+        //itemInst.GetComponent<Collider>().enabled = false;
         return itemInst;
-        return null;
+        //return null;
     }
 }
 
@@ -222,7 +252,7 @@ public class PVTM : Item{
     public override void Equip(){
         // code/animation/sound for equipping PVTM
         if (PVTMinst == null){
-            PVTMinst = itemLoad("PVTM_orig");
+            PVTMinst = itemLoad("PVTM_Prefab");
             PVTMorigPos = PVTMinst.transform.localPosition;
         }
         else{
@@ -237,15 +267,23 @@ public class PVTM : Item{
 
     public override void Primary(){
         // shoot raycast
-        RaycastHit hit;
-        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 10f, mask)){
-            GameObject interact = hit.transform.gameObject;
-            interact.gameObject.GetComponent<Collider>().enabled = false;
-            activeCams.Add(interact);
-            currentCam = activeCams[activeCams.Count - 1];
-            real.transform.SetParent(interact.transform);
-            real.transform.localPosition = interact.transform.GetChild(0).gameObject.transform.localPosition;
-            real.transform.localRotation = interact.transform.GetChild(0).gameObject.transform.localRotation;
+        if (!PlayerItemsAndInventory.usingPVTM){
+            RaycastHit hit;
+            if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 10f, mask)){
+                GameObject interact = hit.transform.gameObject;
+                interact.gameObject.GetComponent<Collider>().enabled = false;
+                activeCams.Add(interact);
+                currentCam = activeCams[activeCams.Count - 1];
+                real.transform.SetParent(interact.transform);
+                real.transform.localPosition = interact.transform.GetChild(0).gameObject.transform.localPosition;
+                real.transform.localRotation = interact.transform.GetChild(0).gameObject.transform.localRotation;
+            }
+        }
+        //Take pic
+        else{
+            if (!PlayerItemsAndInventory.isFlash){
+                PlayerItemsAndInventory.isFlash = true;
+            }
         }
         return;
     }
@@ -280,13 +318,14 @@ public class PVTM : Item{
         // code/animation/sound for using PVTM
         if (!PlayerItemsAndInventory.usingPVTM){
             PlayerItemsAndInventory.usingPVTM = true;
-            PVTMinst.transform.localPosition = new Vector3((float) 0.23, (float) 0.23, (float) -0.45);
-            PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, -15);
+            PVTMinst.transform.localPosition = new Vector3((float) 0.89, (float) 0.23, (float) -0.215);
+            //PVTMinst.transform.localPosition = new Vector3((float) 0.23, (float) 0.23, (float) -0.45);
+            //PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, -15);
         }
         else{
             PlayerItemsAndInventory.usingPVTM = false;
             PVTMinst.transform.localPosition = PVTMorigPos;
-            PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            //PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         Debug.Log("USING PVTM");
     }
