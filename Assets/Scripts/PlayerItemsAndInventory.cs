@@ -277,6 +277,8 @@ public class PVTM : Item{
                 real.transform.SetParent(interact.transform);
                 real.transform.localPosition = interact.transform.GetChild(0).gameObject.transform.localPosition;
                 real.transform.localRotation = interact.transform.GetChild(0).gameObject.transform.localRotation;
+
+                CameraWhirUpSFX(interact);
             }
         }
         //Take pic
@@ -284,6 +286,8 @@ public class PVTM : Item{
             if (!PlayerItemsAndInventory.isFlash){
                 PlayerItemsAndInventory.isFlash = true;
             }
+
+            PicSFX();
         }
         return;
     }
@@ -311,6 +315,8 @@ public class PVTM : Item{
             real.transform.SetParent(currentCam.transform);
             real.transform.localPosition = currentCam.transform.GetChild(0).gameObject.transform.localPosition;
             real.transform.localRotation = currentCam.transform.GetChild(0).gameObject.transform.localRotation;
+
+            CameraChangeSFX();
         }
     }
 
@@ -328,6 +334,34 @@ public class PVTM : Item{
             //PVTMinst.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         Debug.Log("USING PVTM");
+
+        CameraChangeSFX();
+    }
+
+    private void CameraWhirUpSFX(GameObject cam)
+    {
+        // camera whir up sound
+        const string eventName = "event:/SFX/Items/Camera/WhirUp";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(cam));
+        sound.start();
+        sound.release();
+    }
+    private void PicSFX()
+    {
+        // pic sound
+        const string eventName = "event:/SFX/Items/Camera/Shutter2D-2";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
+    private void CameraChangeSFX()
+    {
+        // camera change noise sound
+        const string eventName = "event:/SFX/Items/Camera/WhiteNoiseStatic-2";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
     }
 }
 
@@ -373,5 +407,16 @@ public class Flashlight : Item{
             FLinst.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
         Debug.Log("USING FLASHLIGHT");
+
+        SwitchSFX();
+    }
+
+    private void SwitchSFX()
+    {
+        // flashlight switch sound
+        const string eventName = "event:/SFX/Items/Flashlight/Switch-1";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
     }
 }
