@@ -6,7 +6,7 @@ public class DumbMonsterControler : MonoBehaviour
 {
     public float MoveSpeed = 1;
     public ProceduralIvy ivyManager;
-    int corner = 1;
+    int corner = 2;
     Rigidbody body;
 
     // Start is called before the first frame update
@@ -83,8 +83,8 @@ public class DumbMonsterControler : MonoBehaviour
         }
 
         //change speed
-        if (Input.GetButtonDown("Fire1")) { speedUp(); }
-        if(Input.GetButtonDown("Fire2")) { slowDown(); }
+        //if (Input.GetButtonDown("Fire1")) { speedUp(); }
+        //if(Input.GetButtonDown("Fire2")) { slowDown(); }
     }
     void speedUp()
     {
