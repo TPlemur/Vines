@@ -22,6 +22,10 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public LayerMask PVTMCameras;
     public Material FlashMat;
 
+    [Header("Generator Related")]
+    public GameObject warehouse;
+    public LayerMask EEmask;
+
     public Inventory inventory = new Inventory();
 
     public static bool usingPVTM = false;
@@ -120,6 +124,9 @@ public class PlayerItemsAndInventory : MonoBehaviour
             }
             if(interact.tag == "Flashlight"){
                 inventory.AddItem(new Flashlight());
+            }
+            if(interact.tag == "Electrical Equipment"){
+                inventory.AddItem(new ElectricalEquipment(warehouse, EEmask, playerCam));
             }
             Destroy(interact.gameObject);
         }
@@ -418,5 +425,36 @@ public class Flashlight : Item{
         var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
         sound.start();
         sound.release();
+    }
+}
+
+public class ElectricalEquipment : Item {
+    GameObject warehouse = null;
+    GameObject EEinst = null;
+    Camera playerCam;
+    LayerMask mask;
+
+    public ElectricalEquipment(GameObject warehouse, LayerMask EEmask, Camera cam){
+        this.warehouse = warehouse;
+        this.playerCam = cam;
+        this.mask = EEmask;
+    }
+
+    public override void Equip(){
+        Debug.Log("EQUIPPING EE");
+    }
+
+    public override void Dequip(){
+        Debug.Log("UNEQUIPPING EE");
+    }
+
+    public override void Primary(){
+        Debug.Log("USING EE");
+        RaycastHit hit;
+        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, mask)){
+            GameObject panel = hit.transform.gameObject;
+            Debug.Log("RAYCAST TO PANEL");
+            warehouse.GetComponent<TempLightSwitch>().TurnOnLights();
+        }
     }
 }
