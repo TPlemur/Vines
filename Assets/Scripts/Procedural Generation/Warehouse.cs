@@ -259,10 +259,26 @@ public class Warehouse{
         monster.transform.position = this.monsterRoom.obj.transform.position;
     }
 
+    /* TurnOnLights() turn on lights
+     *
+     */
+    public void TurnOnLights(){
+        foreach(List<Room> row in data){
+            foreach(Room room in row){
+                if(room.exits.NumberOf() != 0){
+                    Transform lights = room.obj.transform.GetChild(0).transform.Find("Lights");
+                    if(lights != null){
+                        lights.gameObject.SetActive(true);
+                    }
+                }
+            }
+        }
+    }
+
     /* PrintWarehouse() logs the exits of each index to the console
      * "L" "U" "D" "R" signify the direction of the exit at each index
      */
-    private void PrintWarehouse(){
+    public void PrintWarehouse(){
         Debug.Log("PRINTING WAREHOUSE DATA");
         foreach(List<Room> row in data){
             string rowData = System.String.Empty;

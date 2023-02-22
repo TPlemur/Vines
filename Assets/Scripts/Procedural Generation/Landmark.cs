@@ -142,9 +142,9 @@ public class AlphaTeam : Landmark{
 
 public class Generator : Landmark{
     public Generator(){
-        path = "ProcgenGreyboxes/room-pvtm-";
-        minDist = 1.3f;
-        maxDist = 2.5f;
+        path = "ProcgenGreyboxes/room-generator-";
+        minDist = 1f;
+        maxDist = 1.5f;
     }
     public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
         return this.LoadLandmark(dirs);
