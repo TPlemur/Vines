@@ -5426,7 +5426,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 776662112}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &436040849
 MonoBehaviour:
@@ -5822,6 +5822,7 @@ Transform:
   - {fileID: 1631884775}
   - {fileID: 1746018595}
   - {fileID: 1799944496}
+  - {fileID: 1202420313}
   - {fileID: 436040848}
   m_Father: {fileID: 0}
   m_RootOrder: 9
@@ -5933,6 +5934,89 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1202420312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202420313}
+  - component: {fileID: 1202420315}
+  - component: {fileID: 1202420314}
+  m_Layer: 0
+  m_Name: PVTGeneratorSoundPopulator (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1202420313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202420312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 776662112}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1202420314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202420312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc890573b3b375646a7f1984ead98b32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectName: room-pvtm
+  matchType: 1
+  probability: 1
+  maxNumber: -1
+  createNewObject: 1
+  populateOnStart: 1
+  destroyReference: 1
+  playSoundOnStart: 1
+--- !u!114 &1202420315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202420312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1587583726
+      Data2: 1205495860
+      Data3: -302458213
+      Data4: 1945702237
+    Path: event:/SFX/Atmospheric/Generator Hum
+  Event: 
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 15
+  OverrideMaxDistance: 300
 --- !u!1 &1228357592
 GameObject:
   m_ObjectHideFlags: 0
@@ -6142,14 +6226,18 @@ MonoBehaviour:
   cycleRightKey: 101
   cycleLeftKey: 113
   playerCam: {fileID: 601828013}
-  interactable:
+  interactLayer:
     serializedVersion: 2
     m_Bits: 512
   RealPVTMCamera: {fileID: 97928251}
-  PVTMCameras:
+  PVTMCamLayer:
     serializedVersion: 2
     m_Bits: 4096
   FlashMat: {fileID: 2100000, guid: ef8d303461b241e45b787a1ed4bc6db8, type: 2}
+  warehouseObj: {fileID: 1279386217}
+  electricalLayer:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!114 &1571679560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6771,7 +6859,7 @@ MonoBehaviour:
   createNewObject: 1
   populateOnStart: 1
   destroyReference: 1
-  playSoundOnStart: 0
+  playSoundOnStart: 1
 --- !u!114 &1799944498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6793,15 +6881,15 @@ MonoBehaviour:
       Data4: -822647541
     Path: event:/SFX/Atmospheric/Generator
   Event: 
-  PlayEvent: 1
+  PlayEvent: 0
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
   Params: []
   OverrideAttenuation: 1
-  OverrideMinDistance: 20
-  OverrideMaxDistance: 100
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 30
 --- !u!1 &1857161163
 GameObject:
   m_ObjectHideFlags: 0
@@ -6855,7 +6943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1952833647
 MonoBehaviour:
   m_ObjectHideFlags: 0
