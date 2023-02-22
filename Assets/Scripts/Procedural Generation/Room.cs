@@ -47,7 +47,6 @@ public class Room : MonoBehaviour
         prefabObj.transform.position = emptyParent.transform.position;
         prefabObj.transform.Rotate(0, rotation, 0);
         obj = emptyParent;
-        this.placed = true;
         return emptyParent;
     }
 

@@ -15,24 +15,32 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public KeyCode cycleRightKey = KeyCode.E;
     public KeyCode cycleLeftKey = KeyCode.Q;
 
-    [Header("Camera Related")]
+    [Header("Player Camera Related")]
     public Camera playerCam;
-    public LayerMask interactable;
+
+    [Header("PVTM Related")]
+    public LayerMask interactLayer;
     public GameObject RealPVTMCamera;
-    public LayerMask PVTMCameras;
+    public LayerMask PVTMCamLayer;
     public Material FlashMat;
 
     [Header("Generator Related")]
-    public GameObject warehouse;
-    public LayerMask EEmask;
+    public GameObject warehouseObj;
+    public LayerMask electricalLayer;
 
-    public Inventory inventory = new Inventory();
+    public Inventory inventory;
 
     public static bool usingPVTM = false;
     public static bool isFlash = false;
     private float flashTimer = 0;
 
     private Color color;
+
+    void Start(){
+        inventory = new Inventory();
+
+        inventory.AddItem(new ElectricalEquipment(warehouseObj, electricalLayer, playerCam));
+    }
 
     void Update()
     {
@@ -42,29 +50,18 @@ public class PlayerItemsAndInventory : MonoBehaviour
                 Interact();
             }
             if(Input.GetKeyDown(cycleRightKey)){
-                // inventory.ChangeEquipped(CycleDirection.RIGHT);
                 inventory.CycleEquippedItem(CycleDirection.RIGHT);
             }
             else if(Input.GetKeyDown(cycleLeftKey)){
-                // inventory.ChangeEquipped(CycleDirection.LEFT);
                 inventory.CycleEquippedItem(CycleDirection.LEFT);
             }
         }
         if (usingPVTM){
             if(Input.GetKeyDown(cycleRightKey)){
-                // int index = inventory.equippedIndex;
-                // var pvtm = inventory.items[index];
-                // pvtm.ChangeCam(CycleDirection.RIGHT);
-                Debug.Log("GOING RIGHT");
                 inventory.equippedItem.ChangeCam(CycleDirection.RIGHT);
-                // inventory.CycleEquippedItem(CycleDirection.RIGHT);
             }
             else if(Input.GetKeyDown(cycleLeftKey)){
-                // int index = inventory.equippedIndex;
-                // inventory.items[index].ChangeCam(CycleDirection.LEFT);
-                Debug.Log("GOING LEFT");
                 inventory.equippedItem.ChangeCam(CycleDirection.LEFT);
-                // inventory.CycleEquippedItem(CycleDirection.LEFT);
             }
         }
 
@@ -113,20 +110,17 @@ public class PlayerItemsAndInventory : MonoBehaviour
 
     private void Interact(){
         RaycastHit hit;
-        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactable)){
+        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)){
             var interact = hit.transform;
             Debug.Log("HIT OBJECT NAMED " + interact.tag);
             if(interact.tag == "PVTM"){
-                inventory.AddItem(new PVTM(playerCam, PVTMCameras, RealPVTMCamera));
+                inventory.AddItem(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera));
             }
             if(interact.tag == "Med Kit"){
                 inventory.AddItem(new MedKit());
             }
             if(interact.tag == "Flashlight"){
                 inventory.AddItem(new Flashlight());
-            }
-            if(interact.tag == "Electrical Equipment"){
-                inventory.AddItem(new ElectricalEquipment(warehouse, EEmask, playerCam));
             }
             Destroy(interact.gameObject);
         }
@@ -246,13 +240,13 @@ public class PVTM : Item{
     List<GameObject> activeCams = new List<GameObject>();
     Camera playerCam;
     GameObject real;
-    LayerMask mask;
+    LayerMask layer;
     GameObject currentCam;
     int currentIndex = -1;
 
     public PVTM(Camera cam, LayerMask camMask, GameObject realPVTM){
         playerCam = cam;
-        mask = camMask;
+        layer = camMask;
         real = realPVTM;
     }
 
@@ -276,7 +270,7 @@ public class PVTM : Item{
         // shoot raycast
         if (!PlayerItemsAndInventory.usingPVTM){
             RaycastHit hit;
-            if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 10f, mask)){
+            if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 10f, layer)){
                 GameObject interact = hit.transform.gameObject;
                 interact.gameObject.GetComponent<Collider>().enabled = false;
                 activeCams.Add(interact);
@@ -307,15 +301,9 @@ public class PVTM : Item{
         // move real cam to here
         if(activeCams.Count > 1){
             if(dir == CycleDirection.LEFT){
-                // subtract indexes and move to the left
-                // -1 * (items.Count - 1) subtracts a negative number to
-                // equippedIndex and puts us back at the index items.Count - 1
                 currentIndex -= currentIndex == 0 ? -1 * (activeCams.Count - 1) : 1;
             }
             else if(dir == CycleDirection.RIGHT){
-                // add indexes and move to the right
-                // -1 * (items.Count - 1) adds a negative number to
-                // equippedIndex and puts us back at the index 0
                 currentIndex += currentIndex == activeCams.Count - 1 ? -1 * (activeCams.Count - 1) : 1;
             }
             currentCam = activeCams[currentIndex];
@@ -429,15 +417,15 @@ public class Flashlight : Item{
 }
 
 public class ElectricalEquipment : Item {
-    GameObject warehouse = null;
+    GameObject warehouseObj = null;
     GameObject EEinst = null;
     Camera playerCam;
-    LayerMask mask;
+    LayerMask layer;
 
-    public ElectricalEquipment(GameObject warehouse, LayerMask EEmask, Camera cam){
-        this.warehouse = warehouse;
+    public ElectricalEquipment(GameObject warehouse, LayerMask interactLayer, Camera cam){
+        this.warehouseObj = warehouse;
         this.playerCam = cam;
-        this.mask = EEmask;
+        this.layer = interactLayer;
     }
 
     public override void Equip(){
@@ -451,10 +439,11 @@ public class ElectricalEquipment : Item {
     public override void Primary(){
         Debug.Log("USING EE");
         RaycastHit hit;
-        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, mask)){
+        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, layer)){
             GameObject panel = hit.transform.gameObject;
-            Debug.Log("RAYCAST TO PANEL");
-            warehouse.GetComponent<TempLightSwitch>().TurnOnLights();
+            // call TurnOnLights() inside of warehouse
+            warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
+            Destroy(panel.gameObject);
         }
     }
 }
