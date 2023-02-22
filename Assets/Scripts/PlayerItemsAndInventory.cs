@@ -429,11 +429,18 @@ public class ElectricalEquipment : Item {
     }
 
     public override void Equip(){
+        if (EEinst == null){
+            EEinst = itemLoad("ElectricalDevice");
+        }
+        else{
+            EEinst.SetActive(true);
+        }
         Debug.Log("EQUIPPING EE");
     }
 
     public override void Dequip(){
-        Debug.Log("UNEQUIPPING EE");
+        EEinst.SetActive(false);
+        //Debug.Log("UNEQUIPPING EE");
     }
 
     public override void Primary(){
@@ -442,6 +449,7 @@ public class ElectricalEquipment : Item {
         if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, layer)){
             GameObject panel = hit.transform.gameObject;
             // call TurnOnLights() inside of warehouse
+            Debug.Log("hit panel");
             warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
             Destroy(panel.gameObject);
         }
