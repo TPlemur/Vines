@@ -480,7 +480,38 @@ public class ElectricalEquipment : Item {
             // call TurnOnLights() inside of warehouse
             Debug.Log("hit panel");
             warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
-            Destroy(panel.gameObject);
+            //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
+            panel.GetComponent<Collider>().enabled = false;
+            TurnOnGeneratorSFX(panel);
+            // mark medium successful hit spark sfx
+            SparkMediumSFX();
+        }
+        else
+        {
+            // make quick no-hit spark sfx
+            SparkShortSFX();
+        }
+    }
+
+    private void SparkShortSFX()
+    {
+        const string eventName = "event:/SFX/Items/Electrical/Spark Short";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
+    private void SparkMediumSFX()
+    {
+        const string eventName = "event:/SFX/Items/Electrical/Spark Medium";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
+    private void TurnOnGeneratorSFX(GameObject panel)
+    {
+        foreach (var emitter in panel.GetComponents<FMODUnity.StudioEventEmitter>())
+        {
+            emitter.Play();
         }
     }
 }

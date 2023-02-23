@@ -127,6 +127,18 @@ public class PlayerMovement : MonoBehaviour
         {
             Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
         }
+        else if (collision.name == "HideTrigger")
+        {
+            MixerController.SetHiding(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.name == "HideTrigger")
+        {
+            MixerController.SetHiding(false);
+        }
     }
 
     //count currently active vine collisions
