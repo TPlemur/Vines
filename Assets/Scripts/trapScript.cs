@@ -68,7 +68,7 @@ public class trapScript : MonoBehaviour
         if(collision.transform.tag == "Player")
         {
             PlayerContact = true;
-            if (currentState == State.set)
+            if (currentState == State.set && !Input.GetKey(KeyCode.LeftControl);
             {
                 currentState = State.triggered;
                 StartCoroutine(trapPlayer(collision.gameObject));
