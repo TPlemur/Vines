@@ -22,6 +22,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public LayerMask interactLayer;
     public GameObject RealPVTMCamera;
     public LayerMask PVTMCamLayer;
+    public LayerMask MonsterPicLayer;
     public Material FlashMat;
 
     [Header("Generator Related")]
@@ -30,6 +31,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
 
     public Inventory inventory;
 
+    public static bool usingShield = false;
     public static bool usingPVTM = false;
     public static bool isFlash = false;
     private float flashTimer = 0;
@@ -67,18 +69,18 @@ public class PlayerItemsAndInventory : MonoBehaviour
 
         //Pic flash code (needs debugging)
         if (isFlash){
-            if (flashTimer < .25f){
+            if (flashTimer < .1f){
                 color = FlashMat.color;
-                color.a = 7;
+                color.a = 1f;
                 FlashMat.color = color;
             }
-            if (color.a > 1){
+            if (color.a > .01f){
                 color = FlashMat.color;
-                color.a -= 1 * Time.deltaTime;
+                color.a -= .75f * Time.deltaTime;
                 FlashMat.color =  color;
             }
             flashTimer += Time.deltaTime;
-            if (flashTimer > 1f){
+            if (flashTimer > 1.5f){
                 isFlash = false;
             }
         }
@@ -114,10 +116,10 @@ public class PlayerItemsAndInventory : MonoBehaviour
             var interact = hit.transform;
             Debug.Log("HIT OBJECT NAMED " + interact.tag);
             if(interact.tag == "PVTM"){
-                inventory.AddItem(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera));
+                inventory.AddItem(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer));
             }
-            if(interact.tag == "Med Kit"){
-                inventory.AddItem(new MedKit());
+            if(interact.tag == "Shield"){
+                inventory.AddItem(new Shield());
             }
             if(interact.tag == "Flashlight"){
                 inventory.AddItem(new Flashlight());
@@ -241,13 +243,15 @@ public class PVTM : Item{
     Camera playerCam;
     GameObject real;
     LayerMask layer;
+    LayerMask monsterPic;
     GameObject currentCam;
     int currentIndex = -1;
 
-    public PVTM(Camera cam, LayerMask camMask, GameObject realPVTM){
+    public PVTM(Camera cam, LayerMask camMask, GameObject realPVTM, LayerMask monPic){
         playerCam = cam;
         layer = camMask;
         real = realPVTM;
+        monsterPic = monPic;
     }
 
     public override void Equip(){
@@ -286,9 +290,13 @@ public class PVTM : Item{
         else{
             if (!PlayerItemsAndInventory.isFlash){
                 PlayerItemsAndInventory.isFlash = true;
+                PicSFX();
+                RaycastHit hit;
+                if(Physics.Raycast(real.transform.position, real.transform.forward, out hit, 25f, monsterPic)){
+                    Debug.Log("VALID MONSTER PICTURE ACQUIRED");
+                }
             }
 
-            PicSFX();
         }
         return;
     }
@@ -360,17 +368,38 @@ public class PVTM : Item{
     }
 }
 
-// MedKit subclass
-public class MedKit : Item{
+// Shield subclass
+public class Shield : Item{
+    GameObject SHinst = null;
+    Vector3 SHorigPos;
 
     public override void Equip(){
-        // code/animation/sound for equipping med kit
-        Debug.Log("EQUIPPING MED KIT");
+        // code/animation/sound for equipping shield
+        if (SHinst == null){
+            SHinst = itemLoad("Shield");
+            SHorigPos = SHinst.transform.localPosition;
+        }
+        else{
+            SHinst.SetActive(true);
+        }
+        Debug.Log("EQUIPPING SHIELD");
+    }
+
+    public override void Dequip(){
+        SHinst.SetActive(false);
     }
 
     public override void Use(){
-        // code/animation/sound for using med kit
-        Debug.Log("USING MED KIT");
+        // code/animation/sound for using shield
+        if (!PlayerItemsAndInventory.usingShield){
+            PlayerItemsAndInventory.usingShield = true;
+            SHinst.transform.localPosition = new Vector3((float) 0.36, (float) 0.43, (float) -0.54);
+        }
+        else{
+            PlayerItemsAndInventory.usingShield = false;
+            SHinst.transform.localPosition = SHorigPos;
+        }
+        Debug.Log("USING SHIELD");
     }
 }
 
