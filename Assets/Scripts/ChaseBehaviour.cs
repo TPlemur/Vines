@@ -34,7 +34,7 @@ public class ChaseBehaviour : StateMachineBehaviour
             charging = true;
             playerPos = Player.position;
             Mob.SetDestination(playerPos);
-            Mob.speed = 20;
+            Mob.speed = 10;
         }else if (charging){
             if (Vector3.Distance(animator.transform.position, playerPos) < 1){
                 Mob.speed = 5;

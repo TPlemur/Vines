@@ -33,8 +33,7 @@ public class PatrolBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
-
+       // If the monster doesn't have a path, finds random spot within a radius to patrol to
        if(!Mob.hasPath){
             patrolPos = RandomNavmeshLocation(patrolRadius);
             Mob.SetDestination(patrolPos);
