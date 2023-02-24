@@ -126,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
         else if(collision.tag == "Vine")
         {
             Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
+            Monster.GetComponent<Brain>().detectsPlayer = true;
         }
         else if (collision.name == "HideTrigger")
         {
@@ -139,6 +140,10 @@ public class PlayerMovement : MonoBehaviour
         {
             MixerController.SetHiding(false);
         }
+
+        if (collision.name == "Vine"){
+            Monster.GetComponent<Brain>().detectsPlayer = false;
+        }
     }
 
     //count currently active vine collisions
@@ -147,6 +152,10 @@ public class PlayerMovement : MonoBehaviour
         if (collision.tag == "Vine")
         {
             numVines++;
+        }
+        if (collision.name == "HideTrigger")
+        {
+            Monster.GetComponent<Brain>().timeHidden += Time.deltaTime;
         }
     }
 

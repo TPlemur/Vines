@@ -2,50 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class IdleBehaviour : StateMachineBehaviour
+public class InvestigateHintBehaviour : StateMachineBehaviour
 {
-    float timer;
-    float patrolDelay;
     public float MobDetectionDistance = 1000.0f;
     Transform Player;
     NavMeshAgent Mob;
+    Vector3 playerPos;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timer = 0;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Mob = animator.GetComponent<NavMeshAgent>();
-        patrolDelay = Mob.GetComponent<Brain>().patrolDelay;
+        playerPos = getClosestNavPointToPlayer(Player);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timer += Time.deltaTime;
-        if (timer > patrolDelay)
-            animator.SetBool("isPatrolling", true);
-
-        // float distance = Vector3.Distance(animator.transform.position, Player.position);
-        // if (distance < MobDetectionDistance)
-        //     animator.SetBool("isChasing", true);
-        Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
-        if(Mob.GetComponent<Brain>().detectsPlayer)
-            animator.SetBool("isChasing", true);
-
-        //Debug.Log(Mob.GetComponent<Brain>().investigating);
-        if (Mob.GetComponent<Brain>().investigating){
-            animator.SetBool("isInvestigating", true);
-            //Debug.Log("Investigating");
-        }
+        Mob.SetDestination(playerPos);
+        // Mob.GetComponent<Brain>().investigating = true;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       
+       Mob.GetComponent<Brain>().investigating = false;
+    }
+
+    public Vector3 getClosestNavPointToPlayer(Transform target){
+        NavMeshHit navHit;
+        NavMesh.FindClosestEdge(target.position, out navHit, NavMesh.AllAreas);
+        Debug.Log("finding closest position");
+        return navHit.position;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

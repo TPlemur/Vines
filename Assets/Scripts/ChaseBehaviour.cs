@@ -30,7 +30,7 @@ public class ChaseBehaviour : StateMachineBehaviour
         float distance = Vector3.Distance(animator.transform.position, Player.position);
         //Debug.Log(playerPos);
         if (distance < attackRange && !chargeCD && !charging){
-            //Debug.Log("charging");
+            Debug.Log("charging");
             charging = true;
             playerPos = Player.position;
             Mob.SetDestination(playerPos);

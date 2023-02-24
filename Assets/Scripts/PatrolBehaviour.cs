@@ -16,6 +16,8 @@ public class PatrolBehaviour : StateMachineBehaviour
     public MonsterMusic music;
     public PlayerSounds playerSounds;
 
+    Vector3 patrolPos;
+
     public float visionAngle = 1f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,7 +33,19 @@ public class PatrolBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       timer += Time.deltaTime;
+       
+
+       if(!Mob.hasPath){
+            patrolPos = RandomNavmeshLocation(patrolRadius);
+            Mob.SetDestination(patrolPos);
+            Mob.speed = 3; //Only for testing purposes
+       }
+
+       // Supposed to end patrolling after reaching spot, so it can return to idle, then patrol again
+    //    if(Mob.velocity.sqrMagnitude == 0f){
+    //         Debug.Log("reached patrol spot");
+    //         animator.SetBool("isPatrolling", false);
+    //    }
 
        /*Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
             if (music)
@@ -39,15 +53,29 @@ public class PatrolBehaviour : StateMachineBehaviour
             if (playerSounds)
                 playerSounds.EndChase();
         */
-        float distance = Vector3.Distance(animator.transform.position, Player.position);
-        if (distance < MobDetectionDistance)
+        // float distance = Vector3.Distance(animator.transform.position, Player.position);
+        // if (distance < MobDetectionDistance)
+        if(Mob.GetComponent<Brain>().detectsPlayer){
+            Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
             animator.SetBool("isChasing", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        
+    }
+
+    public Vector3 RandomNavmeshLocation(float radius) {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += Player.transform.position;
+        NavMeshHit NavMeshEnemy;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
+            finalPosition = NavMeshEnemy.position;            
+        }
+        return finalPosition;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
