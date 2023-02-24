@@ -28,6 +28,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         */
         Mob = animator.GetComponent<NavMeshAgent>();
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

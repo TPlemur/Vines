@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         else if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(true);
+            Monster.GetComponent<Brain>().isHiding = true;
         }
     }
 
@@ -139,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(false);
+            Monster.GetComponent<Brain>().isHiding = false;
         }
 
         if (collision.name == "Vine"){

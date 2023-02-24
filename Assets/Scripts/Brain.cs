@@ -27,6 +27,8 @@ public class Brain : MonoBehaviour
     public float ambushTime;
     [HideInInspector]
     public float timeHidden = 0;
+    [HideInInspector]
+    public bool isHiding = false;
 
     // Start is called before the first frame update
     void Start()
