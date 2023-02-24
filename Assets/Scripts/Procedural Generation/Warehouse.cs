@@ -270,6 +270,10 @@ public class Warehouse{
                     if(lights != null){
                         lights.gameObject.SetActive(true);
                     }
+                    Transform emergency_lights = room.obj.transform.GetChild(0).transform.Find("EmergencyLights");
+                    if(emergency_lights != null){
+                        emergency_lights.gameObject.SetActive(false);
+                    }
                 }
             }
         }
