@@ -11,7 +11,7 @@ public class PatrolBehaviour : StateMachineBehaviour
     public float patrolRadius = 100.0f;
     Transform Player;
     NavMeshAgent Mob;
-
+    public float enemyspeed = 5;
     private MonsterSounds sounds = null;
     public MonsterMusic music;
     public PlayerSounds playerSounds;
@@ -31,7 +31,22 @@ public class PatrolBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+<<<<<<< Updated upstream
        timer += Time.deltaTime;
+=======
+       // If the monster doesn't have a path, finds random spot within a radius to patrol to
+       if(!Mob.hasPath){
+            patrolPos = RandomNavmeshLocation(patrolRadius);
+            Mob.SetDestination(patrolPos);
+            Mob.speed = enemyspeed; //Only for testing purposes
+       }
+
+       // Supposed to end patrolling after reaching spot, so it can return to idle, then patrol again
+    //    if(Mob.velocity.sqrMagnitude == 0f){
+    //         Debug.Log("reached patrol spot");
+    //         animator.SetBool("isPatrolling", false);
+    //    }
+>>>>>>> Stashed changes
 
        /*Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
             if (music)

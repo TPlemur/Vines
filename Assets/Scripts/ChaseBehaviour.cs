@@ -10,6 +10,8 @@ public class ChaseBehaviour : StateMachineBehaviour
     NavMeshAgent Mob;
     public float attackRange = 20;
     public float enemyspeed = 5;
+    public float chargespeed = 10;
+    public float chargeCDtimer = 3;
     float timer;
     bool chargeCD = false;
     bool charging = false;
@@ -34,7 +36,11 @@ public class ChaseBehaviour : StateMachineBehaviour
             charging = true;
             playerPos = Player.position;
             Mob.SetDestination(playerPos);
+<<<<<<< Updated upstream
             Mob.speed = 20;
+=======
+            Mob.speed = chargespeed;
+>>>>>>> Stashed changes
         }else if (charging){
             if (Vector3.Distance(animator.transform.position, playerPos) < 1){
                 Mob.speed = 5;
@@ -48,7 +54,7 @@ public class ChaseBehaviour : StateMachineBehaviour
         if (chargeCD){
             timer += Time.deltaTime;
         }
-        if (timer > 3)
+        if (timer > chargeCDtimer)
             Debug.Log("charge again");
             chargeCD = false;
             timer = 0;
