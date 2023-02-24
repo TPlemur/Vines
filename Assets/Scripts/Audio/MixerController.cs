@@ -39,13 +39,47 @@ public class MixerController : MonoBehaviour
     [SerializeField]
     [Range(0.0F, 1.0F)]
     private float defaultSFXPlayerVolume = 1.0f;
+    [SerializeField]
+    [Range(0.0F, 1.0F)]
+    private float defaultCameraReceiverVolume = 1.0f;
 
-    string masterBusString = "Bus:/";
-    string musicBusString = "Bus:/Music";
-    string sfxBusString = "Bus:/SFX";
-    string sfxEnvironmentBusString = "Bus:/SFX/Environment";
-    string sfxMonsterBusString = "Bus:/SFX/Monster";
-    string sfxPlayerBusString = "Bus:/SFX/Player";
+    [SerializeField]
+    private float hideLERPSeconds = 1.0f;
+
+    public enum MIXER_BUS { MASTER, MUSIC, SFX, SFX_ENVIRONMENT, SFX_MONSTER, SFX_PLAYER, CAMERARECEIVER };
+
+    static string masterBusString = "Bus:/";
+    static string musicBusString = "Bus:/Music";
+    static string sfxBusString = "Bus:/SFX";
+    static string sfxEnvironmentBusString = "Bus:/SFX/Environment";
+    static string sfxMonsterBusString = "Bus:/SFX/Monster";
+    static string sfxPlayerBusString = "Bus:/SFX/Player";
+    static string cameraReceiverBusString = "Bus:/SFX/CameraReceiver";
+
+    static public string GetBusName(MIXER_BUS bus)
+    {
+        switch (bus)
+        {
+            case MIXER_BUS.MASTER:
+                return masterBusString;
+            case MIXER_BUS.MUSIC:
+                return musicBusString;
+            case MIXER_BUS.SFX:
+                return sfxBusString;
+            case MIXER_BUS.SFX_ENVIRONMENT:
+                return sfxEnvironmentBusString;
+            case MIXER_BUS.SFX_MONSTER:
+                return sfxMonsterBusString;
+            case MIXER_BUS.SFX_PLAYER:
+                return sfxPlayerBusString;
+            case MIXER_BUS.CAMERARECEIVER:
+                return cameraReceiverBusString;
+        }
+
+        return "";
+    }
+
+    static string hideParameterName = "HideFilter";
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +96,8 @@ public class MixerController : MonoBehaviour
             SetSFXMonsterVolume(defaultSFXMonsterVolume);
         if (defaultSFXPlayerVolume != -1.0f)
             SetSFXPlayerVolume(defaultSFXPlayerVolume);
+        if (defaultCameraReceiverVolume != -1.0f)
+            SetCameraReceiverVolume(defaultCameraReceiverVolume);
     }
 
     // Update is called once per frame
@@ -70,13 +106,13 @@ public class MixerController : MonoBehaviour
 
     }
 
-    public void SetBusVolume(string busName, float volume)
+    static public void SetBusVolume(string busName, float volume)
     {
         FMOD.Studio.Bus bus;
         bus = FMODUnity.RuntimeManager.GetBus(busName);
-        bus.setVolume(volume);
+        var result = bus.setVolume(volume);
     }
-    public float GetBusVolume(string busName)
+    static public float GetBusVolume(string busName)
     {
         FMOD.Studio.Bus bus;
         bus = FMODUnity.RuntimeManager.GetBus(busName);
@@ -84,58 +120,137 @@ public class MixerController : MonoBehaviour
         bus.getVolume(out volume);
         return volume;
     }
+    static public FMOD.Studio.Bus GetBus(string busName)
+    {
+        return FMODUnity.RuntimeManager.GetBus(busName);
+    }
+    static public FMOD.Studio.Bus GetBus(MIXER_BUS bus)
+    {
+        return FMODUnity.RuntimeManager.GetBus(GetBusName(bus));
+    }
 
-    public void SetMasterVolume(float volume)
+    static public void SetGlobalParameter(string paramName, float value)
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName(paramName, value);
+    }
+    static public float GetGlobalParameter(string paramName)
+    {
+        float value;
+        FMODUnity.RuntimeManager.StudioSystem.getParameterByName(paramName, out value);
+        return value;
+    }
+    static public IEnumerator LERPGlobalParameter(string paramName, float target, float seconds)
+    {
+        float start = GetGlobalParameter(paramName);
+        float elapsed = 0.0f;
+        while (elapsed < seconds)
+        {
+            SetGlobalParameter(paramName, Mathf.Lerp(start, target, elapsed / seconds));
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    static public void SetMasterVolume(float volume)
     {
         SetBusVolume(masterBusString, volume);
     }
-    public float GetMasterVolume()
+    static public float GetMasterVolume()
     {
         return GetBusVolume(masterBusString);
     }
+    static public FMOD.Studio.Bus GetMasterBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(masterBusString);
+    }
 
-    public void SetMusicVolume(float volume)
+    static public void SetMusicVolume(float volume)
     {
         SetBusVolume(musicBusString, volume);
     }
-    public float GetMusicVolume()
+    static public float GetMusicVolume()
     {
         return GetBusVolume(musicBusString);
     }
+    static public FMOD.Studio.Bus GetMusicBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(musicBusString);
+    }
 
-    public void SetSFXVolume(float volume)
+    static public void SetSFXVolume(float volume)
     {
         SetBusVolume(sfxBusString, volume);
     }
-    public float GetSFXVolume()
+    static public float GetSFXVolume()
     {
         return GetBusVolume(sfxBusString);
     }
+    static public FMOD.Studio.Bus GetSFXBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxBusString);
+    }
 
-    public void SetSFXEnvironmentVolume(float volume)
+    static public void SetSFXEnvironmentVolume(float volume)
     {
         SetBusVolume(sfxEnvironmentBusString, volume);
     }
-    public float GetSFXEnvironmentVolume()
+    static public float GetSFXEnvironmentVolume()
     {
         return GetBusVolume(sfxEnvironmentBusString);
     }
+    static public FMOD.Studio.Bus GetSFXEnvironmentBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxEnvironmentBusString);
+    }
 
-    public void SetSFXMonsterVolume(float volume)
+    static public void SetSFXMonsterVolume(float volume)
     {
         SetBusVolume(sfxMonsterBusString, volume);
     }
-    public float GetSFXMonsterVolume()
+    static public float GetSFXMonsterVolume()
     {
         return GetBusVolume(sfxBusString);
     }
+    static public FMOD.Studio.Bus GetSFXMonsterBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxMonsterBusString);
+    }
 
-    public void SetSFXPlayerVolume(float volume)
+    static public void SetSFXPlayerVolume(float volume)
     {
         SetBusVolume(sfxPlayerBusString, volume);
     }
-    public float GetSFXPlayerVolume()
+    static public float GetSFXPlayerVolume()
     {
         return GetBusVolume(sfxPlayerBusString);
+    }
+    static public FMOD.Studio.Bus GetSFXPlayerBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(sfxPlayerBusString);
+    }
+
+    static public void SetCameraReceiverVolume(float volume)
+    {
+        SetBusVolume(cameraReceiverBusString, volume);
+    }
+    static public float GetCameraReceiverVolume()
+    {
+        return GetBusVolume(cameraReceiverBusString);
+    }
+    static public FMOD.Studio.Bus GetCameraReceiverBus()
+    {
+        return FMODUnity.RuntimeManager.GetBus(cameraReceiverBusString);
+    }
+
+    static public void SetHiding(bool state)
+    {
+        if (state)
+        {
+            instance.StartCoroutine(LERPGlobalParameter(hideParameterName, 1.0f, instance.hideLERPSeconds));
+        }
+        else
+        {
+            instance.StartCoroutine(LERPGlobalParameter(hideParameterName, 0.0f, instance.hideLERPSeconds));
+        }
     }
 }

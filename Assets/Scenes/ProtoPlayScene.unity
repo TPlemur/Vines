@@ -5675,6 +5675,58 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &775616137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 775616138}
+  - component: {fileID: 775616139}
+  m_Layer: 0
+  m_Name: MixerController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &775616138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775616137}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 776662112}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &775616139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775616137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a35dc1bd968e64d92d31173673c1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMasterVolume: 1
+  defaultMusicVolume: 1
+  defaultSFXVolume: 1
+  defaultSFXEnvironmentVolume: 1
+  defaultSFXMonsterVolume: 1
+  defaultSFXPlayerVolume: 1
+  defaultCameraReceiverVolume: 1
+  hideLERPSeconds: 1
 --- !u!1 &776662111
 GameObject:
   m_ObjectHideFlags: 0
@@ -5709,6 +5761,7 @@ Transform:
   - {fileID: 1799944496}
   - {fileID: 1202420313}
   - {fileID: 436040848}
+  - {fileID: 775616138}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5836,12 +5889,12 @@ GameObject:
   - component: {fileID: 1202420315}
   - component: {fileID: 1202420314}
   m_Layer: 0
-  m_Name: PVTGeneratorSoundPopulator (1)
+  m_Name: GeneratorHumSoundPopulator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1202420313
 Transform:
   m_ObjectHideFlags: 0
@@ -5869,14 +5922,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc890573b3b375646a7f1984ead98b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectName: room-pvtm
+  gameObjectName: Panel
   matchType: 1
   probability: 1
   maxNumber: -1
-  createNewObject: 1
+  createNewObject: 0
   populateOnStart: 1
   destroyReference: 1
-  playSoundOnStart: 1
+  playSoundOnStart: 0
 --- !u!114 &1202420315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6053,7 +6106,8 @@ Transform:
   m_LocalPosition: {x: 0.431, y: -0.62, z: 0.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1536487372}
   m_Father: {fileID: 601828011}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -6071,6 +6125,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bobIntensity: 0.01
   bobSpeed: 12
+--- !u!1 &1536487371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536487372}
+  - component: {fileID: 1536487373}
+  m_Layer: 0
+  m_Name: DSPCapture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1536487372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536487371}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1521533489}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1536487373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536487371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5fcb860ecf477148a54fd79f532b5e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetBusID: 2
+  visMaterial: {fileID: 2100000, guid: ef5ed13bbce313c44b449da73e9ca3e0, type: 2}
+  WIDTH: 0.15
+  HEIGHT: 0.5
+  heightMult: 10
+  lineWidth: 0.005
+  nSamples: 128
+  sampleTransformType: 0
 --- !u!1 &1571679557
 GameObject:
   m_ObjectHideFlags: 0
@@ -6138,6 +6244,9 @@ MonoBehaviour:
   PVTMCamLayer:
     serializedVersion: 2
     m_Bits: 4096
+  MonsterPicLayer:
+    serializedVersion: 2
+    m_Bits: 0
   FlashMat: {fileID: 2100000, guid: ef8d303461b241e45b787a1ed4bc6db8, type: 2}
   warehouseObj: {fileID: 1279386217}
   electricalLayer:
@@ -6785,12 +6894,12 @@ GameObject:
   - component: {fileID: 1799944498}
   - component: {fileID: 1799944497}
   m_Layer: 0
-  m_Name: PVTGeneratorSoundPopulator
+  m_Name: GeneratorSoundPopulator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1799944496
 Transform:
   m_ObjectHideFlags: 0
@@ -6818,14 +6927,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc890573b3b375646a7f1984ead98b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectName: room-pvtm
+  gameObjectName: Panel
   matchType: 1
   probability: 1
   maxNumber: -1
-  createNewObject: 1
+  createNewObject: 0
   populateOnStart: 1
   destroyReference: 1
-  playSoundOnStart: 1
+  playSoundOnStart: 0
 --- !u!114 &1799944498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6854,8 +6963,8 @@ MonoBehaviour:
   Preload: 0
   Params: []
   OverrideAttenuation: 1
-  OverrideMinDistance: 5
-  OverrideMaxDistance: 30
+  OverrideMinDistance: 15
+  OverrideMaxDistance: 75
 --- !u!1 &1857161163
 GameObject:
   m_ObjectHideFlags: 0

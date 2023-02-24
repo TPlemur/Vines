@@ -23,7 +23,7 @@ public class Warehouse{
     public int rows;
 
     // List containing landmark rooms to make, add appropriate landmark subclass to list
-    private List<Landmark> special  = new List<Landmark>(new Landmark[] {new AlphaTeam(),  new Generator()});
+    private List<Landmark> special  = new List<Landmark>(new Landmark[] {new AlphaTeam(),  new Generator(), new ShieldRoom()});
     private List<Landmark> cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
     private List<Landmark> hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
     private List<Landmark> tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
@@ -269,6 +269,10 @@ public class Warehouse{
                     Transform lights = room.obj.transform.GetChild(0).transform.Find("Lights");
                     if(lights != null){
                         lights.gameObject.SetActive(true);
+                    }
+                    Transform emergency_lights = room.obj.transform.GetChild(0).transform.Find("EmergencyLights");
+                    if(emergency_lights != null){
+                        emergency_lights.gameObject.SetActive(false);
                     }
                 }
             }
