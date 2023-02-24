@@ -5726,6 +5726,7 @@ MonoBehaviour:
   defaultSFXMonsterVolume: 1
   defaultSFXPlayerVolume: 1
   defaultCameraReceiverVolume: 1
+  hideLERPSeconds: 1
 --- !u!1 &776662111
 GameObject:
   m_ObjectHideFlags: 0
@@ -6105,7 +6106,8 @@ Transform:
   m_LocalPosition: {x: 0.431, y: -0.62, z: 0.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1536487372}
   m_Father: {fileID: 601828011}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -6123,6 +6125,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bobIntensity: 0.01
   bobSpeed: 12
+--- !u!1 &1536487371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536487372}
+  - component: {fileID: 1536487373}
+  m_Layer: 0
+  m_Name: DSPCapture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1536487372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536487371}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1521533489}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1536487373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536487371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5fcb860ecf477148a54fd79f532b5e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetBusID: 2
+  visMaterial: {fileID: 2100000, guid: ef5ed13bbce313c44b449da73e9ca3e0, type: 2}
+  WIDTH: 0.15
+  HEIGHT: 0.5
+  heightMult: 10
+  lineWidth: 0.005
+  nSamples: 128
+  sampleTransformType: 0
 --- !u!1 &1571679557
 GameObject:
   m_ObjectHideFlags: 0

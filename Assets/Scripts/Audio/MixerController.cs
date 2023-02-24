@@ -46,6 +46,8 @@ public class MixerController : MonoBehaviour
     [SerializeField]
     private float hideLERPSeconds = 1.0f;
 
+    public enum MIXER_BUS { MASTER, MUSIC, SFX, SFX_ENVIRONMENT, SFX_MONSTER, SFX_PLAYER, CAMERARECEIVER };
+
     static string masterBusString = "Bus:/";
     static string musicBusString = "Bus:/Music";
     static string sfxBusString = "Bus:/SFX";
@@ -53,6 +55,29 @@ public class MixerController : MonoBehaviour
     static string sfxMonsterBusString = "Bus:/SFX/Monster";
     static string sfxPlayerBusString = "Bus:/SFX/Player";
     static string cameraReceiverBusString = "Bus:/SFX/CameraReceiver";
+
+    static public string GetBusName(MIXER_BUS bus)
+    {
+        switch (bus)
+        {
+            case MIXER_BUS.MASTER:
+                return masterBusString;
+            case MIXER_BUS.MUSIC:
+                return musicBusString;
+            case MIXER_BUS.SFX:
+                return sfxBusString;
+            case MIXER_BUS.SFX_ENVIRONMENT:
+                return sfxEnvironmentBusString;
+            case MIXER_BUS.SFX_MONSTER:
+                return sfxMonsterBusString;
+            case MIXER_BUS.SFX_PLAYER:
+                return sfxPlayerBusString;
+            case MIXER_BUS.CAMERARECEIVER:
+                return cameraReceiverBusString;
+        }
+
+        return "";
+    }
 
     static string hideParameterName = "HideFilter";
 
@@ -98,6 +123,10 @@ public class MixerController : MonoBehaviour
     static public FMOD.Studio.Bus GetBus(string busName)
     {
         return FMODUnity.RuntimeManager.GetBus(busName);
+    }
+    static public FMOD.Studio.Bus GetBus(MIXER_BUS bus)
+    {
+        return FMODUnity.RuntimeManager.GetBus(GetBusName(bus));
     }
 
     static public void SetGlobalParameter(string paramName, float value)
