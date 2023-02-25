@@ -131,12 +131,12 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    //SceneManager.LoadScene(3);
+                    SceneManager.LoadScene(3);
                 }
             }
             else
             {
-                //SceneManager.LoadScene(3);
+                SceneManager.LoadScene(3);
             }
 
         }
