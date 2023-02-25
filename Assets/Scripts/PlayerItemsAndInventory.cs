@@ -43,6 +43,8 @@ public class PlayerItemsAndInventory : MonoBehaviour
 
     private Color color;
 
+    
+
     void Start(){
         inventory = new Inventory();
 
@@ -128,12 +130,16 @@ public class PlayerItemsAndInventory : MonoBehaviour
             Debug.Log("HIT OBJECT NAMED " + interact.tag);
             if(interact.tag == "PVTM"){
                 inventory.AddItem(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer));
+                ObjectiveScript.PVTMObjBool = false;
+                ObjectiveScript.DocumentObjBool = true;
             }
             if(interact.tag == "Shield"){
                 inventory.AddItem(new Shield());
             }
             if(interact.tag == "Flashlight"){
                 inventory.AddItem(new Flashlight());
+                ObjectiveScript.FlashObjBool = false;
+                ObjectiveScript.PowerObjBool = true;
             }
             usingPVTM = false;
             Destroy(interact.gameObject);
@@ -307,6 +313,8 @@ public class PVTM : Item{
                 if(Physics.Raycast(real.transform.position, real.transform.forward, out hit, 25f, monsterPic)){
                     Debug.Log("VALID MONSTER PICTURE ACQUIRED");
                     PlayerItemsAndInventory.picTaken = true;
+                    ObjectiveScript.DocumentObjBool = false;
+                    ObjectiveScript.EscapeObjBool = true;
                 }
             }
         }
@@ -505,6 +513,8 @@ public class ElectricalEquipment : Item {
                 //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
                 panel.GetComponent<Collider>().enabled = false;
                 TurnOnGeneratorSFX(panel);
+                ObjectiveScript.PowerObjBool = false;
+                ObjectiveScript.PVTMObjBool = true;
             }
             if(panel.tag == "ContainmentButton"){
                 if(MonsterCheck.isMonsterInside){
