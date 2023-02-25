@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum CycleDirection
 {
@@ -30,6 +31,8 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public LayerMask electricalLayer;
     public static bool generatorOn = false;
     public bool generatorHuntOn = false;
+    public static bool picTaken = false;
+    public bool validPic = false;
 
     public Inventory inventory;
 
@@ -50,6 +53,9 @@ public class PlayerItemsAndInventory : MonoBehaviour
     {
         if(generatorOn){
             generatorHuntOn = true;
+        }
+        if(picTaken){
+            validPic = true;
         }
         // check for inputs 
         if (!usingPVTM){
@@ -300,9 +306,9 @@ public class PVTM : Item{
                 RaycastHit hit;
                 if(Physics.Raycast(real.transform.position, real.transform.forward, out hit, 25f, monsterPic)){
                     Debug.Log("VALID MONSTER PICTURE ACQUIRED");
+                    PlayerItemsAndInventory.picTaken = true;
                 }
             }
-
         }
         return;
     }
@@ -485,13 +491,21 @@ public class ElectricalEquipment : Item {
             GameObject panel = hit.transform.gameObject;
             // call TurnOnLights() inside of warehouse
             Debug.Log("hit panel");
-            PlayerItemsAndInventory.generatorOn = true;
-            warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
-            //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
-            panel.GetComponent<Collider>().enabled = false;
-            TurnOnGeneratorSFX(panel);
             // mark medium successful hit spark sfx
             SparkMediumSFX();
+            if(panel.tag == "ElectricalPanel"){
+                // call TurnOnLights() inside of warehouse
+                PlayerItemsAndInventory.generatorOn = true;
+                warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
+                //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
+                panel.GetComponent<Collider>().enabled = false;
+                TurnOnGeneratorSFX(panel);
+            }
+            if(panel.tag == "ContainmentButton"){
+                if(MonsterCheck.isMonsterInside){
+                    SceneManager.LoadScene(2);
+                }
+            }
         }
         else
         {
