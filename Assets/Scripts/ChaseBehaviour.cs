@@ -13,14 +13,17 @@ public class ChaseBehaviour : StateMachineBehaviour
     float timer;
     bool chargeCD = false;
     bool charging = false;
+
+    public float chargeSpeed;
+    public float moveSpeed;
     Vector3 playerPos;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        timer = 0;
-       Mob = animator.GetComponent<NavMeshAgent>();
+       Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
        Mob.speed = enemyspeed;
-
+        Debug.Log("IN CHASE STATE");
        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -30,17 +33,23 @@ public class ChaseBehaviour : StateMachineBehaviour
         float distance = Vector3.Distance(animator.transform.position, Player.position);
         //Debug.Log(playerPos);
         if (distance < attackRange && !chargeCD && !charging){
-            //Debug.Log("charging");
+            Debug.Log("charging");
             charging = true;
             playerPos = Player.position;
             Mob.SetDestination(playerPos);
-            Mob.speed = 20;
+            Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.charge;
+            Mob.speed = chargeSpeed;
         }else if (charging){
             if (Vector3.Distance(animator.transform.position, playerPos) < 1){
-                Mob.speed = 5;
+                Mob.speed = moveSpeed;
                 charging = false;
                 chargeCD = true;
                 Debug.Log("finished charge");
+                //animator.SetBool("isChasing", false);
+            }
+            if(Mob.GetComponentInChildren<Brain>().isHiding){
+                animator.SetBool("isChasing", false);
+                animator.SetBool("isPatrolling", true);
             }
         }else{
             Mob.SetDestination(Player.position);
