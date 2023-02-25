@@ -258,6 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2294431281883420096}
+  - component: {fileID: 3412374148525092197}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Shield
@@ -281,6 +282,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3412374148525092197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5831628493212021036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1169dc83b848af54e8b0ea106cb1f1b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallsLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  WallPrefab: {fileID: 8819526817657001221, guid: e1f06b792780a964ea8b4317eb9490e2, type: 3}
 --- !u!1 &8141452914812771941
 GameObject:
   m_ObjectHideFlags: 0
