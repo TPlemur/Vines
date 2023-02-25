@@ -221,7 +221,9 @@ public class Warehouse{
                 float dist = random.DistanceTo(this.startRoom);
                 if(landmark.InRange(dist)){
                     random.type = landmark;
-                    random.ConnectToRandom();
+                    if(random.exits.NumberOf() < 2){
+                        random.ConnectToRandom();
+                    }
                     list.RemoveAt(list.IndexOf(landmark));
                     break;
                 }

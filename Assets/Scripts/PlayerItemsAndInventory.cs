@@ -28,6 +28,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
     [Header("Generator Related")]
     public GameObject warehouseObj;
     public LayerMask electricalLayer;
+    public static bool generatorOn = false;
 
     public Inventory inventory;
 
@@ -124,6 +125,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
             if(interact.tag == "Flashlight"){
                 inventory.AddItem(new Flashlight());
             }
+            usingPVTM = false;
             Destroy(interact.gameObject);
         }
     }
@@ -147,7 +149,7 @@ public class Inventory{
 
     public void UseEquippedItem(){
         if(equippedIndex != -1){
-            items[equippedIndex].Use();
+            equippedItem.Use();
         }
     }
 
@@ -272,7 +274,7 @@ public class PVTM : Item{
 
     public override void Primary(){
         // shoot raycast
-        if (!PlayerItemsAndInventory.usingPVTM){
+        if (!PlayerItemsAndInventory.usingPVTM && PlayerItemsAndInventory.generatorOn){
             RaycastHit hit;
             if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 10f, layer)){
                 GameObject interact = hit.transform.gameObject;
@@ -288,7 +290,7 @@ public class PVTM : Item{
         }
         //Take pic
         else{
-            if (!PlayerItemsAndInventory.isFlash){
+            if (!PlayerItemsAndInventory.isFlash && PlayerItemsAndInventory.usingPVTM && PlayerItemsAndInventory.generatorOn){
                 PlayerItemsAndInventory.isFlash = true;
                 PicSFX();
                 RaycastHit hit;
@@ -479,6 +481,7 @@ public class ElectricalEquipment : Item {
             GameObject panel = hit.transform.gameObject;
             // call TurnOnLights() inside of warehouse
             Debug.Log("hit panel");
+            PlayerItemsAndInventory.generatorOn = true;
             warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
             //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
             panel.GetComponent<Collider>().enabled = false;
