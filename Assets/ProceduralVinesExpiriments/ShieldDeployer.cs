@@ -8,6 +8,7 @@ public class ShieldDeployer : MonoBehaviour
     public LayerMask wallsLayer;
     public LayerMask floorLayer;
     public GameObject WallPrefab;
+    public MeshRenderer airBags;
     GameObject player;
     GameObject wall;
     Cloth wallCloth;
@@ -44,6 +45,7 @@ public class ShieldDeployer : MonoBehaviour
     {
         if (used) { return false; }
         used = true;
+        airBags.enabled = false;
         float forwardBackward = 0;
         float sideSide = 0;
         //allign with world axis
