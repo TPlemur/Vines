@@ -6252,6 +6252,7 @@ MonoBehaviour:
   electricalLayer:
     serializedVersion: 2
     m_Bits: 8192
+  generatorHuntOn: 0
 --- !u!114 &1571679560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6439,6 +6440,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1610685402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2979307802832530985, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+  m_PrefabInstance: {fileID: 1746223917}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1610685406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610685402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a04429d0fdde343ad2a5839eb21751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobHintTimer: 90
+  hintTimer: 0
+  timeForHint: 0
+  investigating: 0
+  mobPursuitTimer: 0
+  tempPursuitTimer: 0
+  detectsPlayer: 0
+  patrolDelay: 0
+  ambushTime: 0
+  timeHidden: 0
+  isHiding: 0
 --- !u!1 &1612720611
 GameObject:
   m_ObjectHideFlags: 0
@@ -6770,6 +6799,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2709418170944726729, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 331da2caf80d2604aa7f940ee20dc6ab, type: 2}
     - target: {fileID: 2979307802832530985, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
       propertyPath: m_Name
       value: SplitjawWithDynamicVines
@@ -7026,7 +7059,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952833646}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcbc7f243dce0464fbe5108887e63d21, type: 3}
   m_Name: 
@@ -7046,7 +7079,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952833646}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 40, y: 2, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
