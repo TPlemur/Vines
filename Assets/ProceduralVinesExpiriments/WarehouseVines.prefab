@@ -140,20 +140,33 @@ MonoBehaviour:
   - {fileID: 7287236897796158514}
   - {fileID: 2692775656910072396}
   - {fileID: 1761612475267414974}
-  recycleInterval: 30
+  branchMaterial: {fileID: 2100000, guid: 199763d8e8b94204b81cc31c12a6cbb6, type: 2}
   branches: 5
   maxPointsForBranch: 120
   segmentLength: 0.2
-  branchRadius: 0.02
+  branchRadius: 0.04
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  lowAngle: 0
+  highAngle: 360
+  useTargetForAngle: 0
   branchDelay: 0.75
-  branchSpeed: 100
-  WitherBranch: 0
+  branchGrowSpeed: 1
+  branchShrinkSpeed: 1
+  initialDelay: 0
   vinesAtStart: 1
   continuousVines: 0
+  WitherBranch: 0
+  timeAtGrown: 2
+  canSense: 0
+  senseMultiplier: 1
+  objTag: Vine
   isCloth: 0
   bendstiffness: 5
   maxDist: 0.5
-  branchMaterial: {fileID: 0}
+  clothColliders: []
+  recycleInterval: 30
 --- !u!1 &899397400905793420
 GameObject:
   m_ObjectHideFlags: 0
