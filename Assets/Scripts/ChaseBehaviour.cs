@@ -40,7 +40,7 @@ public class ChaseBehaviour : StateMachineBehaviour
             Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.charge;
             Mob.speed = chargeSpeed;
         }else if (charging){
-            if (Vector3.Distance(animator.transform.position, playerPos) < 1){
+            if (Vector3.Distance(animator.transform.position, playerPos) < 5){
                 Mob.speed = moveSpeed;
                 charging = false;
                 chargeCD = true;
