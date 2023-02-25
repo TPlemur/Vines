@@ -121,7 +121,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.tag == "Monster")
         {
-            SceneManager.LoadScene(3);
+
+            if (PlayerItemsAndInventory.usingShield)
+            {
+                Shield sh = (Shield)gameObject.GetComponent<PlayerItemsAndInventory>().inventory.equippedItem;
+                if (sh.explode())
+                {
+                    Monster.transform.position += (Monster.transform.position - transform.position);
+                }
+                else
+                {
+                    //SceneManager.LoadScene(3);
+                }
+            }
+            else
+            {
+                //SceneManager.LoadScene(3);
+            }
+
         }
         else if(collision.tag == "Vine")
         {
