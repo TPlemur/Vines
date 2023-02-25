@@ -125,13 +125,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(collision.tag == "Vine")
         {
-            Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
-            Monster.GetComponent<Brain>().detectsPlayer = true;
+            //Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
+            Monster.GetComponentInChildren<Brain>().detectsPlayer = true;
         }
         else if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(true);
-            Monster.GetComponent<Brain>().isHiding = true;
+            Monster.GetComponentInChildren<Brain>().isHiding = true;
         }
     }
 
@@ -140,11 +140,11 @@ public class PlayerMovement : MonoBehaviour
         if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(false);
-            Monster.GetComponent<Brain>().isHiding = false;
+            Monster.GetComponentInChildren<Brain>().isHiding = false;
         }
 
         if (collision.name == "Vine"){
-            Monster.GetComponent<Brain>().detectsPlayer = false;
+            Monster.GetComponentInChildren<Brain>().detectsPlayer = false;
         }
     }
 
@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.name == "HideTrigger")
         {
-            Monster.GetComponent<Brain>().timeHidden += Time.deltaTime;
+            Monster.GetComponentInChildren<Brain>().timeHidden += Time.deltaTime;
         }
     }
 

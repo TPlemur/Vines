@@ -29,6 +29,7 @@ public class PlayerItemsAndInventory : MonoBehaviour
     public GameObject warehouseObj;
     public LayerMask electricalLayer;
     public static bool generatorOn = false;
+    public bool generatorHuntOn = false;
 
     public Inventory inventory;
 
@@ -47,6 +48,9 @@ public class PlayerItemsAndInventory : MonoBehaviour
 
     void Update()
     {
+        if(generatorOn){
+            generatorHuntOn = true;
+        }
         // check for inputs 
         if (!usingPVTM){
             if(Input.GetKeyDown(interactKey)){

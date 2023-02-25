@@ -10,6 +10,7 @@ public class PatrolBehaviour : StateMachineBehaviour
     public float MobDetectionDistance = 1000.0f;
     public float patrolRadius = 100.0f;
     Transform Player;
+    GameObject PlayerObj;
     NavMeshAgent Mob;
 
     private MonsterSounds sounds = null;
@@ -26,9 +27,11 @@ public class PatrolBehaviour : StateMachineBehaviour
         /*if (sounds == null)
             sounds = GetComponent<MonsterSounds>();
         */
-        Mob = animator.GetComponent<NavMeshAgent>();
+        Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
+        Debug.Log(Mob);
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
+        PlayerObj = GameObject.FindGameObjectWithTag("Player");
+        animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -36,9 +39,17 @@ public class PatrolBehaviour : StateMachineBehaviour
     {
        // If the monster doesn't have a path, finds random spot within a radius to patrol to
        if(!Mob.hasPath){
-            patrolPos = RandomNavmeshLocation(patrolRadius);
-            Mob.SetDestination(patrolPos);
-            Mob.speed = 3; //Only for testing purposes
+            if (Mob.GetComponentInChildren<Brain>().investigating ||
+                PlayerObj.GetComponent<PlayerItemsAndInventory>().generatorHuntOn){
+                animator.SetBool("isInvestigating", true);
+                //animator.SetBool("isPatrolling", false);
+                //Debug.Log("Investigating");
+            }else{
+                patrolPos = RandomNavmeshLocation(patrolRadius);
+                Mob.SetDestination(patrolPos);
+                Mob.speed = 3; //Only for testing purposes
+                //Debug.Log("RANDOM");
+            }
        }
 
        // Supposed to end patrolling after reaching spot, so it can return to idle, then patrol again
@@ -55,7 +66,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         */
         // float distance = Vector3.Distance(animator.transform.position, Player.position);
         // if (distance < MobDetectionDistance)
-        if(Mob.GetComponent<Brain>().detectsPlayer){
+        if(Mob.GetComponentInChildren<Brain>().detectsPlayer){
             Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
             animator.SetBool("isChasing", true);
         }

@@ -15,20 +15,34 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerPos = getClosestNavPointToPlayer(Player);
+        playerPos = Player.position;//getClosestNavPointToPlayer(Player);
+        Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
+        //Debug.Log("Investigate state");
+        Mob.speed = 3;
+        animator.SetBool("isChasing", false);
+        animator.SetBool("isPatrolling", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Mob.SetDestination(playerPos);
+        if(!Mob.hasPath){
+            Mob.SetDestination(Player.position);
+        }
         // Mob.GetComponent<Brain>().investigating = true;
+        if(Mob.GetComponentInChildren<Brain>().detectsPlayer){
+            Debug.Log(Mob.GetComponentInChildren<Brain>().detectsPlayer);
+            animator.SetBool("isChasing", true);
+        }
+        if(Mob.GetComponentInChildren<Brain>().isHiding){
+            animator.SetBool("isPatrolling", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       Mob.GetComponent<Brain>().investigating = false;
+       Mob.GetComponentInChildren<Brain>().investigating = false;
     }
 
     public Vector3 getClosestNavPointToPlayer(Transform target){

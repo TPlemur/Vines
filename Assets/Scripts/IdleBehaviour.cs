@@ -17,8 +17,8 @@ public class IdleBehaviour : StateMachineBehaviour
     {
         timer = 0;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        Mob = animator.GetComponent<NavMeshAgent>();
-        patrolDelay = Mob.GetComponent<Brain>().patrolDelay;
+        Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
+        patrolDelay = Mob.GetComponentInChildren<Brain>().patrolDelay;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -31,12 +31,12 @@ public class IdleBehaviour : StateMachineBehaviour
         // float distance = Vector3.Distance(animator.transform.position, Player.position);
         // if (distance < MobDetectionDistance)
         //     animator.SetBool("isChasing", true);
-        Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
-        if(Mob.GetComponent<Brain>().detectsPlayer)
+        //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
+        if(Mob.GetComponentInChildren<Brain>().detectsPlayer)
             animator.SetBool("isChasing", true);
 
         //Debug.Log(Mob.GetComponent<Brain>().investigating);
-        if (Mob.GetComponent<Brain>().investigating){
+        if (Mob.GetComponentInChildren<Brain>().investigating){
             animator.SetBool("isInvestigating", true);
             //Debug.Log("Investigating");
         }

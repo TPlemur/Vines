@@ -21,9 +21,9 @@ public class ChaseBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        timer = 0;
-       Mob = animator.GetComponent<NavMeshAgent>();
+       Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
        Mob.speed = enemyspeed;
-
+        Debug.Log("IN CHASE STATE");
        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -47,9 +47,9 @@ public class ChaseBehaviour : StateMachineBehaviour
                 Debug.Log("finished charge");
                 //animator.SetBool("isChasing", false);
             }
-            if(Mob.GetComponent<Brain>().isHiding){
+            if(Mob.GetComponentInChildren<Brain>().isHiding){
                 animator.SetBool("isChasing", false);
-                animator.SetBool("isPatrolling", false);
+                animator.SetBool("isPatrolling", true);
             }
         }else{
             Mob.SetDestination(Player.position);

@@ -49,6 +49,7 @@ public class Brain : MonoBehaviour
         }
         else{
             timeForHint = true;
+            //Debug.Log("HINT");
             investigating = true;
         }
     }
