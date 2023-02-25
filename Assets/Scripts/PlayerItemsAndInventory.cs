@@ -413,6 +413,11 @@ public class Shield : Item{
         }
         Debug.Log("USING SHIELD");
     }
+
+    public bool explode()
+    {
+        return SHinst.GetComponentInChildren<ShieldDeployer>().findWidth(SHinst.transform);
+    }
 }
 
 // Flashlight subclass

@@ -14,7 +14,8 @@ public class ShieldDeployer : MonoBehaviour
     float finalScale;
     float lerpTime = 0.25f;
     float timer = 0;
-    bool doLerp = false; 
+    bool doLerp = false;
+    bool used = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +38,12 @@ public class ShieldDeployer : MonoBehaviour
     }
 
     //find the wide direction of the corridor
-    public void findWidth(Transform spawnpoint)
+    //if you are reading this i'm sorry
+    //returns true if successfuly deployed
+    public bool findWidth(Transform spawnpoint)
     {
+        if (used) { return false; }
+        used = true;
         float forwardBackward = 0;
         float sideSide = 0;
         //allign with world axis
@@ -117,6 +122,7 @@ public class ShieldDeployer : MonoBehaviour
         if(finalScale > 5) { finalScale = 5; }
         doLerp = true;
 
+        return true;
     }
 
     IEnumerator startCloth(Cloth cl)
