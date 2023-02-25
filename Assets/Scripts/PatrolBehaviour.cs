@@ -67,7 +67,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         // float distance = Vector3.Distance(animator.transform.position, Player.position);
         // if (distance < MobDetectionDistance)
         if(Mob.GetComponentInChildren<Brain>().detectsPlayer){
-            Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
+            //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
             animator.SetBool("isChasing", true);
         }
     }

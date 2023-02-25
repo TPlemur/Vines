@@ -31,7 +31,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         }
         // Mob.GetComponent<Brain>().investigating = true;
         if(Mob.GetComponentInChildren<Brain>().detectsPlayer){
-            Debug.Log(Mob.GetComponentInChildren<Brain>().detectsPlayer);
+            //Debug.Log(Mob.GetComponentInChildren<Brain>().detectsPlayer);
             animator.SetBool("isChasing", true);
         }
         if(Mob.GetComponentInChildren<Brain>().isHiding){

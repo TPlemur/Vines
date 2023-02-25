@@ -34,7 +34,7 @@ public class trapScript : MonoBehaviour
         //check if trap can be charged
         if (currentState == State.off) {
             if(inventory != null){
-                Debug.Log(inventory.equippedItem.GetType());
+                //Debug.Log(inventory.equippedItem.GetType());
             }
             if (PlayerContact && Input.GetMouseButton(0) && inventory.equippedItem.GetType() == typeof(ElectricalEquipment))
             {
