@@ -98,7 +98,7 @@ public class Landmark{
 // maximum spawn distance from the starting room.
 public class Generic : Landmark{
     public Generic(){
-        path = "ProcgenGreyboxes/room-";
+        path = "ProcgenGreyboxesTextured/room-";
     }
     public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
         path += this.BuildExitString(dirs);
@@ -109,7 +109,7 @@ public class Generic : Landmark{
 
 public class Start : Landmark{
     public Start(){
-        path = "ProcgenGreyboxes/room-elevator-";
+        path = "ProcgenGreyboxesTextured/room-elevator-";
     }
     public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
         return this.LoadLandmark(dirs);
@@ -119,7 +119,7 @@ public class Start : Landmark{
 //  Monster Spawn Specific
 public class Monster : Landmark{
     public Monster(string type, int rot){
-        path = "ProcgenGreyboxes/room-monster-quadrant";
+        path = "ProcgenGreyboxesTextured/room-monster-quadrant";
         rotation = rot;
         num = type;
     }
@@ -131,7 +131,7 @@ public class Monster : Landmark{
 // Notable Landmark rooms like AlphaTeam, Generator, etc.
 public class AlphaTeam : Landmark{
     public AlphaTeam(){
-        path = "ProcgenGreyboxes/room-pvtm-";
+        path = "ProcgenGreyboxesTextured/room-pvtm-";
         minDist = 1.3f;
         maxDist = 2.5f;
     }
@@ -142,7 +142,7 @@ public class AlphaTeam : Landmark{
 
 public class Generator : Landmark{
     public Generator(){
-        path = "ProcgenGreyboxes/room-generator-";
+        path = "ProcgenGreyboxesTextured/room-generator-";
         minDist = 1f;
         maxDist = 1.5f;
     }
@@ -153,7 +153,7 @@ public class Generator : Landmark{
 
 public class ShieldRoom : Landmark{
     public ShieldRoom(){
-        path = "ProcgenGreyboxes/room-shield-";
+        path = "ProcgenGreyboxesTextured/room-shield-";
         minDist = 1.2f;
         maxDist = 3f;
     }
@@ -165,7 +165,7 @@ public class ShieldRoom : Landmark{
 // Trip wire, Camera, and Hiding Rooms
 public class TripWire : Landmark{
     public TripWire(){
-        path = "ProcgenGreyboxes/room-trap-";
+        path = "ProcgenGreyboxesTextured/room-trap-";
         minDist = 1f;
         maxDist = 4f;
     }
@@ -176,7 +176,7 @@ public class TripWire : Landmark{
 
 public class PVTMCamera : Landmark{
     public PVTMCamera(){
-        path = "ProcgenGreyboxes/room-";
+        path = "ProcgenGreyboxesTextured/room-";
         minDist = 1f;
         maxDist = 3f;
     }
@@ -189,7 +189,7 @@ public class PVTMCamera : Landmark{
 
 public class Hide : Landmark{
     public Hide(){
-        path = "ProcgenGreyboxes/room-";
+        path = "ProcgenGreyboxesTextured/room-";
         minDist = 1f;
         maxDist = 4f;
     }
