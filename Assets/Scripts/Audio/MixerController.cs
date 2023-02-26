@@ -18,7 +18,7 @@ public class MixerController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(transform);
+        DontDestroyOnLoad(this);
     }
 
     [SerializeField]
@@ -120,13 +120,21 @@ public class MixerController : MonoBehaviour
         bus.getVolume(out volume);
         return volume;
     }
+    static public float GetBusVolume(MIXER_BUS busID)
+    {
+        FMOD.Studio.Bus bus;
+        bus = GetBus(busID);
+        float volume;
+        bus.getVolume(out volume);
+        return volume;
+    }
     static public FMOD.Studio.Bus GetBus(string busName)
     {
         return FMODUnity.RuntimeManager.GetBus(busName);
     }
-    static public FMOD.Studio.Bus GetBus(MIXER_BUS bus)
+    static public FMOD.Studio.Bus GetBus(MIXER_BUS busID)
     {
-        return FMODUnity.RuntimeManager.GetBus(GetBusName(bus));
+        return FMODUnity.RuntimeManager.GetBus(GetBusName(busID));
     }
 
     static public void SetGlobalParameter(string paramName, float value)
