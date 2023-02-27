@@ -1021,6 +1021,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7456485256181068035}
   - component: {fileID: 8392622056231591964}
+  - component: {fileID: 6110963718199167094}
+  - component: {fileID: 745988677703028088}
   m_Layer: 13
   m_Name: ElectricalPanel
   m_TagString: ElectricalPanel
@@ -1056,6 +1058,66 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6110963718199167094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074457535295821502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1340077902
+      Data2: 1272611032
+      Data3: -316281452
+      Data4: -822647541
+    Path: event:/SFX/Atmospheric/Generator
+  Event: 
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 15
+  OverrideMaxDistance: 75
+--- !u!114 &745988677703028088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074457535295821502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1587583726
+      Data2: 1205495860
+      Data3: -302458213
+      Data4: 1945702237
+    Path: event:/SFX/Atmospheric/Generator Hum
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 15
+  OverrideMaxDistance: 300
 --- !u!1 &4221088295200329252
 GameObject:
   m_ObjectHideFlags: 0
