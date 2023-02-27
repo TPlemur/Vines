@@ -122,17 +122,17 @@ public class PlayerMovement : MonoBehaviour
         if (collision.tag == "Monster")
         {
 
-            if (PlayerItemsAndInventory.usingShield)
+            if (gameObject.GetComponent<InventoryManager>().inventory.EquippedIsShield())
             {
-                // Shield sh = (Shield)gameObject.GetComponent<PlayerItemsAndInventory>().inventory.equippedItem;
-                // if (sh.explode())
-                // {
-                //     Monster.transform.position += (Monster.transform.position - transform.position);
-                // }
-                // else
-                // {
-                //     SceneManager.LoadScene(3);
-                // }
+                Shield sh = (Shield)gameObject.GetComponent<InventoryManager>().inventory.equipped;
+                if (sh.explode())
+                {
+                    Monster.transform.position += (Monster.transform.position - transform.position);
+                }
+                else
+                {
+                    SceneManager.LoadScene(3);
+                }
             }
             else
             {

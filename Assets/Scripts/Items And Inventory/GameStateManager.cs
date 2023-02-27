@@ -48,7 +48,7 @@ public class GameStateManager : MonoBehaviour
     public void PowerRestored(){
         GeneratorOn = true;
         Debug.Log("POWER RESTORED");
-        // Warehouse.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
+        Warehouse.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
         // code/sounds/animations/UI for after turning on power
     }
 

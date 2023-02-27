@@ -70,7 +70,6 @@ public class trapScript : MonoBehaviour
         {
             PlayerContact = true;
             inventory = collision.transform.gameObject.GetComponent<InventoryManager>().inventory;
-            Debug.Log(inventory);
             if (currentState == State.set)
             {
                 currentState = State.triggered;

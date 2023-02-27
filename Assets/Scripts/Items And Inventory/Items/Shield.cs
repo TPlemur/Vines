@@ -22,8 +22,8 @@ public class Shield : Item
         return toggled;
     }
 
-    public void explode(){
+    public bool explode(){
         Debug.Log("EXPLODING SHIELD");
-        // return SHinst.GetComponentInChildren<ShieldDeployer>().findWidth(SHinst.transform);
+        return itemObj.GetComponentInChildren<ShieldDeployer>().findWidth(itemObj.transform);
     }
 }

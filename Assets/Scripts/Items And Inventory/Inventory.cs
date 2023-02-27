@@ -103,6 +103,6 @@ public class Inventory
     }
     
     public bool EquippedIsToggled(){
-        return equipped != null ? equipped.IsToggled() : false;
+        return equipped.IsToggled();
     }
 }
