@@ -7,7 +7,7 @@ public class ElectricalEquipment : Item
 {
     LayerMask layer;
 
-    public ElectricalEquipment(Camera cam, LayerMask mask) : base(cam){
+    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager) : base(cam, stateManager){
         layer = mask;
         LoadItem("ElectricalDevice");
     }
@@ -17,19 +17,14 @@ public class ElectricalEquipment : Item
         if(obj != null){
             if(obj.tag == "ElectricalPanel"){
                 SparkMediumSFX();
-                Debug.Log("PANEL CHECK");
-                // call TurnOnLights() inside of warehouse
-                // PlayerItemsAndInventory.generatorOn = true;
-                // warehouseObj.gameObject.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
+                gameState.PowerRestored();
                 //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
                 obj.GetComponent<Collider>().enabled = false;
                 TurnOnGeneratorSFX(obj);
-                // ObjectiveScript.PowerObjBool = false;
-                // ObjectiveScript.PVTMObjBool = true;
             }
-            if(obj.tag == "ContainmentButton"){
-                Debug.Log("MONSTER CHECK");
+            if(obj.tag == "ContainmentButton" && gameState.IsPowerRestored()){
                 if(MonsterCheck.isMonsterInside){
+                    gameState.SplitjawContained();
                     SceneManager.LoadScene(2);
                 }
             }
@@ -37,10 +32,6 @@ public class ElectricalEquipment : Item
         else{
             SparkShortSFX();
         }
-    }
-
-    public override void Secondary(){
-        return;
     }
 
     // SFX

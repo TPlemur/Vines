@@ -6,12 +6,15 @@ public class Item : MonoBehaviour
 {
     public GameObject itemObj;
     public Camera playerCam;
+    public GameStateManager gameState;
 
-    public Item(){
+    public Item(GameObject stateManager){
+        gameState = stateManager.GetComponent<GameStateManager>();
     }
 
-    public Item(Camera cam){
+    public Item(Camera cam, GameObject stateManager){
         playerCam = cam;
+        gameState = stateManager.GetComponent<GameStateManager>();
     }
 
     public void LoadItem(string name){
@@ -37,6 +40,21 @@ public class Item : MonoBehaviour
         // overwritten
     }
 
+    public virtual void CycleRight(){
+        // overwritten
+    }
+
+    public virtual void CycleLeft(){
+        // overwritten
+    }
+
+    public virtual bool IsToggled(){
+        // overwritten by PVTM and Shield
+        return false;
+    }
+
+    // Raycast helper functions for shooting from 
+    // different origin points, distances, and at layers
     public GameObject ShootRaycast(Camera obj, float dist, LayerMask layer){
         RaycastHit hit;
         if(Physics.Raycast(obj.transform.position, obj.transform.forward, out hit, dist, layer)){

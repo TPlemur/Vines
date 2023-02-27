@@ -7,9 +7,10 @@ public class Flashlight : Item
     GameObject light;
     bool toggled = true;
 
-    public Flashlight(){
+    public Flashlight(GameObject stateManager) : base(stateManager){
         LoadItem("Flashlight");
         light = itemObj.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        gameState.FlashlightObtained();
     }
 
     public override void Primary(){
@@ -18,10 +19,7 @@ public class Flashlight : Item
         SwitchSFX();
     }
 
-    public override void Secondary(){
-        return;
-    }
-
+    // SFX
     private void SwitchSFX()
     {
         // flashlight switch sound
