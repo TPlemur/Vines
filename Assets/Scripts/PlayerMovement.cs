@@ -124,15 +124,15 @@ public class PlayerMovement : MonoBehaviour
 
             if (PlayerItemsAndInventory.usingShield)
             {
-                Shield sh = (Shield)gameObject.GetComponent<PlayerItemsAndInventory>().inventory.equippedItem;
-                if (sh.explode())
-                {
-                    Monster.transform.position += (Monster.transform.position - transform.position);
-                }
-                else
-                {
-                    SceneManager.LoadScene(3);
-                }
+                // Shield sh = (Shield)gameObject.GetComponent<PlayerItemsAndInventory>().inventory.equippedItem;
+                // if (sh.explode())
+                // {
+                //     Monster.transform.position += (Monster.transform.position - transform.position);
+                // }
+                // else
+                // {
+                //     SceneManager.LoadScene(3);
+                // }
             }
             else
             {

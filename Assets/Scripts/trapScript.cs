@@ -36,7 +36,7 @@ public class trapScript : MonoBehaviour
             if(inventory != null){
                 //Debug.Log(inventory.equippedItem.GetType());
             }
-            if (PlayerContact && Input.GetMouseButton(0) && inventory.equippedItem.GetType() == typeof(ElectricalEquipment))
+            if (PlayerContact && Input.GetMouseButton(0) && inventory.equipped.GetType() == typeof(ElectricalEquipment))
             {
                 //accumulate charge
                 if (timer == 0) { rend.enabled = true; rend.material = powering; }
