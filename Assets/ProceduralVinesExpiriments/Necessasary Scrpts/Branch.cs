@@ -262,4 +262,11 @@ public class Branch : MonoBehaviour
 
         prevColliders = activeColliders;
     }
+    
+    //utility to allow shrinking of existing vines
+    public void startSrhink()
+    {
+        shrink = false;
+        deAnimate = true;
+    }
 }

@@ -35,6 +35,16 @@ public class MonVineStateMachine : MonoBehaviour
     [SerializeField] int chargeNumRadial = 1;
     [SerializeField] float chargeInterval = 0.1f;
 
+    [Header("Roar Characteristics")]
+    [SerializeField] GameObject roarTarget;
+    [SerializeField] float roarGrowSpeed = 1.0f;
+    [SerializeField] float roarvineDelay = 0.0f;
+    [SerializeField] float roarShrinkSpeed = 1.0f;
+    [SerializeField] int roarNum = 15;
+    [SerializeField] float roarInterval = 0.1f;
+    [SerializeField] float roarDuration = 6.208f;
+    bool didRoar = false;
+
     float timer = 0;
 
 
@@ -54,12 +64,17 @@ public class MonVineStateMachine : MonoBehaviour
         {
             case state.walk:
                 walk();
+                didRoar = false;
                 break;
             case state.charge:
                 run();
+                didRoar = false;
                 break;
             case state.roar:
-                roar();
+                if (!didRoar) {
+                    StartCoroutine(roar());
+                    didRoar = true;
+                }
                 break;
         }
     }
@@ -94,6 +109,7 @@ public class MonVineStateMachine : MonoBehaviour
             }
         }
     }
+
     void run()
     {
         timer += Time.deltaTime;
@@ -114,8 +130,29 @@ public class MonVineStateMachine : MonoBehaviour
             timer = 0;
         }
     }
-    void roar()
-    {
 
+    IEnumerator roar()
+    {
+        if (!didRoar) {
+            //clean up old vines
+            Branch[] branches = staticIvyManager.gameObject.GetComponentsInChildren<Branch>();
+            foreach(Branch b in branches)
+            {
+                b.shrinkSpeed = roarDuration / 2;
+                b.startSrhink();
+            }
+
+            yield return new WaitForSeconds(roarDuration/2);
+            //spawn new vines
+            staticIvyManager.lowAngle = 0;
+            staticIvyManager.highAngle = 360;
+            staticIvyManager.branches = roarNum;
+            staticIvyManager.useTargetForAngle = false;
+            staticIvyManager.genVine(roarTarget, roarGrowSpeed, roarvineDelay, roarShrinkSpeed);
+
+            yield return new WaitForSeconds(roarDuration/3);
+            //Profit??
+
+        }
     }
 }
