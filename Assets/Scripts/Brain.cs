@@ -20,6 +20,8 @@ public class Brain : MonoBehaviour
     public float tempPursuitTimer;
     [HideInInspector]
     public bool detectsPlayer = false;
+    [HideInInspector]
+    public bool huntedGeneratorEvent = false;
     
     public float patrolDelay;
 
@@ -39,17 +41,17 @@ public class Brain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(detectsPlayer);
+        //Debug.Log("Detected: "+ detectsPlayer);
         // Timer to send hint
         if(hintTimer < mobHintTimer && !detectsPlayer){
             hintTimer += Time.deltaTime;
-            //Debug.Log(hintTimer);
+            Debug.Log(hintTimer);
         }else if(detectsPlayer){
             hintTimer = 0;
         }
-        else{
+        else if(!isHiding){
             timeForHint = true;
-            //Debug.Log("HINT");
+            Debug.Log("HINT");
             investigating = true;
         }
     }

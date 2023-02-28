@@ -32,7 +32,7 @@ public class IdleBehaviour : StateMachineBehaviour
         // if (distance < MobDetectionDistance)
         //     animator.SetBool("isChasing", true);
         //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
-        if(Mob.GetComponentInChildren<Brain>().detectsPlayer)
+        if(Mob.GetComponentInChildren<Brain>().detectsPlayer && !Mob.GetComponentInChildren<Brain>().isHiding)
             animator.SetBool("isChasing", true);
 
         //Debug.Log(Mob.GetComponent<Brain>().investigating);

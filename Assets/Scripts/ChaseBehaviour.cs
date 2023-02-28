@@ -31,6 +31,10 @@ public class ChaseBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float distance = Vector3.Distance(animator.transform.position, Player.position);
+        if(Mob.GetComponentInChildren<Brain>().isHiding){
+                Mob.GetComponentInChildren<Brain>().detectsPlayer = false;
+                animator.SetBool("isChasing", false);
+            }
         //Debug.Log(playerPos);
         if (distance < attackRange && !chargeCD && !charging){
             Debug.Log("charging");
@@ -48,8 +52,8 @@ public class ChaseBehaviour : StateMachineBehaviour
                 //animator.SetBool("isChasing", false);
             }
             if(Mob.GetComponentInChildren<Brain>().isHiding){
+                Mob.GetComponentInChildren<Brain>().detectsPlayer = false;
                 animator.SetBool("isChasing", false);
-                animator.SetBool("isPatrolling", true);
             }
         }else{
             Mob.SetDestination(Player.position);
