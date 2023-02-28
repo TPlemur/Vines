@@ -47,7 +47,7 @@ public class PatrolBehaviour : StateMachineBehaviour
        if(!Mob.hasPath){
             if (mobBrain.investigating){
                 animator.SetBool("isInvestigating", true);
-            }else if (GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){
+            }else if (GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ //One time hunt event as a result of the generator turning on
                 animator.SetBool("isInvestigating", true);
                 mobBrain.huntedGeneratorEvent = true;
                 mobBrain.investigating = true;

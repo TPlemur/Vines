@@ -18,6 +18,7 @@ public class Brain : MonoBehaviour
     public float mobPursuitTimer;
     [HideInInspector]
     public float tempPursuitTimer;
+    public float maxChaseTimer;
     [HideInInspector]
     public bool detectsPlayer = false;
     [HideInInspector]
@@ -45,7 +46,7 @@ public class Brain : MonoBehaviour
         // Timer to send hint
         if(hintTimer < mobHintTimer && !detectsPlayer){
             hintTimer += Time.deltaTime;
-            Debug.Log(hintTimer);
+            //Debug.Log(hintTimer);
         }else if(detectsPlayer){
             hintTimer = 0;
         }

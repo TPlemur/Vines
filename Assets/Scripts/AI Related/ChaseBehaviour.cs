@@ -8,9 +8,11 @@ public class ChaseBehaviour : StateMachineBehaviour
 {
     Transform Player;
     NavMeshAgent Mob;
+    Brain mobBrain;
     public float attackRange = 20;
     public float enemyspeed = 5;
     float timer;
+    float timeSpentCharging = 0;
     bool chargeCD = false;
     bool charging = false;
 
@@ -23,6 +25,7 @@ public class ChaseBehaviour : StateMachineBehaviour
        timer = 0;
        Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
        Mob.speed = enemyspeed;
+       mobBrain = Mob.GetComponentInChildren<Brain>();
         Debug.Log("IN CHASE STATE");
        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -30,9 +33,10 @@ public class ChaseBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        timeSpentCharging += Time.deltaTime;
         float distance = Vector3.Distance(animator.transform.position, Player.position);
-        if(Mob.GetComponentInChildren<Brain>().isHiding){
-                Mob.GetComponentInChildren<Brain>().detectsPlayer = false;
+        if(mobBrain.isHiding){
+                mobBrain.detectsPlayer = false;
                 animator.SetBool("isChasing", false);
             }
         //Debug.Log(playerPos);
@@ -51,8 +55,8 @@ public class ChaseBehaviour : StateMachineBehaviour
                 Debug.Log("finished charge");
                 //animator.SetBool("isChasing", false);
             }
-            if(Mob.GetComponentInChildren<Brain>().isHiding){
-                Mob.GetComponentInChildren<Brain>().detectsPlayer = false;
+            if(mobBrain.isHiding){
+                mobBrain.detectsPlayer = false;
                 animator.SetBool("isChasing", false);
             }
         }else{
@@ -61,10 +65,15 @@ public class ChaseBehaviour : StateMachineBehaviour
         if (chargeCD){
             timer += Time.deltaTime;
         }
-        if (timer > 3)
+        if (timer > 3){
             Debug.Log("charge again");
             chargeCD = false;
             timer = 0;
+        }
+        if(timeSpentCharging >= mobBrain.maxChaseTimer){
+            mobBrain.detectsPlayer = false;
+            animator.SetBool("isChasing", false);
+        }
 
     }
 
