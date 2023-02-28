@@ -149,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         {
             MixerController.SetHiding(true);
             Monster.GetComponentInChildren<Brain>().isHiding = true;
+            Monster.GetComponentInChildren<Brain>().detectsPlayer = false;
         }
     }
 
