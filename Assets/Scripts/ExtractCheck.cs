@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class ExtractCheck : MonoBehaviour
 {
     void OnTriggerEnter(Collider col){
-        if(col.gameObject.GetComponent<PlayerItemsAndInventory>().validPic){
-            Debug.Log("HERE");
+        if(GameStateManager.ValidSplitjawPic){
             SceneManager.LoadScene(2);
         }
     }

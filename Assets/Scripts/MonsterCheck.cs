@@ -8,14 +8,12 @@ public class MonsterCheck : MonoBehaviour
 
     void OnTriggerEnter(Collider col){
         if(col.transform.tag == "Monster"){
-            Debug.Log("BRUH");
             isMonsterInside = true;
         }
     }
 
     void OnTriggerExit(Collider col){
         if(col.transform.tag == "Monster"){
-            Debug.Log("NOT BRUH");
             isMonsterInside = false;
         }
     }

@@ -29,14 +29,11 @@ public class trapScript : MonoBehaviour
     Inventory inventory;
     float timer = 0;
 
-    private void FixedUpdate()
+    private void Update()
     {
         //check if trap can be charged
         if (currentState == State.off) {
-            if(inventory != null){
-                //Debug.Log(inventory.equippedItem.GetType());
-            }
-            if (PlayerContact && Input.GetMouseButton(0) && inventory.equippedItem.GetType() == typeof(ElectricalEquipment))
+            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn)
             {
                 //accumulate charge
                 if (timer == 0) { rend.enabled = true; rend.material = powering; }
@@ -72,7 +69,7 @@ public class trapScript : MonoBehaviour
         if(collision.transform.tag == "Player")
         {
             PlayerContact = true;
-            inventory = collision.transform.gameObject.GetComponent<PlayerItemsAndInventory>().inventory;
+            inventory = collision.transform.gameObject.GetComponent<InventoryManager>().inventory;
             if (currentState == State.set)
             {
                 currentState = State.triggered;
