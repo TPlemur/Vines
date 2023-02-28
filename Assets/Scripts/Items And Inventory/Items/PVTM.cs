@@ -41,6 +41,10 @@ public class PVTM : Item
                     // take pic
                     gameState.SplitjawDocumented();
                 }
+
+                // if at least 1 camera is connected, trigger pic sfx
+                if (gameState.IsFirstCameraLinked())
+                    PicSFX();
             }
             else{
                 GameObject obj = ShootRaycast(playerCam, 10.0f, camLayer);
@@ -69,6 +73,9 @@ public class PVTM : Item
     public override void Secondary(){
         toggled = !toggled ? true : false;
         itemObj.transform.localPosition = toggled ? new Vector3((float) 0.89, (float) 0.23, (float) -0.215) : original;
+        // if bringing the camera up to face and at least one camera is linked, make the camera change sfx
+        if (toggled && gameState.IsFirstCameraLinked())
+            CameraChangeSFX();
     }
 
     // Cycle cams left and rigth
