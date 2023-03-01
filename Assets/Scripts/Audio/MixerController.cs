@@ -56,6 +56,8 @@ public class MixerController : MonoBehaviour
     static string sfxPlayerBusString = "Bus:/SFX/Player";
     static string cameraReceiverBusString = "Bus:/SFX/CameraReceiver";
 
+    public enum CHASE_STATE { CHASING, PATROLLING };
+
     static public string GetBusName(MIXER_BUS bus)
     {
         switch (bus)
