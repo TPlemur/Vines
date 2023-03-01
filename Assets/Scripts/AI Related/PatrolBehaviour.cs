@@ -12,6 +12,7 @@ public class PatrolBehaviour : StateMachineBehaviour
     Transform Player;
     GameObject PlayerObj;
     NavMeshAgent Mob;
+    Brain mobBrain;
 
     private MonsterSounds sounds = null;
     public MonsterMusic music;
@@ -28,10 +29,15 @@ public class PatrolBehaviour : StateMachineBehaviour
             sounds = GetComponent<MonsterSounds>();
         */
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
+        mobBrain = Mob.GetComponentInChildren<Brain>();
         Debug.Log(Mob);
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
+        mobBrain.investigating = false;
+        // Stops the monster from trying to pursue player into hiding holes
+        Mob.Stop();
+        Mob.ResetPath();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -39,16 +45,22 @@ public class PatrolBehaviour : StateMachineBehaviour
     {
        // If the monster doesn't have a path, finds random spot within a radius to patrol to
        if(!Mob.hasPath){
-            if (Mob.GetComponentInChildren<Brain>().investigating ||
-                GameStateManager.GeneratorOn){
+            if (mobBrain.investigating){
                 animator.SetBool("isInvestigating", true);
-                //animator.SetBool("isPatrolling", false);
-                //Debug.Log("Investigating");
+            }else if (GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ //One time hunt event as a result of the generator turning on
+                animator.SetBool("isInvestigating", true);
+                mobBrain.huntedGeneratorEvent = true;
+                mobBrain.investigating = true;
             }else{
                 patrolPos = RandomNavmeshLocation(patrolRadius);
                 Mob.SetDestination(patrolPos);
                 Mob.speed = 3; //Only for testing purposes
                 //Debug.Log("RANDOM");
+            }
+       }else{
+            if(mobBrain.detectsPlayer && !mobBrain.isHiding){
+            //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
+            animator.SetBool("isChasing", true);
             }
        }
 
@@ -66,7 +78,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         */
         // float distance = Vector3.Distance(animator.transform.position, Player.position);
         // if (distance < MobDetectionDistance)
-        if(Mob.GetComponentInChildren<Brain>().detectsPlayer){
+        if(mobBrain.detectsPlayer && !mobBrain.isHiding){
             //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
             animator.SetBool("isChasing", true);
         }

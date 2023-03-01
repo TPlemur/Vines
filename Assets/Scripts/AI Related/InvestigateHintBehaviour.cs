@@ -10,6 +10,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     Transform Player;
     NavMeshAgent Mob;
     Vector3 playerPos;
+    Brain mobBrain;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,6 +18,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         playerPos = Player.position;//getClosestNavPointToPlayer(Player);
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
+        mobBrain = Mob.GetComponentInChildren<Brain>();
         //Debug.Log("Investigate state");
         Mob.speed = 3;
         animator.SetBool("isChasing", false);
@@ -30,26 +32,20 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
             Mob.SetDestination(Player.position);
         }
         // Mob.GetComponent<Brain>().investigating = true;
-        if(Mob.GetComponentInChildren<Brain>().detectsPlayer){
-            //Debug.Log(Mob.GetComponentInChildren<Brain>().detectsPlayer);
+        if(mobBrain.detectsPlayer){
             animator.SetBool("isChasing", true);
         }
         if(Mob.GetComponentInChildren<Brain>().isHiding){
-            animator.SetBool("isPatrolling", true);
+            mobBrain.investigating = false;
+            //animator.SetBool("isPatrolling", true);
+            animator.SetBool("isInvestigating", false);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       Mob.GetComponentInChildren<Brain>().investigating = false;
-    }
-
-    public Vector3 getClosestNavPointToPlayer(Transform target){
-        NavMeshHit navHit;
-        NavMesh.FindClosestEdge(target.position, out navHit, NavMesh.AllAreas);
-        Debug.Log("finding closest position");
-        return navHit.position;
+       mobBrain.investigating = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
