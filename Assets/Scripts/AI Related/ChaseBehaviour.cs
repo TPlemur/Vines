@@ -12,7 +12,7 @@ public class ChaseBehaviour : StateMachineBehaviour
     public float attackRange = 20;
     public float enemyspeed = 5;
     float timer;
-    float timeSpentCharging = 0;
+    float timeSpentCharging;
     bool chargeCD = false;
     bool charging = false;
 
@@ -24,8 +24,10 @@ public class ChaseBehaviour : StateMachineBehaviour
     {
        timer = 0;
        Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
-       Mob.speed = enemyspeed;
+       //Mob.speed = enemyspeed;
+       Mob.speed = chargeSpeed;
        mobBrain = Mob.GetComponentInChildren<Brain>();
+       timeSpentCharging = 0;
         Debug.Log("IN CHASE STATE");
        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -46,10 +48,10 @@ public class ChaseBehaviour : StateMachineBehaviour
             playerPos = Player.position;
             Mob.SetDestination(playerPos);
             Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.charge;
-            Mob.speed = chargeSpeed;
+            //Mob.speed = chargeSpeed;
         }else if (charging){
             if (Vector3.Distance(animator.transform.position, playerPos) < 5){
-                Mob.speed = moveSpeed;
+                //Mob.speed = moveSpeed;
                 charging = false;
                 chargeCD = true;
                 Debug.Log("finished charge");
