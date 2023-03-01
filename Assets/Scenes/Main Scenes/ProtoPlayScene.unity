@@ -6395,6 +6395,7 @@ MonoBehaviour:
   populateOnStart: 1
   destroyReference: 1
   playSoundOnStart: 0
+  retainReferenecs: 0
 --- !u!114 &1202420315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6644,6 +6645,9 @@ MonoBehaviour:
   startCol: 2
   columns: 5
   rows: 6
+  lightSFXGenerators:
+  - {fileID: 1631884776}
+  - {fileID: 1746018596}
   surface: {fileID: 947391576}
 --- !u!1 &1286820375
 GameObject:
@@ -7464,7 +7468,8 @@ MonoBehaviour:
   createNewObject: 1
   populateOnStart: 1
   destroyReference: 1
-  playSoundOnStart: 1
+  playSoundOnStart: 0
+  retainReferenecs: 1
 --- !u!114 &1631884777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7578,7 +7583,8 @@ MonoBehaviour:
   createNewObject: 1
   populateOnStart: 1
   destroyReference: 1
-  playSoundOnStart: 1
+  playSoundOnStart: 0
+  retainReferenecs: 1
 --- !u!114 &1746018597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7829,6 +7835,7 @@ MonoBehaviour:
   populateOnStart: 1
   destroyReference: 1
   playSoundOnStart: 0
+  retainReferenecs: 0
 --- !u!114 &1799944498
 MonoBehaviour:
   m_ObjectHideFlags: 0

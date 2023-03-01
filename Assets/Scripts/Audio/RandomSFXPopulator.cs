@@ -28,6 +28,13 @@ public class RandomSFXPopulator : MonoBehaviour
     [SerializeField]
     private bool playSoundOnStart = false;
 
+    [SerializeField]
+    private bool retainReferenecs = false;
+
+    private List<FMODUnity.StudioEventEmitter> emitters = new List<FMODUnity.StudioEventEmitter>();
+
+    public List<FMODUnity.StudioEventEmitter> GetEmitters() { return emitters; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +83,9 @@ public class RandomSFXPopulator : MonoBehaviour
             // because the object is already started, manually fulfill this requirement
             if (playSoundOnStart || emitter.PlayEvent == FMODUnity.EmitterGameEvent.ObjectStart)
                 emitter.Play();
+
+            if (retainReferenecs)
+                emitters.Add(emitter);
         }
 
         if (destroyReference)
