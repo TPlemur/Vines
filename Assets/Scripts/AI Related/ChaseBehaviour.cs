@@ -20,6 +20,7 @@ public class ChaseBehaviour : StateMachineBehaviour
     public float moveSpeed;
     Vector3 playerPos;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        timer = 0;
@@ -30,6 +31,12 @@ public class ChaseBehaviour : StateMachineBehaviour
        timeSpentCharging = 0;
         Debug.Log("IN CHASE STATE");
        Player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        // set FMOD ChaseState to chasing
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.CHASING);
+        Mob.GetComponentInChildren<MonsterSounds>().StartChase();
+        // set footstep intesity
+        Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.8f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -80,10 +87,14 @@ public class ChaseBehaviour : StateMachineBehaviour
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // set FMOD ChaseState to chasing
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.PATROLLING);
+        //Mob.GetComponentInChildren<MonsterSounds>().EndChase();
+        // set footstep intesity (safety for now at least)
+        Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.4f);
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

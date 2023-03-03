@@ -5777,7 +5777,7 @@ MonoBehaviour:
       Data4: 1831853899
     Path: event:/Music/Monster Music 01
   Event: 
-  PlayEvent: 0
+  PlayEvent: 1
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
@@ -7622,6 +7622,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1952833649}
     m_Modifications:
+    - target: {fileID: 2405818028129737521, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+      propertyPath: OverrideMinDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2455429392832246931, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -7681,6 +7685,10 @@ PrefabInstance:
     - target: {fileID: 2979307802832530990, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
       propertyPath: zTransformBarriar
       value: 1.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465847974631290775, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+      propertyPath: OverrideMinDistance
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2709418170944726735, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
@@ -8011,10 +8019,6 @@ GameObject:
   - component: {fileID: 1952833647}
   - component: {fileID: 1952833651}
   - component: {fileID: 1952833650}
-  - component: {fileID: 1952833654}
-  - component: {fileID: 1952833655}
-  - component: {fileID: 1952833657}
-  - component: {fileID: 1952833656}
   m_Layer: 2
   m_Name: Monster
   m_TagString: Monster
@@ -8095,109 +8099,6 @@ CapsuleCollider:
   m_Height: 4.46
   m_Direction: 1
   m_Center: {x: 0.39, y: 0.63, z: -0.00000008940697}
---- !u!114 &1952833654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952833646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 975293957
-      Data2: 1239085567
-      Data3: -1220466762
-      Data4: 154559069
-    Path: event:/SFX/Monster/Monster Footsteps
-  Event: 
-  PlayEvent: 0
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params:
-  - Name: Terrain
-    Value: 0
-  - Name: Metal Creak
-    Value: 0.39999998
-  - Name: Metal Walkway
-    Value: 0.5
-  - Name: Water Splash
-    Value: 0
-  - Name: Vine
-    Value: 0.95
-  OverrideAttenuation: 1
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 50
---- !u!114 &1952833655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952833646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ea8aa1f645a624caee008ada0c3078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultTerrain: 2
-  minTime: 0.5
-  maxMoveSpeed: -1
-  referenecEvent: {fileID: 1952833654}
-  test1: 0
-  test2: 0
---- !u!114 &1952833656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952833646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 806ec8da7e2cdbe49a6c3028748fb5ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  emitter: {fileID: 1952833657}
---- !u!114 &1952833657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952833646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 316752678
-      Data2: 1293816132
-      Data3: -493079375
-      Data4: -969143674
-    Path: event:/SFX/Monster/Monster Sounds
-  Event: 
-  PlayEvent: 0
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params:
-  - Name: MonsterState
-    Value: 0
-  OverrideAttenuation: 1
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 50
 --- !u!1 &1959031379
 GameObject:
   m_ObjectHideFlags: 0
