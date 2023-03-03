@@ -38,6 +38,9 @@ public class PatrolBehaviour : StateMachineBehaviour
         // Stops the monster from trying to pursue player into hiding holes
         Mob.Stop();
         Mob.ResetPath();
+
+        // set footstep intensity
+        Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.4f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -70,12 +73,6 @@ public class PatrolBehaviour : StateMachineBehaviour
     //         animator.SetBool("isPatrolling", false);
     //    }
 
-       /*Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
-            if (music)
-                music.EndChase();
-            if (playerSounds)
-                playerSounds.EndChase();
-        */
         // float distance = Vector3.Distance(animator.transform.position, Player.position);
         // if (distance < MobDetectionDistance)
         if(mobBrain.detectsPlayer && !mobBrain.isHiding){

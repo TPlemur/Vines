@@ -14,6 +14,8 @@ public class WarehouseMaker : MonoBehaviour
     [SerializeField] private int columns;
     [SerializeField] private int rows;
 
+    public List<RandomSFXPopulator> lightSFXGenerators;
+
     public Warehouse warehouse;
 
     public NavMeshSurface surface;
