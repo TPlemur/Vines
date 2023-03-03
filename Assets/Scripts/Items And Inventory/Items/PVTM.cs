@@ -20,8 +20,7 @@ public class PVTM : Item
     // Picture taking
     private LayerMask monsterPicLayer;
     private Material flash;
-    private bool isFlashing = false;
-    private float flashTimer = 0;
+    private bool canTakePic = false;
 
     public PVTM(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask, Material flashMat, GameObject stateManager) : base(cam, stateManager){
         LoadItem("PVTM_Prefab");
@@ -30,27 +29,28 @@ public class PVTM : Item
         real = realPVTMCam;
         flash = flashMat;
         gameState.PVTMObtained();
+        flash.a = 0.0f;
     }
 
     public override void Primary(){
         if(gameState.IsPowerRestored()){
-            if(toggled){
+            if(toggled && gameState.IsFirstCameraLinked()){
                 GameObject obj = ShootRaycast(real, 25.0f, monsterPicLayer);
-                // StartCoroutine(Flash());
                 if(obj != null){
                     // take pic
                     gameState.SplitjawDocumented();
                 }
-
-                // if at least 1 camera is connected, trigger pic sfx
-                if (gameState.IsFirstCameraLinked())
+                if(canTakePic){
+                    gameState.GetComponent<GameStateManager>().StartCoroutine(Flash());
                     PicSFX();
+                }
             }
             else{
                 GameObject obj = ShootRaycast(playerCam, 10.0f, camLayer);
                 if(obj != null){
                     // update game state to know what cams are linked
                     if(activeCams.Count == 0){
+                        canTakePic = true;
                         gameState.FirstCameraLinked();
                     }
                     else{
@@ -105,13 +105,20 @@ public class PVTM : Item
         return toggled;
     }
 
-    IEnumerator Flash(){
+    public IEnumerator Flash(){
+        this.canTakePic = false;
         Color c = flash.color;
-        for(float alpha = 1f; alpha >= 0f; alpha -= 0.1f){
-            c.a = alpha;
+        float d = 1.25f;
+        float remaining = d;
+        while (remaining >= 0.0f) {
+            c.a = remaining / d;
             flash.color = c;
+            remaining -= Time.deltaTime;
             yield return null;
         }
+        this.canTakePic = true;
+        c.a = 0;
+        flash.color = c;
     }
 
     // SFX
