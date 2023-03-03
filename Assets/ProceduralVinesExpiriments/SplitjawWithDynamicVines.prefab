@@ -742,6 +742,11 @@ GameObject:
   - component: {fileID: 2709418170944726729}
   - component: {fileID: 2709418170944726735}
   - component: {fileID: 2979307802832530990}
+  - component: {fileID: 2405818028129737521}
+  - component: {fileID: 5874562109819299627}
+  - component: {fileID: 4465847974631290775}
+  - component: {fileID: 2351935532160054468}
+  - component: {fileID: 2440025000726649624}
   m_Layer: 0
   m_Name: SplitjawWithDynamicVines
   m_TagString: Untagged
@@ -835,6 +840,121 @@ MonoBehaviour:
   chargeNumForward: 5
   chargeNumRadial: 2
   chargeInterval: 0.05
+--- !u!114 &2405818028129737521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2979307802832530985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 975293957
+      Data2: 1239085567
+      Data3: -1220466762
+      Data4: 154559069
+    Path: event:/SFX/Monster/Monster Footsteps
+  Event: 
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params:
+  - Name: Terrain
+    Value: 0
+  - Name: Metal Creak
+    Value: 0.39999998
+  - Name: Metal Walkway
+    Value: 0.5
+  - Name: Water Splash
+    Value: 0
+  - Name: Vine
+    Value: 0.95
+  OverrideAttenuation: 1
+  OverrideMinDistance: 4
+  OverrideMaxDistance: 50
+--- !u!114 &5874562109819299627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2979307802832530985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e2be767706a7c4f8af535734a8181b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultTerrain: 2
+  referenecEvent: {fileID: 2405818028129737521}
+--- !u!114 &4465847974631290775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2979307802832530985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 316752678
+      Data2: 1293816132
+      Data3: -493079375
+      Data4: -969143674
+    Path: event:/SFX/Monster/Monster Sounds
+  Event: 
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params:
+  - Name: MonsterState
+    Value: 0
+  OverrideAttenuation: 1
+  OverrideMinDistance: 4
+  OverrideMaxDistance: 50
+--- !u!114 &2351935532160054468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2979307802832530985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 806ec8da7e2cdbe49a6c3028748fb5ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitter: {fileID: 4465847974631290775}
+--- !u!114 &2440025000726649624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2979307802832530985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: ChaseState
+  TriggerEvent: 1
+  Value: 1
 --- !u!1 &3169882427226552028
 GameObject:
   m_ObjectHideFlags: 0

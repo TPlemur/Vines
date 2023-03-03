@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterSounds : MonoBehaviour
 {
-    public enum MONSTER_STATES { IDLE, SWALLOWING, ROAR };
+    public enum MONSTER_STATES { IDLE, CLICK, SWALLOW, ROAR, GROWL, HOWL };
 
     public FMODUnity.StudioEventEmitter emitter = null;
 
@@ -23,7 +23,7 @@ public class MonsterSounds : MonoBehaviour
         
     }
 
-    public void Roar()
+    public void StartChase()
     {
         SetState(MONSTER_STATES.ROAR);
         StartCoroutine(WaitAndChangeState(0.001f, MONSTER_STATES.IDLE));

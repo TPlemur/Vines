@@ -49,6 +49,12 @@ public class GameStateManager : MonoBehaviour
         GeneratorOn = true;
         Debug.Log("POWER RESTORED");
         Warehouse.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
+        // toggle on light SFX
+        foreach (var lightGen in Warehouse.GetComponent<WarehouseMaker>().lightSFXGenerators)
+        {
+            foreach (var emitter in lightGen.GetEmitters())
+                emitter.Play();
+        }
         // code/sounds/animations/UI for after turning on power
     }
 
