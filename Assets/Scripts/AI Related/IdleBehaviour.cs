@@ -28,17 +28,12 @@ public class IdleBehaviour : StateMachineBehaviour
         if (timer > patrolDelay)
             animator.SetBool("isPatrolling", true);
 
-        // float distance = Vector3.Distance(animator.transform.position, Player.position);
-        // if (distance < MobDetectionDistance)
-        //     animator.SetBool("isChasing", true);
-        //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
         if(Mob.GetComponentInChildren<Brain>().detectsPlayer && !Mob.GetComponentInChildren<Brain>().isHiding)
-            animator.SetBool("isChasing", true);
+            animator.SetBool("isCharging", true);
 
         //Debug.Log(Mob.GetComponent<Brain>().investigating);
         if (Mob.GetComponentInChildren<Brain>().investigating){
             animator.SetBool("isInvestigating", true);
-            //Debug.Log("Investigating");
         }
     }
 
