@@ -14,6 +14,7 @@ public class ObjectiveScript : MonoBehaviour
     public GameObject DocumentObj;
     public GameObject EscapeObj;
     public GameObject FlashObj;
+    public GameObject PauseMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +27,15 @@ public class ObjectiveScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseGame();
+            if (Time.timeScale == 1)
+            {
+                PauseGame();
+            }
+            else if(Time.timeScale == 0)
+            {
+                ResumeGame();
+            }
+            
         }
 
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && (inputCounter < 3))
@@ -48,10 +57,12 @@ public class ObjectiveScript : MonoBehaviour
 
     public void PauseGame()
     {
+        PauseMenu.SetActive(true);
         Time.timeScale = 0;
     }
     public void ResumeGame()
     {
+        PauseMenu.SetActive(false);
         Time.timeScale = 1;
     }
 }
