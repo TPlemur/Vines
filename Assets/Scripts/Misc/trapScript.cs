@@ -13,11 +13,14 @@ public class trapScript : MonoBehaviour
     [SerializeField] private Material powering;
     [SerializeField] private Material ready;
     [SerializeField] private Material active;
+    [SerializeField] private Material InteractableOutline;
+
+    [SerializeField] private MeshRenderer[] blocks;
+    [SerializeField] private ColliderNotifyer playerSensor;
 
     enum State
     {
         off,
-        isPowering,
         charged,
         set,
         triggered
@@ -28,6 +31,9 @@ public class trapScript : MonoBehaviour
     bool PlayerContact = false;
     Inventory inventory;
     float timer = 0;
+
+    Material[] outOnArr;
+    Material[] outOffArr;
 
     private void Update()
     {
@@ -53,6 +59,25 @@ public class trapScript : MonoBehaviour
             //vissualy indicate that trap is ready
             if (timer > setTime) { rend.material = ready; }
         }
+        if (GameStateManager.GeneratorOn && playerSensor.triggered && playerSensor.collision.tag == "Player")
+        {
+
+            if (!PlayerContact){
+                foreach (MeshRenderer b in blocks)
+                {
+                    b.materials = outOnArr;
+                }
+            }
+            PlayerContact = true;
+        }
+        else if(PlayerContact)
+        {
+            foreach (MeshRenderer b in blocks)
+            {
+                b.materials = outOffArr;
+            }
+            PlayerContact = false;
+        }
 
     }
 
@@ -60,6 +85,9 @@ public class trapScript : MonoBehaviour
     {
         rend = gameObject.GetComponent<MeshRenderer>();
         rend.enabled = false;
+        outOnArr = blocks[0].materials;
+        outOffArr = blocks[0].materials;
+        outOnArr[1] = InteractableOutline;
     }
 
 
