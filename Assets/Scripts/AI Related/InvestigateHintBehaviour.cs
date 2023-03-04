@@ -22,6 +22,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         //Debug.Log("Investigate state");
         Mob.speed = 3;
         animator.SetBool("isChasing", false);
+        animator.SetBool("isCharging", false);
         animator.SetBool("isPatrolling", false);
     }
 
@@ -33,7 +34,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         }
         // Mob.GetComponent<Brain>().investigating = true;
         if(mobBrain.detectsPlayer){
-            animator.SetBool("isChasing", true);
+            animator.SetBool("isCharging", true);
         }
         if(Mob.GetComponentInChildren<Brain>().isHiding){
             mobBrain.investigating = false;

@@ -30,7 +30,6 @@ public class PatrolBehaviour : StateMachineBehaviour
         */
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
-        Debug.Log(Mob);
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
@@ -60,11 +59,6 @@ public class PatrolBehaviour : StateMachineBehaviour
                 Mob.speed = 3; //Only for testing purposes
                 //Debug.Log("RANDOM");
             }
-       }else{
-            if(mobBrain.detectsPlayer && !mobBrain.isHiding){
-            //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
-            animator.SetBool("isChasing", true);
-            }
        }
 
        // Supposed to end patrolling after reaching spot, so it can return to idle, then patrol again
@@ -73,11 +67,17 @@ public class PatrolBehaviour : StateMachineBehaviour
     //         animator.SetBool("isPatrolling", false);
     //    }
 
+       /*Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
+            if (music)
+                music.EndChase();
+            if (playerSounds)
+                playerSounds.EndChase();
+        */
         // float distance = Vector3.Distance(animator.transform.position, Player.position);
         // if (distance < MobDetectionDistance)
         if(mobBrain.detectsPlayer && !mobBrain.isHiding){
-            //Debug.Log(Mob.GetComponent<Brain>().detectsPlayer);
-            animator.SetBool("isChasing", true);
+            Mob.velocity = Vector3.zero;
+            animator.SetBool("isCharging", true);
         }
     }
 

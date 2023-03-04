@@ -7679,6 +7679,18 @@ PrefabInstance:
       value: SplitjawWithDynamicVines
       objectReference: {fileID: 0}
     - target: {fileID: 2979307802832530990, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+      propertyPath: chargeInterval
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2979307802832530990, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+      propertyPath: chargeNumRadial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2979307802832530990, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
+      propertyPath: chargeNumForward
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2979307802832530990, guid: f194ec9e9f5f09f4b8703a8ecda0888a, type: 3}
       propertyPath: staticIvyManager
       value: 
       objectReference: {fileID: 1262993500437187315}
@@ -8479,7 +8491,7 @@ MonoBehaviour:
   branchMaterial: {fileID: 2100000, guid: 4ba047dc4b8fb524493471fb420af3eb, type: 2}
   branches: 1
   maxPointsForBranch: 120
-  segmentLength: 0.15
+  segmentLength: 0.2
   branchRadius: 0.04
   validSurfaces:
     serializedVersion: 2
