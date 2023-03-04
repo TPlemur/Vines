@@ -265,6 +265,7 @@ public class Warehouse{
      *
      */
     public void TurnOnLights(){
+        RenderSettings.ambientLight = new Color(160f/255f, 160f/255f, 160f/255f);
         foreach(List<Room> row in data){
             foreach(Room room in row){
                 if(room.exits.NumberOf() != 0){
