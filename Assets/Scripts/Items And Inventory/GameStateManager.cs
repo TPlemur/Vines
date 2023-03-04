@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
+    public ObjectiveScript OBJSC;
     [Header("Objective Realted")]
     public static bool GeneratorOn;
     public static bool PVTMAcquired;
@@ -56,18 +57,36 @@ public class GameStateManager : MonoBehaviour
                 emitter.Play();
         }
         // code/sounds/animations/UI for after turning on power
+        OBJSC.DisplayObj(OBJSC.PowerObj, false);
+        if (!PVTMAcquired)
+        {
+            OBJSC.DisplayObj(OBJSC.PVTMObj, true);
+        }
     }
 
     public void PVTMObtained(){
         PVTMAcquired = true;
         Debug.Log("PVTM ACQUIRED");
         // code/sounds/animations/UI for after acquiring PVTM
+        OBJSC.DisplayObj(OBJSC.PVTMObj, false);
+        if (!GeneratorOn) 
+        {
+            OBJSC.DisplayObj(OBJSC.PowerObj, true);
+        }
     }
 
     public void FlashlightObtained(){
         FlashlightAcquired = true;
+        OBJSC.inputCounter = 1;
         Debug.Log("FLASHLIGHT ACQUIRED");
         // code/sounds/animations/UI for after acquiring Flashlight
+        OBJSC.DisplayObj(OBJSC.FlashObj, false);
+        OBJSC.DisplayObj(OBJSC.MoveText, false);
+        if (!GeneratorOn)
+        {
+            OBJSC.DisplayObj(OBJSC.PowerObj, true);
+        }
+        
     }
 
     public void ShieldObtained(){
