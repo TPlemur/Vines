@@ -29,7 +29,7 @@ public class PVTM : Item
         real = realPVTMCam;
         flash = flashMat;
         gameState.PVTMObtained();
-        flash.a = 0.0f;
+        //flash.a = 0.0f;
     }
 
     public override void Primary(){
