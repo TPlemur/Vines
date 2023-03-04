@@ -40,8 +40,11 @@ public class InventoryManager : MonoBehaviour
             Interact();
         }
 
+        //update outlines as necessasary
+        CheckOutlines();
+
         // cycle left and right
-        if(Input.GetKeyDown(cycleRightKey)){
+        if (Input.GetKeyDown(cycleRightKey)){
             if(inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()){
                 inventory.equipped.CycleRight();
             }
@@ -98,6 +101,26 @@ public class InventoryManager : MonoBehaviour
                 inventory.Add(new Flashlight(GameStateManager));
             }
             Destroy(interact.gameObject);
+        }
+    }
+
+    //RunOutlines
+    private OutlineToggle lastOutline;
+    private void CheckOutlines()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f))
+        {
+            var interact = hit.transform;
+            if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
+            {
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
+            else if(lastOutline != null)
+            {
+                lastOutline.Off();
+            }
         }
     }
 }

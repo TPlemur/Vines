@@ -160,6 +160,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 71aaef7f0b690ea49892dc631becaf01, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -226,6 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9085796737403055108}
   - component: {fileID: 5893885681472891710}
+  - component: {fileID: -1322722249707529348}
   m_Layer: 9
   m_Name: PVTM_Prefab_I
   m_TagString: PVTM
@@ -262,6 +264,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 650.1, y: 775, z: 699.4}
   m_Center: {x: -63.6, y: 55.8, z: -183.9}
+--- !u!114 &-1322722249707529348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139793109004939663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679d3c4c7bc52de47ad8889841a6ea30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMat: {fileID: 2100000, guid: ac688b2e7fad2b542aaae32cac6efac0, type: 2}
+  rend: {fileID: 9120688045453312275}
 --- !u!1 &8298543641709763036
 GameObject:
   m_ObjectHideFlags: 0

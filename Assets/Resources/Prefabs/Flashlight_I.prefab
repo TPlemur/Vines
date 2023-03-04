@@ -44,6 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 251936084669268245}
   - component: {fileID: 8489521310372656990}
+  - component: {fileID: 8126863754163031374}
   m_Layer: 9
   m_Name: Flashlight_I
   m_TagString: Flashlight
@@ -81,6 +82,20 @@ CapsuleCollider:
   m_Height: 12.603454
   m_Direction: 1
   m_Center: {x: -1.0637864, y: -0.11459469, z: -0.6023265}
+--- !u!114 &8126863754163031374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628301951738257979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679d3c4c7bc52de47ad8889841a6ea30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMat: {fileID: 2100000, guid: ac688b2e7fad2b542aaae32cac6efac0, type: 2}
+  rend: {fileID: 1894801225072129343}
 --- !u!1 &5954792124789818821
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +241,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
