@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    [Header("Debug")]
+    [SerializeField]
+    private bool debugInvincibility = false;
+
     public bool IsGrounded() { return grounded; }
     public bool IsCrouching() { return crouching; }
 
@@ -131,12 +135,14 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    SceneManager.LoadScene(3);
+                    // player killed
+                    OnPlayerKilled();
                 }
             }
             else
             {
-                SceneManager.LoadScene(3);
+                // player killed
+                OnPlayerKilled();
             }
 
         }
@@ -179,4 +185,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnPlayerKilled()
+    {
+        if (!debugInvincibility)
+            SceneManager.LoadScene(3);
+    }
 }

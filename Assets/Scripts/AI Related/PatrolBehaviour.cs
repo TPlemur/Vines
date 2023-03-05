@@ -14,10 +14,6 @@ public class PatrolBehaviour : StateMachineBehaviour
     NavMeshAgent Mob;
     Brain mobBrain;
 
-    private MonsterSounds sounds = null;
-    public MonsterMusic music;
-    public PlayerSounds playerSounds;
-
     Vector3 patrolPos;
 
     public float visionAngle = 1f;
@@ -38,6 +34,9 @@ public class PatrolBehaviour : StateMachineBehaviour
         Mob.Stop();
         Mob.ResetPath();
 
+        // AUDIO
+        // set FMOD ChaseState to patrolling
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.PATROLLING);
         // set footstep intensity
         Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.4f);
     }

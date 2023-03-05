@@ -19,6 +19,9 @@ public class IdleBehaviour : StateMachineBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         patrolDelay = Mob.GetComponentInChildren<Brain>().patrolDelay;
+
+        // AUDIO
+        Mob.GetComponentInChildren<MonsterSounds>().Howl();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

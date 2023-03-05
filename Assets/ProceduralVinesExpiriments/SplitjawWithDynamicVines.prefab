@@ -747,6 +747,7 @@ GameObject:
   - component: {fileID: 4465847974631290775}
   - component: {fileID: 2351935532160054468}
   - component: {fileID: 2440025000726649624}
+  - component: {fileID: 5434006613515518744}
   m_Layer: 0
   m_Name: SplitjawWithDynamicVines
   m_TagString: Untagged
@@ -840,6 +841,13 @@ MonoBehaviour:
   chargeNumForward: 5
   chargeNumRadial: 2
   chargeInterval: 0.05
+  roarTarget: {fileID: 0}
+  roarGrowSpeed: 1
+  roarvineDelay: 0
+  roarShrinkSpeed: 1
+  roarNum: 15
+  roarInterval: 0.1
+  roarDuration: 6.208
 --- !u!114 &2405818028129737521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,8 +886,8 @@ MonoBehaviour:
   - Name: Vine
     Value: 0.95
   OverrideAttenuation: 1
-  OverrideMinDistance: 4
-  OverrideMaxDistance: 50
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 60
 --- !u!114 &5874562109819299627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,11 +917,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 316752678
-      Data2: 1293816132
-      Data3: -493079375
-      Data4: -969143674
-    Path: event:/SFX/Monster/Monster Sounds
+      Data1: 1875858633
+      Data2: 1202855560
+      Data3: 15859359
+      Data4: -2124027816
+    Path: event:/SFX/Monster/Monster Bear Sounds
   Event: 
   PlayEvent: 0
   StopEvent: 2
@@ -924,8 +932,8 @@ MonoBehaviour:
   - Name: MonsterState
     Value: 0
   OverrideAttenuation: 1
-  OverrideMinDistance: 4
-  OverrideMaxDistance: 50
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 60
 --- !u!114 &2351935532160054468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,6 +963,36 @@ MonoBehaviour:
   Parameter: ChaseState
   TriggerEvent: 1
   Value: 1
+--- !u!114 &5434006613515518744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2979307802832530985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -70739679
+      Data2: 1259919422
+      Data3: -803949894
+      Data4: -1526269044
+    Path: event:/SFX/Monster/Vine Growth 2
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 5
+  OverrideMaxDistance: 60
 --- !u!1 &3169882427226552028
 GameObject:
   m_ObjectHideFlags: 0

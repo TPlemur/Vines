@@ -32,6 +32,7 @@ public class ChaseBehaviour : StateMachineBehaviour
         Debug.Log("IN CHASE STATE");
        Player = GameObject.FindGameObjectWithTag("Player").transform;
 
+        // AUDIO
         // set FMOD ChaseState to chasing
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.CHASING);
         Mob.GetComponentInChildren<MonsterSounds>().StartChase();
@@ -84,14 +85,25 @@ public class ChaseBehaviour : StateMachineBehaviour
             animator.SetBool("isChasing", false);
         }
 
+        // spaghetti audio code
+        /*
+        const float prob = 0.005f;
+        if (Random.value <= prob)
+        {
+            if (Random.value < 0.5f)
+                Mob.GetComponentInChildren<MonsterSounds>().Growl();
+            else
+                Mob.GetComponentInChildren<MonsterSounds>().RoarQuick();
+        }
+        */
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // set FMOD ChaseState to chasing
+        // set FMOD ChaseState to patrolling
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.PATROLLING);
-        //Mob.GetComponentInChildren<MonsterSounds>().EndChase();
+        Mob.GetComponentInChildren<MonsterSounds>().EndChase();
         // set footstep intesity (safety for now at least)
         Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.4f);
     }
