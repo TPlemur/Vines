@@ -13,6 +13,7 @@ public class PatrolBehaviour : StateMachineBehaviour
     GameObject PlayerObj;
     NavMeshAgent Mob;
     Brain mobBrain;
+    bool playerCanSeeMob = false;
 
     private MonsterSounds sounds = null;
     public MonsterMusic music;
@@ -78,6 +79,21 @@ public class PatrolBehaviour : StateMachineBehaviour
         if(mobBrain.detectsPlayer && !mobBrain.isHiding){
             Mob.velocity = Vector3.zero;
             animator.SetBool("isCharging", true);
+        }
+
+        if(mobBrain.timeForAmbush){
+            Ray monVis = new Ray(Mob.transform.position, (Player.transform.position-Mob.transform.position));
+            RaycastHit hit;
+            if(Physics.Raycast(monVis, out hit, 100)){
+                if(hit.collider.tag == "Player"){
+                    playerCanSeeMob = true;
+                }else{
+                    playerCanSeeMob = false;
+                }
+            }
+            if(!playerCanSeeMob){
+                animator.SetBool("isAmbushing", true);
+            }
         }
     }
 

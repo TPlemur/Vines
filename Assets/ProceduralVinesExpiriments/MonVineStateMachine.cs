@@ -7,7 +7,8 @@ public class MonVineStateMachine : MonoBehaviour
     public enum state {
         walk,
         charge,
-        roar
+        roar,
+        none
     }
     public state currentState = state.walk;
     [SerializeField] ProceduralIvy staticIvyManager;
@@ -75,6 +76,8 @@ public class MonVineStateMachine : MonoBehaviour
                     StartCoroutine(roar());
                     didRoar = true;
                 }
+                break;
+            case state.none:
                 break;
         }
     }

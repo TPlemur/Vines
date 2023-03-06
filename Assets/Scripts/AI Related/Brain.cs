@@ -32,6 +32,8 @@ public class Brain : MonoBehaviour
     public float timeHidden = 0;
     [HideInInspector]
     public bool isHiding = false;
+    [HideInInspector]
+    public bool timeForAmbush = false;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,10 @@ public class Brain : MonoBehaviour
             timeForHint = true;
             Debug.Log("HINT");
             investigating = true;
+        }
+
+        if(timeHidden >= ambushTime){
+            timeForAmbush = true;
         }
     }
 }
