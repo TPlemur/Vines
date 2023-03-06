@@ -11,6 +11,7 @@ public class Shield : Item
         LoadItem("Shield");
         original = itemObj.transform.localPosition;
         gameState.ShieldObtained();
+        PickupSFX();
     }
 
     public override void Secondary(){
@@ -25,5 +26,14 @@ public class Shield : Item
     public bool explode(){
         Debug.Log("EXPLODING SHIELD");
         return itemObj.GetComponentInChildren<ShieldDeployer>().findWidth(itemObj.transform);
+    }
+
+    private void PickupSFX()
+    {
+        const string eventName = "event:/SFX/Items/Shield/Pickup-1";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(itemObj));
+        sound.start();
+        sound.release();
     }
 }

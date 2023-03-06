@@ -29,6 +29,10 @@ public class PrechargeBehaviour : StateMachineBehaviour
         Mob.isStopped = true;
         Mob.speed = 0;
         Mob.ResetPath();
+
+        // AUDIO
+        //FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.CHASING);
+        Mob.GetComponentInChildren<MonsterSounds>().StartPreCharge();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
