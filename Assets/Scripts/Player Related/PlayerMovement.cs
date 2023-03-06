@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    [Header("Jumpscare Related")]
+    public GameObject JumpscareWorldPosition;
+    public GameObject JumpscareCameraPosition;
+
     [Header("Debug")]
     [SerializeField]
     private bool debugInvincibility = false;
@@ -69,6 +73,10 @@ public class PlayerMovement : MonoBehaviour
         //reset numVines
         numVines = 0;
 
+        // Debug testing to instakill player lol
+        if (Input.GetKeyDown(KeyCode.K)){
+            OnPlayerKilled();
+        }
     }
 
     private void FixedUpdate(){
@@ -185,9 +193,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator LoadAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(3);
+    }
+
     private void OnPlayerKilled()
     {
-        if (!debugInvincibility)
-            SceneManager.LoadScene(3);
+        if (!debugInvincibility){
+            JumpscareCameraPosition.SetActive(true);
+            this.gameObject.transform.position = JumpscareWorldPosition.GetComponent<Transform>().position;
+            StartCoroutine(LoadAfterTime((float)0.95));
+        }
     }
 }
