@@ -41,7 +41,6 @@ public class MonVineStateMachine : MonoBehaviour
     [SerializeField] float roarvineDelay = 0.0f;
     [SerializeField] float roarShrinkSpeed = 1.0f;
     [SerializeField] int roarNum = 15;
-    [SerializeField] float roarInterval = 0.1f;
     [SerializeField] float roarDuration = 6.208f;
     bool didRoar = false;
 
