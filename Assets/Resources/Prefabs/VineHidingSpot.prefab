@@ -40,9 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7825056570688800060}
+  - component: {fileID: 4810154925721874069}
   m_Layer: 0
   m_Name: VineHidingSpot
-  m_TagString: HidingHole
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,6 +71,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4810154925721874069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225955324488174075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17774142ef356d64da480d7f87c110a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XMBranches: {fileID: 2938936247870326605}
+  XPBranches: {fileID: 4136873333243868538}
+  XMacceleration: {x: -5, y: 0, z: 0}
+  XPacceleration: {x: 5, y: 0, z: 0}
+  newMaxDist: 1
+  driftTime: 6
+  doDrift: 0
 --- !u!1 &2068290708844166013
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,9 +260,9 @@ MonoBehaviour:
   - {fileID: 7181886380007046021}
   - {fileID: 2677179987563200998}
   - {fileID: 7870826221578519853}
-  branchMaterial: {fileID: 2100000, guid: 199763d8e8b94204b81cc31c12a6cbb6, type: 2}
+  branchMaterial: {fileID: 2100000, guid: 613ecf3e84dcc394196f89286748ecd5, type: 2}
   branches: 3
-  maxPointsForBranch: 10
+  maxPointsForBranch: 11
   segmentLength: 0.4
   branchRadius: 0.04
   validSurfaces:
@@ -449,9 +469,9 @@ MonoBehaviour:
   - {fileID: 60727583960106462}
   - {fileID: 6849113867714206907}
   - {fileID: 2978103571154496764}
-  branchMaterial: {fileID: 2100000, guid: 199763d8e8b94204b81cc31c12a6cbb6, type: 2}
+  branchMaterial: {fileID: 2100000, guid: 613ecf3e84dcc394196f89286748ecd5, type: 2}
   branches: 3
-  maxPointsForBranch: 10
+  maxPointsForBranch: 11
   segmentLength: 0.4
   branchRadius: 0.04
   validSurfaces:
@@ -461,7 +481,7 @@ MonoBehaviour:
   highAngle: 360
   useTargetForAngle: 0
   branchDelay: 0.75
-  branchGrowSpeed: 1
+  branchGrowSpeed: 0.1
   branchShrinkSpeed: 1
   initialDelay: 0
   vinesAtStart: 1

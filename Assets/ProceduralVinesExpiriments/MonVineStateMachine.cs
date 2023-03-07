@@ -36,7 +36,7 @@ public class MonVineStateMachine : MonoBehaviour
     [SerializeField] float chargeInterval = 0.1f;
 
     [Header("Roar Characteristics")]
-    [SerializeField] GameObject roarTarget;
+    [SerializeField] GameObject[] roarTargets;
     [SerializeField] float roarGrowSpeed = 1.0f;
     [SerializeField] float roarvineDelay = 0.0f;
     [SerializeField] float roarShrinkSpeed = 1.0f;
@@ -133,26 +133,23 @@ public class MonVineStateMachine : MonoBehaviour
 
     IEnumerator roar()
     {
-        if (!didRoar) {
-            //clean up old vines
-            Branch[] branches = staticIvyManager.gameObject.GetComponentsInChildren<Branch>();
-            foreach(Branch b in branches)
-            {
-                b.shrinkSpeed = roarDuration / 2;
-                b.startSrhink();
-            }
+        //clean up old vines
+        Branch[] branches = staticIvyManager.gameObject.GetComponentsInChildren<Branch>();
+        foreach (Branch b in branches)
+        {
+            b.shrinkSpeed = roarDuration;
+            b.startSrhink();
+        }
 
-            yield return new WaitForSeconds(roarDuration/2);
-            //spawn new vines
-            staticIvyManager.lowAngle = 0;
-            staticIvyManager.highAngle = 360;
-            staticIvyManager.branches = roarNum;
-            staticIvyManager.useTargetForAngle = false;
-            staticIvyManager.genVine(roarTarget, roarGrowSpeed, roarvineDelay, roarShrinkSpeed);
-
-            yield return new WaitForSeconds(roarDuration/3);
-            //Profit??
-
+        yield return new WaitForSeconds(roarDuration / 2);
+        //spawn new vines
+        staticIvyManager.lowAngle = 0;
+        staticIvyManager.highAngle = 360;
+        staticIvyManager.branches = roarNum;
+        staticIvyManager.useTargetForAngle = false;
+        foreach (GameObject tar in roarTargets)
+        {
+            staticIvyManager.genVine(tar, roarGrowSpeed, roarvineDelay, roarShrinkSpeed);
         }
     }
 }

@@ -825,9 +825,9 @@ MonoBehaviour:
   - {fileID: 2709418172005829375}
   - {fileID: 2709418170226039572}
   zTransformBarriar: 0.06
-  walkGrowSpeed: 3
-  walkvineDelay: 1
-  walkShrinkSpeed: 3
+  walkGrowSpeed: 2
+  walkvineDelay: 0.5
+  walkShrinkSpeed: 2
   walkLowAngle: -15
   walkHighAngle: 15
   walkNumForward: 6
@@ -841,11 +841,13 @@ MonoBehaviour:
   chargeNumForward: 5
   chargeNumRadial: 2
   chargeInterval: 0.05
-  roarTarget: {fileID: 0}
-  roarGrowSpeed: 1
+  roarTargets:
+  - {fileID: 2709418172005829375}
+  - {fileID: 2709418170226039572}
+  roarGrowSpeed: 2
   roarvineDelay: 0
-  roarShrinkSpeed: 1
-  roarNum: 15
+  roarShrinkSpeed: 2
+  roarNum: 10
   roarInterval: 0.1
   roarDuration: 6.208
 --- !u!114 &2405818028129737521
