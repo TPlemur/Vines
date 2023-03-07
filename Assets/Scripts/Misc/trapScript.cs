@@ -69,6 +69,10 @@ public class trapScript : MonoBehaviour
         outOnArr = blocks[0].materials;
         outOffArr = blocks[0].materials;
         outOnArr[1] = InteractableOutline;
+        foreach (MeshRenderer b in blocks)
+        {
+            b.materials = outOffArr;
+        }
     }
 
 
