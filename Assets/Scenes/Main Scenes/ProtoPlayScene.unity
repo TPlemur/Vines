@@ -631,6 +631,10 @@ PrefabInstance:
       propertyPath: branchGrowSpeed
       value: 600
       objectReference: {fileID: 0}
+    - target: {fileID: 8400405021686405813, guid: bf73e122cfc58b5448d145de7c96545c, type: 3}
+      propertyPath: validSurfaces.m_Bits
+      value: 114679
+      objectReference: {fileID: 0}
     - target: {fileID: 8637335233997726645, guid: bf73e122cfc58b5448d145de7c96545c, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -9612,12 +9616,12 @@ MonoBehaviour:
   - {fileID: 1952833646}
   branchMaterial: {fileID: 2100000, guid: 4ba047dc4b8fb524493471fb420af3eb, type: 2}
   branches: 1
-  maxPointsForBranch: 120
-  segmentLength: 0.2
+  maxPointsForBranch: 60
+  segmentLength: 0.4
   branchRadius: 0.04
   validSurfaces:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 114679
   lowAngle: -15
   highAngle: 15
   useTargetForAngle: 1

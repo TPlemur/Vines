@@ -19,8 +19,10 @@ public class ElectricalEquipment : Item
                 SparkMediumSFX();
                 gameState.PowerRestored();
                 //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
+                obj.transform.parent.GetComponent<GeneratorVibe>().enabled = true;
                 obj.GetComponent<Collider>().enabled = false;
                 TurnOnGeneratorSFX(obj);
+
             }
             if(obj.tag == "ContainmentButton" && gameState.IsPowerRestored()){
                 if(MonsterCheck.isMonsterInside){
