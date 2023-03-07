@@ -269,5 +269,6 @@ public class Branch : MonoBehaviour
         animate = false;
         shrink = false;
         deAnimate = true;
+        currentAmount = delayTime * shrinkSpeed / MAX;
     }
 }
