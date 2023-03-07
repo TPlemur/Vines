@@ -137,7 +137,7 @@ public class MonVineStateMachine : MonoBehaviour
         Branch[] branches = staticIvyManager.gameObject.GetComponentsInChildren<Branch>();
         foreach (Branch b in branches)
         {
-            //b.shrinkSpeed = roarDuration;
+            b.shrinkSpeed = roarDuration;
             b.startSrhink();
         }
 
