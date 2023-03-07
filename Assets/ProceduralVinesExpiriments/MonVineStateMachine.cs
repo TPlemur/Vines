@@ -131,16 +131,20 @@ public class MonVineStateMachine : MonoBehaviour
         }
     }
 
+
+
     IEnumerator roar()
     {
         //clean up old vines
+        //This moves the player around and I have no idea why
+        /*
         Branch[] branches = staticIvyManager.gameObject.GetComponentsInChildren<Branch>();
         foreach (Branch b in branches)
         {
             b.shrinkSpeed = roarDuration;
             b.startSrhink();
         }
-
+        */
         yield return new WaitForSeconds(roarDuration / 2);
         //spawn new vines
         staticIvyManager.lowAngle = 0;
