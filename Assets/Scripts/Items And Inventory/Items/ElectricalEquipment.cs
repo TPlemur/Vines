@@ -16,7 +16,7 @@ public class ElectricalEquipment : Item
         GameObject obj = ShootRaycast(playerCam, 2.5f, layer);
         if(obj != null){
             if(obj.tag == "ElectricalPanel"){
-                SparkMediumSFX();
+                SocketTesterSFX();
                 gameState.PowerRestored();
                 //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
                 obj.transform.parent.GetComponent<GeneratorVibe>().enabled = true;
@@ -32,7 +32,7 @@ public class ElectricalEquipment : Item
             }
         }
         else{
-            SparkShortSFX();
+            SocketTesterSFX();
         }
     }
 
@@ -44,7 +44,6 @@ public class ElectricalEquipment : Item
         sound.start();
         sound.release();
     }
-
     private void SparkMediumSFX()
     {
         const string eventName = "event:/SFX/Items/Electrical/Spark Medium";
@@ -52,9 +51,17 @@ public class ElectricalEquipment : Item
         sound.start();
         sound.release();
     }
+    private void SocketTesterSFX()
+    {
+        const string eventName = "event:/SFX/Items/Electrical/Socket Tester";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
 
     private void TurnOnGeneratorSFX(GameObject panel)
     {
+        SparkMediumSFX();
         foreach (var emitter in panel.GetComponents<FMODUnity.StudioEventEmitter>())
         {
             emitter.Play();
