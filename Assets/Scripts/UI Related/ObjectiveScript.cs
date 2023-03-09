@@ -7,7 +7,6 @@ public class ObjectiveScript : MonoBehaviour
 {
     public int inputCounter = 0;
 
-    
     public GameObject MoveText;
     public GameObject PowerObj;
     public GameObject PVTMObj;
@@ -15,11 +14,16 @@ public class ObjectiveScript : MonoBehaviour
     public GameObject EscapeObj;
     public GameObject FlashObj;
     public GameObject PauseMenu;
+    public GameObject CameraObj;
+
+    private List<GameObject> ActiveUI = new List<GameObject>();
+    private float UIyOffset = 0;
     // Start is called before the first frame update
     void Start()
     {
-        MoveText.SetActive(true);
-        
+        AddToActiveUI(MoveText);
+        AddToActiveUI(FlashObj);
+        AddToActiveUI(PowerObj);
     }
 
     // Update is called once per frame
@@ -43,26 +47,63 @@ public class ObjectiveScript : MonoBehaviour
             inputCounter++;
             if (inputCounter == 1)
             {
-                MoveText.SetActive(false);
-                DisplayObj(FlashObj,true);
+                RemoveFromActiveUI(MoveText);
             }
             
         }
 
     }
-    public void DisplayObj(GameObject objective, bool status)
+
+    public void AddToActiveUI(GameObject objective)
     {
-        objective.SetActive(status);
+        if(!objective.activeSelf){
+            // get original position of ui element and place it at an offset
+            var rt = objective.transform.GetComponent<RectTransform>();
+            var position = rt.anchoredPosition;
+            rt.anchoredPosition = new Vector2(position.x, position.y + UIyOffset);
+            ActiveUI.Add(objective);
+            objective.SetActive(true);
+            // subtract the ui elements height from the current y offset
+            UIyOffset -= rt.rect.height;
+        }
+    }
+
+    public void RemoveFromActiveUI(GameObject objective){
+        int index = ActiveUI.FindIndex(x => x.name == objective.name);
+        if(index > -1){
+            objective.SetActive(false);
+            ActiveUI.RemoveAt(index);
+            // get height of element just removed, adjust all current elements, add to current y offset
+            float height = objective.transform.GetComponent<RectTransform>().rect.height;
+            AdjustActiveUI(index, height);
+            UIyOffset += height;
+        }
+    }
+
+    public void AdjustActiveUI(int index, float height){
+        for(int i = index; i < ActiveUI.Count; i++){
+            var rt = ActiveUI[i].transform.GetComponent<RectTransform>();
+            var position = rt.anchoredPosition;
+            rt.anchoredPosition = new Vector2(position.x, position.y + height);
+            float temp = position.y + UIyOffset;
+        }
     }
 
     public void PauseGame()
     {
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
+        foreach(GameObject elem in ActiveUI){
+            elem.SetActive(false);
+        }
     }
+
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
+        foreach(GameObject elem in ActiveUI){
+            elem.SetActive(true);
+        }
     }
 }
