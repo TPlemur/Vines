@@ -30,6 +30,8 @@ public class PVTM : Item
         flash = flashMat;
         gameState.PVTMObtained();
         //flash.a = 0.0f;
+
+        PickupSFX();
     }
 
     public override void Primary(){
@@ -122,6 +124,13 @@ public class PVTM : Item
     }
 
     // SFX
+    private void PickupSFX()
+    {
+        const string eventName = "event:/SFX/Items/Inventory/Bag Pickup";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
     private void CameraWhirUpSFX(GameObject cam)
     {
         // camera whir up sound
@@ -131,7 +140,6 @@ public class PVTM : Item
         sound.start();
         sound.release();
     }
-
     private void PicSFX()
     {
         // pic sound
@@ -140,7 +148,6 @@ public class PVTM : Item
         sound.start();
         sound.release();
     }
-
     private void CameraChangeSFX()
     {
         // camera change noise sound

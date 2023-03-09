@@ -11,6 +11,8 @@ public class Flashlight : Item
         LoadItem("Flashlight");
         light = itemObj.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         gameState.FlashlightObtained();
+
+        PickupSFX();
     }
 
     public override void Primary(){
@@ -20,6 +22,13 @@ public class Flashlight : Item
     }
 
     // SFX
+    private void PickupSFX()
+    {
+        const string eventName = "event:/SFX/Items/Inventory/Bag Pickup";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
     private void SwitchSFX()
     {
         // flashlight switch sound
