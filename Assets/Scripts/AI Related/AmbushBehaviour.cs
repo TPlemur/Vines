@@ -9,6 +9,7 @@ public class AmbushBehaviour : StateMachineBehaviour
     Brain mobBrain;
     GameObject[] hidingHoles;// = GameObject.FindGameObjectsWithTag("HidingHole");
     GameObject hidingSpotToAmbush;
+    Vector3 oldPosition;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,6 +18,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         hidingHoles = GameObject.FindGameObjectsWithTag("HidingHole");
         Mob = animator.gameObject.GetComponentInParent<UnityEngine.AI.NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        oldPosition = Mob.transform.position;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         mobBrain.investigating = false;
         // Stops the monster from trying to move and stops vines from spawning
@@ -24,6 +26,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         Mob.isStopped = true;
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.none;
         Mob.ResetPath();
+        animator.speed = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -39,11 +42,19 @@ public class AmbushBehaviour : StateMachineBehaviour
             }
         }
         // Moves monster to hiding spot
-        if(!mobBrain.isHiding){
+        float distance = Vector3.Distance(hidingSpotToAmbush.transform.position, Player.position);
+        if(!mobBrain.isHiding && distance >= 10){
             Mob.Warp(hidingSpotToAmbush.transform.position);
+            Mob.isStopped = true;
+            Mob.Stop();
+            Mob.ResetPath();
+            Mob.transform.LookAt(Player);
         }
 
-        //If within certain distance of player, kill them
+        if(!mobBrain.timeForAmbush){
+            Mob.Warp(oldPosition);
+            animator.SetBool("isAmbushing", false);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

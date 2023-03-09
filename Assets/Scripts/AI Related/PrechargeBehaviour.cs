@@ -8,7 +8,6 @@ public class PrechargeBehaviour : StateMachineBehaviour
 {
     float timer;
     Transform Player;
-    GameObject PlayerObj;
     NavMeshAgent Mob;
     Brain mobBrain;
     float animationTime = 5.30f;
@@ -21,7 +20,6 @@ public class PrechargeBehaviour : StateMachineBehaviour
         mobBrain = Mob.GetComponentInChildren<Brain>();
         timer = 0;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.roar;
         mobBrain.investigating = false;
         // Stops the monster from trying to pursue player into hiding holes

@@ -21,6 +21,7 @@ public class PatrolBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("Patrolling");
         timer = 0;
         /*if (sounds == null)
             sounds = GetComponent<MonsterSounds>();
@@ -91,6 +92,7 @@ public class PatrolBehaviour : StateMachineBehaviour
                 }
             }
             if(!playerCanSeeMob){
+                // mobBrain.timeForAmbush = false;
                 animator.SetBool("isAmbushing", true);
             }
         }
