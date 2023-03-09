@@ -93,17 +93,19 @@ public class ObjectiveScript : MonoBehaviour
     {
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
-        foreach(GameObject elem in ActiveUI){
-            elem.SetActive(false);
-        }
+        SetUIElements(false);
     }
 
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
+        SetUIElements(true);
+    }
+
+    public void SetUIElements(bool status){
         foreach(GameObject elem in ActiveUI){
-            elem.SetActive(true);
+            elem.SetActive(status);
         }
     }
 }
