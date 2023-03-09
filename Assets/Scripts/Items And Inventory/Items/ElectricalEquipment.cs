@@ -10,6 +10,8 @@ public class ElectricalEquipment : Item
     public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager) : base(cam, stateManager){
         layer = mask;
         LoadItem("ElectricalDevice");
+
+        //PickupSFX(); you start with the item
     }
 
     public override void Primary(){
@@ -37,6 +39,13 @@ public class ElectricalEquipment : Item
     }
 
     // SFX
+    private void PickupSFX()
+    {
+        const string eventName = "event:/SFX/Items/Inventory/Bag Pickup";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
     private void SparkShortSFX()
     {
         const string eventName = "event:/SFX/Items/Electrical/Spark Short";
