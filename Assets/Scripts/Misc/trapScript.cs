@@ -35,6 +35,8 @@ public class trapScript : MonoBehaviour
     Material[] outOnArr;
     Material[] outOffArr;
 
+    private FMODUnity.StudioEventEmitter emitter;
+
     private void Update()
     {
         //check if trap can be charged
@@ -59,25 +61,6 @@ public class trapScript : MonoBehaviour
             //vissualy indicate that trap is ready
             if (timer > setTime) { rend.material = ready; }
         }
-        if (GameStateManager.GeneratorOn && playerSensor.triggered && playerSensor.collision.tag == "Player")
-        {
-
-            if (!PlayerContact){
-                foreach (MeshRenderer b in blocks)
-                {
-                    b.materials = outOnArr;
-                }
-            }
-            PlayerContact = true;
-        }
-        else if(PlayerContact)
-        {
-            foreach (MeshRenderer b in blocks)
-            {
-                b.materials = outOffArr;
-            }
-            PlayerContact = false;
-        }
 
     }
 
@@ -88,6 +71,12 @@ public class trapScript : MonoBehaviour
         outOnArr = blocks[0].materials;
         outOffArr = blocks[0].materials;
         outOnArr[1] = InteractableOutline;
+        foreach (MeshRenderer b in blocks)
+        {
+            b.materials = outOffArr;
+        }
+
+        emitter = GetComponent<FMODUnity.StudioEventEmitter>();
     }
 
 
@@ -96,15 +85,19 @@ public class trapScript : MonoBehaviour
         //send collision to the approprate handeler
         if(collision.transform.tag == "Player")
         {
+            foreach (MeshRenderer b in blocks)
+            {
+                b.materials = outOnArr;
+            }
             PlayerContact = true;
             inventory = collision.transform.gameObject.GetComponent<InventoryManager>().inventory;
-            if (currentState == State.set)
+            if (currentState == State.set && !Input.GetKey(KeyCode.LeftControl))
             {
                 currentState = State.triggered;
                 StartCoroutine(trapPlayer(collision.gameObject));
             }
         }
-        if(currentState == State.set && collision.transform.tag == "Monster" )
+        if (currentState == State.set && collision.transform.tag == "Monster" )
         {
             currentState = State.triggered;
             StartCoroutine(trapMonster(collision.gameObject));
@@ -114,6 +107,10 @@ public class trapScript : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         PlayerContact = false;
+        foreach (MeshRenderer b in blocks)
+        {
+            b.materials = outOffArr;
+        }
     }
 
     //wait two seconds then activate
@@ -123,29 +120,78 @@ public class trapScript : MonoBehaviour
         yield return new WaitForSeconds(DelayTime);
         rend.material = active;
         currentState = State.set;
+
+        emitter.Play();
     }
 
     //stop the monster for a bit
     IEnumerator trapMonster(GameObject mon)
     {
+        ShockSFX();
         NavMeshAgent monAgent = mon.GetComponent<NavMeshAgent>();
         float monSpeed = monAgent.speed;
         monAgent.speed = 0;
-        yield return new WaitForSeconds(MonTrapTime);
+
+        const float shockWaitTime = 0.25f;
+        float duration = MonTrapTime;
+        float shockDuration = shockWaitTime;
+        while (duration > 0)
+        {
+            if (shockDuration <= 0)
+            {
+                ShockSFX();
+                shockDuration = shockWaitTime;
+            }
+            shockDuration -= Time.deltaTime;
+
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+
         monAgent.speed = monSpeed;
         timer = 0;
         currentState = State.off;
+
+        emitter.Stop();
     }
 
     //stop the player for a bit
     IEnumerator trapPlayer(GameObject player)
     {
+        ShockSFX();
         PlayerMovement pm = player.GetComponent<PlayerMovement>();
         float moveSpeed = pm.moveSpeed;
         pm.moveSpeed = 0;
-        yield return new WaitForSeconds(PlayerTrapTime);
+
+        const float shockWaitTime = 0.25f;
+        float duration = PlayerTrapTime;
+        float shockDuration = shockWaitTime;
+        while (duration > 0)
+        {
+            if (shockDuration <= 0)
+            {
+                ShockSFX();
+                shockDuration = shockWaitTime;
+            }
+            shockDuration -= Time.deltaTime;
+
+            duration -= Time.deltaTime;
+            yield return null;
+        }
+
         pm.moveSpeed = moveSpeed;
         timer = 0;
         currentState = State.off;
+
+        emitter.Stop();
+    }
+
+    private void ShockSFX()
+    {
+        const string eventName = "event:/SFX/Items/Traps/Trap Shock";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        sound.start();
+        sound.release();
     }
 }

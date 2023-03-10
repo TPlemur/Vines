@@ -266,7 +266,9 @@ public class Branch : MonoBehaviour
     //utility to allow shrinking of existing vines
     public void startSrhink()
     {
+        animate = false;
         shrink = false;
         deAnimate = true;
+        currentAmount = delayTime * shrinkSpeed / MAX;
     }
 }

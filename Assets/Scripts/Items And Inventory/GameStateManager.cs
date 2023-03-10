@@ -57,10 +57,12 @@ public class GameStateManager : MonoBehaviour
                 emitter.Play();
         }
         // code/sounds/animations/UI for after turning on power
-        OBJSC.DisplayObj(OBJSC.PowerObj, false);
-        if (!PVTMAcquired)
-        {
-            OBJSC.DisplayObj(OBJSC.PVTMObj, true);
+        OBJSC.RemoveFromActiveUI(OBJSC.PowerObj);
+        if(!PVTMAcquired){
+            OBJSC.AddToActiveUI(OBJSC.PVTMObj);
+        }
+        else if(PVTMAcquired){
+            OBJSC.AddToActiveUI(OBJSC.CameraObj);
         }
     }
 
@@ -68,10 +70,9 @@ public class GameStateManager : MonoBehaviour
         PVTMAcquired = true;
         Debug.Log("PVTM ACQUIRED");
         // code/sounds/animations/UI for after acquiring PVTM
-        OBJSC.DisplayObj(OBJSC.PVTMObj, false);
-        if (!GeneratorOn) 
-        {
-            OBJSC.DisplayObj(OBJSC.PowerObj, true);
+        OBJSC.RemoveFromActiveUI(OBJSC.PVTMObj);
+        if(GeneratorOn){
+            OBJSC.AddToActiveUI(OBJSC.CameraObj);
         }
     }
 
@@ -80,13 +81,7 @@ public class GameStateManager : MonoBehaviour
         OBJSC.inputCounter = 1;
         Debug.Log("FLASHLIGHT ACQUIRED");
         // code/sounds/animations/UI for after acquiring Flashlight
-        OBJSC.DisplayObj(OBJSC.FlashObj, false);
-        OBJSC.DisplayObj(OBJSC.MoveText, false);
-        if (!GeneratorOn)
-        {
-            OBJSC.DisplayObj(OBJSC.PowerObj, true);
-        }
-        
+        OBJSC.RemoveFromActiveUI(OBJSC.FlashObj);
     }
 
     public void ShieldObtained(){
@@ -99,6 +94,8 @@ public class GameStateManager : MonoBehaviour
         FirstCameraConnected = true;
         Debug.Log("FIRST CAMERA LINKED");
         // code/sounds/animations/UI for after linking the first camera
+        OBJSC.RemoveFromActiveUI(OBJSC.CameraObj);
+        OBJSC.AddToActiveUI(OBJSC.DocumentObj);
     }
 
     public void AnotherCameraLinked(){
@@ -117,12 +114,15 @@ public class GameStateManager : MonoBehaviour
         SplitjawTrapped = true;
         Debug.Log("SPLITJAW CONTAINED");
         // code/sounds/animations/UI for after containing splitjaw
+        OBJSC.AddToActiveUI(OBJSC.EscapeObj);
     }
 
     public void SplitjawDocumented(){
         ValidSplitjawPic = true;
         Debug.Log("SPLITJAW DOCUMENTED");
         // code/sounds/animations/UI for after documenting splitjaw
+        OBJSC.RemoveFromActiveUI(OBJSC.DocumentObj);
+        OBJSC.AddToActiveUI(OBJSC.EscapeObj);
     }
 
     public bool IsPowerRestored(){

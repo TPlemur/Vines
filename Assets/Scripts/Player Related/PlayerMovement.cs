@@ -37,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jumpscare Related")]
     public GameObject JumpscareWorldPosition;
     public GameObject JumpscareCameraPosition;
+    public GameObject ItemCamera;
+    public GameObject Objectives;
+    public GameObject ItemPosition;
 
     [Header("Debug")]
     [SerializeField]
@@ -204,6 +207,9 @@ public class PlayerMovement : MonoBehaviour
         if (!debugInvincibility){
             JumpscareCameraPosition.SetActive(true);
             this.gameObject.transform.position = JumpscareWorldPosition.GetComponent<Transform>().position;
+            ItemPosition.SetActive(false);
+            ItemCamera.SetActive(false);
+            Objectives.SetActive(false);
             StartCoroutine(LoadAfterTime((float)0.95));
         }
     }
