@@ -107,7 +107,7 @@ Cloth:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6146181748698452551}
-  m_Enabled: 1
+  m_Enabled: 0
   m_StretchingStiffness: 1
   m_BendingStiffness: 1
   m_UseTethers: 1
@@ -3293,6 +3293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8819526817657001220}
+  - component: {fileID: 3977048980463981669}
   m_Layer: 0
   m_Name: ClothWall
   m_TagString: Untagged
@@ -3316,3 +3317,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3977048980463981669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8819526817657001221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4087b3cd44e01bb4787884e1716a7b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalScale: 2
+  lerpTime: 0.5
+  clothLerp: 8
+  maxAccel: {x: 0, y: -200, z: 0}

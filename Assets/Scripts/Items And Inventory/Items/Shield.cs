@@ -6,6 +6,7 @@ public class Shield : Item
 {
     private Vector3 original;
     private bool toggled = false;
+    private bool primed = true;
 
     public Shield(GameObject stateManager) : base(stateManager){
         LoadItem("Shield");
@@ -24,8 +25,14 @@ public class Shield : Item
     }
 
     public bool explode(){
-        Debug.Log("EXPLODING SHIELD");
-        return itemObj.GetComponentInChildren<ShieldDeployer>().findWidth(itemObj.transform);
+        if (primed)
+        {
+            Debug.Log("EXPLODING SHIELD");
+            itemObj.GetComponentInChildren<ShieldDeployer>().Deploy();
+            primed = false;
+            return true;
+        }
+        return false;
     }
 
     private void PickupSFX()
