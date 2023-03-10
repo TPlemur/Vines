@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
     public Inventory inventory;
+    public GameObject PText;
 
     [Header("Input")]
     public KeyCode interactKey = KeyCode.F;
@@ -35,13 +38,14 @@ public class InventoryManager : MonoBehaviour
 
     void Update()
     {
+        CheckOutlines();
         // interact
-        if(Input.GetKeyDown(interactKey)){
+        if (Input.GetKeyDown(interactKey)){
             Interact();
         }
 
         //update outlines as necessasary
-        CheckOutlines();
+        //CheckOutlines();
 
         // cycle left and right
         if (Input.GetKeyDown(cycleRightKey)){
@@ -88,10 +92,12 @@ public class InventoryManager : MonoBehaviour
 
     // Shoot Raycast to detect items that can be picked up
     private void Interact(){
+        if (PText.activeSelf) { PText.SetActive(false); }
         RaycastHit hit;
         if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)){
             var interact = hit.transform;
-            if(interact.tag == "PVTM"){
+            
+            if (interact.tag == "PVTM"){
                 inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager));
             }
             if(interact.tag == "Shield"){
@@ -114,11 +120,14 @@ public class InventoryManager : MonoBehaviour
             var interact = hit.transform;
             if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
             {
+                PText.transform.GetComponent<TextMeshProUGUI>().text = "Press F to pick up " + interact.tag;
+                PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
             else if(lastOutline != null)
             {
+                PText.SetActive(false);
                 lastOutline.Off();
             }
         }
