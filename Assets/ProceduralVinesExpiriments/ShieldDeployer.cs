@@ -5,135 +5,109 @@ using UnityEngine.AI;
 
 public class ShieldDeployer : MonoBehaviour
 {
-    public LayerMask wallsLayer;
-    public LayerMask floorLayer;
-    public GameObject WallPrefab;
-    public MeshRenderer airBags;
+    [Header("References")]
+    [SerializeField] LayerMask wallsLayer;
+    [SerializeField] LayerMask floorLayer;
+    [SerializeField] GameObject WallPrefab;
+    [SerializeField] MeshRenderer airBags;
+
+    [Header("characteristics")]
+    [SerializeField] float maxScale = 5;
+    [SerializeField] float maxDist = 10;
+
     GameObject player;
+    GameObject monster;
     GameObject wall;
-    Cloth wallCloth;
-    float finalScale;
-    float lerpTime = 0.25f;
-    float timer = 0;
-    bool doLerp = false;
-    bool used = false;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        monster = GameObject.FindGameObjectWithTag("Monster");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (doLerp)
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            //scale the wall up over a few secs then make it cloth
-            timer += Time.deltaTime;
-            float currentScale = Mathf.Lerp(0, finalScale, timer/lerpTime);
-            wall.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
-            if (timer > lerpTime) { doLerp = false; StartCoroutine(startCloth(wallCloth)); }
-
+            Deploy();
         }
     }
 
-    //find the wide direction of the corridor
-    //if you are reading this i'm sorry
-    //returns true if successfuly deployed
-    public bool findWidth(Transform spawnpoint)
+    //return a quaternion in the nearest cardinal direction to the input euler rotation
+    Quaternion snapToAxis(Vector3 input)
+    { 
+        float YVal;
+        //find rotation around Y Axis
+        if(Mathf.Abs(input.x) == 90) { YVal = input.z; }
+        else { YVal = input.y; }
+
+        //snap YVal to nearest cardinal direction
+        if(YVal < 45 || YVal > 315) { YVal = 0; }
+        else if(YVal < 135) { YVal = 90; }
+        else if(YVal < 225) { YVal = 180; }
+        else { YVal = 270; }
+
+        //dumb fix
+        YVal -= 90;
+
+        //return the direction as a quaternion to be used on Vector3.Forward
+        return  Quaternion.Euler(0, YVal, 0);
+    }
+
+    //returns a vector4 containing:
+    //the w componenet is the scale required to make a 1 unit object fit between two wall tags
+    //the xyz component is the middle floor location between the walls
+    Vector4 FindPointAndScale(Vector3 forwardDirection, Vector3 origin)
     {
-        if (used) { return false; }
-        used = true;
-        airBags.enabled = false;
-        float forwardBackward = 0;
-        float sideSide = 0;
-        //allign with world axis
-        Ray scanningRay = new Ray(transform.position,Vector3.forward);
+        //get dist to right wall
+        Ray ray = new Ray(origin, Quaternion.Euler(0, 90, 0)*forwardDirection);
         RaycastHit hit;
-        //cast forward and backward
-        Physics.Raycast(scanningRay, out hit, 10, wallsLayer);
-        forwardBackward += Mathf.Abs((hit.point - transform.position).magnitude);
+        Physics.Raycast(ray, out hit, maxScale, wallsLayer);
+        float unityDist = Mathf.Abs((hit.point - origin).magnitude);
 
-        RaycastHit hitTwo;
-        Ray scanningRaytwo = new Ray(transform.position,-Vector3.forward);
-        Physics.Raycast(scanningRaytwo, out hitTwo, 10, wallsLayer);
-        forwardBackward += Mathf.Abs((hitTwo.point - transform.position).magnitude);
+        //get dist to left wall
+        ray = new Ray(origin, Quaternion.Euler(0, -90, 0) * forwardDirection);
+        Physics.Raycast(ray, out hit, maxScale, wallsLayer);
+        unityDist += Mathf.Abs((hit.point - origin).magnitude);
 
-        //cast to either side
-        RaycastHit hitThree;
-        Ray scanningRayThree = new Ray(transform.position, Vector3.right);
-        Physics.Raycast(scanningRayThree, out hitThree, 10, wallsLayer);
-        sideSide += Mathf.Abs((hitThree.point - transform.position).magnitude);
+        //multiply half the distance by the direction back towards the other hit
+        Vector3 centerPoint = hit.point + (Quaternion.Euler(0, 90, 0) * forwardDirection) * (unityDist / 2);
 
-        RaycastHit hitFour;
-        Ray scanningRayFour = new Ray(transform.position, -Vector3.right);
-        Physics.Raycast(scanningRayFour, out hitFour, 10, wallsLayer);
-        sideSide += Mathf.Abs((hitFour.point - transform.position).magnitude);
+        //find the floor
+        ray = new Ray(centerPoint, Vector3.down);
+        Debug.DrawRay(centerPoint, Vector3.down, Color.red, 1, false);
+        Physics.Raycast(ray, out hit, 10, floorLayer);
 
-        RaycastHit floorhit;
-        Ray ray = new Ray(transform.position, Vector3.down);
-        Physics.Raycast(scanningRay, out floorhit, 10, floorLayer);
-
-        //spawn in the shorter of the two directions
-        if (forwardBackward < sideSide)
-        {
-            Debug.Log("ZWide");
-            float zCoord = (hit.point.z + hitTwo.point.z) / 2;
-            Vector3 wallOrigin = new Vector3(transform.position.x, floorhit.point.y + 1, zCoord);
-            wall = Instantiate(WallPrefab, wallOrigin, new Quaternion(0.0f,0.7f,0.0f,0.7f));
-            wallCloth = wall.GetComponentInChildren<Cloth>();
-
-            wallCloth.enabled = false;
-            float zScale = Mathf.Abs(hit.point.z - hitTwo.point.z);
-            finalScale = zScale;
-            //bump the player backwards
-            if (player.transform.position.x < wall.transform.position.x)
-            {
-                player.GetComponent<Rigidbody>().AddForce(new Vector3(-600, 300, 0));
-            }
-            else
-            {
-                player.GetComponent<Rigidbody>().AddForce(new Vector3(600, 300, 0));
-            }
-
-        }
-        else
-        {
-            Debug.Log("XWide");
-            float xCoord = (hitThree.point.x + hitFour.point.x) / 2;
-            Vector3 wallOrigin = new Vector3(xCoord, floorhit.point.y + 1, transform.position.z);
-            wall = Instantiate(WallPrefab, wallOrigin, new Quaternion(0, 0, 0, 0));
-            wallCloth = wall.GetComponentInChildren<Cloth>();
-
-            wallCloth.enabled = false;
-            float xScale = Mathf.Abs(hitThree.point.x - hitFour.point.x);
-            finalScale = xScale;
-            //bump the player backwards
-            if (player.transform.position.z < wall.transform.position.z)
-            {
-                player.GetComponent<Rigidbody>().AddForce(new Vector3(0, 300, -600));
-            }
-            else
-            {
-                player.GetComponent<Rigidbody>().AddForce(new Vector3(0, 300, 600));
-            }
-
-        }
-
-        if(finalScale > 5) { finalScale = 5; }
-        doLerp = true;
-
-        return true;
+        //return the composit of the position and distance
+        return new Vector4(hit.point.x, hit.point.y, hit.point.z,unityDist);
     }
 
-    IEnumerator startCloth(Cloth cl)
+
+    public void Deploy()
     {
-        yield return new WaitForEndOfFrame();
-        cl.enabled = true;
-        yield return new WaitForSeconds(8);
-        cl.gameObject.GetComponent<BoxCollider>().enabled = false;
-        cl.gameObject.GetComponent<NavMeshObstacle>().enabled = false;
-        cl.externalAcceleration = new Vector3(0, -200, 0);
+        //find the origin and scale
+        Quaternion forwardQuaternion = snapToAxis(transform.eulerAngles);
+        Vector3 ForwardUnitVec = forwardQuaternion * Vector3.forward;
+        Vector4 PointScale = FindPointAndScale(ForwardUnitVec, transform.position);
+
+        //cap Direction
+        if(Vector3.Magnitude( new Vector3(PointScale.x,PointScale.y,PointScale.z) - transform.position) > maxDist)
+        {
+            PointScale.x = transform.position.x;
+            PointScale.z = transform.position.z;
+        }
+        //cap scale
+        if(PointScale.w > maxScale) { PointScale.w = maxScale; }
+
+        //instatiate the wall
+        wall = Instantiate(WallPrefab, new Vector3(PointScale.x,PointScale.y,PointScale.z), forwardQuaternion);
+        wall.GetComponent<ShieldWall>().finalScale = PointScale.w;
+
+        //bomp player backwards
+        player.GetComponent<Rigidbody>().AddForce(new Vector3(-600 * ForwardUnitVec.x, 300, -600 * ForwardUnitVec.z));
+
+        //dissable airbags
+        airBags.enabled = false;
     }
 }
