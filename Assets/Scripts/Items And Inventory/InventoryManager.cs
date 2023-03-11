@@ -34,10 +34,15 @@ public class InventoryManager : MonoBehaviour
     [Header("Game State Related")]
     public GameObject GameStateManager;
 
+    private Vector3 eeOrigPos;
+    private Quaternion eeOrigRot;
+
     void Start()
     {
         inventory = new Inventory();
         inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
+        eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
+        eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
     }
 
     void Update()
@@ -46,6 +51,17 @@ public class InventoryManager : MonoBehaviour
         // interact
         if (Input.GetKeyDown(interactKey)){
             Interact();
+        }
+
+        if (inventory.EquippedIsElectricalEquipment()){
+            if (Input.GetMouseButton(0)){
+                inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float) -0.08, (float) 0.1, (float) 0);
+                inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float) 0, (float) 0, (float) 38.892);
+            }
+            else{
+                inventory.GetEquippedGameObject().transform.localPosition = eeOrigPos;
+                inventory.GetEquippedGameObject().transform.localRotation = eeOrigRot;
+            }
         }
 
         //update outlines as necessasary
