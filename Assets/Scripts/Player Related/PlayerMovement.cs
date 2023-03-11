@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
+    Brain mobBrain;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -53,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        mobBrain = Monster.GetComponentInChildren<Brain>();
     }
 
     // Update is called once per frame
@@ -142,8 +144,8 @@ public class PlayerMovement : MonoBehaviour
                 Shield sh = (Shield)gameObject.GetComponent<InventoryManager>().inventory.equipped;
                 if (sh.explode())
                 {
-                    Monster.transform.position += (Monster.transform.position - transform.position);
-                    //Monster.Warp()
+                    //Monster.transform.position += (Monster.transform.position - transform.position);
+                    collision.GetComponent<NavMeshAgent>().Warp(Monster.transform.position + mobBrain.shieldDir * mobBrain.shieldBumpDist);
                 }
                 else
                 {
@@ -161,13 +163,13 @@ public class PlayerMovement : MonoBehaviour
         else if(collision.tag == "Vine")
         {
             //Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
-            Monster.GetComponentInChildren<Brain>().detectsPlayer = true;
+            mobBrain.detectsPlayer = true;
         }
         else if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(true);
-            Monster.GetComponentInChildren<Brain>().isHiding = true;
-            Monster.GetComponentInChildren<Brain>().detectsPlayer = false;
+            mobBrain.isHiding = true;
+            mobBrain.detectsPlayer = false;
         }
     }
 
@@ -176,11 +178,11 @@ public class PlayerMovement : MonoBehaviour
         if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(false);
-            Monster.GetComponentInChildren<Brain>().isHiding = false;
+            mobBrain.isHiding = false;
         }
 
         if (collision.name == "Vine"){
-            Monster.GetComponentInChildren<Brain>().detectsPlayer = false;
+            mobBrain.detectsPlayer = false;
         }
     }
 
@@ -193,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.name == "HideTrigger")
         {
-            Monster.GetComponentInChildren<Brain>().timeHidden += Time.deltaTime;
+            mobBrain.timeHidden += Time.deltaTime;
         }
     }
 
@@ -205,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnPlayerKilled()
     {
-        if (!debugInvincibility && !Monster.GetComponentInChildren<Brain>().isShielded){
+        if (!debugInvincibility && !mobBrain.isShielded){
             JumpscareCameraPosition.SetActive(true);
             this.gameObject.transform.position = JumpscareWorldPosition.GetComponent<Transform>().position;
             ItemPosition.SetActive(false);

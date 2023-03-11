@@ -15,16 +15,15 @@ public class ShieldDeployer : MonoBehaviour
     [SerializeField] float maxScale = 5;
     [SerializeField] float maxDist = 10;
 
-    [HideInInspector]
-    public Vector3 shieldDir = new Vector3 (0,0,0);
-
     GameObject player;
+    GameObject monster;
     GameObject wall;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        monster = GameObject.FindGameObjectWithTag("Monster");
     }
 
     private void Update()
@@ -87,7 +86,7 @@ public class ShieldDeployer : MonoBehaviour
         //find the origin and scale
         Quaternion forwardQuaternion = snapToAxis(transform.eulerAngles);
         Vector3 ForwardUnitVec = forwardQuaternion * Vector3.forward;
-        shieldDir = ForwardUnitVec;
+        monster.GetComponentInChildren<Brain>().shieldDir = ForwardUnitVec;
         Vector4 PointScale = FindPointAndScale(ForwardUnitVec, transform.position);
 
         //cap Direction

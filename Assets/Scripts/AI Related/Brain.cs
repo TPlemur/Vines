@@ -35,7 +35,10 @@ public class Brain : MonoBehaviour
     public bool isHiding = false;
 
     // System for player deploying shield
-    public float shieldDelayTime = 8;
+    public float shieldDelayTime = 6;
+    public int shieldBumpDist = 1;
+    [HideInInspector]
+    public Vector3 shieldDir = new Vector3 (0,0,0);
     [HideInInspector]
     public bool isShielded = false;
 

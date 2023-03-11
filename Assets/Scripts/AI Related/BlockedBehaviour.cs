@@ -20,6 +20,7 @@ public class BlockedBehaviour : StateMachineBehaviour
         Mob.isStopped = true;
         Mob.speed = 0;
         Mob.ResetPath();
+        Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
