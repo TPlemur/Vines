@@ -8,6 +8,10 @@ public class InventoryManager : MonoBehaviour
 {
     public Inventory inventory;
     public GameObject PText;
+    public GameObject PVTM_Controls;
+    public GameObject Flashlight_Controls;
+    public GameObject Shield_Controls;
+    public GameObject Electrical_Controls;
 
     [Header("Input")]
     public KeyCode interactKey = KeyCode.F;
