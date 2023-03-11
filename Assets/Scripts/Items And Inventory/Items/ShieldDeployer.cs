@@ -15,6 +15,9 @@ public class ShieldDeployer : MonoBehaviour
     [SerializeField] float maxScale = 5;
     [SerializeField] float maxDist = 10;
 
+    [HideInInspector]
+    public Vector3 shieldDir = new Vector3 (0,0,0);
+
     GameObject player;
     GameObject wall;
 
@@ -84,6 +87,7 @@ public class ShieldDeployer : MonoBehaviour
         //find the origin and scale
         Quaternion forwardQuaternion = snapToAxis(transform.eulerAngles);
         Vector3 ForwardUnitVec = forwardQuaternion * Vector3.forward;
+        shieldDir = ForwardUnitVec;
         Vector4 PointScale = FindPointAndScale(ForwardUnitVec, transform.position);
 
         //cap Direction
