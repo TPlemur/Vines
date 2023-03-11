@@ -6,16 +6,18 @@ using UnityEngine.SceneManagement;
 public class ElectricalEquipment : Item
 {
     LayerMask layer;
+    //Animator anim;
 
-    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager) : base(cam, stateManager){
+    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager, GameObject UIElement) : base(cam, stateManager, UIElement){
         layer = mask;
         LoadItem("ElectricalDevice");
-
+        //anim = itemObj.transform.GetChild(0).GetComponent<Animator>();
         //PickupSFX(); you start with the item
     }
 
     public override void Primary(){
         GameObject obj = ShootRaycast(playerCam, 2.5f, layer);
+        //anim.SetTrigger("EEAnimPlay");
         if(obj != null){
             if(obj.tag == "ElectricalPanel"){
                 SocketTesterSFX();

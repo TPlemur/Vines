@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Shield : Item
 {
@@ -9,8 +11,8 @@ public class Shield : Item
     private bool primed = true;
 
     Brain mobBrain;
-
-    public Shield(GameObject stateManager) : base(stateManager){
+    
+    public Shield(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){
         LoadItem("Shield");
         original = itemObj.transform.localPosition;
         gameState.ShieldObtained();
@@ -20,6 +22,8 @@ public class Shield : Item
 
     public override void Secondary(){
         toggled = !toggled ? true : false;
+        string controls = toggled ? "RIGHT CLICK - UNPRIME SHIELD" : "RIGHT CLICK - PRIME SHIELD";
+        ItemUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = controls;
         itemObj.transform.localPosition = toggled ? new Vector3((float) 0.36, (float) 0.43, (float) -0.54) : original;
     }
 
