@@ -16,14 +16,12 @@ public class ShieldDeployer : MonoBehaviour
     [SerializeField] float maxDist = 10;
 
     GameObject player;
-    GameObject monster;
     GameObject wall;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        monster = GameObject.FindGameObjectWithTag("Monster");
     }
 
     private void Update()
@@ -43,13 +41,10 @@ public class ShieldDeployer : MonoBehaviour
         else { YVal = input.y; }
 
         //snap YVal to nearest cardinal direction
-        if(YVal < 45 || YVal > 315) { YVal = 0; }
-        else if(YVal < 135) { YVal = 90; }
-        else if(YVal < 225) { YVal = 180; }
-        else { YVal = 270; }
-
-        //dumb fix
-        YVal -= 90;
+        if(YVal < 45 || YVal > 315) { YVal = -90; }
+        else if(YVal < 135) { YVal = 0; }
+        else if(YVal < 225) { YVal = 90; }
+        else { YVal = 180; }
 
         //return the direction as a quaternion to be used on Vector3.Forward
         return  Quaternion.Euler(0, YVal, 0);
