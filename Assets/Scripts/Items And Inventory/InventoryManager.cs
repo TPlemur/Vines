@@ -37,7 +37,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         inventory = new Inventory();
-        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager));
+        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
     }
 
     void Update()
@@ -81,16 +81,16 @@ public class InventoryManager : MonoBehaviour
 
         // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
         if(Input.GetKeyDown(KeyCode.Alpha7)){
-            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager));
+            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
         }
         if(Input.GetKeyDown(KeyCode.Alpha8)){
-            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager));
+            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager, PVTM_Controls));
         }
         if(Input.GetKeyDown(KeyCode.Alpha9)){
-            inventory.Add(new Shield(GameStateManager));
+            inventory.Add(new Shield(GameStateManager, Shield_Controls));
         }
         if(Input.GetKeyDown(KeyCode.Alpha0)){
-            inventory.Add(new Flashlight(GameStateManager));
+            inventory.Add(new Flashlight(GameStateManager, Flashlight_Controls));
         }
     }
 
@@ -100,15 +100,14 @@ public class InventoryManager : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)){
             var interact = hit.transform;
-            
             if (interact.tag == "PVTM"){
-                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager));
+                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager, PVTM_Controls));
             }
             if(interact.tag == "Shield"){
-                inventory.Add(new Shield(GameStateManager));
+                inventory.Add(new Shield(GameStateManager, Shield_Controls));
             }
             if(interact.tag == "Flashlight"){
-                inventory.Add(new Flashlight(GameStateManager));
+                inventory.Add(new Flashlight(GameStateManager, Flashlight_Controls));
             }
             Destroy(interact.gameObject);
         }

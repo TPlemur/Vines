@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PVTM : Item
 {
@@ -22,15 +24,15 @@ public class PVTM : Item
     private Material flash;
     private bool canTakePic = false;
 
-    public PVTM(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask, Material flashMat, GameObject stateManager) : base(cam, stateManager){
+    public PVTM(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask, 
+                Material flashMat, GameObject stateManager, GameObject UIElement)
+                : base(cam, stateManager, UIElement){
         LoadItem("PVTM_Prefab");
         camLayer = camMask;
         monsterPicLayer = monsterMask;
         real = realPVTMCam;
         flash = flashMat;
         gameState.PVTMObtained();
-        //flash.a = 0.0f;
-
         PickupSFX();
     }
 
@@ -74,6 +76,8 @@ public class PVTM : Item
 
     public override void Secondary(){
         toggled = !toggled ? true : false;
+        string controls = toggled ? "LEFT CLICK - TAKE SCREENSHOT / RIGHT CLICK - EXIT CAMERA FEEDS / Q AND E - CHANGE CAMERA FEED" : "LEFT CLICK - CONNECT CAMERA / RIGHT CLICK - VIEW CAMERA FEEDS";
+        ItemUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = controls;
         itemObj.transform.localPosition = toggled ? new Vector3((float) 0.89, (float) 0.23, (float) -0.215) : original;
         // if bringing the camera up to face and at least one camera is linked, make the camera change sfx
         if (toggled && gameState.IsFirstCameraLinked())
