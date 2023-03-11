@@ -143,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
                 if (sh.explode())
                 {
                     Monster.transform.position += (Monster.transform.position - transform.position);
+                    //Monster.Warp()
                 }
                 else
                 {
@@ -204,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnPlayerKilled()
     {
-        if (!debugInvincibility){
+        if (!debugInvincibility && !Monster.GetComponentInChildren<Brain>().isShielded){
             JumpscareCameraPosition.SetActive(true);
             this.gameObject.transform.position = JumpscareWorldPosition.GetComponent<Transform>().position;
             ItemPosition.SetActive(false);

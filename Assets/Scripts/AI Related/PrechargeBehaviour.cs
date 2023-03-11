@@ -24,7 +24,7 @@ public class PrechargeBehaviour : StateMachineBehaviour
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.roar;
         mobBrain.investigating = false;
-        // Stops the monster from trying to pursue player into hiding holes
+        // Stops the monster from trying to pursue player
         Mob.Stop();
         Mob.isStopped = true;
         Mob.speed = 0;

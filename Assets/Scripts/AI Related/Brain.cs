@@ -15,6 +15,7 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public bool investigating = false;
 
+    // System that determines when the monster hunts and for how long
     public float mobPursuitTimer;
     [HideInInspector]
     public float tempPursuitTimer;
@@ -33,6 +34,11 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public bool isHiding = false;
 
+    // System for player deploying shield
+    public float shieldDelayTime = 8;
+    [HideInInspector]
+    public bool isShielded = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,11 +48,15 @@ public class Brain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Detected: "+ detectsPlayer);
+        // Debug.Log("Time Hidden: " + timeHidden);
+        // Debug.Log("Detected: "+ detectsPlayer);
+        // Debug.Log("Time spent ambushing" + timeSpentAmbushing);
+        // Debug.Log("Hint Timer: " + hintTimer);
+
+
         // Timer to send hint
         if(hintTimer < mobHintTimer && !detectsPlayer){
             hintTimer += Time.deltaTime;
-            //Debug.Log(hintTimer);
         }else if(detectsPlayer){
             hintTimer = 0;
         }
@@ -55,5 +65,19 @@ public class Brain : MonoBehaviour
             Debug.Log("HINT");
             investigating = true;
         }
+
+        // Activates ambush state after player hides for [ambushTime] seconds
+        // if(timeHidden >= ambushTime){
+        //     timeForAmbush = true;
+        // }
+
+        // // Ticks timer for ambush state, 
+        // if(timeForAmbush && timeSpentAmbushing < maxAmbushTime){
+        //     timeSpentAmbushing += Time.deltaTime;
+        // }else if(timeForAmbush && timeSpentAmbushing > maxAmbushTime){
+        //     timeHidden = 0;
+        //     timeSpentAmbushing = 0;
+        //     timeForAmbush = false;
+        // }
     }
 }
