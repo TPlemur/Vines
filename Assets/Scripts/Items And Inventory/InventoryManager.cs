@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
     public Inventory inventory;
+    public GameObject PText;
+    public GameObject PVTM_Controls;
+    public GameObject Flashlight_Controls;
+    public GameObject Shield_Controls;
+    public GameObject Electrical_Controls;
 
     [Header("Input")]
     public KeyCode interactKey = KeyCode.F;
@@ -27,21 +34,38 @@ public class InventoryManager : MonoBehaviour
     [Header("Game State Related")]
     public GameObject GameStateManager;
 
+    private Vector3 eeOrigPos;
+    private Quaternion eeOrigRot;
+
     void Start()
     {
         inventory = new Inventory();
-        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager));
+        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
+        eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
+        eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
     }
 
     void Update()
     {
+        CheckOutlines();
         // interact
-        if(Input.GetKeyDown(interactKey)){
+        if (Input.GetKeyDown(interactKey)){
             Interact();
         }
 
+        if (inventory.EquippedIsElectricalEquipment()){
+            if (Input.GetMouseButton(0)){
+                inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float) -0.08, (float) 0.1, (float) 0);
+                inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float) 0, (float) 0, (float) 38.892);
+            }
+            else{
+                inventory.GetEquippedGameObject().transform.localPosition = eeOrigPos;
+                inventory.GetEquippedGameObject().transform.localRotation = eeOrigRot;
+            }
+        }
+
         //update outlines as necessasary
-        CheckOutlines();
+        //CheckOutlines();
 
         // cycle left and right
         if (Input.GetKeyDown(cycleRightKey)){
@@ -73,32 +97,33 @@ public class InventoryManager : MonoBehaviour
 
         // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
         if(Input.GetKeyDown(KeyCode.Alpha7)){
-            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager));
+            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
         }
         if(Input.GetKeyDown(KeyCode.Alpha8)){
-            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager));
+            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager, PVTM_Controls));
         }
         if(Input.GetKeyDown(KeyCode.Alpha9)){
-            inventory.Add(new Shield(GameStateManager));
+            inventory.Add(new Shield(GameStateManager, Shield_Controls));
         }
         if(Input.GetKeyDown(KeyCode.Alpha0)){
-            inventory.Add(new Flashlight(GameStateManager));
+            inventory.Add(new Flashlight(GameStateManager, Flashlight_Controls));
         }
     }
 
     // Shoot Raycast to detect items that can be picked up
     private void Interact(){
+        if (PText.activeSelf) { PText.SetActive(false); }
         RaycastHit hit;
         if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)){
             var interact = hit.transform;
-            if(interact.tag == "PVTM"){
-                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager));
+            if (interact.tag == "PVTM"){
+                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager, PVTM_Controls));
             }
             if(interact.tag == "Shield"){
-                inventory.Add(new Shield(GameStateManager));
+                inventory.Add(new Shield(GameStateManager, Shield_Controls));
             }
             if(interact.tag == "Flashlight"){
-                inventory.Add(new Flashlight(GameStateManager));
+                inventory.Add(new Flashlight(GameStateManager, Flashlight_Controls));
             }
             Destroy(interact.gameObject);
         }
@@ -114,11 +139,14 @@ public class InventoryManager : MonoBehaviour
             var interact = hit.transform;
             if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
             {
+                PText.transform.GetComponent<TextMeshProUGUI>().text = "Press F to pick up " + interact.tag;
+                PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
             else if(lastOutline != null)
             {
+                PText.SetActive(false);
                 lastOutline.Off();
             }
         }

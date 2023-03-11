@@ -15,6 +15,7 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public bool investigating = false;
 
+    // System that determines when the monster hunts and for how long
     public float mobPursuitTimer;
     [HideInInspector]
     public float tempPursuitTimer;
@@ -38,6 +39,14 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public float timeSpentAmbushing = 0;
 
+    // System for player deploying shield
+    public float shieldDelayTime = 6;
+    public int shieldBumpDist = 1;
+    [HideInInspector]
+    public Vector3 shieldDir = new Vector3 (0,0,0);
+    [HideInInspector]
+    public bool isShielded = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,12 +58,13 @@ public class Brain : MonoBehaviour
     {
         // Debug.Log("Time Hidden: " + timeHidden);
         // Debug.Log("Detected: "+ detectsPlayer);
-        
+        // Debug.Log("Time spent ambushing" + timeSpentAmbushing);
+        // Debug.Log("Hint Timer: " + hintTimer);
+
 
         // Timer to send hint
         if(hintTimer < mobHintTimer && !detectsPlayer){
             hintTimer += Time.deltaTime;
-            //Debug.Log(hintTimer);
         }else if(detectsPlayer){
             hintTimer = 0;
         }

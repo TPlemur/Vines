@@ -43,13 +43,10 @@ public class ShieldDeployer : MonoBehaviour
         else { YVal = input.y; }
 
         //snap YVal to nearest cardinal direction
-        if(YVal < 45 || YVal > 315) { YVal = 0; }
-        else if(YVal < 135) { YVal = 90; }
-        else if(YVal < 225) { YVal = 180; }
-        else { YVal = 270; }
-
-        //dumb fix
-        YVal -= 90;
+        if(YVal < 45 || YVal > 315) { YVal = -90; }
+        else if(YVal < 135) { YVal = 0; }
+        else if(YVal < 225) { YVal = 90; }
+        else { YVal = 180; }
 
         //return the direction as a quaternion to be used on Vector3.Forward
         return  Quaternion.Euler(0, YVal, 0);
@@ -89,6 +86,7 @@ public class ShieldDeployer : MonoBehaviour
         //find the origin and scale
         Quaternion forwardQuaternion = snapToAxis(transform.eulerAngles);
         Vector3 ForwardUnitVec = forwardQuaternion * Vector3.forward;
+        monster.GetComponentInChildren<Brain>().shieldDir = ForwardUnitVec;
         Vector4 PointScale = FindPointAndScale(ForwardUnitVec, transform.position);
 
         //cap Direction
