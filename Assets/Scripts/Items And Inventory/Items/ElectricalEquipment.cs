@@ -7,10 +7,9 @@ public class ElectricalEquipment : Item
 {
     LayerMask layer;
 
-    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager) : base(cam, stateManager){
+    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager, GameObject UIElement) : base(cam, stateManager, UIElement){
         layer = mask;
         LoadItem("ElectricalDevice");
-
         //PickupSFX(); you start with the item
     }
 

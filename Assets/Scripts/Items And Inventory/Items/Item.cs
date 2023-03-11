@@ -7,14 +7,17 @@ public class Item : MonoBehaviour
     public GameObject itemObj;
     public Camera playerCam;
     public GameStateManager gameState;
+    public GameObject ItemUI;
 
-    public Item(GameObject stateManager){
+    public Item(GameObject stateManager, GameObject UIElement){
         gameState = stateManager.GetComponent<GameStateManager>();
+        ItemUI = UIElement;
     }
 
-    public Item(Camera cam, GameObject stateManager){
+    public Item(Camera cam, GameObject stateManager, GameObject UIElement){
         playerCam = cam;
         gameState = stateManager.GetComponent<GameStateManager>();
+        ItemUI = UIElement;
     }
 
     public void LoadItem(string name){
@@ -26,10 +29,12 @@ public class Item : MonoBehaviour
 
     public void Equip(){
         itemObj.SetActive(true);
+        ItemUI.SetActive(true);
     }
 
     public void UnEquip(){
         itemObj.SetActive(false);
+        ItemUI.SetActive(false);
     }
 
     public virtual void Primary(){
