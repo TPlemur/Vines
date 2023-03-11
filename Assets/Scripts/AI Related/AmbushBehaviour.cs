@@ -9,7 +9,6 @@ public class AmbushBehaviour : StateMachineBehaviour
     Brain mobBrain;
     GameObject[] hidingHoles;// = GameObject.FindGameObjectsWithTag("HidingHole");
     GameObject hidingSpotToAmbush;
-    Vector3 oldPosition;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -18,14 +17,14 @@ public class AmbushBehaviour : StateMachineBehaviour
         hidingHoles = GameObject.FindGameObjectsWithTag("HidingHole");
         Mob = animator.gameObject.GetComponentInParent<UnityEngine.AI.NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
-        oldPosition = Mob.transform.position;
+        mobBrain.oldPosition = Mob.transform.position;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         mobBrain.investigating = false;
         // Stops the monster from trying to move and stops vines from spawning
-        Mob.Stop();
-        Mob.isStopped = true;
+        // Mob.Stop();
+        // Mob.isStopped = true;
+        // Mob.ResetPath();
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.none;
-        Mob.ResetPath();
         animator.speed = 0;
     }
 
@@ -52,7 +51,8 @@ public class AmbushBehaviour : StateMachineBehaviour
         }
 
         if(!mobBrain.timeForAmbush){
-            Mob.Warp(oldPosition);
+            Debug.Log("Timeout");
+            mobBrain.justAmbushed = true;
             animator.SetBool("isAmbushing", false);
         }
     }

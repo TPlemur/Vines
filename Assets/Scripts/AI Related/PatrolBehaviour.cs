@@ -32,6 +32,10 @@ public class PatrolBehaviour : StateMachineBehaviour
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
         mobBrain.investigating = false;
+        if(mobBrain.justAmbushed){
+            Mob.Warp(mobBrain.oldPosition);
+            mobBrain.justAmbushed = false;
+        }
         // Stops the monster from trying to pursue player into hiding holes
         Mob.Stop();
         Mob.ResetPath();
@@ -92,8 +96,26 @@ public class PatrolBehaviour : StateMachineBehaviour
                 }
             }
             if(!playerCanSeeMob){
-                // mobBrain.timeForAmbush = false;
-                animator.SetBool("isAmbushing", true);
+                GameObject[] hidingHoles = GameObject.FindGameObjectsWithTag("HidingHole");
+                GameObject hidingSpotToAmbush = hidingHoles[0];
+                foreach(GameObject i in hidingHoles){   // For every hiding hole
+                    // Checks if the next hiding hole is closer than the next closest, and if so, sets it as the ambush target
+                    float distanceOld = Vector3.Distance(hidingSpotToAmbush.transform.position, Player.position);
+                    float distanceNew = Vector3.Distance(i.transform.position, Player.position);
+                    if(distanceNew < distanceOld){
+                        hidingSpotToAmbush = i;
+                    }
+                }
+                // Moves monster to hiding spot
+                float distance = Vector3.Distance(hidingSpotToAmbush.transform.position, Player.position);
+                if(!mobBrain.isHiding && distance >= 10){
+                    animator.SetBool("isAmbushing", true);
+                    Mob.Warp(hidingSpotToAmbush.transform.position);
+                    Mob.isStopped = true;
+                    Mob.Stop();
+                    Mob.ResetPath();
+                    Mob.transform.LookAt(Player);
+                }
             }
         }
     }

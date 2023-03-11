@@ -37,7 +37,11 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public bool timeForAmbush = false;
     [HideInInspector]
+    public bool justAmbushed = false;
+    [HideInInspector]
     public float timeSpentAmbushing = 0;
+    [HideInInspector]
+    public Vector3 oldPosition = new Vector3 (0,0,0);
 
     // System for player deploying shield
     public float shieldDelayTime = 6;
@@ -80,7 +84,7 @@ public class Brain : MonoBehaviour
         }
 
         // Ticks timer for ambush state, 
-        if(timeForAmbush && timeSpentAmbushing < maxAmbushTime){
+        if(timeForAmbush && !isHiding && timeSpentAmbushing < maxAmbushTime){
             timeSpentAmbushing += Time.deltaTime;
             // Debug.Log("Time spent ambushing" + timeSpentAmbushing);
         }else if(timeForAmbush && timeSpentAmbushing > maxAmbushTime){

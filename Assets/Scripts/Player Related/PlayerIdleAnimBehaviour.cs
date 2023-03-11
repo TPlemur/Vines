@@ -18,7 +18,6 @@ public class PlayerIdleAnimBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         velocity = Player.velocity;
-        Debug.Log(velocity.magnitude);
         if(velocity.magnitude >= 1){
             animator.SetBool("isWalking", true);
         }
