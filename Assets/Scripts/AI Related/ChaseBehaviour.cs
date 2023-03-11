@@ -84,6 +84,9 @@ public class ChaseBehaviour : StateMachineBehaviour
             mobBrain.detectsPlayer = false;
             animator.SetBool("isChasing", false);
         }
+        if(mobBrain.isShielded){
+            animator.SetBool("isBlocked", true);
+        }
 
         // spaghetti audio code
         /*

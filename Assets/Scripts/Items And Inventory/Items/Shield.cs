@@ -10,11 +10,14 @@ public class Shield : Item
     private bool toggled = false;
     private bool primed = true;
 
+    Brain mobBrain;
+    
     public Shield(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){
         LoadItem("Shield");
         original = itemObj.transform.localPosition;
         gameState.ShieldObtained();
         PickupSFX();
+        mobBrain = GameObject.FindGameObjectWithTag("Monster").GetComponentInChildren<Brain>();
     }
 
     public override void Secondary(){
@@ -33,7 +36,9 @@ public class Shield : Item
         {
             Debug.Log("EXPLODING SHIELD");
             itemObj.GetComponentInChildren<ShieldDeployer>().Deploy();
+            mobBrain.isShielded = true;
             primed = false;
+            Debug.Log("Primed: " + primed);
             return true;
         }
         return false;
