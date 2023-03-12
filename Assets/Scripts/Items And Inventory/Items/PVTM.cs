@@ -24,6 +24,10 @@ public class PVTM : Item
     private Material flash;
     private bool canTakePic = false;
 
+    // Laser VFX
+    private LineRenderer lr;
+    private Transform laserStart;
+
     public PVTM(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask, 
                 Material flashMat, GameObject stateManager, GameObject UIElement)
                 : base(cam, stateManager, UIElement){
@@ -32,24 +36,29 @@ public class PVTM : Item
         monsterPicLayer = monsterMask;
         real = realPVTMCam;
         flash = flashMat;
+        laserStart = itemObj.transform.GetChild(0).GetChild(5);
+        lr = laserStart.GetComponent<LineRenderer>();
         gameState.PVTMObtained();
         PickupSFX();
     }
 
     public override void Primary(){
         if(gameState.IsPowerRestored()){
-            if(toggled && gameState.IsFirstCameraLinked()){
-                GameObject obj = ShootRaycast(real, 25.0f, monsterPicLayer);
-                if(obj != null){
-                    // take pic
-                    gameState.SplitjawDocumented();
-                }
-                if(canTakePic){
-                    gameState.GetComponent<GameStateManager>().StartCoroutine(Flash());
-                    PicSFX();
+            if(toggled){
+                if(gameState.IsFirstCameraLinked()){
+                    GameObject obj = ShootRaycast(real, 25.0f, monsterPicLayer);
+                    if(obj != null){
+                        // take pic
+                        gameState.SplitjawDocumented();
+                    }
+                    if(canTakePic){
+                        gameState.GetComponent<GameStateManager>().StartCoroutine(Flash());
+                        PicSFX();
+                    }
                 }
             }
             else{
+                ShootLaser();
                 GameObject obj = ShootRaycast(playerCam, 10.0f, camLayer);
                 if(obj != null){
                     // update game state to know what cams are linked
@@ -71,7 +80,7 @@ public class PVTM : Item
                     CameraWhirUpSFX(obj);
                 }
             }
-        }   
+        } 
     }
 
     public override void Secondary(){
@@ -109,6 +118,38 @@ public class PVTM : Item
 
     public override bool IsToggled(){
         return toggled;
+    }
+
+    public void ShootLaser(){
+        // shoot raycast to get distance so the laser doesn't clip through walls
+        RaycastHit hit;
+        Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit);
+        // if hit distance is greater then 10 then set to 10
+        // if player shoots into the sky make the distance 10
+        float dist = hit.distance > 10f ? 10f : hit.distance == 0 ? 10f : hit.distance;
+        // set new points of laser
+        List<Vector3> points = new List<Vector3>(){laserStart.position, playerCam.transform.position + playerCam.transform.TransformDirection(Vector3.forward) * dist};
+        lr.positionCount = points.Count;
+        for(int i = 0; i < points.Count; i++){
+            lr.SetPosition(i, points[i]);
+        }
+        gameState.GetComponent<GameStateManager>().StartCoroutine(LaserFade());
+    }
+
+    public IEnumerator LaserFade(){
+        Color c = lr.startColor;
+        float d = 0.1f;
+        float remaining = d;
+        while (remaining >= 0.0f) {
+            c.a = remaining / d;
+            lr.startColor = c;
+            lr.endColor   = c;
+            remaining -= Time.deltaTime;
+            yield return null;
+        }
+        c.a = 0;
+        lr.startColor = c;
+        lr.endColor   = c;
     }
 
     public IEnumerator Flash(){
