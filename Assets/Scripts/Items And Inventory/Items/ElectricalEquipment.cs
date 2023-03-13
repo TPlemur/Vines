@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class ElectricalEquipment : Item
 {
     LayerMask layer;
+    float timer = 0;
+    float boopDelay = 2;
     //Animator anim;
 
     public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager, GameObject UIElement) : base(cam, stateManager, UIElement){
@@ -19,14 +21,17 @@ public class ElectricalEquipment : Item
         GameObject obj = ShootRaycast(playerCam, 2.5f, layer);
         //anim.SetTrigger("EEAnimPlay");
         if(obj != null){
-            if(obj.tag == "ElectricalPanel"){
-                SocketTesterSFX();
-                gameState.PowerRestored();
-                //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
-                obj.transform.parent.GetComponent<GeneratorVibe>().enabled = true;
-                obj.GetComponent<Collider>().enabled = false;
-                TurnOnGeneratorSFX(obj);
-
+            if(!GameStateManager.GeneratorOn && obj.tag == "ElectricalPanel"){
+                obj.transform.parent.GetComponent<GeneratorOn>().Starting = true;
+                if (obj.transform.parent.GetComponent<GeneratorOn>().Started == true)
+                {
+                    SocketTesterSFX();
+                    gameState.PowerRestored();
+                    //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
+                    obj.transform.parent.GetComponent<GeneratorVibe>().enabled = true;
+                    obj.GetComponent<Collider>().enabled = false;
+                    TurnOnGeneratorSFX(obj);
+                }
             }
             if(obj.tag == "ContainmentButton" && gameState.IsPowerRestored()){
                 if(MonsterCheck.isMonsterInside){
@@ -36,7 +41,14 @@ public class ElectricalEquipment : Item
             }
         }
         else{
-            SocketTesterSFX();
+            //limit boop to every n Seconds
+            timer += Time.deltaTime;
+            if (timer > boopDelay)
+            {
+                SocketTesterSFX();
+                timer = 0;
+            }
+
         }
     }
 
@@ -78,4 +90,5 @@ public class ElectricalEquipment : Item
             emitter.Play();
         }
     }
+
 }

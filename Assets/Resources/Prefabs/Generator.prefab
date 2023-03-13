@@ -318,7 +318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8527102949390645753
 Transform:
   m_ObjectHideFlags: 0
@@ -327,7 +327,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4851521131699853575}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.651, y: 2.676, z: 0.61}
+  m_LocalPosition: {x: -3.57, y: 2.692, z: 0.616}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -345,7 +345,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.16470587, g: 0.39508218, b: 1, a: 1}
+  m_Color: {r: 0.17740026, g: 1, b: 0.16470587, a: 1}
   m_Intensity: 3
   m_Range: 5
   m_SpotAngle: 30
@@ -477,7 +477,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6763932060762016477}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.633, y: 2.279, z: 0.615}
+  m_LocalPosition: {x: -3.575, y: 2.282, z: 0.618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -673,6 +673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 456048236855946348}
   - component: {fileID: 5538359425136049432}
+  - component: {fileID: 562606289119840614}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -714,6 +715,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vibeFrequency: 0.001
   vibeAmount: {x: 0.005, y: 0.005, z: 0.005}
+--- !u!114 &562606289119840614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7734599703851515821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4c89cea8522d746a8f1f5c985191e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffLight: {fileID: 6763932060762016477}
+  onLight: {fileID: 4851521131699853575}
+  vibe: {fileID: 5538359425136049432}
+  StartTime: 2
+  lightFlashRate: 0.25
+  Starting: 0
+  Started: 0
 --- !u!1 &7952708119347198470
 GameObject:
   m_ObjectHideFlags: 0
