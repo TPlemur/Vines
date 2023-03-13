@@ -24,6 +24,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void BackToMainMenu() 
     {
+        Time.timeScale = 1; //resume time if time was paused during last game
         SceneManager.LoadScene(0);
     }
 

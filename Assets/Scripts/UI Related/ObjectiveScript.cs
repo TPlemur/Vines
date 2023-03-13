@@ -94,6 +94,7 @@ public class ObjectiveScript : MonoBehaviour
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
         SetUIElements(false);
+        Cursor.lockState = CursorLockMode.Confined; //relock cursor on resume
     }
 
     public void ResumeGame()
@@ -101,6 +102,7 @@ public class ObjectiveScript : MonoBehaviour
         PauseMenu.SetActive(false);
         Time.timeScale = 1;
         SetUIElements(true);
+        Cursor.lockState = CursorLockMode.Locked; //relock cursor on resume
     }
 
     public void SetUIElements(bool status){
