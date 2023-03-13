@@ -94,7 +94,7 @@ public class ObjectiveScript : MonoBehaviour
         PauseMenu.SetActive(true);
         Time.timeScale = 0;
         SetUIElements(false);
-        Cursor.lockState = CursorLockMode.Confined; //relock cursor on resume
+        Cursor.lockState = CursorLockMode.Confined; //unlock cursor on resume
     }
 
     public void ResumeGame()
