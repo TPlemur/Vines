@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MonVineStateMachine : MonoBehaviour
 {
-    public enum state {
+    public enum state
+    {
         walk,
         charge,
         roar
@@ -12,7 +13,7 @@ public class MonVineStateMachine : MonoBehaviour
     public state currentState = state.walk;
     [SerializeField] ProceduralIvy staticIvyManager;
 
-    [Header("Walk Characteristics")] 
+    [Header("Walk Characteristics")]
     [SerializeField] GameObject[] walkTargets;
     bool[] walkHasSpwned;
     [SerializeField] float zTransformBarriar = 0.001f;
@@ -53,7 +54,7 @@ public class MonVineStateMachine : MonoBehaviour
     void Start()
     {
         walkHasSpwned = new bool[walkTargets.Length];
-        for (int i = 0; i<walkHasSpwned.Length;i++) { walkHasSpwned[i] = false; }
+        for (int i = 0; i < walkHasSpwned.Length; i++) { walkHasSpwned[i] = false; }
     }
 
     // Update is called once per frame
@@ -70,17 +71,18 @@ public class MonVineStateMachine : MonoBehaviour
                 didRoar = false;
                 break;
             case state.roar:
-                if (!didRoar) {
+                if (!didRoar)
+                {
                     StartCoroutine(roar());
                     didRoar = true;
                 }
                 break;
         }
     }
-    
+
     void walk()
     {
-        for(int i = 0;i<walkTargets.Length;i++)
+        for (int i = 0; i < walkTargets.Length; i++)
         {
             if (walkTargets[i].transform.position.y < zTransformBarriar)
             {
@@ -154,5 +156,17 @@ public class MonVineStateMachine : MonoBehaviour
         {
             staticIvyManager.genVine(tar, roarGrowSpeed, roarvineDelay, roarShrinkSpeed);
         }
+    }
+
+    public void setSettings(VineProfle vp)
+    {
+        walkNumForward = vp.walkNumForward;
+        walkNumRadial = vp.walkNumRadial;
+
+        chargeNumForward = vp.chargeNumForward;
+        chargeNumRadial = vp.chargeNumRadial;
+        chargeInterval = vp.chargeInterval;
+
+        roarNum = vp.roarNum;
     }
 }

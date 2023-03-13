@@ -135,41 +135,21 @@ public class ProceduralIvy : MonoBehaviour
             List<IvyNode> nodes = createBranch(maxPointsForBranch, hit.point, hit.normal, dir);
             GameObject branch = new GameObject("Branch " + i);
 
-            //I know this is bad, but Inheritance in unity is worse
-            /*
-            if (AnimCompatible) {
-                SMRBranch b;
-                b = branch.AddComponent<SMRBranch>();
-                b.init(nodes, branchRadius, branchMaterial,RootBone, segmentLength, senseMultiplier);
-                branch.transform.SetParent(ivy.transform);
-                b.growthSpeed = branchGrowSpeed;
-                b.shrinkSpeed = branchShrinkSpeed;
-                b.shrink = WitherBranch;
-                b.iscloth = isCloth;
-                b.bendStiff = bendstiffness;
-                b.maxMove = maxDist;
-                b.isSense = canSense;
-                b.delayTime = timeAtGrown;
-                b.tag = objTag;
-            }
-            */
-            //else
-            //{
-                Branch b;
-                b = branch.AddComponent<Branch>();
-                b.init(nodes, branchRadius, branchMaterial, segmentLength, senseMultiplier);
-                branch.transform.SetParent(ivy.transform);
-                b.growthSpeed = branchGrowSpeed;
-                b.shrinkSpeed = branchShrinkSpeed;
-                b.shrink = WitherBranch;
-                b.iscloth = isCloth;
-                b.bendStiff = bendstiffness;
-                b.maxMove = maxDist;
-                b.isSense = canSense;
-                b.delayTime = timeAtGrown;
-                b.tag = objTag;
-                b.clothColliders = clothColliders;
-            //}
+            Branch b;
+            b = branch.AddComponent<Branch>();
+            b.gameObject.layer = 14;
+            b.init(nodes, branchRadius, branchMaterial, segmentLength, senseMultiplier);
+            branch.transform.SetParent(ivy.transform);
+            b.growthSpeed = branchGrowSpeed;
+            b.shrinkSpeed = branchShrinkSpeed;
+            b.shrink = WitherBranch;
+            b.iscloth = isCloth;
+            b.bendStiff = bendstiffness;
+            b.maxMove = maxDist;
+            b.isSense = canSense;
+            b.delayTime = timeAtGrown;
+            b.tag = objTag;
+            b.clothColliders = clothColliders;
 
 }
 
@@ -317,4 +297,10 @@ public class ProceduralIvy : MonoBehaviour
         }
     }
 
+    public void setSettings(VineProfle vp)
+    {
+        maxPointsForBranch = vp.maxPointsForBranch;
+        segmentLength = vp.segmentLength;
+        senseMultiplier = vp.senseMultiplier;
+    }
 }
