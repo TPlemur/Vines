@@ -18,7 +18,7 @@ public class GameStateManager : MonoBehaviour
 
     [Header("Other")]
     public GameObject Warehouse;
-    public static bool debug = true;
+    public static bool debug = false;
     
     void Start()
     {
