@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
     public Material   FlashMat;
 
     [Header("Game State Related")]
-    public GameObject GameStateManager;
+    public GameObject gameStateManager;
 
     private Vector3 eeOrigPos;
     private Quaternion eeOrigRot;
@@ -40,7 +40,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         inventory = new Inventory();
-        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
+        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls));
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
     }
@@ -97,17 +97,17 @@ public class InventoryManager : MonoBehaviour
         }
 
         // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
-        if(Input.GetKeyDown(KeyCode.Alpha7)){
-            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, GameStateManager, Electrical_Controls));
+        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)){
+            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls));
         }
-        if(Input.GetKeyDown(KeyCode.Alpha8)){
-            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager, PVTM_Controls));
+        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha8)){
+            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls));
         }
-        if(Input.GetKeyDown(KeyCode.Alpha9)){
-            inventory.Add(new Shield(GameStateManager, Shield_Controls));
+        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha9)){
+            inventory.Add(new Shield(gameStateManager, Shield_Controls));
         }
-        if(Input.GetKeyDown(KeyCode.Alpha0)){
-            inventory.Add(new Flashlight(GameStateManager, Flashlight_Controls));
+        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha0)){
+            inventory.Add(new Flashlight(gameStateManager, Flashlight_Controls));
         }
     }
 
@@ -118,13 +118,13 @@ public class InventoryManager : MonoBehaviour
         if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)){
             var interact = hit.transform;
             if (interact.tag == "PVTM"){
-                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, GameStateManager, PVTM_Controls));
+                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls));
             }
             if(interact.tag == "Shield"){
-                inventory.Add(new Shield(GameStateManager, Shield_Controls));
+                inventory.Add(new Shield(gameStateManager, Shield_Controls));
             }
             if(interact.tag == "Flashlight"){
-                inventory.Add(new Flashlight(GameStateManager, Flashlight_Controls));
+                inventory.Add(new Flashlight(gameStateManager, Flashlight_Controls));
             }
             Destroy(interact.gameObject);
         }

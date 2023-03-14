@@ -28,7 +28,7 @@ public class ShieldDeployer : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Y))
         {
             Deploy();
         }

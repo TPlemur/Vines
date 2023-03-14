@@ -29,7 +29,7 @@ public class WarehouseMaker : MonoBehaviour
     }
 
     void Update(){
-        if(Input.GetKeyDown(KeyCode.Minus)){
+        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Minus)){
             foreach(Transform child in warehouseEmpty.transform){
                 Destroy(child.gameObject);
             }

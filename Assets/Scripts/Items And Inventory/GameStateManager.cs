@@ -18,6 +18,7 @@ public class GameStateManager : MonoBehaviour
 
     [Header("Other")]
     public GameObject Warehouse;
+    public static bool debug = true;
     
     void Start()
     {
@@ -35,13 +36,13 @@ public class GameStateManager : MonoBehaviour
     void Update()
     {
         // MORE SECRET DEV TOOLS SHHHHHHHHHHHHHHH :)
-        if(Input.GetKeyDown(KeyCode.P) && !GeneratorOn){
+        if(debug && Input.GetKeyDown(KeyCode.P) && !GeneratorOn){
             PowerRestored();
         }
-        if(Input.GetKeyDown(KeyCode.LeftBracket) && !SplitjawTrapped){
+        if(debug && Input.GetKeyDown(KeyCode.LeftBracket) && !SplitjawTrapped){
             SplitjawContained();
         }
-        if(Input.GetKeyDown(KeyCode.RightBracket) && !ValidSplitjawPic){
+        if(debug && Input.GetKeyDown(KeyCode.RightBracket) && !ValidSplitjawPic){
             SplitjawDocumented();
         }
     }

@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         numVines = 0;
 
         // Debug testing to instakill player lol
-        if (Input.GetKeyDown(KeyCode.K)){
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.K)){
             OnPlayerKilled();
         }
     }
