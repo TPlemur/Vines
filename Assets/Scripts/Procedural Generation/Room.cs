@@ -59,59 +59,27 @@ public class Room : MonoBehaviour
         List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
         List<Room> possible = this.RoomsToNotOfType(temp);
         int numExits = 0;
-        if(this.IsStartRoom()){
-            numExits = 3;
-        }
-        else if(possible.Count == 1){
+        if(possible.Count == 1){
             numExits = 1;
         }
         else if(possible.Count > 1){
             numExits = UnityEngine.Random.Range(2, possible.Count - 2);
         }
+        Debug.Log("NUM EXITS " + numExits);
+        for(int i = 0; i < numExits; i++){
+            this.ConnectTo(possible[i]);
+        }
+    }
+
+    public void ConnectStartToRandom(){
+        List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
+        List<Room> possible = this.RoomsToNotOfType(temp);
+        int numExits = 3;
         for(;numExits > 0; numExits--){
             int index = UnityEngine.Random.Range(0, possible.Count);
             this.ConnectTo(possible[index]);
             possible.RemoveAt(index);
         }
-    }
-
-    /* RoomsToConnect() creates a list of possible rooms that
-     * could be connedted to with respect to bounds checking.
-     */
-    public List<Room> RoomsToConnect(){
-        List<Room> possible = new List<Room>();
-        if(!this.IsOnRightEdge()) { possible.Add(this.RoomToRight());}
-        if(!this.IsOnLeftEdge())  { possible.Add(this.RoomToLeft());}
-        if(!this.IsOnBottomEdge()){ possible.Add(this.RoomUnderneath());}
-        if(!this.IsOnTopEdge())   { possible.Add(this.RoomAbove());}
-        return possible;
-    }
-
-    /* NotAlreadyLinkedRooms() creates a list of possible rooms that
-     * could be connedted to with respect to bounds checking as well as
-     * what exits the room already has. So if a room has a left exit and
-     * it is to the left of a room with the possible list. It removes that
-     * room as it is alread connected to that room.
-     */
-    public List<Room> NotAlreadyLinkedRooms(){
-        List<Room> possible = this.RoomsToConnect();
-        foreach(string dir in this.exits.types){
-            for(int i = 0; i < possible.Count; i++){
-                if(dir == "Left" && this.IsToRightOf(possible[i])){
-                    possible.RemoveAt(i);
-                }
-                if(dir == "Right" && this.IsToLeftOf(possible[i])){
-                    possible.RemoveAt(i);
-                }
-                if(dir == "Down" && this.IsAbove(possible[i])){
-                    possible.RemoveAt(i);
-                }
-                if(dir == "Up" && this.IsUnderneath(possible[i])){
-                    possible.RemoveAt(i);
-                }
-            }
-        }
-        return possible;
     }
 
     /* RoomsToNotOfType() will return a list of rooms that a room
@@ -131,6 +99,152 @@ public class Room : MonoBehaviour
             }
         }
         return possible;
+    }
+
+    /* NotAlreadyLinkedRooms() creates a list of possible rooms that
+     * could be connedted to with respect to bounds checking as well as
+     * what exits the room already has. So if a room has a left exit and
+     * it is to the left of a room with the possible list. It removes that
+     * room as it is alread connected to that room.
+     */
+    public List<Room> NotAlreadyLinkedRooms(){
+        List<Room> possible = this.RoomsToConnect();
+        foreach(string dir in this.exits.types){
+            for(int i = 0; i < possible.Count; i++){
+                if(dir == "Left" && this.IsDirectlyRightOf(possible[i])){
+                    possible.RemoveAt(i);
+                }
+                if(dir == "Right" && this.IsDirectlyLeftOf(possible[i])){
+                    possible.RemoveAt(i);
+                }
+                if(dir == "Down" && this.IsDirectlyAbove(possible[i])){
+                    possible.RemoveAt(i);
+                }
+                if(dir == "Up" && this.IsDirectlyUnderneath(possible[i])){
+                    possible.RemoveAt(i);
+                }
+            }
+        }
+        return possible;
+    }
+
+    /* RoomsToConnect() creates a list of possible rooms that
+     * could be connedted to with respect to bounds checking.
+     */
+    public List<Room> RoomsToConnect(){
+        List<Room> possible = new List<Room>();
+        string position = this.PositionRelativeToStart();
+        // Debug.Log(position);
+
+        // bounds checking
+        // if(!this.IsOnRightEdge()) { possible.Add(this.RoomToRight());}
+        // if(!this.IsOnLeftEdge())  { possible.Add(this.RoomToLeft());}
+        // if(!this.IsOnBottomEdge()){ possible.Add(this.RoomUnderneath());}
+        // if(!this.IsOnTopEdge())   { possible.Add(this.RoomAbove());}
+        switch(position){
+            case "START":
+                possible.Add(this.RoomToRight());
+                possible.Add(this.RoomToLeft());
+                possible.Add(this.RoomUnderneath());
+                possible.Add(this.RoomAbove());
+                break;
+            case "LEFT":
+                possible.Add(this.RoomToRight());
+                possible.Add(this.RoomUnderneath());
+                possible.Add(this.RoomAbove());
+                if(!this.IsOnLeftEdge()){
+                    possible.Add(this.RoomToLeft());
+                }
+                break;
+            case "RIGHT":
+                possible.Add(this.RoomToLeft());
+                possible.Add(this.RoomUnderneath());
+                possible.Add(this.RoomAbove());
+                if(!this.IsOnRightEdge()){
+                    possible.Add(this.RoomToRight());
+                }
+                break;
+            case "ABOVE":
+                possible.Add(this.RoomUnderneath());
+                possible.Add(this.RoomToLeft());
+                possible.Add(this.RoomToRight());
+                if(!this.IsOnTopEdge()){
+                    possible.Add(this.RoomAbove());
+                }
+                break;
+            case "BELOW":
+                possible.Add(this.RoomAbove());
+                possible.Add(this.RoomToLeft());
+                possible.Add(this.RoomToRight());
+                if(!this.IsOnBottomEdge()){
+                    possible.Add(this.RoomUnderneath());
+                }
+                break;
+            case "UPRIGHT":
+                possible.Add(this.RoomUnderneath());
+                possible.Add(this.RoomToLeft());
+                if(!this.IsOnRightEdge()){
+                    possible.Add(this.RoomToRight());
+                }
+                if(!this.IsOnTopEdge()){
+                    possible.Add(this.RoomAbove());
+                }
+                break;
+            case "UPLEFT":
+                possible.Add(this.RoomUnderneath());
+                possible.Add(this.RoomToRight());
+                if(!this.IsOnLeftEdge()){
+                    possible.Add(this.RoomToLeft());
+                }
+                if(!this.IsOnTopEdge()){
+                    possible.Add(this.RoomAbove());
+                }
+                break;
+            case "DOWNRIGHT":
+                possible.Add(this.RoomAbove());
+                possible.Add(this.RoomToLeft());
+                if(!this.IsOnRightEdge()){
+                    possible.Add(this.RoomToRight());
+                }
+                if(!this.IsOnBottomEdge()){
+                    possible.Add(this.RoomUnderneath());
+                }
+                break;
+            case "DOWNLEFT":
+                possible.Add(this.RoomAbove());
+                possible.Add(this.RoomToRight());
+                if(!this.IsOnLeftEdge()){
+                    possible.Add(this.RoomToLeft());
+                }
+                if(!this.IsOnBottomEdge()){
+                    possible.Add(this.RoomUnderneath());
+                }
+                break;
+        }
+        // Debug.Log("POSSIBLE EXITS IN PREFERRED ORDER");
+        // foreach(Room room in possible){
+        //     room.Print();
+        // }
+        return possible;
+    }
+
+    // determine the positionality of the room in relation to the start room
+    public string PositionRelativeToStart(){
+        if(this.IsStartRoom()){ return "START";}
+        Room start = warehouse.startRoom;
+        if(this.IsInSameRowAs(start)){
+            return this.IsSomewhereRightOf(start) ? "RIGHT" : "LEFT";
+        }
+        if(this.IsInSameColumnAs(start)){
+            return this.IsSomewhereAbove(start) ? "ABOVE" : "BELOW";
+        }
+        if(this.IsSomewhereRightOf(start)){
+            return this.IsSomewhereAbove(start) ? "UPRIGHT" : "DOWNRIGHT";
+        }
+        if(this.IsSomewhereLeftOf(start)){
+            return this.IsSomewhereAbove(start) ? "UPLEFT" : "DOWNLEFT";
+        }
+        return "CANT DETERMINE POSITION";
     }
 
     /* These functions are mainly helper functions that aid in
@@ -275,20 +389,46 @@ public class Room : MonoBehaviour
     }
 
     // Positional checking to see a room is adjacent to another
-    public bool IsToLeftOf(Room room){
+    public bool IsDirectlyLeftOf(Room room){
         return this.row == room.row && this.column + 1 == room.column;
     }
 
-    public bool IsToRightOf(Room room){
+    public bool IsDirectlyRightOf(Room room){
         return this.row == room.row && this.column - 1 == room.column;
     }
 
-    public bool IsUnderneath(Room room){
+    public bool IsDirectlyUnderneath(Room room){
         return this.row - 1 == room.row && this.column == room.column;
     }
 
-    public bool IsAbove(Room room){
+    public bool IsDirectlyAbove(Room room){
         return this.row + 1 == room.row && this.column == room.column;
+    }
+
+    // Positional checking to see if a room is somewhere
+    // to the left, right, above, below some other room
+    public bool IsSomewhereRightOf(Room room){
+        return this.column > room.column;
+    }
+
+    public bool IsSomewhereLeftOf(Room room){
+        return this.column < room.column;
+    }
+
+    public bool IsSomewhereAbove(Room room){
+        return this.row < room.row;
+    }
+
+    public bool IsSomewhereUnderneath(Room room){
+        return this.row > room.row;
+    }
+
+    public bool IsInSameRowAs(Room room){
+        return this.row == room.row;
+    }
+
+    public bool IsInSameColumnAs(Room room){
+        return this.column == room.column;
     }
 
     // Bounds checking related
