@@ -83,7 +83,7 @@ public class trapScript : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         //send collision to the approprate handeler
-        if(collision.transform.tag == "Player")
+        if(GameStateManager.GeneratorOn && collision.transform.tag == "Player")
         {
             foreach (MeshRenderer b in blocks)
             {
