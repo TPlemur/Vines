@@ -10,10 +10,10 @@ public class MainMenuScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-    //Call to get the player to start the game
+    //Call to get the player to start the elevator scene
     public void StartGame() 
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(4);
     }
 
     //Call when the player gets killed by the monster
