@@ -105,4 +105,17 @@ public class Inventory
     public bool EquippedIsToggled(){
         return equipped.IsToggled();
     }
+
+    public int getCurrentIndex()
+    {
+        return current;
+    }
+
+    public void setToZeroth()
+    {
+        UnEquipCurrent();
+        current = 0;
+        equipped = items[current];
+        equipped.Equip();
+    }
 }

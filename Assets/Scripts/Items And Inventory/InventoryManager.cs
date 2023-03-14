@@ -145,11 +145,21 @@ public class InventoryManager : MonoBehaviour
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
+            else if (interact.tag == "ElectricalPanel")
+            {
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
             else if(lastOutline != null)
             {
                 PText.SetActive(false);
                 lastOutline.Off();
             }
+        }
+        else if (lastOutline != null)
+        {
+            PText.SetActive(false);
+            lastOutline.Off();
         }
     }
 }

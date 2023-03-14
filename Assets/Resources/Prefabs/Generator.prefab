@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 6081981789765748687}
   - component: {fileID: 821316219500502781}
   - component: {fileID: 4013629446852458271}
+  - component: {fileID: 3951629892963710937}
   m_Layer: 13
   m_Name: ElectricalPanel
   m_TagString: ElectricalPanel
@@ -152,6 +153,20 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 15
   OverrideMaxDistance: 300
+--- !u!114 &3951629892963710937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629676390332405611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679d3c4c7bc52de47ad8889841a6ea30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMat: {fileID: 2100000, guid: 9ebb9389ca619824380d29cd141ab918, type: 2}
+  rend: {fileID: 3641243636899868287}
 --- !u!1 &1595951461369342394
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,10 +1005,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: GeneratorPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7977348109707214024, guid: 98129ad9e8926364da3539762650d9db, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7977348109707214024, guid: 98129ad9e8926364da3539762650d9db, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1352b5dabe52bc49ab9beee949d6f99, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98129ad9e8926364da3539762650d9db, type: 3}
 --- !u!4 &2068908082000433291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4650895619944612412, guid: 98129ad9e8926364da3539762650d9db, type: 3}
+  m_PrefabInstance: {fileID: 6646591893426279095}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3641243636899868287 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7977348109707214024, guid: 98129ad9e8926364da3539762650d9db, type: 3}
   m_PrefabInstance: {fileID: 6646591893426279095}
   m_PrefabAsset: {fileID: 0}

@@ -39,6 +39,15 @@ public class Shield : Item
             mobBrain.isShielded = true;
             primed = false;
             Debug.Log("Primed: " + primed);
+
+            //remove shield from inventrory
+            Secondary();
+            GameStateManager.ShieldAcquired = false;
+            InventoryManager im = FindObjectOfType<InventoryManager>();
+            int shieldIndex = im.inventory.getCurrentIndex();
+            im.inventory.setToZeroth();
+            im.inventory.items.RemoveAt(shieldIndex);
+            Destroy(this);
             return true;
         }
         return false;
