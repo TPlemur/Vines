@@ -56,7 +56,7 @@ public class Warehouse{
             data.Add(rowOfEmptyRooms);
         }
         this.startRoom = data[this.startRow][this.startCol];
-        this.startRoom.ConnectToRandom();
+        this.startRoom.ConnectStartToRandom();
         PlaceMonsterSpawn();
         PlaceLandmarks();
         FixDeadEnds();
@@ -67,6 +67,10 @@ public class Warehouse{
      */
     public void Regenerate(){
         this.Teardown();
+        special  = new List<Landmark>(new Landmark[] {new AlphaTeam(),  new Generator(), new ShieldRoom()});
+        cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
+        hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
+        tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
         this.Generate();
     }
 
@@ -96,27 +100,32 @@ public class Warehouse{
             for(int j = 0; j < this.columns; j++){
                 Room deadEnd = data[i][j];
                 while(deadEnd.exits.NumberOf() == 1){
-                    int index = -1;
-                    int leastNum = 4;
+                    // int index = -1;
+                    // int leastNum = 4;
+                    // List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
+                    // List<Room> possible = deadEnd.RoomsToNotOfType(temp);
+                    // for(int k = 0; k < possible.Count; k++){
+                    //     if(possible[k].exits.NumberOf() != 0 && possible[k].exits.NumberOf() < leastNum){
+                    //         leastNum = possible[k].exits.NumberOf();
+                    //         index = k;
+                    //     }
+                    // }
+                    // // some room with the least amount of exits was found
+                    // if(index != -1){
+                    //     deadEnd.ConnectTo(possible[index]);
+                    // }
+                    // else{
+                    //     // no room was found and this dead end has no adjacent room so make a
+                    //     // new one and then check if that room has adjacent rooms to connect to
+                    //     Room newDeadEnd = possible[0];
+                    //     deadEnd.ConnectTo(newDeadEnd);
+                    //     deadEnd = newDeadEnd;
+                    // }
                     List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
                     List<Room> possible = deadEnd.RoomsToNotOfType(temp);
-                    for(int k = 0; k < possible.Count; k++){
-                        if(possible[k].exits.NumberOf() != 0 && possible[k].exits.NumberOf() < leastNum){
-                            leastNum = possible[k].exits.NumberOf();
-                            index = k;
-                        }
-                    }
-                    // some room with the least amount of exits was found
-                    if(index != -1){
-                        deadEnd.ConnectTo(possible[index]);
-                    }
-                    else{
-                        // no room was found and this dead end has no adjacent room so make a
-                        // new one and then check if that room has adjacent rooms to connect to
-                        Room newDeadEnd = possible[UnityEngine.Random.Range(0, possible.Count)];
-                        deadEnd.ConnectTo(newDeadEnd);
-                        deadEnd = newDeadEnd;
-                    }
+                    Room newDeadEnd = possible[0];
+                    deadEnd.ConnectTo(possible[0]);
+                    deadEnd = newDeadEnd;
                 }
             }
         }
@@ -196,6 +205,7 @@ public class Warehouse{
         q3.ConnectTo(q2);
         q3.ConnectTo(q4);
         this.monsterRoom = q4;
+        opposite.ConnectToRandom();
     }
 
     // Place All Landmark rooms
@@ -221,9 +231,7 @@ public class Warehouse{
                 float dist = random.DistanceTo(this.startRoom);
                 if(landmark.InRange(dist)){
                     random.type = landmark;
-                    if(random.exits.NumberOf() < 2){
-                        random.ConnectToRandom();
-                    }
+                    random.ConnectToRandom();
                     list.RemoveAt(list.IndexOf(landmark));
                     break;
                 }

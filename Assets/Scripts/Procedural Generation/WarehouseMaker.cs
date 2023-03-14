@@ -27,4 +27,15 @@ public class WarehouseMaker : MonoBehaviour
         warehouse.PlacePlayerAndMosnter(player, playerCamera, monster);
         surface.BuildNavMesh();
     }
+
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.Minus)){
+            foreach(Transform child in warehouseEmpty.transform){
+                Destroy(child.gameObject);
+            }
+            warehouse.Regenerate();
+            warehouse.PlacePlayerAndMosnter(player, playerCamera, monster);
+            surface.BuildNavMesh();
+        }
+    }
 }
