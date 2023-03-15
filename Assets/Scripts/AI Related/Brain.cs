@@ -65,7 +65,6 @@ public class Brain : MonoBehaviour
         }
         else if(!isHiding){
             timeForHint = true;
-            Debug.Log("HINT");
             investigating = true;
         }
 

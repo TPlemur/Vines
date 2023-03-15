@@ -41,7 +41,6 @@ public class PrechargeBehaviour : StateMachineBehaviour
         timer += Time.deltaTime;
         Mob.velocity = Vector3.zero;
         if(timer >= animationTime){
-            Debug.Log("ROAR");
             animator.SetBool("isCharging", false);
             animator.SetBool("isChasing", true);
         }
