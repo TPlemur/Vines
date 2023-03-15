@@ -36,6 +36,7 @@ public class PVTM : Item
         monsterPicLayer = monsterMask;
         real = realPVTMCam;
         flash = flashMat;
+        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
         laserStart = itemObj.transform.GetChild(0).GetChild(5);
         lr = laserStart.GetComponent<LineRenderer>();
         gameState.PVTMObtained();
@@ -80,17 +81,25 @@ public class PVTM : Item
                     CameraWhirUpSFX(obj);
                 }
             }
-        } 
+        }
+        else{
+            ShootLaser();
+        }
     }
 
     public override void Secondary(){
         toggled = !toggled ? true : false;
-        string controls = toggled ? "LEFT CLICK - TAKE SCREENSHOT / RIGHT CLICK - EXIT CAMERA FEEDS / Q AND E - CHANGE CAMERA FEED" : "LEFT CLICK - CONNECT CAMERA / RIGHT CLICK - VIEW CAMERA FEEDS";
-        ItemUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = controls;
+        // figure out which UI element is active and inactive
+        int active = toggled ? 0 : 1;
+        int inactive = toggled ? 1 : 0;
+        // set active UI to be inactive and inactive to be active
+        ItemUI.transform.GetChild(active).gameObject.SetActive(false);
+        ItemUI.transform.GetChild(inactive).gameObject.SetActive(true);
         itemObj.transform.localPosition = toggled ? new Vector3((float) 0.89, (float) 0.23, (float) -0.215) : original;
         // if bringing the camera up to face and at least one camera is linked, make the camera change sfx
-        if (toggled && gameState.IsFirstCameraLinked())
+        if (toggled && gameState.IsFirstCameraLinked()){
             CameraChangeSFX();
+        }
     }
 
     // Cycle cams left and rigth
