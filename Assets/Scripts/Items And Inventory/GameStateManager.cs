@@ -22,6 +22,7 @@ public class GameStateManager : MonoBehaviour
     
     void Start()
     {
+        debug = false;
         GeneratorOn = false;
         PVTMAcquired = false;
         FlashlightAcquired = false;
@@ -44,6 +45,9 @@ public class GameStateManager : MonoBehaviour
         }
         if(debug && Input.GetKeyDown(KeyCode.RightBracket) && !ValidSplitjawPic){
             SplitjawDocumented();
+        }
+        if(!debug && Input.GetKeyDown(KeyCode.BackQuote)){
+            debug = true;
         }
     }
 

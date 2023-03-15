@@ -15,6 +15,7 @@ public class Shield : Item
     public Shield(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){
         LoadItem("Shield");
         original = itemObj.transform.localPosition;
+        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
         gameState.ShieldObtained();
         PickupSFX();
         mobBrain = GameObject.FindGameObjectWithTag("Monster").GetComponentInChildren<Brain>();
@@ -22,8 +23,12 @@ public class Shield : Item
 
     public override void Secondary(){
         toggled = !toggled ? true : false;
-        string controls = toggled ? "RIGHT CLICK - UNPRIME SHIELD" : "RIGHT CLICK - PRIME SHIELD";
-        ItemUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = controls;
+        // figure out which UI element is active and inactive
+        int active = toggled ? 0 : 1;
+        int inactive = toggled ? 1 : 0;
+        // set active UI to be inactive and inactive to be active
+        ItemUI.transform.GetChild(active).gameObject.SetActive(false);
+        ItemUI.transform.GetChild(inactive).gameObject.SetActive(true);
         itemObj.transform.localPosition = toggled ? new Vector3((float) 0.36, (float) 0.43, (float) -0.54) : original;
     }
 
