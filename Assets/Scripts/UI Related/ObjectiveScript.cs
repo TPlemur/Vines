@@ -8,6 +8,7 @@ public class ObjectiveScript : MonoBehaviour
     public int inputCounter = 0;
 
     public GameObject MoveText;
+    public GameObject switchText;
     public GameObject PowerObj;
     public GameObject PVTMObj;
     public GameObject DocumentObj;
@@ -50,6 +51,11 @@ public class ObjectiveScript : MonoBehaviour
                 RemoveFromActiveUI(MoveText);
             }
             
+        }
+
+        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)))
+        {
+                RemoveFromActiveUI(switchText);
         }
 
     }

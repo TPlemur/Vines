@@ -75,6 +75,8 @@ public class GameStateManager : MonoBehaviour
         if(GeneratorOn){
             OBJSC.AddToActiveUI(OBJSC.CameraObj);
         }
+        //add switch ui if first pickup
+        if (FlashlightAcquired ^ ShieldAcquired ^ PVTMAcquired) { OBJSC.AddToActiveUI(OBJSC.switchText); }
     }
 
     public void FlashlightObtained(){
@@ -83,12 +85,16 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("FLASHLIGHT ACQUIRED");
         // code/sounds/animations/UI for after acquiring Flashlight
         OBJSC.RemoveFromActiveUI(OBJSC.FlashObj);
+        //add switch ui if first pickup
+        if (FlashlightAcquired ^ ShieldAcquired ^ PVTMAcquired) { OBJSC.AddToActiveUI(OBJSC.switchText); }
     }
 
     public void ShieldObtained(){
         ShieldAcquired = true;
         Debug.Log("SHIELD OBTAINED");
         // code/sounds/animations/UI for after acquiring Shield
+        //add switch ui if first pickup
+        if (FlashlightAcquired ^ ShieldAcquired ^ PVTMAcquired) { OBJSC.AddToActiveUI(OBJSC.switchText); }
     }
 
     public void FirstCameraLinked(){
