@@ -13,11 +13,6 @@ public class TrapTrapper : MonoBehaviour
     //prevent double trigger
     bool triggered = false;
 
-    private void Start()
-    {
-        enabled = false;
-    }
-
     private void OnTriggerEnter(Collider collision)
     {
         if (setter.currentState == TrapSetter.State.set)
@@ -68,10 +63,6 @@ public class TrapTrapper : MonoBehaviour
         monAgent.speed = monSpeed;
         setter.currentState = TrapSetter.State.off;
         triggered = false;
-
-        //currentState = State.off;
-
-        //emitter.Stop();
     }
 
     //stop the player for a bit

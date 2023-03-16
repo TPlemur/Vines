@@ -13,7 +13,7 @@ public class VineProfileManager : MonoBehaviour
     Slider slid;
 
 
-    // Start is called before the first frame update
+    // grab the appropreate scripts and set the qual level to the stored state
     void Start()
     {
         MVSM = GameObject.FindObjectOfType<MonVineStateMachine>();
@@ -22,6 +22,7 @@ public class VineProfileManager : MonoBehaviour
         SetProfile((float)QualLevel);
     }
 
+    //pass the setting on to the approprate scripts
     public void SetProfile(float sliderVal)
     {
         int i = (int)sliderVal;
