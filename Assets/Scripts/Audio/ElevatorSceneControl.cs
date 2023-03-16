@@ -17,11 +17,18 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField]
     float fadeOut = 1;
 
+    [SerializeField]
+    private float beforeVideoWaitTime = 5.0f;
+    [SerializeField]
+    private float afterVideoWaitTime = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
         videoPlayer.started += VideoStarted;
         videoPlayer.loopPointReached += VideoFinished;
+
+        StartCoroutine(WaitAndStartVideo());
     }
 
     // Update is called once per frame
@@ -44,10 +51,20 @@ public class ElevatorSceneControl : MonoBehaviour
 
         elevatorSFX.EventInstance.setParameterByName("State", 0);
 
-        StartCoroutine(transitionToPlay());
-        // transition to next scene, hoping for a little bit of time for the elevator sfx to transition off, but that can happen during the transition to the next scene
+        StartCoroutine(WaitAndEndScene());
     }
 
+    IEnumerator WaitAndStartVideo()
+    {
+        yield return new WaitForSeconds(beforeVideoWaitTime);
+        videoPlayer.Play();
+    }
+
+    IEnumerator WaitAndEndScene()
+    {
+        yield return new WaitForSeconds(afterVideoWaitTime);
+        StartCoroutine(transitionToPlay());
+    }
 
     float timer = 0;
 
