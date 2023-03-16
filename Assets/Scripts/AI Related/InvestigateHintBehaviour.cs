@@ -15,6 +15,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("Investigating");
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         playerPos = Player.position;//getClosestNavPointToPlayer(Player);
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
@@ -29,14 +30,14 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(!Mob.hasPath){
+        if(!Mob.hasPath &! mobBrain.isHiding){
             Mob.SetDestination(Player.position);
         }
         // Mob.GetComponent<Brain>().investigating = true;
         if(mobBrain.detectsPlayer){
             animator.SetBool("isCharging", true);
         }
-        if(Mob.GetComponentInChildren<Brain>().isHiding){
+        if(mobBrain.isHiding){
             mobBrain.investigating = false;
             //animator.SetBool("isPatrolling", true);
             animator.SetBool("isInvestigating", false);
