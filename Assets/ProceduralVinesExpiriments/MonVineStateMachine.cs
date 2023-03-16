@@ -50,14 +50,14 @@ public class MonVineStateMachine : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
+    // setup walkTargets
     void Start()
     {
         walkHasSpwned = new bool[walkTargets.Length];
         for (int i = 0; i < walkHasSpwned.Length; i++) { walkHasSpwned[i] = false; }
     }
 
-    // Update is called once per frame
+    // Call approprate state function
     void Update()
     {
         switch (currentState)
@@ -80,6 +80,7 @@ public class MonVineStateMachine : MonoBehaviour
         }
     }
 
+    //spawns a cluster when each walkTarget crosses below the zTransformBarriar
     void walk()
     {
         for (int i = 0; i < walkTargets.Length; i++)
@@ -111,6 +112,7 @@ public class MonVineStateMachine : MonoBehaviour
         }
     }
 
+    //spawns vines continuously and rapidly
     void run()
     {
         timer += Time.deltaTime;
@@ -133,7 +135,7 @@ public class MonVineStateMachine : MonoBehaviour
     }
 
 
-
+    //wait for a bit, then spawn a large cluster of vines on que with the monster's roar
     IEnumerator roar()
     {
         //clean up old vines
@@ -158,6 +160,7 @@ public class MonVineStateMachine : MonoBehaviour
         }
     }
 
+    //changes paramaters acording to selected profile
     public void setSettings(VineProfle vp)
     {
         walkNumForward = vp.walkNumForward;
