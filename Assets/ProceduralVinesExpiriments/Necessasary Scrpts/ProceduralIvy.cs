@@ -14,9 +14,6 @@ public class ProceduralIvy : MonoBehaviour
     public float segmentLength = .15f;
     public float branchRadius = 0.04f;
     public LayerMask validSurfaces = ~0;
-    //Dynamic animation of vines did not work
-    //public bool AnimCompatible = false;
-    //public Transform RootBone;
 
     [Space]
     [Header("Spawning Characteristics")]
@@ -78,6 +75,8 @@ public class ProceduralIvy : MonoBehaviour
         GenIvy();
     }
 
+    //GenVines calls used by MonVineStateMachine to generate vines at specific times
+    //multy target
     public void genVines(GameObject[] targets, float growTime, float waitTime, float shrinkTime)
     {
         branchGrowSpeed = growTime;
@@ -86,6 +85,7 @@ public class ProceduralIvy : MonoBehaviour
         targetObjs = targets;
         GenIvy();
     }
+    //single target
     public void genVine(GameObject target, float growTime, float waitTime, float shrinkTime)
     {
         branchGrowSpeed = growTime;
@@ -135,6 +135,7 @@ public class ProceduralIvy : MonoBehaviour
             List<IvyNode> nodes = createBranch(maxPointsForBranch, hit.point, hit.normal, dir);
             GameObject branch = new GameObject("Branch " + i);
 
+            //set all the approprate branch settings
             Branch b;
             b = branch.AddComponent<Branch>();
             b.gameObject.layer = 14;
@@ -182,6 +183,7 @@ public class ProceduralIvy : MonoBehaviour
         return middle + normal * distance;
     }
 
+    //creates a list of IvyNodes (a packaged position and normal) following the path of the branch
     List<IvyNode> createBranch(int count, Vector3 pos, Vector3 normal, Vector3 dir)
     {
 
@@ -297,6 +299,7 @@ public class ProceduralIvy : MonoBehaviour
         }
     }
 
+    //set to approprate vine quality
     public void setSettings(VineProfle vp)
     {
         maxPointsForBranch = vp.maxPointsForBranch;

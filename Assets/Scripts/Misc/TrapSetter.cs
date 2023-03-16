@@ -9,6 +9,7 @@ public class TrapSetter : MonoBehaviour
     [SerializeField] private float setTime = 2;
     [SerializeField] private float DelayTime = 2;
 
+    //materials for different states
     [SerializeField] private Material powering;
     [SerializeField] private Material ready;
     [SerializeField] private Material active;
@@ -16,6 +17,7 @@ public class TrapSetter : MonoBehaviour
 
     [SerializeField] private MeshRenderer[] blocks;
 
+    //track what state the trap is in
     public enum State
     {
         off,
@@ -34,6 +36,23 @@ public class TrapSetter : MonoBehaviour
     Material[] outOffArr;
 
     private FMODUnity.StudioEventEmitter emitter;
+
+    private void Start()
+    {
+        //setup the outline system
+        rend = gameObject.GetComponent<MeshRenderer>();
+        rend.enabled = false;
+        outOnArr = blocks[0].materials;
+        outOffArr = blocks[0].materials;
+        outOnArr[1] = InteractableOutline;
+        foreach (MeshRenderer b in blocks)
+        {
+            b.materials = outOffArr;
+        }
+
+        // setup sound emmiter
+        emitter = GetComponent<FMODUnity.StudioEventEmitter>();
+    }
 
     private void Update()
     {
@@ -64,25 +83,9 @@ public class TrapSetter : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        rend = gameObject.GetComponent<MeshRenderer>();
-        rend.enabled = false;
-        outOnArr = blocks[0].materials;
-        outOffArr = blocks[0].materials;
-        outOnArr[1] = InteractableOutline;
-        foreach (MeshRenderer b in blocks)
-        {
-            b.materials = outOffArr;
-        }
-
-        emitter = GetComponent<FMODUnity.StudioEventEmitter>();
-    }
-
-
+    //highlight trap blocks, and maintain contact for charging
     private void OnTriggerEnter(Collider collision)
     {
-        //highlight trap blocks, and maintain contact for charging
         if (GameStateManager.GeneratorOn && collision.transform.tag == "Player")
         {
             foreach (MeshRenderer b in blocks)
@@ -94,6 +97,7 @@ public class TrapSetter : MonoBehaviour
         }
     }
 
+    //break contact and unhighlight
     private void OnTriggerExit(Collider other)
     {
         PlayerContact = false;
@@ -114,7 +118,4 @@ public class TrapSetter : MonoBehaviour
 
         emitter.Play();
     }
-
-
-
 }

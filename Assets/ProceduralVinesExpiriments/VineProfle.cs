@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//big package of data to overwrite vine settings
 public class VineProfle : MonoBehaviour
 { 
 
