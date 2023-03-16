@@ -41,6 +41,7 @@ public class Shield : Item
         {
             Debug.Log("EXPLODING SHIELD");
             itemObj.GetComponentInChildren<ShieldDeployer>().Deploy();
+            ExplodeSFX();
             mobBrain.isShielded = true;
             primed = false;
             Debug.Log("Primed: " + primed);
@@ -63,6 +64,14 @@ public class Shield : Item
         const string eventName = "event:/SFX/Items/Shield/Pickup-1";
         var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
         sound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(itemObj));
+        sound.start();
+        sound.release();
+    }
+    private void ExplodeSFX()
+    {
+        const string eventName = "event:/SFX/Items/Shield/Explode";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(itemObj.transform));
         sound.start();
         sound.release();
     }
