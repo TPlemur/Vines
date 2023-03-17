@@ -58,12 +58,9 @@ public class PatrolBehaviour : StateMachineBehaviour
 
                 // If able to raycast to player, do not change to ambush behaviour; keep patrolling instead
                 if(playerAngle < visionAngle && Physics.Raycast(monVis, out hit, 25)){
-                    // Debug.Log("Raycasting");
                     if(hit.collider.tag != "Player"){
-                        // Debug.Log("Not seeing player");
                         animator.SetBool("isAmbushing", true);
                     }else{
-                        // Debug.Log("Find Patrol Pos");
                         patrolPos = RandomNavmeshLocation(patrolRadius);
                         Mob.SetDestination(patrolPos);
                         Mob.speed = 3;

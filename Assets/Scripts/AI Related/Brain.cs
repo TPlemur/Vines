@@ -88,7 +88,6 @@ public class Brain : MonoBehaviour
 
         // Ticks timer for ambush state, 
         if(timeForAmbush && monsterIsHiding && timeSpentAmbushing < maxAmbushTime){
-        // if(timeForAmbush && timeSpentAmbushing < maxAmbushTime){
             timeSpentAmbushing += Time.deltaTime;
             Debug.Log("Time spent ambushing" + timeSpentAmbushing);
         }else if(timeForAmbush && timeSpentAmbushing > maxAmbushTime){
@@ -97,6 +96,7 @@ public class Brain : MonoBehaviour
             timeForAmbush = false;
         }
 
+        // Resets variables if splitjaw just ambushed
         if(justAmbushed){
             justAmbushed = false;
             timeHidden = 0;
