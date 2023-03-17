@@ -7855,6 +7855,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518596659}
   m_CullTransparentMesh: 1
+--- !u!1 &548303032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 548303034}
+  - component: {fileID: 548303033}
+  m_Layer: 0
+  m_Name: SeekerSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &548303033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548303032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c8fab993f8be14bbc9362d6a76b7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjs:
+  - {fileID: 548303032}
+  branchMaterial: {fileID: 2100000, guid: 4ba047dc4b8fb524493471fb420af3eb, type: 2}
+  SeakTarget: {fileID: 1571679557}
+  branches: 2
+  maxPointsForBranch: 90
+  segmentLength: 0.4
+  branchRadius: 0.04
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 243703
+  lowAngle: 0
+  highAngle: 360
+  useTargetForAngle: 0
+  SeakStrength: 0.5
+  branchDelay: 0.75
+  branchGrowSpeed: 1
+  branchShrinkSpeed: 1
+  initialDelay: 0
+  vinesAtStart: 0
+  continuousVines: 0
+  WitherBranch: 1
+  timeAtGrown: 2
+  canSense: 1
+  senseMultiplier: 5
+  objTag: Vine
+  isCloth: 0
+  bendstiffness: 5
+  maxDist: 0.5
+  clothColliders: []
+  recycleInterval: 30
+--- !u!4 &548303034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548303032}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.6849394, y: 7.9, z: -0.37972152}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &554248747
 GameObject:
   m_ObjectHideFlags: 0
@@ -13281,6 +13356,7 @@ GameObject:
   - component: {fileID: 1571679565}
   - component: {fileID: 1571679568}
   - component: {fileID: 1571679567}
+  - component: {fileID: 1571679570}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -13539,6 +13615,22 @@ MonoBehaviour:
     m_Bits: 32768
   FlashMat: {fileID: 2100000, guid: ef8d303461b241e45b787a1ed4bc6db8, type: 2}
   gameStateManager: {fileID: 1903244509}
+--- !u!114 &1571679570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571679557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d70754dfc14abca488fe71689c3d79eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveRad: 5
+  timeBeforeSeeker: 20
+  SeekerSpawner: {fileID: 548303032}
+  spawnDist: 50
 --- !u!1 &1595614446
 GameObject:
   m_ObjectHideFlags: 0

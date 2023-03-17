@@ -271,4 +271,9 @@ public class Branch : MonoBehaviour
         deAnimate = true;
         currentAmount = delayTime * shrinkSpeed / MAX;
     }
+
+    public void Remove()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 }
