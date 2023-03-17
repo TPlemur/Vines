@@ -20,7 +20,6 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         playerPos = Player.position;//getClosestNavPointToPlayer(Player);
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
-        //Debug.Log("Investigate state");
         Mob.speed = 3;
         animator.SetBool("isChasing", false);
         animator.SetBool("isCharging", false);
@@ -30,16 +29,17 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Walks towards player if they're not in a hiding spot
         if(!Mob.hasPath &! mobBrain.isHiding){
             Mob.SetDestination(Player.position);
         }
-        // Mob.GetComponent<Brain>().investigating = true;
+        // Enters charge state when player detected
         if(mobBrain.detectsPlayer){
             animator.SetBool("isCharging", true);
         }
+        // Returns to patrol state when player hides
         if(mobBrain.isHiding){
             mobBrain.investigating = false;
-            //animator.SetBool("isPatrolling", true);
             animator.SetBool("isInvestigating", false);
         }
     }
