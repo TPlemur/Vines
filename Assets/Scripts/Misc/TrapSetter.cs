@@ -9,6 +9,10 @@ public class TrapSetter : MonoBehaviour
     [SerializeField] private float setTime = 2;
     [SerializeField] private float DelayTime = 2;
 
+    [SerializeField] private float sparkTime = 5;
+    private float sparkTimer = 0;
+    [SerializeField] private GameObject sparkObject;
+
     //materials for different states
     [SerializeField] private Material powering;
     [SerializeField] private Material ready;
@@ -55,6 +59,7 @@ public class TrapSetter : MonoBehaviour
 
         // setup sound emmiter
         emitter = GetComponent<FMODUnity.StudioEventEmitter>();
+
     }
 
     private void Update()
@@ -83,6 +88,21 @@ public class TrapSetter : MonoBehaviour
             }
             //vissualy indicate that trap is ready
             if (timer > setTime) { rend.material = ready; }
+
+            if (GameStateManager.GeneratorOn)
+            {
+                sparkTimer += Time.deltaTime;
+                if (sparkTimer >= sparkTime)
+                {
+                    // spark
+                    if (!sparkObject.activeSelf){
+                        sparkObject.SetActive(true);
+                    }
+                    SparkSFX();
+                    sparkTimer = 0;
+                    StartCoroutine(SparkParticleDisable());
+                }
+            }
         }
 
     }
@@ -121,5 +141,22 @@ public class TrapSetter : MonoBehaviour
         trapper.enabled = true;
 
         emitter.Play();
+    }
+
+    private void SparkSFX()
+    {
+        const string eventName = "event:/SFX/Items/Traps/Trap Shock";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        sound.setVolume(0.5f);
+        sound.setPitch(2f);
+        sound.start();
+        sound.release();
+    }
+
+    private IEnumerator SparkParticleDisable()
+    {
+        yield return new WaitForSeconds(0.2f);
+        sparkObject.SetActive(false);
     }
 }

@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!136 &7860345896298145896
 CapsuleCollider:
@@ -145,7 +145,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &8059140496575371582
 MeshFilter:
@@ -235,6 +235,7 @@ MonoBehaviour:
   - {fileID: 8784157601404322248}
   - {fileID: 540742567713795001}
   playerSensor: {fileID: 0}
+  currentState: 0
 --- !u!54 &559818062318764080
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -309,13 +310,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7986025878972542620}
   - {fileID: 2113711979787048046}
   - {fileID: 286342747935553562}
   - {fileID: 7614659054662548135}
   - {fileID: 1714242380080386262}
   - {fileID: 9093330520901831921}
-  - {fileID: 5297268892757425147}
-  - {fileID: 9189143093168934036}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 851805362405399194}
   - component: {fileID: 2254872245194591725}
   m_Layer: 0
-  m_Name: Sparks
+  m_Name: SparkParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -344,13 +344,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6252896220121676677}
-  m_LocalRotation: {x: -0.63308436, y: 0.3149669, z: -0.31496707, w: 0.6330843}
-  m_LocalPosition: {x: -2.009, y: 0.306, z: -0.018}
-  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
+  m_LocalRotation: {x: -0.2249429, y: -0.22494301, z: -0.6703736, w: 0.6703735}
+  m_LocalPosition: {x: -0.8265104, y: -0.18005407, z: -2.5140479}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 5
+  m_Father: {fileID: 7986025878972542620}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -37.098, y: 90, z: -90}
 --- !u!198 &851805362405399194
 ParticleSystem:
@@ -5131,6 +5131,39 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &6381908019178500085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7986025878972542620}
+  m_Layer: 0
+  m_Name: SparkParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7986025878972542620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6381908019178500085}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.50504637, y: 0.48605406, z: -0.84451026}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5297268892757425147}
+  - {fileID: 9189143093168934036}
+  m_Father: {fileID: 8739726118198079449}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7010948344416546215
 GameObject:
   m_ObjectHideFlags: 0
@@ -5143,12 +5176,12 @@ GameObject:
   - component: {fileID: 4379462041165793583}
   - component: {fileID: 3068069316108231715}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: SparkLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9189143093168934036
 Transform:
   m_ObjectHideFlags: 0
@@ -5156,13 +5189,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7010948344416546215}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.975, y: 0.352, z: -0.069}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.776, y: -0.022, z: -2.121}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 6
+  m_Father: {fileID: 7986025878972542620}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &4379462041165793583
 Light:
@@ -5177,7 +5210,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0, g: 0.961986, b: 0.9716981, a: 1}
   m_Intensity: 1
-  m_Range: 2
+  m_Range: 1.52
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -5221,7 +5254,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.57e-43, y: 7.1e-44, z: 0, w: 1.3586053e+35}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -5281,7 +5314,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!136 &6212591488790083498
 CapsuleCollider:
@@ -5328,6 +5361,8 @@ MonoBehaviour:
   trapper: {fileID: 4620349827920258879}
   setTime: 2
   DelayTime: 2
+  sparkTime: 5
+  sparkObject: {fileID: 6381908019178500085}
   powering: {fileID: 2100000, guid: 7c0ef67cd082a2f49bf35c02e41079e5, type: 2}
   ready: {fileID: 2100000, guid: 7cc4b30b2b26cfe4c9f07eadb7e34301, type: 2}
   active: {fileID: 2100000, guid: b85fb032bfdd4fe47b1f3892c4a4c5b7, type: 2}
@@ -5425,7 +5460,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_LocalScale.x
@@ -5516,7 +5551,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_LocalScale.x
