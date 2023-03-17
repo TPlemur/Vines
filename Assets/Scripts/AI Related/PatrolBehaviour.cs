@@ -85,24 +85,14 @@ public class PatrolBehaviour : StateMachineBehaviour
             Mob.SetDestination(patrolPos);
             Mob.speed = 3;
         }
-
-       // Supposed to end patrolling after reaching spot, so it can return to idle, then patrol again
-    //    if(Mob.velocity.sqrMagnitude == 0f){
-    //         Debug.Log("reached patrol spot");
-    //         animator.SetBool("isPatrolling", false);
-    //    }
+        // Enters charge state if the monster detects the player
         if(mobBrain.detectsPlayer && !mobBrain.isHiding){
             Mob.velocity = Vector3.zero;
             animator.SetBool("isCharging", true);
         }
     }
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-       
-    }
-
+    // Finds a random location on the navmesh within a radius around the player, then returns it
     public Vector3 RandomNavmeshLocation(float radius) {
         Vector3 randomDirection = Random.insideUnitSphere * radius;
         randomDirection += Player.transform.position;
