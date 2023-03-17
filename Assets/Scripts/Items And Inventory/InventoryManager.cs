@@ -24,6 +24,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Electrical Equipment Related")]
     public LayerMask panelLayer;
+    public GameObject progressUI;
 
     [Header("PVTM Related")]
     public GameObject RealPVTMCamera;
@@ -40,7 +41,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         inventory = new Inventory();
-        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls));
+        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI));
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
     }
@@ -98,7 +99,7 @@ public class InventoryManager : MonoBehaviour
 
         // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
         if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)){
-            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls));
+            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI));
         }
         if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha8)){
             inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls));

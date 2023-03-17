@@ -65,7 +65,6 @@ public class Room : MonoBehaviour
         else if(possible.Count > 1){
             numExits = UnityEngine.Random.Range(2, possible.Count - 2);
         }
-        Debug.Log("NUM EXITS " + numExits);
         for(int i = 0; i < numExits; i++){
             this.ConnectTo(possible[i]);
         }
