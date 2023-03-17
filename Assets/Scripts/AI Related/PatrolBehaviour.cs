@@ -48,7 +48,6 @@ public class PatrolBehaviour : StateMachineBehaviour
                 animator.SetBool("isInvestigating", true);
             }else if(mobBrain.timeForAmbush){
                 // Initializes raycasting variables
-                Debug.Log("Trying to ambush");
                 Ray monVis = new Ray(Mob.transform.position, (Player.transform.position-Mob.transform.position));
                 RaycastHit hit;
                 Vector3 playerDir = Player.transform.position - Mob.transform.position;
