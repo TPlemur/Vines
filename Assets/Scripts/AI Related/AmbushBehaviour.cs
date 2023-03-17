@@ -48,7 +48,6 @@ public class AmbushBehaviour : StateMachineBehaviour
         }
         // If the player gets too close, charge them
         float distanceFromHidingSpot = Vector3.Distance(hidingSpotToAmbush.transform.position, Mob.transform.position);
-        Debug.Log("Distance from player: " + distanceFromPlayer);
         if(distanceFromPlayer <= 7 && distanceFromHidingSpot <= 2){ // Ensures monster is in hiding spot before charging
             animator.SetBool("isCharging", true);
             mobBrain.justAmbushed = true;

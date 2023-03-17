@@ -46,7 +46,6 @@ public class ChaseBehaviour : StateMachineBehaviour
             Mob.ResetPath();
             animator.SetBool("isChasing", false);
         }else{
-            Debug.Log("charging");
             playerPos = Player.position;
             Mob.SetDestination(playerPos);
             Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.charge;
