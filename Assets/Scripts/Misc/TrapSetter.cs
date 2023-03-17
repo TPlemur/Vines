@@ -37,6 +37,9 @@ public class TrapSetter : MonoBehaviour
 
     private FMODUnity.StudioEventEmitter emitter;
 
+    public float GetStartTime() { return setTime; }
+    public float GetTimerRatio() { return (timer / setTime); }
+
     private void Start()
     {
         //setup the outline system
@@ -59,8 +62,9 @@ public class TrapSetter : MonoBehaviour
         //check if trap can be charged
         if (currentState == State.off)
         {
-            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn)
+            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn && timer <= setTime)
             {
+                ElectricalEquipment.sfxUpdateTarget = gameObject;
                 //accumulate charge
                 if (timer == 0) { rend.enabled = true; rend.material = powering; }
                 timer += Time.deltaTime;
