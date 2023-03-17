@@ -5,7 +5,8 @@ using UnityEngine;
 public class OutlineToggle : MonoBehaviour
 {
     [SerializeField] private Material outlineMat;
-    [SerializeField]private MeshRenderer rend;
+    [SerializeField] private MeshRenderer rend;
+    [SerializeField] private bool separateMesh = false;
     private Material[] offMats;
     private Material[] onMats;
     bool on = false;
@@ -16,7 +17,14 @@ public class OutlineToggle : MonoBehaviour
         if (!on)
         {
             on = true;
-            rend.materials = onMats;
+            if (separateMesh)
+            {
+                rend.enabled = true;
+            }
+            else
+            {
+                rend.materials = onMats;
+            }
         }
     }
 
@@ -26,7 +34,14 @@ public class OutlineToggle : MonoBehaviour
         if (on)
         {
             on = false;
-            rend.materials = offMats;
+            if (separateMesh)
+            {
+                rend.enabled = false;
+            }
+            else
+            {
+                rend.materials = offMats;
+            }
         }
     }
 

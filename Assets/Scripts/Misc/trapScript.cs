@@ -18,14 +18,14 @@ public class trapScript : MonoBehaviour
     [SerializeField] private MeshRenderer[] blocks;
     [SerializeField] private ColliderNotifyer playerSensor;
 
-    enum State
+    public enum State
     {
         off,
         charged,
         set,
         triggered
     }
-    State currentState = State.off;
+    public State currentState = State.off;
 
     MeshRenderer rend;
     bool PlayerContact = false;
@@ -37,12 +37,16 @@ public class trapScript : MonoBehaviour
 
     private FMODUnity.StudioEventEmitter emitter;
 
+    public float GetStartTime() { return setTime; }
+    public float GetTimerRatio() { return (timer / setTime); }
+
     private void Update()
     {
         //check if trap can be charged
         if (currentState == State.off) {
-            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn)
+            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn && timer <= setTime)
             {
+                ElectricalEquipment.sfxUpdateTarget = gameObject;
                 //accumulate charge
                 if (timer == 0) { rend.enabled = true; rend.material = powering; }
                 timer += Time.deltaTime;

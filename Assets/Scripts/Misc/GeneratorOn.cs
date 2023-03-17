@@ -15,6 +15,15 @@ public class GeneratorOn : MonoBehaviour
     float flashTimer = 0;
     bool Lstate = false;
 
+    public delegate void StartingEvent(float timerRatio);
+    public delegate void StartedEvent();
+
+    public event StartingEvent startingEvent = null;
+    public event StartedEvent startedEvent = null;
+
+    public float GetStartTime() { return StartTime; }
+    public float GetTimerRatio() { return (timer / StartTime); }
+
     public void turnOn()
     {
         OffLight.SetActive(false);
@@ -48,8 +57,13 @@ public class GeneratorOn : MonoBehaviour
                 FlipLights();
                 if (timer > StartTime)
                 {
+                    startedEvent?.Invoke();
                     Started = true;
                     turnOn();
+                }
+                else
+                {
+                    startingEvent?.Invoke(GetTimerRatio());
                 }
             }
             else

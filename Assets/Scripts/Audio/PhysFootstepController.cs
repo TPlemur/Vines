@@ -27,6 +27,10 @@ public class PhysFootstepController : MonoBehaviour
     [SerializeField]
     private float maxMoveSpeed = -1.0f;
 
+    [SerializeField] [Range(0.0f, 1.0f)]
+    private float splashMultiplier = 1.0f;
+    private float waterAmount = 0.0f;
+
     // if there is a studio event emiitor on the gameobject it will be used to set the parameters of each footstep created (though some may be overridden by the controller script)
     private FMODUnity.StudioEventEmitter referenecEvent = null;
 
@@ -97,6 +101,11 @@ public class PhysFootstepController : MonoBehaviour
         return Mathf.Lerp(normalMin, normalMax, GetVeloRatio());
     }
 
+    private float GetWaterAmount()
+    {
+        return waterAmount * splashMultiplier;
+    }
+
     public void PlayFootstep()
     {
         if (referenecEvent != null)
@@ -117,6 +126,7 @@ public class PhysFootstepController : MonoBehaviour
         // footset controller param controls
         footstep.setParameterByName("Terrain", (float)currentTerrain);
         footstep.setParameterByName("Intensity", GetIntensity());
+        footstep.setParameterByName("Water Splash", GetWaterAmount());
         // 3D position
         footstep.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
 
@@ -151,5 +161,35 @@ public class PhysFootstepController : MonoBehaviour
         {
             currentTerrain = defaultTerrain;
         }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.tag == "Water")
+        {
+            const float puddleWaterAmountMax = 1.0f;
+            waterAmount = puddleWaterAmountMax;
+        }
+    }
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.tag == "Water")
+        {
+            waterAmount = 0.0f;
+            //StartCoroutine(LERPWaterAmount(0.0f, 0.25f));
+        }
+    }
+
+    IEnumerator LERPWaterAmount(float target, float time)
+    {
+        float start = waterAmount;
+        float duration = time;
+        while (duration > 0)
+        {
+            duration -= Time.deltaTime;
+            waterAmount = Mathf.Lerp(start, target, 1.0f - (duration / time));
+            yield return null;
+        }
+        waterAmount = target;
     }
 }
