@@ -13,7 +13,6 @@ public class PrechargeBehaviour : StateMachineBehaviour
     Brain mobBrain;
     float animationTime = 5.30f;
 
-
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -38,12 +37,14 @@ public class PrechargeBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Enters chase behaviour after the precharge animation
         timer += Time.deltaTime;
         Mob.velocity = Vector3.zero;
         if(timer >= animationTime){
             animator.SetBool("isCharging", false);
             animator.SetBool("isChasing", true);
         }
+        // Makes sure the mosnter faces the player while it roars
         Mob.transform.LookAt(Player);
     }
 
