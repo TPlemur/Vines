@@ -28,7 +28,7 @@ public class Brain : MonoBehaviour
     public float patrolDelay;
 
     // System for monster to ambush from hiding spots
-    public float ambushTime;
+    public float ambushTime = 10;
     public float maxAmbushTime = 10;
     [HideInInspector]
     public float timeHidden = 0;
