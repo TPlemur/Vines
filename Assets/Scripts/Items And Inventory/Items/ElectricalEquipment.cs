@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class ElectricalEquipment : Item
 {
     LayerMask layer;
     float timer = 0;
     float boopDelay = 2;
+    int progress = -1;
+    GameObject progressBar;
     //Animator anim;
 
     public Coroutine sfxUpdateCoroutine = null;
     private FMOD.Studio.EventInstance continuousSFXInstance;
     static public GameObject sfxUpdateTarget = null; // bad code to make this static, but trying to hack together a solution that works with lots of other bad code...
 
-    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager, GameObject UIElement) : base(cam, stateManager, UIElement){
+    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager, GameObject UIElement, GameObject progressUI) : base(cam, stateManager, UIElement){
         layer = mask;
+        progressBar = progressUI;
         LoadItem("ElectricalDevice");
         InitContinuousSFX(cam.gameObject);
         //anim = itemObj.transform.GetChild(0).GetComponent<Animator>();
@@ -56,7 +61,6 @@ public class ElectricalEquipment : Item
             //{
             //    SocketTesterSFX();
             //    timer = 0;
-            //}
 
         }
     }
@@ -84,6 +88,13 @@ public class ElectricalEquipment : Item
                         sfxUpdateTarget = null;
                         StopContinuousSFX();
                         SetContinuousSFXPitch(0);
+
+                        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
+                        progressBar.SetActive(false);
+                    }
+                    else{
+                        progressBar.SetActive(true);
+                        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = genTarget.GetTimerRatio() + 0.01f;
                     }
                 }
                 if (trapTarget != null)
@@ -97,6 +108,12 @@ public class ElectricalEquipment : Item
                         StopContinuousSFX();
                         SetContinuousSFXPitch(0);
                         SocketTesterSFX();
+                        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
+                        progressBar.SetActive(false);
+                    }
+                    else{
+                        progressBar.SetActive(true);
+                        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = trapTarget.GetTimerRatio() + 0.01f;
                     }
                 }
             }
@@ -109,6 +126,9 @@ public class ElectricalEquipment : Item
         gameState.GetComponent<GameStateManager>().StopCoroutine(sfxUpdateCoroutine);
         StopContinuousSFX();
         sfxUpdateCoroutine = null;
+        // turn off all children of the progress bar
+        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
+        progressBar.SetActive(false);
     }
 
     // SFX
