@@ -21,9 +21,6 @@ public class PatrolBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer = 0;
-        /*if (sounds == null)
-            sounds = GetComponent<MonsterSounds>();
-        */
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
         Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -44,36 +41,57 @@ public class PatrolBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       // If the monster doesn't have a path, finds random spot within a radius to patrol to
+       // If the monster doesn't have a path and isn't supposed to change to a new state, finds random spot within a radius to patrol to
+       // otherwise, it changes states and starts a new behavior
        if(!Mob.hasPath){
             if (mobBrain.investigating){
                 animator.SetBool("isInvestigating", true);
+            }else if(mobBrain.timeForAmbush){
+                // Initializes raycasting variables
+                Debug.Log("Trying to ambush");
+                Ray monVis = new Ray(Mob.transform.position, (Player.transform.position-Mob.transform.position));
+                RaycastHit hit;
+                Vector3 playerDir = Player.transform.position - Mob.transform.position;
+                playerDir.Normalize();
+                float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, Mob.transform.forward));
+                float visionAngle = 1f;
+
+                // If able to raycast to player, do not change to ambush behaviour; keep patrolling instead
+                if(playerAngle < visionAngle && Physics.Raycast(monVis, out hit, 25)){
+                    if(hit.collider.tag != "Player"){
+                        animator.SetBool("isAmbushing", true);
+                    }else{
+                        patrolPos = RandomNavmeshLocation(patrolRadius);
+                        Mob.SetDestination(patrolPos);
+                        Mob.speed = 3;
+                    }
+                }else{
+                    patrolPos = RandomNavmeshLocation(patrolRadius);
+                    Mob.SetDestination(patrolPos);
+                    Mob.speed = 3;
+                }
             }else if (GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ //One time hunt event as a result of the generator turning on
                 animator.SetBool("isInvestigating", true);
                 mobBrain.huntedGeneratorEvent = true;
                 mobBrain.investigating = true;
-            }else{
+            }else{  // Patrol to random location on navmesh
                 patrolPos = RandomNavmeshLocation(patrolRadius);
                 Mob.SetDestination(patrolPos);
                 Mob.speed = 3; //Only for testing purposes
-                //Debug.Log("RANDOM");
             }
-       }
+        }
+        // Finds a new spot to patrol too if mob gets stuck
+        if(Mob.hasPath && Mob.velocity.magnitude == 0){
+            patrolPos = RandomNavmeshLocation(patrolRadius);
+            Mob.SetDestination(patrolPos);
+            Mob.speed = 3;
+        }
 
        // Supposed to end patrolling after reaching spot, so it can return to idle, then patrol again
     //    if(Mob.velocity.sqrMagnitude == 0f){
     //         Debug.Log("reached patrol spot");
     //         animator.SetBool("isPatrolling", false);
     //    }
-
-       /*Mob.SetDestination(RandomNavmeshLocation(patrolRadius));
-            if (music)
-                music.EndChase();
-            if (playerSounds)
-                playerSounds.EndChase();
-        */
-        // float distance = Vector3.Distance(animator.transform.position, Player.position);
-        // if (distance < MobDetectionDistance)
         if(mobBrain.detectsPlayer && !mobBrain.isHiding){
             Mob.velocity = Vector3.zero;
             animator.SetBool("isCharging", true);
