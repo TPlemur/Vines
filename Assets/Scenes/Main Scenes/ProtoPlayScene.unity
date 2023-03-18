@@ -2093,28 +2093,6 @@ MonoBehaviour:
   shieldBumpDist: 1
   shieldDir: {x: 0, y: 0, z: 0}
   isShielded: 0
---- !u!114 &341552059 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5766778937264241783, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
-  m_PrefabInstance: {fileID: 1512591987}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 341552045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &341552061 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1687372733255550096, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
-  m_PrefabInstance: {fileID: 1512591987}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 341552045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &350964440
 GameObject:
   m_ObjectHideFlags: 0
@@ -13078,7 +13056,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 331da2caf80d2604aa7f940ee20dc6ab, type: 2}
     - target: {fileID: 828191936427709850, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
       propertyPath: m_Name
-      value: SplitjawWithDynamicVines
+      value: FinalSplitjaw
       objectReference: {fileID: 0}
     - target: {fileID: 4057388747056566890, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
       propertyPath: chargeTarget
@@ -13112,14 +13090,6 @@ PrefabInstance:
       propertyPath: walkTargets.Array.data[1]
       value: 
       objectReference: {fileID: 1728885089}
-    - target: {fileID: 6669550778193572577, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
-      propertyPath: referenecEvent
-      value: 
-      objectReference: {fileID: 341552061}
-    - target: {fileID: 7058726200760921009, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
-      propertyPath: emitter
-      value: 
-      objectReference: {fileID: 341552059}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
 --- !u!1 &1521533488
@@ -13674,7 +13644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveRad: 5
-  timeBeforeSeeker: 15
+  timeBeforeSeeker: 20
   SeekerSpawner: {fileID: 548303032}
   spawnDist: 15
 --- !u!1 &1595614446
