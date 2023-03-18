@@ -18,7 +18,7 @@ public class TrapTrapper : MonoBehaviour
         if (setter.currentState == TrapSetter.State.set)
         {
             //send collision to the approprate handeler
-            if (!triggered && collision.transform.tag == "Player" && Input.GetKey(KeyCode.LeftControl);
+            if (!triggered && collision.transform.tag == "Player" && Input.GetKey(KeyCode.LeftControl))
             {
                 triggered = true;
                 StartCoroutine(trapPlayer(collision.gameObject));
