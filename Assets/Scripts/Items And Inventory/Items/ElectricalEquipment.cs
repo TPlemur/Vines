@@ -138,6 +138,7 @@ public class ElectricalEquipment : Item
         const string eventName = "event:/SFX/Items/Electrical/Socket Tester Continuous";
         continuousSFXInstance = FMODUnity.RuntimeManager.CreateInstance(eventName);
         continuousSFXInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(obj));
+        continuousSFXInstance.setVolume(0.8f);
     }
     private void StartContinuousSFX()
     {

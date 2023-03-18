@@ -46,29 +46,29 @@ public class MonsterSounds : MonoBehaviour
     public void Howl()
     {
         SetState(MONSTER_STATES.HOWL);
-        StartCoroutine(WaitAndChangeState(0.1f, MONSTER_STATES.IDLE));
+        StartCoroutine(WaitAndChangeState(0.01f, MONSTER_STATES.IDLE));
     }
     public void Roar()
     {
         SetDestinationIDValue(0);
         SetState(MONSTER_STATES.ROAR);
-        StartCoroutine(WaitAndChangeState(0.1f, MONSTER_STATES.IDLE));
+        StartCoroutine(WaitAndChangeState(0.01f, MONSTER_STATES.IDLE));
     }
     public void RoarQuick()
     {
         SetDestinationIDValue(1);
         SetState(MONSTER_STATES.ROAR);
-        StartCoroutine(WaitAndChangeState(0.1f, MONSTER_STATES.IDLE));
+        StartCoroutine(WaitAndChangeState(0.01f, MONSTER_STATES.IDLE));
     }
     public void Growl()
     {
         SetState(MONSTER_STATES.GROWL);
-        StartCoroutine(WaitAndChangeState(0.1f, MONSTER_STATES.IDLE));
+        StartCoroutine(WaitAndChangeState(0.01f, MONSTER_STATES.IDLE));
     }
     public void Click()
     {
         SetState(MONSTER_STATES.CLICK);
-        StartCoroutine(WaitAndChangeState(0.1f, MONSTER_STATES.IDLE));
+        StartCoroutine(WaitAndChangeState(0.01f, MONSTER_STATES.IDLE));
     }
 
     private void SetState(MONSTER_STATES state)

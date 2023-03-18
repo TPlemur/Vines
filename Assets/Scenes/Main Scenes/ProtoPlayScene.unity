@@ -1526,7 +1526,7 @@ Transform:
   - {fileID: 1360798112}
   - {fileID: 653887404}
   m_Father: {fileID: 601828011}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &246821945
 GameObject:
@@ -2093,6 +2093,28 @@ MonoBehaviour:
   shieldBumpDist: 1
   shieldDir: {x: 0, y: 0, z: 0}
   isShielded: 0
+--- !u!114 &341552059 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5766778937264241783, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+  m_PrefabInstance: {fileID: 1512591987}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341552045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &341552061 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1687372733255550096, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+  m_PrefabInstance: {fileID: 1512591987}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341552045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &350964440
 GameObject:
   m_ObjectHideFlags: 0
@@ -8309,6 +8331,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1521533489}
+  - {fileID: 999762547}
   - {fileID: 189849065}
   - {fileID: 1879168688}
   m_Father: {fileID: 794638952}
@@ -8983,86 +9006,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712499807}
   m_CullTransparentMesh: 1
---- !u!1 &729060902
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 729060903}
-  - component: {fileID: 729060904}
-  - component: {fileID: 729060905}
-  m_Layer: 0
-  m_Name: Jumpscare Audio
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &729060903
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 729060902}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 776662112}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &729060904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 729060902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -1339334357
-      Data2: 1200801585
-      Data3: -1677261169
-      Data4: 48894286
-    Path: event:/SFX/Monster/Monster Bear Jumpscare
-  Event: 
-  PlayEvent: 0
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params:
-  - Name: MonsterState
-    Value: 4
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
---- !u!114 &729060905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 729060902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c51314663098b40869ed3557851724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpscareMonster: {fileID: 0}
-  monsterJumpscareEmitter: {fileID: 729060904}
-  triggerOnStart: 0
 --- !u!1 &776662111
 GameObject:
   m_ObjectHideFlags: 0
@@ -9099,7 +9042,6 @@ Transform:
   - {fileID: 436040848}
   - {fileID: 474797699}
   - {fileID: 1773562161}
-  - {fileID: 729060903}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10568,6 +10510,70 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &999762545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999762547}
+  - component: {fileID: 999762546}
+  m_Layer: 0
+  m_Name: Jumpscare Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &999762546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999762545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1339334357
+      Data2: 1200801585
+      Data3: -1677261169
+      Data4: 48894286
+    Path: event:/SFX/Monster/Monster Bear Jumpscare
+  Event: 
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 1
+  Params:
+  - Name: MonsterState
+    Value: 4
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!4 &999762547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999762545}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.542, z: 1.954}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 601828011}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1029032365
 GameObject:
@@ -13058,6 +13064,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinalSplitjaw
       objectReference: {fileID: 0}
+    - target: {fileID: 1687372733255550096, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+      propertyPath: Preload
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4057388747056566890, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
       propertyPath: chargeTarget
       value: 
@@ -13090,6 +13100,22 @@ PrefabInstance:
       propertyPath: walkTargets.Array.data[1]
       value: 
       objectReference: {fileID: 1728885089}
+    - target: {fileID: 5766778937264241783, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+      propertyPath: Preload
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669550778193572577, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+      propertyPath: referenecEvent
+      value: 
+      objectReference: {fileID: 341552061}
+    - target: {fileID: 6965797528316563765, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+      propertyPath: Preload
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058726200760921009, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+      propertyPath: emitter
+      value: 
+      objectReference: {fileID: 341552059}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
 --- !u!1 &1521533488
@@ -15182,7 +15208,7 @@ Transform:
   m_Children:
   - {fileID: 1418557664}
   m_Father: {fileID: 601828011}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1879168689
 MonoBehaviour:
@@ -18445,9 +18471,9 @@ MonoBehaviour:
   callEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 729060905}
-        m_TargetAssemblyTypeName: JumpscareSounds, Assembly-CSharp
-        m_MethodName: StartJumpscare
+      - m_Target: {fileID: 999762546}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
