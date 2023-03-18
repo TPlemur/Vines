@@ -11,9 +11,21 @@ public class MonsterSounds : MonoBehaviour
 
     public FMODUnity.StudioEventEmitter emitter = null;
 
-    FMOD.Studio.EVENT_CALLBACK markerCallback;
-
     const float coroutineWaitTime = 0.2f;
+
+    // Variables that are modified in the callback need to be part of a seperate class.
+    // This class needs to be 'blittable' otherwise it can't be pinned in memory.
+    [StructLayout(LayoutKind.Sequential)]
+    class MarkerInfo
+    {
+        public bool newMarker = false;
+        public FMOD.StringWrapper markerName = new FMOD.StringWrapper();
+    }
+
+    MarkerInfo markerInfo;
+    GCHandle timelineHandle;
+
+    FMOD.Studio.EVENT_CALLBACK markerCallback;
 
     Dictionary<string, MONSTER_STATES> transitionQueue = new Dictionary<string, MONSTER_STATES>();
 
@@ -26,12 +38,29 @@ public class MonsterSounds : MonoBehaviour
         emitter.Play();
 
         markerCallback = new FMOD.Studio.EVENT_CALLBACK(MarkerEventCallback);
-        //emitter.EventInstance.setCallback(MarkerEventCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
+        markerInfo = new MarkerInfo();
+        // Pin the class that will store the data modified during the callback
+        timelineHandle = GCHandle.Alloc(markerInfo, GCHandleType.Pinned);
+        // Pass the object through the userdata of the instance
+        emitter.EventInstance.setUserData(GCHandle.ToIntPtr(timelineHandle));
+        emitter.EventInstance.setCallback(MarkerEventCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (markerInfo.newMarker)
+        {
+            markerInfo.newMarker = false;
+
+            string trimmed = TrimMarkerName(markerInfo.markerName);
+
+            if (transitionQueue.ContainsKey(trimmed))
+            {
+                SetState(transitionQueue[trimmed]);
+                transitionQueue.Remove(trimmed);
+            }
+        }
     }
 
     private string StateToMarkerTrimmed(MONSTER_STATES state)
@@ -71,11 +100,12 @@ public class MonsterSounds : MonoBehaviour
     }
 
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
-    FMOD.RESULT MarkerEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type, System.IntPtr _event, System.IntPtr parameterPtr)
+    static FMOD.RESULT MarkerEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type, System.IntPtr _event, System.IntPtr parameterPtr)
     {
         // Retrieve the user data
+        FMOD.Studio.EventInstance instance = new FMOD.Studio.EventInstance(_event);
         System.IntPtr timelineInfoPtr;
-        FMOD.RESULT result = emitter.EventInstance.getUserData(out timelineInfoPtr);
+        FMOD.RESULT result = instance.getUserData(out timelineInfoPtr);
 
         if (result != FMOD.RESULT.OK)
         {
@@ -84,20 +114,17 @@ public class MonsterSounds : MonoBehaviour
         if (timelineInfoPtr == System.IntPtr.Zero)
             return FMOD.RESULT.OK;
 
+        // Get the object to store beat and marker details
+        GCHandle timelineHandle = GCHandle.FromIntPtr(timelineInfoPtr);
+        MarkerInfo markerInfo = (MarkerInfo)timelineHandle.Target;
+
         switch (type)
         {
             case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
             {
                 var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
-                string marker = parameter.name;
-                string trimmed = TrimMarkerName(marker);
-
-                if (transitionQueue.ContainsKey(trimmed))
-                {
-                    SetState(transitionQueue[trimmed]);
-                    transitionQueue.Remove(trimmed);
-                }
-
+                markerInfo.markerName = parameter.name;
+                markerInfo.newMarker = true;
                 break;
             }
         }
@@ -129,39 +156,39 @@ public class MonsterSounds : MonoBehaviour
     public void Howl()
     {
         SetState(MONSTER_STATES.HOWL);
-        StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
-        //QueueTransition(MONSTER_STATES.HOWL, MONSTER_STATES.IDLE);
+        //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
+        QueueTransition(MONSTER_STATES.HOWL, MONSTER_STATES.IDLE);
     }
     public void Roar()
     {
         SetDestinationIDValue(0);
         SetState(MONSTER_STATES.ROAR);
-        StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
-        //QueueTransition(MONSTER_STATES.ROAR, MONSTER_STATES.IDLE);
+        //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
+        QueueTransition(MONSTER_STATES.ROAR, MONSTER_STATES.IDLE);
     }
     public void RoarQuick()
     {
         SetDestinationIDValue(1);
         SetState(MONSTER_STATES.ROAR);
-        StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
-        //QueueTransition(MONSTER_STATES.ROAR, MONSTER_STATES.IDLE);
+        //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
+        QueueTransition(MONSTER_STATES.ROAR, MONSTER_STATES.IDLE);
     }
     public void Growl()
     {
         SetState(MONSTER_STATES.GROWL);
-        StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
-        //QueueTransition(MONSTER_STATES.GROWL, MONSTER_STATES.IDLE);
+        //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
+        QueueTransition(MONSTER_STATES.GROWL, MONSTER_STATES.IDLE);
     }
     public void Click()
     {
         SetState(MONSTER_STATES.CLICK);
-        StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
-        //QueueTransition(MONSTER_STATES.CLICK, MONSTER_STATES.IDLE);
+        //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
+        QueueTransition(MONSTER_STATES.CLICK, MONSTER_STATES.IDLE);
     }
 
     private void SetState(MONSTER_STATES state)
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
 
         SetRandomTransitionValue();
         emitter.EventInstance.setParameterByName("MonsterState", (float)state);
