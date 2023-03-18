@@ -12,6 +12,8 @@ public class ChaseBehaviour : StateMachineBehaviour
     public float attackRange = 20;
     public float enemyspeed = 5;
     float timeSpentCharging;
+    bool canStillSeePlayer = false;
+    LayerMask mask;
 
     public float chargeSpeed;
     public float moveSpeed;
@@ -27,6 +29,7 @@ public class ChaseBehaviour : StateMachineBehaviour
         timeSpentCharging = 0;
         Debug.Log("IN CHASE STATE");
         Player = GameObject.FindGameObjectWithTag("Player").transform;
+        mask = LayerMask.GetMask("Player");
 
         // AUDIO
         // set FMOD ChaseState to chasing
@@ -39,8 +42,22 @@ public class ChaseBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Exits chase state if the player is in a hiding hole, otherwise charges them
-        if(mobBrain.isHiding){
+        // Initializes raycasting variables
+        Ray monVis = new Ray(Mob.transform.position, (Player.transform.position-Mob.transform.position));
+        RaycastHit hit;
+        Vector3 playerDir = Player.transform.position - Mob.transform.position;
+        playerDir.Normalize();
+        float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, Mob.transform.forward));
+        float visionAngle = 1f;
+
+        // Checks to see if the monster can still see the player and they're close
+        if(playerAngle < visionAngle && Physics.Raycast(monVis, out hit, 10, mask)){
+            canStillSeePlayer = true;
+        }else{
+            canStillSeePlayer = false;
+        }
+        // Exits chase state if the player is in a hiding hole (unless it can still see the player), otherwise charges them
+        if(mobBrain.isHiding && !canStillSeePlayer){
             mobBrain.detectsPlayer = false;
             Mob.Stop();
             Mob.ResetPath();
