@@ -71,6 +71,8 @@ public class ElectricalEquipment : Item
 
         SocketTesterSFX();
 
+        float timer = 0f;
+
         // keep updating while held down
         while (Input.GetMouseButton(0))
         {
@@ -96,6 +98,13 @@ public class ElectricalEquipment : Item
                         progressBar.SetActive(true);
                         progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = genTarget.GetTimerRatio() + 0.01f;
                     }
+                    if(genTarget.GetTimerRatio() < 0.001f){
+                        if(timer > 0.001f){
+                            progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
+                            progressBar.SetActive(false);
+                        }
+                        timer += Time.deltaTime;
+                    }
                 }
                 if (trapTarget != null)
                 {
@@ -115,6 +124,13 @@ public class ElectricalEquipment : Item
                         progressBar.SetActive(true);
                         progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = trapTarget.GetTimerRatio() + 0.01f;
                     }
+                    if(trapTarget.GetTimerRatio() < 0.001f){
+                        if(timer > 0.001f){
+                            progressBar.SetActive(false);
+                            progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
+                        }
+                        timer += Time.deltaTime;
+                    }
                 }
             }
             yield return null;
@@ -128,8 +144,8 @@ public class ElectricalEquipment : Item
         // reset pitch
         SetContinuousSFXPitch(0);
         // turn off all children of the progress bar
-        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
         progressBar.SetActive(false);
+        progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
     }
 
     // SFX
