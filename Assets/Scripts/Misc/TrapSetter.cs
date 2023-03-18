@@ -78,6 +78,7 @@ public class TrapSetter : MonoBehaviour
             {
                 //if sufficanly charged, and no longer being charged
                 StartCoroutine(powerUp());
+                timer = 0;
             }
             else
             {
