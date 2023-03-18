@@ -37,7 +37,7 @@ public class PVTM : Item
         real = realPVTMCam;
         flash = flashMat;
         ItemUI.transform.GetChild(0).gameObject.SetActive(true);
-        laserStart = itemObj.transform.GetChild(0).GetChild(5);
+        laserStart = itemObj.transform.GetChild(0).GetChild(4);
         lr = laserStart.GetComponent<LineRenderer>();
         gameState.PVTMObtained();
         PickupSFX();
@@ -147,7 +147,7 @@ public class PVTM : Item
 
     public IEnumerator LaserFade(){
         Color c = lr.startColor;
-        float d = 0.1f;
+        float d = 0.03f;
         float remaining = d;
         while (remaining >= 0.0f) {
             c.a = remaining / d;
