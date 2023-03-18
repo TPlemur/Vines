@@ -27,6 +27,11 @@ public class ElectricalEquipment : Item
         //PickupSFX(); you start with the item
     }
 
+    ~ElectricalEquipment()
+    {
+        StopContinuousSFX();
+    }
+
     public override void Primary(){
         if (sfxUpdateCoroutine == null)
             sfxUpdateCoroutine = gameState.GetComponent<GameStateManager>().StartCoroutine(SFXUpdate());
