@@ -120,12 +120,13 @@ public class ElectricalEquipment : Item
             yield return null;
         }
 
-        yield return null;
-
         // not holding down anymore
-        gameState.GetComponent<GameStateManager>().StopCoroutine(sfxUpdateCoroutine);
         StopContinuousSFX();
         sfxUpdateCoroutine = null;
+        // reset target
+        sfxUpdateTarget = null;
+        // reset pitch
+        SetContinuousSFXPitch(0);
         // turn off all children of the progress bar
         progressBar.transform.GetComponent<UnityEngine.UI.Slider>().value = 0;
         progressBar.SetActive(false);
