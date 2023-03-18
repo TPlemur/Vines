@@ -10,15 +10,26 @@ public class TrapTrapper : MonoBehaviour
     [SerializeField] private float MonTrapTime = 5;
     [SerializeField] private float PlayerTrapTime = 5;
 
+    GameObject player;
+    PlayerMovement PM;
+    float PMSpeed;
+
     //prevent double trigger
     bool triggered = false;
+
+    public void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        PM = player.GetComponent<PlayerMovement>();
+        PMSpeed = PM.moveSpeed;
+    }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (setter.currentState == TrapSetter.State.set)
         {
             //send collision to the approprate handeler
-            if (!triggered && collision.transform.tag == "Player" && Input.GetKey(KeyCode.LeftControl))
+            if (!triggered && collision.transform.tag == "Player" && !Input.GetKey(PM.crouchKey))
             {
                 triggered = true;
                 StartCoroutine(trapPlayer(collision.gameObject));
@@ -70,9 +81,7 @@ public class TrapTrapper : MonoBehaviour
     {
         //play shock noise and set player speed to zero
         ShockSFX();
-        PlayerMovement pm = player.GetComponent<PlayerMovement>();
-        float moveSpeed = pm.moveSpeed;
-        pm.moveSpeed = 0;
+        PM.moveSpeed = 0;
 
         //set up timers
         const float shockWaitTime = 0.25f;
@@ -95,7 +104,7 @@ public class TrapTrapper : MonoBehaviour
 
 
         //Reset and turn off
-        pm.moveSpeed = moveSpeed;
+        PM.moveSpeed = PMSpeed;
         setter.currentState = TrapSetter.State.off;
         triggered = false;
     }
