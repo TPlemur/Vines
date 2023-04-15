@@ -28,9 +28,9 @@ public class InventoryManager : MonoBehaviour
 
     [Header("PVTM Related")]
     public GameObject RealPVTMCamera;
-    public LayerMask  PVTMCamLayer;
-    public LayerMask  MonsterPicLayer;
-    public Material   FlashMat;
+    public LayerMask PVTMCamLayer;
+    public LayerMask MonsterPicLayer;
+    public Material FlashMat;
 
     [Header("Game State Related")]
     public GameObject gameStateManager;
@@ -40,8 +40,10 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
+        //instantiate EE as monobehavior within unity higerarchy
         inventory = new Inventory();
-        inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI));
+        addItem(typeof(ElectricalEquipment));
+
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
     }
@@ -50,17 +52,17 @@ public class InventoryManager : MonoBehaviour
     {
         CheckOutlines();
         // interact
-        if (Input.GetKeyDown(interactKey)){
+        if (Input.GetKeyDown(interactKey)) {
             Interact();
         }
 
-        if (inventory.EquippedIsElectricalEquipment()){
-            if (Input.GetMouseButton(0)){
-                inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float) -0.08, (float) 0.1, (float) 0);
-                inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float) 0, (float) 0, (float) 38.892);
+        if (inventory.EquippedIsElectricalEquipment()) {
+            if (Input.GetMouseButton(0)) {
+                inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float)-0.08, (float)0.1, (float)0);
+                inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float)0, (float)0, (float)38.892);
                 inventory.EquippedPrimary(); //allows access to update funct for time based things
             }
-            else{
+            else {
                 inventory.GetEquippedGameObject().transform.localPosition = eeOrigPos;
                 inventory.GetEquippedGameObject().transform.localRotation = eeOrigRot;
             }
@@ -70,62 +72,66 @@ public class InventoryManager : MonoBehaviour
         //CheckOutlines();
 
         // cycle left and right
-        if (Input.GetKeyDown(cycleRightKey)){
-            if(inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()){
+        if (Input.GetKeyDown(cycleRightKey)) {
+            if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()) {
                 inventory.equipped.CycleRight();
             }
-            else{
+            else {
                 inventory.CycleRight();
             }
         }
-        else if(Input.GetKeyDown(cycleLeftKey)){
-            if(inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()){
+        else if (Input.GetKeyDown(cycleLeftKey)) {
+            if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()) {
                 inventory.equipped.CycleLeft();
             }
-            else{
+            else {
                 inventory.CycleLeft();
             }
         }
 
         // left click
-        if(Input.GetMouseButtonDown(0)){
+        if (Input.GetMouseButtonDown(0)) {
             inventory.EquippedPrimary();
         }
 
         // right click
-        if(Input.GetMouseButtonDown(1)){
+        if (Input.GetMouseButtonDown(1)) {
             inventory.EquippedSecondary();
         }
 
         // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
-        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)){
-            inventory.Add(new ElectricalEquipment(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI));
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)) {
+            addItem(typeof(ElectricalEquipment));
         }
-        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha8)){
-            inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls));
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha8)) {
+            addItem(typeof(PVTM));
         }
-        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha9)){
-            inventory.Add(new Shield(gameStateManager, Shield_Controls));
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha9)) {
+            addItem(typeof(Shield));
+
+            //inventory.Add(new Shield(gameStateManager, Shield_Controls));
         }
-        if(GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha0)){
-            inventory.Add(new Flashlight(gameStateManager, Flashlight_Controls));
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha0)) {
+            addItem(typeof(Flashlight));
         }
     }
 
     // Shoot Raycast to detect items that can be picked up
-    private void Interact(){
+    private void Interact() {
         if (PText.activeSelf) { PText.SetActive(false); }
         RaycastHit hit;
-        if(Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)){
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)) {
             var interact = hit.transform;
-            if (interact.tag == "PVTM"){
-                inventory.Add(new PVTM(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls));
+            //add approprate item to inventory
+            if (interact.tag == "PVTM" && !inventory.Has(typeof(PVTM))) {
+                addItem(typeof(PVTM));
             }
-            if(interact.tag == "Shield"){
-                inventory.Add(new Shield(gameStateManager, Shield_Controls));
+            if (interact.tag == "Shield" && !inventory.Has(typeof(Shield)))
+            {
+                addItem(typeof(Shield));
             }
-            if(interact.tag == "Flashlight"){
-                inventory.Add(new Flashlight(gameStateManager, Flashlight_Controls));
+            if (interact.tag == "Flashlight" && !inventory.Has(typeof(Flashlight))) {
+                addItem(typeof(Flashlight));
             }
             Destroy(interact.gameObject);
         }
@@ -151,7 +157,7 @@ public class InventoryManager : MonoBehaviour
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
-            else if(lastOutline != null)
+            else if (lastOutline != null)
             {
                 PText.SetActive(false);
                 lastOutline.Off();
@@ -163,4 +169,37 @@ public class InventoryManager : MonoBehaviour
             lastOutline.Off();
         }
     }
+
+    void addItem(System.Type type)
+    {
+        //checked if already in inventory
+        if (!inventory.Has(type)) {
+
+            //properly instantiate item
+            GameObject itemObj = new GameObject("item" + inventory.items.Count);
+            itemObj.transform.parent = transform;
+            itemObj.AddComponent(type);
+            Item item = itemObj.GetComponent<Item>();
+
+            //do approprate setup
+            switch (item)
+            {
+                case ElectricalEquipment EE:
+                    EE.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI);
+                    break;
+                case PVTM pvtm:
+                    pvtm.setup(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls);
+                    break;
+                case Shield SH:
+                    SH.setup(gameStateManager, Shield_Controls);
+                    break;
+                case Flashlight F:
+                    F.setup(gameStateManager, Flashlight_Controls);
+                    break;
+            }
+            //add new item to inventory
+            inventory.Add(item);
+        }
+    }
 }
+

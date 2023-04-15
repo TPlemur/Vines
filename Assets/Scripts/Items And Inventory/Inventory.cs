@@ -17,18 +17,30 @@ public class Inventory
     // Add items to the inventory
     public void Add(Item newItem){
         // check if player doesnt have the item
-        if(!Has(newItem)){
+        if (!Has(newItem)){
             UnEquipCurrent();
             items.Add(newItem);
             current  = items.Count - 1;
             equipped = items[current];
             EquipCurrent();
-        }
+;        }
     }
 
     public bool Has(Item item){
         foreach(Item has in items){
             if(has.GetType() == item.GetType()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool Has(System.Type type)
+    {
+        foreach (Item has in items)
+        {
+            if (has.GetType() == type)
+            {
                 return true;
             }
         }

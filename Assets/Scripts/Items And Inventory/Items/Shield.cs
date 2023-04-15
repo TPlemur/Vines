@@ -21,6 +21,18 @@ public class Shield : Item
         mobBrain = GameObject.FindGameObjectWithTag("Monster").GetComponentInChildren<Brain>();
     }
 
+    public void setup(GameObject stateManager, GameObject UIElement)
+    {
+        gameState = stateManager.GetComponent<GameStateManager>();
+        ItemUI = UIElement;
+        LoadItem("Shield");
+        original = itemObj.transform.localPosition;
+        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
+        gameState.ShieldObtained();
+        mobBrain = GameObject.FindGameObjectWithTag("Monster").GetComponentInChildren<Brain>();
+        PickupSFX();
+    }
+
     public override void Secondary(){
         toggled = !toggled ? true : false;
         // figure out which UI element is active and inactive

@@ -43,6 +43,25 @@ public class PVTM : Item
         PickupSFX();
     }
 
+    public void setup(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask,
+            Material flashMat, GameObject stateManager, GameObject UIElement)
+    {
+        playerCam = cam;
+        gameState = stateManager.GetComponent<GameStateManager>();
+        ItemUI = UIElement;
+        LoadItem("PVTM_Prefab");
+        camLayer = camMask;
+        monsterPicLayer = monsterMask;
+        real = realPVTMCam;
+        flash = flashMat;
+        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
+        laserStart = itemObj.transform.GetChild(0).GetChild(4);
+        lr = laserStart.GetComponent<LineRenderer>();
+        gameState.PVTMObtained();
+        PickupSFX();
+
+    }
+
     public override void Primary(){
         if(gameState.IsPowerRestored()){
             if(toggled){
