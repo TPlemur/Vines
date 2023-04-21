@@ -9,7 +9,7 @@ using UnityEngine;
  * rooms, finding an adjacent room with the least amount of exits, and
  * instantiating and placing a prefab based on its type, position, and exits.
  */
-public class Room : MonoBehaviour
+public class Room 
 {
     private Warehouse warehouse;
     public GameObject obj;
@@ -43,7 +43,7 @@ public class Room : MonoBehaviour
         (UnityEngine.Object prefab, int rotation) = this.type.LoadPrefab(this.exits);
         GameObject emptyParent = new GameObject("Room " + this.row + " " + this.column);
         emptyParent.transform.position = new Vector3((float)this.column * 20.0f, 0.0f, (float)this.row * -20.0f);
-        GameObject prefabObj = (GameObject)Instantiate(prefab, emptyParent.transform);
+        GameObject prefabObj = (GameObject)GameObject.Instantiate(prefab, emptyParent.transform);
         prefabObj.transform.position = emptyParent.transform.position;
         prefabObj.transform.Rotate(0, rotation, 0);
         obj = emptyParent;
