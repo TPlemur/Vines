@@ -49,6 +49,7 @@ public class MonsterSounds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // updated queued transition if necessary
         if (markerInfo.newMarker)
         {
             markerInfo.newMarker = false;
@@ -102,11 +103,13 @@ public class MonsterSounds : MonoBehaviour
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
     static FMOD.RESULT MarkerEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type, System.IntPtr _event, System.IntPtr parameterPtr)
     {
-        // Retrieve the user data
+        // retrieve pointer to event instance
         FMOD.Studio.EventInstance instance = new FMOD.Studio.EventInstance(_event);
+        // Retrieve the user data
         System.IntPtr timelineInfoPtr;
         FMOD.RESULT result = instance.getUserData(out timelineInfoPtr);
 
+        // checks
         if (result != FMOD.RESULT.OK)
         {
             Debug.LogError("Timeline Callback error: " + result);
@@ -156,6 +159,7 @@ public class MonsterSounds : MonoBehaviour
     public void Howl()
     {
         SetState(MONSTER_STATES.HOWL);
+
         //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
         QueueTransition(MONSTER_STATES.HOWL, MONSTER_STATES.IDLE);
     }
@@ -163,6 +167,7 @@ public class MonsterSounds : MonoBehaviour
     {
         SetDestinationIDValue(0);
         SetState(MONSTER_STATES.ROAR);
+
         //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
         QueueTransition(MONSTER_STATES.ROAR, MONSTER_STATES.IDLE);
     }
@@ -170,18 +175,21 @@ public class MonsterSounds : MonoBehaviour
     {
         SetDestinationIDValue(1);
         SetState(MONSTER_STATES.ROAR);
+
         //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
         QueueTransition(MONSTER_STATES.ROAR, MONSTER_STATES.IDLE);
     }
     public void Growl()
     {
         SetState(MONSTER_STATES.GROWL);
+
         //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
         QueueTransition(MONSTER_STATES.GROWL, MONSTER_STATES.IDLE);
     }
     public void Click()
     {
         SetState(MONSTER_STATES.CLICK);
+
         //StartCoroutine(WaitAndChangeState(coroutineWaitTime, MONSTER_STATES.IDLE));
         QueueTransition(MONSTER_STATES.CLICK, MONSTER_STATES.IDLE);
     }
