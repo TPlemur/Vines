@@ -476,6 +476,7 @@ public class VineMeshGenerator : MonoBehaviour
 
     //culls dots based on being inside terain 
     //Helper funct for cullCube
+    //add logic to break wharehouse into individual rooms
     void culcollided(int x, int y, int z)
     {
         //check if dot is inside an object
