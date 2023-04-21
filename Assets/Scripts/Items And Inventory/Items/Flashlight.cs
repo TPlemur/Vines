@@ -14,26 +14,6 @@ public class Flashlight : Item
         PickupSFX();
     }
 
-    public static Flashlight foobar(GameObject stateManager, GameObject UIElement)
-    {
-        GameObject fb = new GameObject();
-        fb.AddComponent<Flashlight>();
-        Flashlight fl = fb.GetComponent<Flashlight>();
-        fl.setup(stateManager, UIElement);
-        return fl;
-        
-    }
-
-    public void setup(GameObject stateManager, GameObject UIElement)
-    {
-        gameState = stateManager.GetComponent<GameStateManager>();
-        ItemUI = UIElement;
-        LoadItem("Flashlight");
-        light = itemObj.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-        gameState.FlashlightObtained();
-        PickupSFX();
-    }
-
     public override void Primary(){
         toggled = !toggled ? true : false;
         light.SetActive(toggled);

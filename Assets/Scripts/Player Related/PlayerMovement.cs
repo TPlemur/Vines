@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (gameObject.GetComponent<InventoryManager>().inventory.EquippedIsShield())
             {
-                Shield sh = gameObject.GetComponent<InventoryManager>().inventory.equipped.GetComponent<Shield>();
+                Shield sh = (Shield)gameObject.GetComponent<InventoryManager>().inventory.equipped;
                 if (sh.explode())
                 {
                     //Monster.transform.position += (Monster.transform.position - transform.position);

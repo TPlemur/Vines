@@ -27,20 +27,6 @@ public class ElectricalEquipment : Item
         //PickupSFX(); you start with the item
     }
 
-    public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, GameObject progressUI)
-    {
-        playerCam = pCam;
-        gameState = stateManager.GetComponent<GameStateManager>();
-        ItemUI = UIElement;
-        layer = mask;
-        progressBar = progressUI;
-        LoadItem("ElectricalDevice");
-        InitContinuousSFX(pCam.gameObject);
-
-        //anim = itemObj.transform.GetChild(0).GetComponent<Animator>();
-        //PickupSFX(); you start with the item
-    }
-
     ~ElectricalEquipment()
     {
         StopContinuousSFX();
