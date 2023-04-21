@@ -59,10 +59,17 @@ public class Room : MonoBehaviour
         List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
         List<Room> possible = this.RoomsToNotOfType(temp);
         int numExits = 0;
-        if(possible.Count == 1){
+        if (possible.Count == 1)
+        {
             numExits = 1;
         }
-        else if(possible.Count > 1){
+        //this if conditional exits solely to prevent unbeatable layouts
+        else if (possible.Count >= 3 && (this.PositionRelativeToStart() == "UPRIGHT" || this.PositionRelativeToStart() == "UPLEFT"))
+        {
+            numExits = 3;
+        }
+        else if (possible.Count > 1)
+        {
             numExits = UnityEngine.Random.Range(2, possible.Count - 2);
         }
         for(int i = 0; i < numExits; i++){
