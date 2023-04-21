@@ -109,29 +109,8 @@ public class Warehouse{
         for(int i = 0; i < this.rows; i++){
             for(int j = 0; j < this.columns; j++){
                 Room deadEnd = data[i][j];
-                while(deadEnd.exits.NumberOf() == 1 || (deadEnd.type.GetType() != genericRoom.GetType() && !BFS(deadEnd, this.startRoom)))
+                while(deadEnd.exits.NumberOf() == 1 || (deadEnd.exits.NumberOf() >= 1 && !BFS(deadEnd, this.startRoom)))
                 {
-                    // int index = -1;
-                    // int leastNum = 4;
-                    // List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
-                    // List<Room> possible = deadEnd.RoomsToNotOfType(temp);
-                    // for(int k = 0; k < possible.Count; k++){
-                    //     if(possible[k].exits.NumberOf() != 0 && possible[k].exits.NumberOf() < leastNum){
-                    //         leastNum = possible[k].exits.NumberOf();
-                    //         index = k;
-                    //     }
-                    // }
-                    // // some room with the least amount of exits was found
-                    // if(index != -1){
-                    //     deadEnd.ConnectTo(possible[index]);
-                    // }
-                    // else{
-                    //     // no room was found and this dead end has no adjacent room so make a
-                    //     // new one and then check if that room has adjacent rooms to connect to
-                    //     Room newDeadEnd = possible[0];
-                    //     deadEnd.ConnectTo(newDeadEnd);
-                    //     deadEnd = newDeadEnd;
-                    // }
                     List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
                     List<Room> possible = deadEnd.RoomsToNotOfType(temp);
                     Room newDeadEnd = possible[0];
