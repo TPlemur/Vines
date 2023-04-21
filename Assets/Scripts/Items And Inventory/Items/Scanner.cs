@@ -8,12 +8,8 @@ using UnityEngine.UIElements;
 public class Scanner : Item
 {
     LayerMask layer;
-    float timer = 0;
-    float boopDelay = 2;
-    int progress = -1;
-    GameObject progressBar;
-    //Animator anim;
-
+    bool scannerOn = false;
+    float scanWidth = 5;
     List<GameObject> trackerTargets;
 
     public Coroutine sfxUpdateCoroutine = null;
@@ -21,27 +17,62 @@ public class Scanner : Item
     static public GameObject sfxUpdateTarget = null; // bad code to make this static, but trying to hack together a solution that works with lots of other bad code...
 
     //LEGACY DO NOT USE
-    public Scanner(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement)
-    {
-        gameState = stateManager.GetComponent<GameStateManager>();
-        ItemUI = UIElement;
-    }
+    public Scanner(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){ }
 
-    public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, GameObject progressUI)
+    public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement)
     {
         playerCam = pCam;
         gameState = stateManager.GetComponent<GameStateManager>();
         ItemUI = UIElement;
         layer = mask;
-        progressBar = progressUI;
         LoadItem("ElectricalDevice");
     }
 
-    public override void Primary(){
-
+    public void addTarget(GameObject newTar)
+    {
+        trackerTargets.Add(newTar);
+    }
+    public bool clearTarget(GameObject tar)
+    {
+        return trackerTargets.Remove(tar);
     }
 
-    
+    public override void Primary(){
+        scannerOn = !scannerOn ? true : false;
+    }
 
+    private void Update()
+    {
+        if (scannerOn)
+        {
+            Debug.Log(scan());
+        }
+    }
+
+    //returns the closest object within the angle threshold, or zero if nothing found
+    float scan()
+    {
+        List<float> dists = new List<float>();
+        foreach (GameObject target in trackerTargets)
+        {
+            Vector3 targetDir = playerCam.transform.position - target.transform.position;
+            float angle = Vector3.Dot(targetDir.normalized, playerCam.transform.forward);
+            if (angle < scanWidth) { dists.Add(Mathf.Abs(targetDir.magnitude)); }
+        }
+        if (dists.Count == 0) { return 0; }
+        else
+        {
+            //find min in list
+            float detectedDist = dists[0];
+            for (int i = 0; 0<dists.Count;i++)
+            {
+                if (dists[i] > detectedDist)
+                {
+                    detectedDist = dists[i];
+                }
+            }
+            return detectedDist;
+        }
+    }
 
 }
