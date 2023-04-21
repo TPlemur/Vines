@@ -63,11 +63,6 @@ public class Room : MonoBehaviour
         {
             numExits = 1;
         }
-        //this if conditional exits solely to prevent unbeatable layouts
-        else if (possible.Count >= 3 && (this.PositionRelativeToStart() == "UPRIGHT" || this.PositionRelativeToStart() == "UPLEFT"))
-        {
-            numExits = 3;
-        }
         else if (possible.Count > 1)
         {
             numExits = UnityEngine.Random.Range(2, possible.Count - 2);

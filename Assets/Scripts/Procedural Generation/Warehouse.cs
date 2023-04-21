@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,12 +31,18 @@ public class Warehouse{
     private List<Landmark> hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
     private List<Landmark> tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
 
+    // These are used on the Breadth First Search algorithms.
+    private Queue<Room> bfsQueue;
+    private BitArray visited;
+
     public Warehouse(int row, int columns, int startRow, int startCol, GameObject empty){
         this.warehouseEmpty = empty; 
         this.startRow = startRow;
         this.startCol = startCol;
         this.columns  = columns;
         this.rows     = row;
+        this.visited  = new BitArray(row * columns);
+        this.bfsQueue = new Queue<Room>();
     }
 
     ~Warehouse(){
@@ -96,10 +105,12 @@ public class Warehouse{
      * room randomly chosen.
      */
     private void FixDeadEnds(){
+        Generic genericRoom = new Generic();
         for(int i = 0; i < this.rows; i++){
             for(int j = 0; j < this.columns; j++){
                 Room deadEnd = data[i][j];
-                while(deadEnd.exits.NumberOf() == 1){
+                while(deadEnd.exits.NumberOf() == 1 || (deadEnd.type.GetType() != genericRoom.GetType() && !BFS(deadEnd, this.startRoom)))
+                {
                     // int index = -1;
                     // int leastNum = 4;
                     // List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
@@ -288,6 +299,61 @@ public class Warehouse{
                 }
             }
         }
+    }
+
+    /* BFS() is a Breadth First Search from one room to 
+     * a goal room. If it cannot connect to the goal it returns false.
+     * 
+     * This BFS is to be used in FixDeadEnds() where it
+     * will be checking if a room that has many exits can
+     * connect to the start.
+     * 
+     * A bit array is used to keep track of which rooms have
+     * been visited, this is because it is easy and fast
+     * to reset after each BFS.
+     */
+    private bool BFS(Room root, Room goal)
+    {
+        visited[(root.row) * columns + (root.column)] = true;
+        bfsQueue.Enqueue(root);
+        while(bfsQueue.Count > 0)
+        {
+            Room room = bfsQueue.Dequeue();
+            if (room.type.GetType() == goal.type.GetType())
+            {
+                bfsQueue.Clear();
+                visited.SetAll(false);
+                return true;
+            }
+            foreach (string exit in room.exits.types)
+            {
+                //This code is a little messy, but it works with the current set-up. I'm planning on updating it
+                Room next = room;
+                if (exit == "Up")
+                {
+                    next = room.RoomAbove();
+                } else if (exit == "Down")
+                {
+                    next = room.RoomUnderneath();
+                }
+                else if (exit == "Left")
+                {
+                    next = room.RoomToLeft();
+                }
+                else if (exit == "Right")
+                {
+                    next = room.RoomToRight();
+                }
+                if (!visited[(next.row) * columns + (next.column)])
+                {
+                    visited[(next.row) * columns + (next.column)] = true;
+                    bfsQueue.Enqueue(next);
+                }
+            }
+        }
+        bfsQueue.Clear();
+        visited.SetAll(false);
+        return false;
     }
 
     /* PrintWarehouse() logs the exits of each index to the console
