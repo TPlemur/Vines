@@ -9,7 +9,7 @@ public class Scanner : Item
 {
     LayerMask layer;
     bool scannerOn = false;
-    float scanWidth = 5;
+    float scanWidth = 0.25f;
     List<GameObject> trackerTargets;
 
     public Coroutine sfxUpdateCoroutine = null;
@@ -19,13 +19,14 @@ public class Scanner : Item
     //LEGACY DO NOT USE
     public Scanner(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){ }
 
-    public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement)
+    public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, List<GameObject> targets)
     {
         playerCam = pCam;
         gameState = stateManager.GetComponent<GameStateManager>();
         ItemUI = UIElement;
         layer = mask;
         LoadItem("ElectricalDevice");
+        trackerTargets = targets;
     }
 
     public void addTarget(GameObject newTar)
@@ -64,7 +65,7 @@ public class Scanner : Item
         {
             //find min in list
             float detectedDist = dists[0];
-            for (int i = 0; 0<dists.Count;i++)
+            for (int i = 0;i < dists.Count ;i++)
             {
                 if (dists[i] > detectedDist)
                 {

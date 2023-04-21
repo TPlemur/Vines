@@ -38,6 +38,9 @@ public class InventoryManager : MonoBehaviour
     private Vector3 eeOrigPos;
     private Quaternion eeOrigRot;
 
+    //Scanner related
+    List<GameObject> scannerTargets;
+
     void Start()
     {
         //instantiate EE as monobehavior within unity higerarchy
@@ -46,6 +49,8 @@ public class InventoryManager : MonoBehaviour
 
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
+        scannerTargets = new List<GameObject>();
+        scannerTargets.Add(GameObject.Find("Monster"));
     }
 
     void Update()
@@ -100,6 +105,9 @@ public class InventoryManager : MonoBehaviour
         }
 
         // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha6)){
+            addItem(typeof(Scanner));
+        }
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)) {
             addItem(typeof(ElectricalEquipment));
         }
@@ -195,6 +203,9 @@ public class InventoryManager : MonoBehaviour
                     break;
                 case Flashlight F:
                     F.setup(gameStateManager, Flashlight_Controls);
+                    break;
+                case Scanner S:
+                    S.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls,scannerTargets);
                     break;
             }
             //add new item to inventory
