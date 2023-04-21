@@ -11,7 +11,8 @@ public class Shield : Item
     private bool primed = true;
 
     Brain mobBrain;
-    
+
+    //LEGACY DO NOT USE
     public Shield(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){
         LoadItem("Shield");
         original = itemObj.transform.localPosition;
@@ -31,6 +32,8 @@ public class Shield : Item
         gameState.ShieldObtained();
         mobBrain = GameObject.FindGameObjectWithTag("Monster").GetComponentInChildren<Brain>();
         PickupSFX();
+        //I don't know why this was initializing as false, but this fixes it
+        primed = true;
     }
 
     public override void Secondary(){
