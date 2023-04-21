@@ -37,6 +37,11 @@ public class Item : MonoBehaviour
         ItemUI.SetActive(false);
     }
 
+    public virtual void setup()
+    {
+        // overwritten
+    }
+
     public virtual void Primary(){
         // overwritten
     }

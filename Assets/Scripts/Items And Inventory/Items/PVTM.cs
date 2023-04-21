@@ -11,7 +11,7 @@ public class PVTM : Item
     private bool toggled = false;
 
     // Camera cycling
-    private List<GameObject> activeCams = new List<GameObject>();
+    private List<GameObject> activeCams;
     private GameObject currentCam;
     private int current = -1;
 
@@ -28,6 +28,7 @@ public class PVTM : Item
     private LineRenderer lr;
     private Transform laserStart;
 
+    //LEGACY DO NOT USE
     public PVTM(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask, 
                 Material flashMat, GameObject stateManager, GameObject UIElement)
                 : base(cam, stateManager, UIElement){
@@ -41,6 +42,30 @@ public class PVTM : Item
         lr = laserStart.GetComponent<LineRenderer>();
         gameState.PVTMObtained();
         PickupSFX();
+    }
+
+    private void Start()
+    {
+        activeCams = new List<GameObject>();
+    }
+
+    public void setup(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask,
+            Material flashMat, GameObject stateManager, GameObject UIElement)
+    {
+        playerCam = cam;
+        gameState = stateManager.GetComponent<GameStateManager>();
+        ItemUI = UIElement;
+        LoadItem("PVTM_Prefab");
+        camLayer = camMask;
+        monsterPicLayer = monsterMask;
+        real = realPVTMCam;
+        flash = flashMat;
+        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
+        laserStart = itemObj.transform.GetChild(0).GetChild(4);
+        lr = laserStart.GetComponent<LineRenderer>();
+        gameState.PVTMObtained();
+        PickupSFX();
+
     }
 
     public override void Primary(){
@@ -130,6 +155,7 @@ public class PVTM : Item
     }
 
     public void ShootLaser(){
+        Debug.Log("laser shot");
         // shoot raycast to get distance so the laser doesn't clip through walls
         RaycastHit hit;
         Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit);
