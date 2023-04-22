@@ -56,8 +56,8 @@ public class Scanner : Item
         List<float> dists = new List<float>();
         foreach (GameObject target in trackerTargets)
         {
-            Vector3 targetDir = playerCam.transform.position - target.transform.position;
-            float angle = Vector3.Dot(targetDir.normalized, playerCam.transform.forward);
+            Vector3 targetDir = target.transform.position - playerCam.transform.position;
+            float angle = Vector3.Angle(targetDir.normalized, playerCam.transform.forward);
             if (angle < scanWidth) { dists.Add(Mathf.Abs(targetDir.magnitude)); }
         }
         if (dists.Count == 0) { return 0; }
