@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class meshFindTest : MonoBehaviour
+public class meshIvySpawner : MonoBehaviour
 {
     [SerializeField] VineMeshGenerator vg;
     [SerializeField] Material reColor;

@@ -47,6 +47,7 @@ public class VineMeshGenerator : MonoBehaviour
     gridDot VaildPoint;
     float invRes;
 
+
     /// 
     /// Public functions 
     ///
@@ -66,7 +67,6 @@ public class VineMeshGenerator : MonoBehaviour
             {
                 if (d.valid)
                 {
-                    Debug.Log(d.connections.Count);
                     GameObject dot = Instantiate(DebugDots);
                     dot.transform.position = d.pos;
                     dot.transform.parent = transform;
@@ -427,17 +427,7 @@ public class VineMeshGenerator : MonoBehaviour
     //places dot at each vertex of cubeMatrix and culls terrain dots
     void cullCube()
     {
-        for (int xi = 0; xi < gridWidth; xi++)
-        {
-            for (int zi = 0; zi < gridWidth; zi++)
-            {
-                for (int yi = 0; yi < gridDepth; yi++)
-                {
-                    culcollided(xi, yi, zi);
-
-                }
-            }
-        }
+        CFcull();
         cullList = new List<gridDot>();
         //cull dots with too many connections (interior to the play area)
         for (int xi = 0; xi < gridWidth; xi++)
@@ -476,7 +466,7 @@ public class VineMeshGenerator : MonoBehaviour
 
     //culls dots based on being inside terain 
     //Helper funct for cullCube
-    //add logic to break wharehouse into individual rooms
+    //LEGACY - USE CFcull instead
     void culcollided(int x, int y, int z)
     {
         //check if dot is inside an object
@@ -487,6 +477,64 @@ public class VineMeshGenerator : MonoBehaviour
                 cullNode(x, y, z);
             }
         }
+    }
+
+    //collider first terrain culling
+    //helper function for cullCube
+    void CFcull()
+    {
+        Debug.Log("CM dim: " + cubeMatrix.GetLength(0) + " " + cubeMatrix.GetLength(1) + " " + cubeMatrix.GetLength(2) + " ");
+        //itterate throught the collieders
+        foreach (Collider col in terainColiders)
+        {
+            //max and min corners of world alligned bounding box
+            Vector3 maxBounds = worldToGrid(col.bounds.max);
+            Vector3 minBounds = worldToGrid(col.bounds.min);
+
+            //clamp bounds to cubeMatrix
+            Vector3 minCo = new Vector3(0, 0, 0);
+            Vector3 maxCo = new Vector3(0, 0, 0);
+            minCo.x = Mathf.Floor(Mathf.Clamp(Mathf.Min(minBounds.x, maxBounds.x), 0, cubeMatrix.GetLength(0)));
+            minCo.y = Mathf.Floor(Mathf.Clamp(Mathf.Min(minBounds.y, maxBounds.y), 0, cubeMatrix.GetLength(1)));
+            minCo.z = Mathf.Floor(Mathf.Clamp(Mathf.Min(minBounds.z, maxBounds.z), 0, cubeMatrix.GetLength(2)));
+
+            maxCo.x = Mathf.Ceil(Mathf.Clamp(Mathf.Max(minBounds.x, maxBounds.x), 0, cubeMatrix.GetLength(0)));
+            maxCo.y = Mathf.Ceil(Mathf.Clamp(Mathf.Max(minBounds.y, maxBounds.y), 0, cubeMatrix.GetLength(1)));
+            maxCo.z = Mathf.Ceil(Mathf.Clamp(Mathf.Max(minBounds.z, maxBounds.z), 0, cubeMatrix.GetLength(2)));
+
+            //check each dot in region of cube
+            for (int ix = (int)minCo.x; ix < (int)maxCo.x; ix++)
+            {
+                for (int iy = (int)(minCo.y); iy < (int)maxCo.y; iy++)
+                {
+                    for (int iz = (int)(minCo.z); iz < (int)maxCo.z; iz++)
+                    {
+                        //check if already culled
+                        if (cubeMatrix[ix, iy, iz].valid)
+                        {
+                            //double check for non axis-aligned bbounding boxes
+                            if (col.bounds.Contains(cubeMatrix[ix, iy, iz].pos))
+                            {
+                                cullNode(ix, iy, iz);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    //returns a grid co-ordinate of a given world position
+    //Helper for CFcull
+    Vector3 worldToGrid(Vector3 worldPos)
+    {
+        //convert location to grid co-ordinates
+        float fx = (worldPos.x - transform.position.x) * invRes;
+        float fz = (worldPos.z - transform.position.z) * invRes;
+        float fy = -(worldPos.y - transform.position.y) * invRes;
+
+        return new Vector3(fx, fy, fz);
     }
 
 
