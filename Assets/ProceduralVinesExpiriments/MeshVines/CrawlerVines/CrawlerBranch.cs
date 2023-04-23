@@ -20,6 +20,7 @@ public class CrawlerBranch : MonoBehaviour
     Mesh mesh;
     [SerializeField] Material material;
     [SerializeField] int numNodes = 10;
+    [SerializeField] float fuzz = 0.2f;
     MeshFilter meshFilter;
     MeshRenderer meshRenderer;
     float branchRadius = 0.04f;
@@ -32,6 +33,13 @@ public class CrawlerBranch : MonoBehaviour
 
     //tap into vmg
     [SerializeField] VineMeshGenerator vmg;
+    [SerializeField] int straightFactor = 1;
+    int straightCount = 0;
+
+    //seek vars
+    public bool isSeek = false;
+    [SerializeField] GameObject seekTarget;
+
 
     
     
@@ -76,15 +84,18 @@ public class CrawlerBranch : MonoBehaviour
         yield return new WaitForSeconds(5);
         transform.position = Vector3.zero;
         branchDots = vmg.makeDotList(vmg.vWorldToValid(spawner.transform.position), transform.eulerAngles, numNodes);
-        branchNodes = vmg.makeList(branchDots);
+        branchNodes = vmg.makeList(branchDots, fuzz);
         setupMesh();
         doUpdate = true;
     }
 
     void advanceBranch()
     {
-        vmg.advanceBranch(ref branchDots);
-        branchNodes = vmg.makeList(branchDots);
+        if (isSeek) { vmg.advanceTowards(ref branchDots, seekTarget.transform.position,ref straightCount,straightFactor); }
+        else { vmg.advanceBranch(ref branchDots,ref straightCount,straightFactor); }
+        Vector3 fuzzVec = new Vector3(Random.Range(-fuzz, fuzz), Random.Range(-fuzz, fuzz), Random.Range(-fuzz, fuzz));
+        branchNodes.Add(new IvyNode(branchDots[branchDots.Count - 1].pos + fuzzVec, transform.eulerAngles));
+        branchNodes.RemoveAt(0);
         mesh = createMesh(branchNodes);
         meshFilter.mesh = mesh;
     }

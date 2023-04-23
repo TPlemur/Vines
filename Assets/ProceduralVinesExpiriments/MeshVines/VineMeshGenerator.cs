@@ -9,7 +9,6 @@ using UnityEngine;
 /// needs to be attached to a gameobject at the <-x,+y,-z> corner of the map
 /// 
 /// </summary>
-
 public class VineMeshGenerator : MonoBehaviour
 {
     /// 
@@ -125,16 +124,18 @@ public class VineMeshGenerator : MonoBehaviour
     }
 
     //turns a list of dots into ivyNodes
-    public List<IvyNode> makeList(List<gridDot> dots)
+    public List<IvyNode> makeList(List<gridDot> dots,float fuzz)
     {
         List<IvyNode> inodes = new List<IvyNode>();
+        
         foreach(gridDot d in dots)
         {
-            inodes.Add(new IvyNode(d.pos, transform.eulerAngles));
+            Vector3 fuzzVec = new Vector3(Random.Range(-fuzz, fuzz), Random.Range(-fuzz, fuzz), Random.Range(-fuzz, fuzz));
+            inodes.Add(new IvyNode(d.pos + fuzzVec, transform.eulerAngles));
         }
         return inodes;
     }
-
+    
     //Mades a list of gridDots suitable for a branch
     public List<gridDot> makeDotList(gridDot start, Vector3 dir, int len)
     {
@@ -215,33 +216,61 @@ public class VineMeshGenerator : MonoBehaviour
     }
 
     //Takes a list of dots, expands it, and removes the first elemet
-    public void advanceBranch(ref List<gridDot> branchDots)
+    public void advanceBranch(ref List<gridDot> branchDots, ref int strCount, int strFactor)
     {
         //pull the front two nodes
         gridDot headDot = branchDots[branchDots.Count - 1];
         gridDot lastDot = branchDots[branchDots.Count - 2];
 
-        Vector3 lastDir = new Vector3(headDot.indexlocation[0] - lastDot.indexlocation[0],
-                              headDot.indexlocation[1] - lastDot.indexlocation[1],
-                              headDot.indexlocation[2] - lastDot.indexlocation[2]);
+        //calculate the last position relitive to the current position
+        Vector3 lastDir = new Vector3(lastDot.indexlocation[0] - headDot.indexlocation[0],
+                              lastDot.indexlocation[1] - headDot.indexlocation[1],
+                              lastDot.indexlocation[2] - headDot.indexlocation[2]);
+        //index strCount
+        strCount++;
+
+        //continue straight if availible and strCount is true
+        if (cubeMatrix[headDot.indexlocation[0] - (int)lastDir.x, headDot.indexlocation[1] - (int)lastDir.y,headDot.indexlocation[2] - (int)lastDir.z].valid
+            && strCount % strFactor == 0)
+        {
+            branchDots.Add(cubeMatrix[headDot.indexlocation[0] - (int)lastDir.x, headDot.indexlocation[1] - (int)lastDir.y, headDot.indexlocation[2] - (int)lastDir.z]);
+            branchDots.RemoveAt(0);
+            return;
+        }
+
+        //add +- 1 to each x,y,z of -lastDir and choose a valid one at random
+        List<int> xdirs = new List<int>();
+        if (-lastDir.x == 0) { xdirs.Add(1); xdirs.Add(0); xdirs.Add(-1); }
+        else { xdirs.Add((int)-lastDir.x); xdirs.Add(0); }
+
+        List<int> ydirs = new List<int>();
+        if (-lastDir.y == 0) { ydirs.Add(1); ydirs.Add(0); ydirs.Add(-1); }
+        else { ydirs.Add((int)-lastDir.y); ydirs.Add(0); }
+
+        List<int> zdirs = new List<int>();
+        if (-lastDir.z == 0) { zdirs.Add(1); zdirs.Add(0); zdirs.Add(-1); }
+        else { zdirs.Add((int)-lastDir.z); zdirs.Add(0); }
 
         List<gridDot> posibilities = new List<gridDot>();
-        for (int i = 0; i < headDot.connections.Count; i++)
-        {
-            gridDot candidate = cubeMatrix[headDot.connections[i][0], headDot.connections[i][1], headDot.connections[i][2]];
-            Vector3 nextDir = new Vector3(candidate.indexlocation[0] - headDot.indexlocation[0],
-                                          candidate.indexlocation[1] - headDot.indexlocation[1],
-                                          candidate.indexlocation[2] - headDot.indexlocation[2]);
-            Vector3 dirDif = nextDir - lastDir;
-            float dirDifSum = dirDif.x + dirDif.y + dirDif.z;
 
-            if (Mathf.Abs(dirDifSum) < 2)
+        foreach(int xi in xdirs)
+        {
+            foreach(int yi in ydirs)
             {
-                posibilities.Add(candidate);
+                foreach(int zi in zdirs)
+                {
+                    if(cubeMatrix[xi+headDot.indexlocation[0], yi + headDot.indexlocation[1], zi + headDot.indexlocation[2]].valid && (xi!=0||yi!=0||zi!=0))
+                    {
+                        posibilities.Add(cubeMatrix[xi + headDot.indexlocation[0], yi + headDot.indexlocation[1], zi + headDot.indexlocation[2]]);
+                    }
+                }
             }
         }
+
+        //choose a random dot
         gridDot newDot;
-        if (posibilities.Count > 0) { newDot = posibilities[(int)Random.Range(0, posibilities.Count)]; }
+        if (posibilities.Count > 0) { newDot = posibilities[(int)Random.Range(0, posibilities.Count)];}
+        //choose a random connection if no possibilities are found
         else
         {
             int newid = (int)Random.Range(0, headDot.connections.Count);
@@ -253,40 +282,61 @@ public class VineMeshGenerator : MonoBehaviour
     }
 
     //WIP WIP WIP WIP
-    public void advanceTowards(ref List<gridDot> branchDots,Vector3 destination)
+    public void advanceTowards(ref List<gridDot> branchDots,Vector3 destination, ref int strCount, int strFactor)
     {
         //pull the front two nodes
         gridDot headDot = branchDots[branchDots.Count - 1];
         gridDot lastDot = branchDots[branchDots.Count - 2];
 
-        Vector3 lastDir = new Vector3(headDot.indexlocation[0] - lastDot.indexlocation[0],
-                              headDot.indexlocation[1] - lastDot.indexlocation[1],
-                              headDot.indexlocation[2] - lastDot.indexlocation[2]);
+        //calculate the last position relitive to the current position
+        Vector3 lastDir = new Vector3(lastDot.indexlocation[0] - headDot.indexlocation[0],
+                              lastDot.indexlocation[1] - headDot.indexlocation[1],
+                              lastDot.indexlocation[2] - headDot.indexlocation[2]);
+        //index strCount
+        strCount++;
 
-        List<gridDot> posibilities = new List<gridDot>();
-        for (int i = 0; i < headDot.connections.Count; i++)
+        //continue straight if availible and strCount is true
+        if (cubeMatrix[headDot.indexlocation[0] - (int)lastDir.x, headDot.indexlocation[1] - (int)lastDir.y, headDot.indexlocation[2] - (int)lastDir.z].valid
+            && strCount % strFactor == 0)
         {
-            gridDot candidate = cubeMatrix[headDot.connections[i][0], headDot.connections[i][1], headDot.connections[i][2]];
-            Vector3 nextDir = new Vector3(candidate.indexlocation[0] - headDot.indexlocation[0],
-                                          candidate.indexlocation[1] - headDot.indexlocation[1],
-                                          candidate.indexlocation[2] - headDot.indexlocation[2]);
-            Vector3 dirDif = nextDir - lastDir;
-            float dirDifSum = dirDif.x + dirDif.y + dirDif.z;
-
-            if (Mathf.Abs(dirDifSum) < 2)
-            {
-                posibilities.Add(candidate);
-            }
+            branchDots.Add(cubeMatrix[headDot.indexlocation[0] - (int)lastDir.x, headDot.indexlocation[1] - (int)lastDir.y, headDot.indexlocation[2] - (int)lastDir.z]);
+            branchDots.RemoveAt(0);
+            Debug.Log("straight Vine");
+            return;
         }
-        gridDot newDot;
-        if (posibilities.Count > 0) { newDot = posibilities[(int)Random.Range(0, posibilities.Count)]; }
-        else
+
+        //find the most alligned dot
+        Vector3 dirToTarget = destination - headDot.pos;
+        gridDot newDot = cubeMatrix[headDot.connections[0][0], headDot.connections[0][1],headDot.connections[0][2]];
+        Vector3 ndDir = dotToDir(headDot, newDot);
+        float nAng = Vector3.Angle(dirToTarget, ndDir);
+        gridDot compDot;
+        Vector3 compDir;
+        float compAng;
+        foreach(int[] i in headDot.connections)
         {
-            int newid = (int)Random.Range(0, headDot.connections.Count);
-            newDot = cubeMatrix[headDot.connections[newid][0], headDot.connections[newid][1], headDot.connections[newid][2]];
+            compDot = cubeMatrix[i[0], i[1], i[2]];
+            compDir = dotToDir(headDot, compDot);
+            compAng = Vector3.Angle(dirToTarget, compDir);
+            if (compAng < nAng)
+            {
+                newDot = compDot;
+                nAng = compAng;
+            }
         }
         branchDots.Add(newDot);
         branchDots.RemoveAt(0);
+
+
+    }
+
+    //helper funct for advancetowards
+    //returns the direciton vector from center to connection
+    Vector3 dotToDir(gridDot center, gridDot connection)
+    {
+        return new Vector3(center.indexlocation[0] - connection.indexlocation[0],
+                           center.indexlocation[1] - connection.indexlocation[1],
+                           center.indexlocation[2] - connection.indexlocation[2]);
     }
 
     /// 
@@ -297,14 +347,6 @@ public class VineMeshGenerator : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         makeSurface();
-        yield return new WaitForSeconds(1);
-        foreach (gridDot d in cubeMatrix)
-        {
-            if (d.valid)
-            {
-                //addDot(d.indexlocation[0], d.indexlocation[1], d.indexlocation[2]);
-            }
-        }
     }
 
     // Start is called before the first frame update
@@ -430,11 +472,12 @@ public class VineMeshGenerator : MonoBehaviour
         CFcull();
         cullList = new List<gridDot>();
         //cull dots with too many connections (interior to the play area)
-        for (int xi = 0; xi < gridWidth; xi++)
+        int xi = 0; int yi = 0; int zi = 0;
+        for (xi = 0; xi < gridWidth; xi++)
         {
-            for (int zi = 0; zi < gridWidth; zi++)
+            for (zi = 0; zi < gridWidth; zi++)
             {
-                for (int yi = 0; yi < gridDepth; yi++)
+                for (yi = 0; yi < gridDepth; yi++)
                 {
                     //printDot(cubeMatrix[xi, yi, zi]);
                     if (cubeMatrix[xi, yi, zi].connections.Count == 26)
@@ -447,6 +490,57 @@ public class VineMeshGenerator : MonoBehaviour
         foreach (gridDot d in cullList)
         {
             cullNode(d.indexlocation[0], d.indexlocation[1], d.indexlocation[2]);
+        }
+        //cull edges to prevent edge cases later
+        xi = 0;
+        for (zi = 0; zi < gridWidth; zi++)
+        {
+            for (yi = 0; yi < gridDepth; yi++)
+            {
+                cullNode(xi, yi, zi);
+            }
+        }
+        xi = gridWidth-1;
+        for (zi = 0; zi < gridWidth; zi++)
+        {
+            for (yi = 0; yi < gridDepth; yi++)
+            {
+                cullNode(xi, yi, zi);
+            }
+        }
+
+        yi = 0;
+        for (zi = 0; zi < gridWidth; zi++)
+        {
+            for (xi = 0; xi < gridWidth; xi++)
+            {
+                cullNode(xi, yi, zi);
+            }
+        }
+        yi = gridDepth - 1;
+        for (zi = 0; zi < gridWidth; zi++)
+        {
+            for (xi = 0; xi < gridWidth; xi++)
+            {
+                cullNode(xi, yi, zi);
+            }
+        }
+
+        zi = 0;
+        for (xi = 0; xi < gridWidth; xi++)
+        {
+            for (yi = 0; yi < gridDepth; yi++)
+            {
+                cullNode(xi, yi, zi);
+            }
+        }
+        zi = gridWidth - 1;
+        for (xi = 0; xi < gridWidth; xi++)
+        {
+            for (yi = 0; yi < gridDepth; yi++)
+            {
+                cullNode(xi, yi, zi);
+            }
         }
     }
 
