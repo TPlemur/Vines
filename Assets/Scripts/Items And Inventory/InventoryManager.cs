@@ -116,8 +116,6 @@ public class InventoryManager : MonoBehaviour
         }
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha9)) {
             addItem(typeof(Shield));
-
-            //inventory.Add(new Shield(gameStateManager, Shield_Controls));
         }
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha0)) {
             addItem(typeof(Flashlight));

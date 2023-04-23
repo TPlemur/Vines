@@ -18,14 +18,6 @@ public class ElectricalEquipment : Item
     private FMOD.Studio.EventInstance continuousSFXInstance;
     static public GameObject sfxUpdateTarget = null; // bad code to make this static, but trying to hack together a solution that works with lots of other bad code...
 
-    public ElectricalEquipment(Camera cam, LayerMask mask, GameObject stateManager, GameObject UIElement, GameObject progressUI) : base(cam, stateManager, UIElement){
-        layer = mask;
-        progressBar = progressUI;
-        LoadItem("ElectricalDevice");
-        InitContinuousSFX(cam.gameObject);
-        //anim = itemObj.transform.GetChild(0).GetComponent<Animator>();
-        //PickupSFX(); you start with the item
-    }
 
     public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, GameObject progressUI)
     {

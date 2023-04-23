@@ -28,21 +28,6 @@ public class PVTM : Item
     private LineRenderer lr;
     private Transform laserStart;
 
-    //LEGACY DO NOT USE
-    public PVTM(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask, 
-                Material flashMat, GameObject stateManager, GameObject UIElement)
-                : base(cam, stateManager, UIElement){
-        LoadItem("PVTM_Prefab");
-        camLayer = camMask;
-        monsterPicLayer = monsterMask;
-        real = realPVTMCam;
-        flash = flashMat;
-        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
-        laserStart = itemObj.transform.GetChild(0).GetChild(4);
-        lr = laserStart.GetComponent<LineRenderer>();
-        gameState.PVTMObtained();
-        PickupSFX();
-    }
 
     private void Start()
     {

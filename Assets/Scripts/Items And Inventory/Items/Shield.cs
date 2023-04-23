@@ -12,16 +12,6 @@ public class Shield : Item
 
     Brain mobBrain;
 
-    //LEGACY DO NOT USE
-    public Shield(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){
-        LoadItem("Shield");
-        original = itemObj.transform.localPosition;
-        ItemUI.transform.GetChild(0).gameObject.SetActive(true);
-        gameState.ShieldObtained();
-        PickupSFX();
-        mobBrain = GameObject.FindGameObjectWithTag("Monster").GetComponentInChildren<Brain>();
-    }
-
     public void setup(GameObject stateManager, GameObject UIElement)
     {
         gameState = stateManager.GetComponent<GameStateManager>();

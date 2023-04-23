@@ -16,8 +16,6 @@ public class Scanner : Item
     private FMOD.Studio.EventInstance continuousSFXInstance;
     static public GameObject sfxUpdateTarget = null; // bad code to make this static, but trying to hack together a solution that works with lots of other bad code...
 
-    //LEGACY DO NOT USE
-    public Scanner(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){ }
 
     public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, List<GameObject> targets)
     {

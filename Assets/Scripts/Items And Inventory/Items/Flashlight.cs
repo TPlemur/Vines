@@ -7,22 +7,6 @@ public class Flashlight : Item
     GameObject light;
     bool toggled = true;
 
-    public Flashlight(GameObject stateManager, GameObject UIElement) : base(stateManager, UIElement){
-        LoadItem("Flashlight");
-        light = itemObj.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-        gameState.FlashlightObtained();
-        PickupSFX();
-    }
-
-    public static Flashlight foobar(GameObject stateManager, GameObject UIElement)
-    {
-        GameObject fb = new GameObject();
-        fb.AddComponent<Flashlight>();
-        Flashlight fl = fb.GetComponent<Flashlight>();
-        fl.setup(stateManager, UIElement);
-        return fl;
-        
-    }
 
     public void setup(GameObject stateManager, GameObject UIElement)
     {

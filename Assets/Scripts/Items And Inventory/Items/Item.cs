@@ -9,17 +9,6 @@ public class Item : MonoBehaviour
     public GameStateManager gameState;
     public GameObject ItemUI;
 
-    public Item(GameObject stateManager, GameObject UIElement){
-        gameState = stateManager.GetComponent<GameStateManager>();
-        ItemUI = UIElement;
-    }
-
-    public Item(Camera cam, GameObject stateManager, GameObject UIElement){
-        playerCam = cam;
-        gameState = stateManager.GetComponent<GameStateManager>();
-        ItemUI = UIElement;
-    }
-
     public void LoadItem(string name){
         var loadedItem = Resources.Load("Prefabs/" + name);
         GameObject iPos = GameObject.Find("ItemPos");
