@@ -16,6 +16,11 @@ public class ElevatorSceneControl : MonoBehaviour
     private Image fadeScreen;
     [SerializeField]
     float fadeOut = 1;
+    [SerializeField] float skipHoldTime = 1;
+    [SerializeField] GameObject skipSliderObj;
+    Slider skipSlider;
+
+    float skipTimer = 0;
 
     [SerializeField]
     private float beforeVideoWaitTime = 5.0f;
@@ -25,6 +30,7 @@ public class ElevatorSceneControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        skipSlider = skipSliderObj.GetComponent<Slider>();
         videoPlayer.started += VideoStarted;
         videoPlayer.loopPointReached += VideoFinished;
 
@@ -34,9 +40,19 @@ public class ElevatorSceneControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
-            StartCoroutine(transitionToPlay());
+            skipSliderObj.SetActive(true);
+            skipTimer += Time.deltaTime;
+            skipSlider.value = skipTimer / skipHoldTime;
+            if (skipTimer > skipHoldTime)
+            {
+                StartCoroutine(transitionToPlay());
+            }
+        }
+        else {
+            skipSliderObj.SetActive(false);
+            skipTimer = 0;
         }
     }
 
