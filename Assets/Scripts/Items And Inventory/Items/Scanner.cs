@@ -64,9 +64,7 @@ public class Scanner : Item
     {
         if (scannerOn)
         {
-            Debug.Log(trackerTargets.Count);
             outUI.text = ((int)scan()).ToString();
-            Debug.Log(scan());
         }
     }
 

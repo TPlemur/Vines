@@ -12,6 +12,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject Flashlight_Controls;
     public GameObject Shield_Controls;
     public GameObject Electrical_Controls;
+    public GameObject Scanner_Controls;
 
     [Header("Input")]
     public KeyCode interactKey = KeyCode.F;
@@ -46,6 +47,7 @@ public class InventoryManager : MonoBehaviour
         //instantiate EE as monobehavior within unity higerarchy
         inventory = new Inventory();
         addItem(typeof(ElectricalEquipment));
+        StartCoroutine(addItemOnDelay(typeof(Scanner)));
 
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
@@ -152,7 +154,7 @@ public class InventoryManager : MonoBehaviour
             var interact = hit.transform;
             if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
             {
-                PText.transform.GetComponent<TextMeshProUGUI>().text = "Press F to pick up " + interact.tag;
+                PText.transform.GetComponent<TextMeshProUGUI>().text = "Pick up " + interact.tag;
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
@@ -202,12 +204,18 @@ public class InventoryManager : MonoBehaviour
                     F.setup(gameStateManager, Flashlight_Controls);
                     break;
                 case Scanner S:
-                    S.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls,scannerTargets);
+                    S.setup(playerCam, panelLayer, gameStateManager, Scanner_Controls, scannerTargets);
                     break;
             }
             //add new item to inventory
             inventory.Add(item);
         }
+    }
+
+    IEnumerator addItemOnDelay(System.Type type)
+    {
+        yield return new WaitForSeconds(0.1f);
+        addItem(type);
     }
 }
 
