@@ -50,7 +50,6 @@ public class InventoryManager : MonoBehaviour
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
         scannerTargets = new List<GameObject>();
-        scannerTargets.Add(GameObject.Find("Monster"));
     }
 
     void Update()

@@ -9,13 +9,28 @@ public class Scanner : Item
 {
     LayerMask layer;
     bool scannerOn = false;
-    float scanWidth = 0.25f;
+    float scanWidth = 15f;
     List<GameObject> trackerTargets;
+
+    TMPro.TextMeshProUGUI outUI;
 
     public Coroutine sfxUpdateCoroutine = null;
     private FMOD.Studio.EventInstance continuousSFXInstance;
     static public GameObject sfxUpdateTarget = null; // bad code to make this static, but trying to hack together a solution that works with lots of other bad code...
 
+    void findItems()
+    {
+        trackerTargets.Add(GameObject.Find("Flashlight_I"));
+        trackerTargets.Add(GameObject.Find("PVTM_Prefab_I"));
+        trackerTargets.Add(GameObject.Find("Shield_I"));
+        trackerTargets.Add(GameObject.Find("GenOffLight"));
+        trackerTargets.Add(GameObject.Find("Monster"));
+    }
+
+    private void Start()
+    {
+        findItems();   
+    }
 
     public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, List<GameObject> targets)
     {
@@ -23,8 +38,9 @@ public class Scanner : Item
         gameState = stateManager.GetComponent<GameStateManager>();
         ItemUI = UIElement;
         layer = mask;
-        LoadItem("ElectricalDevice");
+        LoadItem("Scanner");
         trackerTargets = targets;
+        outUI = itemObj.GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     public void addTarget(GameObject newTar)
@@ -38,12 +54,18 @@ public class Scanner : Item
 
     public override void Primary(){
         scannerOn = !scannerOn ? true : false;
+        if (!scannerOn)
+        {
+            outUI.text = "";
+        }
     }
 
     private void Update()
     {
         if (scannerOn)
         {
+            Debug.Log(trackerTargets.Count);
+            outUI.text = ((int)scan()).ToString();
             Debug.Log(scan());
         }
     }
@@ -51,6 +73,9 @@ public class Scanner : Item
     //returns the closest object within the angle threshold, or zero if nothing found
     float scan()
     {
+        //Remove any destroyed objects
+        trackerTargets.RemoveAll(t => t == null);
+
         List<float> dists = new List<float>();
         foreach (GameObject target in trackerTargets)
         {
