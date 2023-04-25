@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
     Brain mobBrain;
-    static public Vector3 posRelElevator;
+    static public Vector3 posRelElevator = new Vector3(44.58f,2.29f,-37.70f);
     static public Vector3 savedViewDir;
 
     [Header("Movement")]
