@@ -88,7 +88,7 @@ public class Scanner : Item
             float detectedDist = dists[0];
             for (int i = 0;i < dists.Count ;i++)
             {
-                if (dists[i] > detectedDist)
+                if (dists[i] < detectedDist)
                 {
                     detectedDist = dists[i];
                 }
