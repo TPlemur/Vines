@@ -27,6 +27,10 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField]
     private float afterVideoWaitTime = 1.0f;
 
+    //used to localize player in next scene
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject elevConsole;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +97,9 @@ public class ElevatorSceneControl : MonoBehaviour
             yield return null;
         }
         Debug.Log("End this!!");
+        // - elevConsole.transform.position
+        PlayerMovement.posRelElevator = player.transform.position  + new Vector3(44.52f, 0.05f, -51.1f); //vector is difference in location between scenes
+        PlayerMovement.savedViewDir = player.transform.eulerAngles;
         SceneManager.LoadScene(1);
     }
 }
