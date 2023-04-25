@@ -73,6 +73,11 @@ public class Room
     }
 
     public void ConnectStartToRandom(){
+        this.ConnectTo(this.RoomAbove());
+        this.ConnectTo(this.RoomUnderneath());
+        this.ConnectTo(this.RoomToLeft());
+
+        /*
         List<Landmark> temp = new List<Landmark>(new Landmark[] {new Monster("1", 0), new Start()});
         List<Room> possible = this.RoomsToNotOfType(temp);
         int numExits = 3;
@@ -81,6 +86,7 @@ public class Room
             this.ConnectTo(possible[index]);
             possible.RemoveAt(index);
         }
+        */
     }
 
     /* RoomsToNotOfType() will return a list of rooms that a room
