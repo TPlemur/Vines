@@ -6,8 +6,9 @@ using UnityEngine.AI;
 public class ShieldDeployer : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] LayerMask wallsLayer;
-    [SerializeField] LayerMask floorLayer;
+    [SerializeField] LayerMask wallsLayer = 10;
+    [SerializeField] LayerMask floorLayer = 6;
+    [SerializeField] string wallPath = "Prefabs/ClothWall";
     [SerializeField] GameObject WallPrefab;
     [SerializeField] MeshRenderer airBags;
 
@@ -24,6 +25,7 @@ public class ShieldDeployer : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         monster = GameObject.FindGameObjectWithTag("Monster");
+        WallPrefab = Resources.Load(wallPath) as GameObject;
     }
 
     private void Update()
