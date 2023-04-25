@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class ElevatorSceneControl : MonoBehaviour
 {
@@ -12,10 +13,6 @@ public class ElevatorSceneControl : MonoBehaviour
     private FMODUnity.StudioEventEmitter videoAudio;
     [SerializeField]
     private FMODUnity.StudioEventEmitter elevatorSFX;
-    [SerializeField]
-    private Image fadeScreen;
-    [SerializeField]
-    float fadeOut = 1;
     [SerializeField] float skipHoldTime = 1;
     [SerializeField] GameObject skipSliderObj;
     Slider skipSlider;
@@ -27,9 +24,13 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField]
     private float afterVideoWaitTime = 1.0f;
 
+    private FadeController fadeController;
+
     // Start is called before the first frame update
     void Start()
     {
+        fadeController = this.AddComponent<FadeController>();
+        fadeController.FadeIn(5);
         skipSlider = skipSliderObj.GetComponent<Slider>();
         videoPlayer.started += VideoStarted;
         videoPlayer.loopPointReached += VideoFinished;
@@ -37,6 +38,7 @@ public class ElevatorSceneControl : MonoBehaviour
         StartCoroutine(WaitAndStartVideo());
     }
 
+    bool ending = true;
     // Update is called once per frame
     void Update()
     {
@@ -45,9 +47,10 @@ public class ElevatorSceneControl : MonoBehaviour
             skipSliderObj.SetActive(true);
             skipTimer += Time.deltaTime;
             skipSlider.value = skipTimer / skipHoldTime;
-            if (skipTimer > skipHoldTime)
+            if (skipTimer > skipHoldTime && ending)
             {
-                StartCoroutine(transitionToPlay());
+                ending = false;
+                fadeController.FadeOutToSceen(3, 1);
             }
         }
         else {
@@ -94,5 +97,6 @@ public class ElevatorSceneControl : MonoBehaviour
         }
         Debug.Log("End this!!");
         SceneManager.LoadScene(1);
+        fadeController.FadeOutToSceen(3, 1);
     }
 }
