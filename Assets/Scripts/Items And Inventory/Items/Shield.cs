@@ -42,19 +42,15 @@ public class Shield : Item
     }
 
     public bool explode(){
-        if (primed)
+        if (primed && canExplode)
         {
             Debug.Log("EXPLODING SHIELD");
             //itemObj.GetComponentInChildren<ShieldDeployer>().
 
+
             //Code from Deploy
             //find the origin and scale
-            Quaternion forwardQuaternion = snapToAxis(itemObj.transform.eulerAngles);
-            Vector3 ForwardUnitVec = forwardQuaternion * Vector3.forward;
-
-            //failDeploy if back too close to wall
-            Ray backCheck = new Ray(player.transform.position, -ForwardUnitVec);
-            if (Physics.Raycast(backCheck, maxBackDist,wallsLayer)) { return false; }
+            //forwardUnitVec is defined in update, and used by backCheck
 
             monster.GetComponentInChildren<Brain>().shieldDir = ForwardUnitVec;
             Vector4 PointScale = FindPointAndScale(ForwardUnitVec, itemObj.transform.position);
@@ -132,12 +128,24 @@ public class Shield : Item
     GameObject monster;
     GameObject wall;
 
+    Quaternion forwardQuaternion;
+    Vector3 ForwardUnitVec;
+    bool canExplode = false;
+
+    TMPro.TextMeshProUGUI activeUI;
+    TMPro.TextMeshProUGUI inactiveUI;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         monster = GameObject.FindGameObjectWithTag("Monster");
         WallPrefab = Resources.Load(wallPath) as GameObject;
+        TMPro.TextMeshProUGUI[] ui = itemObj.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+        activeUI = ui[0];
+        inactiveUI = ui[1];
     }
 
     private void Update()
@@ -145,6 +153,25 @@ public class Shield : Item
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Y))
         {
             explode();
+        }
+
+        //update UI
+        forwardQuaternion = snapToAxis(itemObj.transform.eulerAngles);
+        ForwardUnitVec = forwardQuaternion * Vector3.forward;
+
+        //failDeploy if back too close to wall
+        Ray backCheck = new Ray(player.transform.position, -ForwardUnitVec);
+        if (Physics.Raycast(backCheck, maxBackDist, wallsLayer))
+        {
+            canExplode  = false;
+            activeUI.enabled = false;
+            inactiveUI.enabled = true;
+        }
+        else
+        {
+            canExplode = true;
+            activeUI.enabled = true;
+            inactiveUI.enabled = false;
         }
     }
 
