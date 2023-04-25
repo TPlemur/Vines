@@ -69,10 +69,6 @@ public class PatrolBehaviour : StateMachineBehaviour
                     Mob.SetDestination(patrolPos);
                     Mob.speed = 3;
                 }
-            }else if (GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ //One time hunt event as a result of the generator turning on
-                animator.SetBool("isInvestigating", true);
-                mobBrain.huntedGeneratorEvent = true;
-                mobBrain.investigating = true;
             }else{  // Patrol to random location on navmesh
                 patrolPos = RandomNavmeshLocation(patrolRadius);
                 Mob.SetDestination(patrolPos);
