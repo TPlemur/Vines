@@ -53,6 +53,8 @@ public class ElevatorSceneControl : MonoBehaviour
             if (skipTimer > skipHoldTime && ending)
             {
                 ending = false;
+                PlayerMovement.posRelElevator = player.transform.position + new Vector3(44.52f, 0.05f, -51.1f); //vector is difference in location between scenes
+                PlayerMovement.savedViewDir = player.transform.eulerAngles;
                 fadeController.FadeOutToSceen(3, 1);
             }
         }
@@ -85,24 +87,6 @@ public class ElevatorSceneControl : MonoBehaviour
     IEnumerator WaitAndEndScene()
     {
         yield return new WaitForSeconds(afterVideoWaitTime);
-        StartCoroutine(transitionToPlay());
-    }
-
-    float timer = 0;
-
-    IEnumerator transitionToPlay()
-    {
-        while (timer < fadeOut)
-        {
-            timer += Time.deltaTime;
-            fadeScreen.color = new Color(0, 0, 0, timer/fadeOut);
-            yield return null;
-        }
-        Debug.Log("End this!!");
-        // - elevConsole.transform.position
-        PlayerMovement.posRelElevator = player.transform.position  + new Vector3(44.52f, 0.05f, -51.1f); //vector is difference in location between scenes
-        PlayerMovement.savedViewDir = player.transform.eulerAngles;
-        SceneManager.LoadScene(1);
-        fadeController.FadeOutToSceen(3, 1);
+        fadeController.FadeOutToSceen(3, 1); ;
     }
 }
