@@ -2117,6 +2117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5f8fef4b36dc1499d4fd358660feac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seedInput: {fileID: 0}
+  text: {fileID: 0}
 --- !u!1 &281583791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,13 +2508,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 313997376}
+  - component: {fileID: 313997377}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &313997376
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3101,7 +3104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &379041531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3932,18 +3935,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
         m_MethodName: randomSeed
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1187466649}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5774,6 +5765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 816958635}
+  - component: {fileID: 816958636}
   m_Layer: 5
   m_Name: CreditsMenu
   m_TagString: Untagged
@@ -13928,6 +13920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2078017617}
+  - component: {fileID: 2078017618}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
