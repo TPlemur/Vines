@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     public bool ToggleCrouch = false;
     public KeyCode sprintKey = KeyCode.LeftShift;
     private bool crouching = false;
+    private bool forward = true;
     private float horizontalInput;
     private float verticalInput;
 
@@ -108,6 +109,21 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer(){
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        if(verticalInput >= 0){
+            // Resets movement speed when going forward
+            if(!forward){
+                forward = true;
+                moveSpeed /= 0.7f;
+            }
+            Debug.Log("forward");
+        }else{
+            // Player moves backwards slower than forwards
+            if(forward){
+                forward = false;
+                moveSpeed *= 0.7f;
+            }
+            Debug.Log("backward");
+        }
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
