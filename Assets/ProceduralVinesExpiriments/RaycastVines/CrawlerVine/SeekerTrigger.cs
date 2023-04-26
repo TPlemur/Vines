@@ -47,4 +47,12 @@ public class SeekerTrigger : MonoBehaviour
             isTog = false;
         }
     }
+
+    public void setSeekTarget(GameObject target)
+    {
+        foreach (RCcrawler b in branches)
+        {
+            b.seekTarget = target;
+        }
+    }
 }

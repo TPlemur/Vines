@@ -355,6 +355,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38236988}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &49023568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 49023569}
+  - component: {fileID: 49023570}
+  m_Layer: 14
+  m_Name: FreeVine (15)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &49023569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49023568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49023570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49023568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &80207784
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +838,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117385574}
   m_CullTransparentMesh: 1
+--- !u!1 &118855097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118855098}
+  - component: {fileID: 118855099}
+  m_Layer: 14
+  m_Name: FreeVine (4)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &118855098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118855097}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &118855099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118855097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &148898076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,6 +1642,234 @@ Transform:
   m_Father: {fileID: 601828011}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &216806021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 216806022}
+  - component: {fileID: 216806023}
+  m_Layer: 14
+  m_Name: FreeVine (24)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &216806022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216806021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 24
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &216806023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216806021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &221583584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 221583585}
+  - component: {fileID: 221583586}
+  m_Layer: 14
+  m_Name: FreeVine (17)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &221583585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221583584}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &221583586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221583584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &243856568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 243856569}
+  - component: {fileID: 243856570}
+  m_Layer: 14
+  m_Name: FreeVine (7)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &243856569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243856568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &243856570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243856568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &246514477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246514478}
+  - component: {fileID: 246514479}
+  m_Layer: 14
+  m_Name: FreeVine (12)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &246514478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246514477}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &246514479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246514477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &246821945
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,6 +2810,37 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!1 &388150558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 388150559}
+  m_Layer: 2
+  m_Name: FreeFineTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &388150559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388150558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1952833649}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &408361925
 GameObject:
   m_ObjectHideFlags: 0
@@ -8611,6 +8984,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &651903219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651903220}
+  - component: {fileID: 651903221}
+  m_Layer: 14
+  m_Name: FreeVine (28)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &651903220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651903219}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 28
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &651903221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651903219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &653887403
 GameObject:
   m_ObjectHideFlags: 0
@@ -8758,6 +9188,63 @@ Transform:
   m_Father: {fileID: 1330543899}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &686808216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 686808217}
+  - component: {fileID: 686808218}
+  m_Layer: 14
+  m_Name: FreeVine (0)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &686808217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686808216}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &686808218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686808216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &693193628
 GameObject:
   m_ObjectHideFlags: 0
@@ -9006,6 +9493,120 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712499807}
   m_CullTransparentMesh: 1
+--- !u!1 &730019202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 730019203}
+  - component: {fileID: 730019204}
+  m_Layer: 14
+  m_Name: FreeVine (22)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &730019203
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730019202}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &730019204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730019202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &754874203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 754874204}
+  - component: {fileID: 754874205}
+  m_Layer: 14
+  m_Name: FreeVine (16)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &754874204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754874203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &754874205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754874203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &776662111
 GameObject:
   m_ObjectHideFlags: 0
@@ -9180,6 +9781,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776838632}
   m_CullTransparentMesh: 1
+--- !u!1 &777571618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777571619}
+  - component: {fileID: 777571620}
+  m_Layer: 14
+  m_Name: FreeVine (1)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &777571619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777571618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &777571620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777571618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &786687379
 GameObject:
   m_ObjectHideFlags: 0
@@ -10608,6 +11266,120 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &974895445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 974895446}
+  - component: {fileID: 974895447}
+  m_Layer: 14
+  m_Name: FreeVine (21)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &974895446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974895445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &974895447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974895445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &985052469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 985052470}
+  - component: {fileID: 985052471}
+  m_Layer: 14
+  m_Name: FreeVine (23)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &985052470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985052469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &985052471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985052469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &999762545
 GameObject:
   m_ObjectHideFlags: 0
@@ -10898,6 +11670,120 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105920391}
   m_CullTransparentMesh: 1
+--- !u!1 &1149129287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149129288}
+  - component: {fileID: 1149129289}
+  m_Layer: 14
+  m_Name: FreeVine (27)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1149129288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149129287}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 27
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149129289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149129287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &1153082322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1153082323}
+  - component: {fileID: 1153082324}
+  m_Layer: 14
+  m_Name: FreeVine (26)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1153082323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153082322}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1153082324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153082322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1166669870
 GameObject:
   m_ObjectHideFlags: 0
@@ -11738,6 +12624,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1250937267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1250937268}
+  - component: {fileID: 1250937269}
+  m_Layer: 14
+  m_Name: FreeVine (29)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1250937268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250937267}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 29
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1250937269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250937267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1258494120
 GameObject:
   m_ObjectHideFlags: 0
@@ -12555,6 +13498,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314465208}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1316064471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316064472}
+  - component: {fileID: 1316064473}
+  m_Layer: 14
+  m_Name: FreeVine (3)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1316064472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316064471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1316064473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316064471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1319896759
 GameObject:
   m_ObjectHideFlags: 0
@@ -12729,6 +13729,63 @@ RectTransform:
   m_AnchoredPosition: {x: 64, y: 19}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1331158300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331158301}
+  - component: {fileID: 1331158302}
+  m_Layer: 14
+  m_Name: FreeVine (5)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1331158301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331158300}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1331158302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331158300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1360798111
 GameObject:
   m_ObjectHideFlags: 0
@@ -12881,6 +13938,63 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1382566399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1382566400}
+  - component: {fileID: 1382566401}
+  m_Layer: 14
+  m_Name: FreeVine (14)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1382566400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382566399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1382566401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382566399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1418557663
 GameObject:
   m_ObjectHideFlags: 0
@@ -12998,6 +14112,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443804889}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1460591753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1460591754}
+  - component: {fileID: 1460591755}
+  m_Layer: 14
+  m_Name: FreeVine (20)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1460591754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460591753}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1460591755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460591753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1462356986
 GameObject:
   m_ObjectHideFlags: 0
@@ -13036,6 +14207,120 @@ RectTransform:
   m_AnchoredPosition: {x: 64, y: 19}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1468583903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1468583904}
+  - component: {fileID: 1468583905}
+  m_Layer: 14
+  m_Name: FreeVine (6)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1468583904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468583903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1468583905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468583903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &1478415424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1478415425}
+  - component: {fileID: 1478415426}
+  m_Layer: 14
+  m_Name: FreeVine (19)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1478415425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478415424}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1478415426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478415424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1496128516
 GameObject:
   m_ObjectHideFlags: 0
@@ -13310,6 +14595,10 @@ PrefabInstance:
     - target: {fileID: 1687372733255550096, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
       propertyPath: Params.Array.data[5].Value
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4057388747056566890, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4057388747056566890, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
       propertyPath: chargeTarget
@@ -14107,6 +15396,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5f8fef4b36dc1499d4fd358660feac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1603683569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603683570}
+  - component: {fileID: 1603683571}
+  m_Layer: 14
+  m_Name: FreeVine (2)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603683570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603683569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1603683571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603683569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1610229961
 GameObject:
   m_ObjectHideFlags: 0
@@ -14482,6 +15828,63 @@ Transform:
   m_Father: {fileID: 1462356987}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1695513933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1695513934}
+  - component: {fileID: 1695513935}
+  m_Layer: 14
+  m_Name: FreeVine (13)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1695513934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695513933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1695513935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695513933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1696051812
 GameObject:
   m_ObjectHideFlags: 0
@@ -14513,6 +15916,63 @@ Transform:
   m_Father: {fileID: 1571679558}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1728564181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1728564182}
+  - component: {fileID: 1728564183}
+  m_Layer: 14
+  m_Name: FreeVine (10)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1728564182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728564181}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1728564183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728564181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1728885089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5842208706925175571, guid: b1bdf8c7fc122db4a8fe3af17d03e316, type: 3}
@@ -14807,6 +16267,63 @@ MonoBehaviour:
   Parameter: ChaseState
   TriggerEvent: 1
   Value: 1
+--- !u!1 &1778636260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1778636261}
+  - component: {fileID: 1778636262}
+  m_Layer: 14
+  m_Name: FreeVine (18)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1778636261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778636260}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1778636262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778636260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &1782845218
 GameObject:
   m_ObjectHideFlags: 0
@@ -15666,6 +17183,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881408422}
   m_CullTransparentMesh: 1
+--- !u!1 &1884043431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1884043432}
+  - component: {fileID: 1884043433}
+  m_Layer: 14
+  m_Name: FreeVine (25)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1884043432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884043431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1884043433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884043431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1001 &1901760084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16015,6 +17589,7 @@ Transform:
   m_Children:
   - {fileID: 341552046}
   - {fileID: 350964441}
+  - {fileID: 388150559}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16515,6 +18090,63 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &2008040301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2008040302}
+  - component: {fileID: 2008040303}
+  m_Layer: 14
+  m_Name: FreeVine (11)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2008040302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008040301}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008040303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008040301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!114 &2010487821 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5397642450469391265, guid: 5fded31e0a114794693d64db5f8bff77, type: 3}
@@ -16724,6 +18356,120 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!1 &2046572397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2046572398}
+  - component: {fileID: 2046572399}
+  m_Layer: 14
+  m_Name: FreeVine (9)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2046572398
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046572397}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2046572399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046572397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
+--- !u!1 &2069265300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2069265301}
+  - component: {fileID: 2069265302}
+  m_Layer: 14
+  m_Name: FreeVine (8)
+  m_TagString: Vine
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2069265301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069265300}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262993500437187314}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2069265302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069265300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31c2e9ef722c7241be5e17da39704bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlSpeed: 0.125
+  validSurfaces:
+    serializedVersion: 2
+    m_Bits: 407155
+  spawningObj: {fileID: 1952833646}
+  material: {fileID: 2100000, guid: ec57fd10dddf8a942baa1223f85ace09, type: 2}
+  numNodes: 15
+  segmentLength: 1
+  isSeek: 1
+  seekTarget: {fileID: 388150558}
+  SeakStrength: 0.5
+  isSense: 1
+  senseRad: 0.25
 --- !u!1 &2083745539
 GameObject:
   m_ObjectHideFlags: 0
@@ -17468,7 +19214,37 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 686808217}
+  - {fileID: 777571619}
+  - {fileID: 1603683570}
+  - {fileID: 1316064472}
+  - {fileID: 118855098}
+  - {fileID: 1331158301}
+  - {fileID: 1468583904}
+  - {fileID: 243856569}
+  - {fileID: 2069265301}
+  - {fileID: 2046572398}
+  - {fileID: 1728564182}
+  - {fileID: 2008040302}
+  - {fileID: 246514478}
+  - {fileID: 1695513934}
+  - {fileID: 1382566400}
+  - {fileID: 49023569}
+  - {fileID: 754874204}
+  - {fileID: 221583585}
+  - {fileID: 1778636261}
+  - {fileID: 1478415425}
+  - {fileID: 1460591754}
+  - {fileID: 974895446}
+  - {fileID: 730019203}
+  - {fileID: 985052470}
+  - {fileID: 216806022}
+  - {fileID: 1884043432}
+  - {fileID: 1153082323}
+  - {fileID: 1149129288}
+  - {fileID: 651903220}
+  - {fileID: 1250937268}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17479,7 +19255,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262993500437187316}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c6b7b94cce72d4698d0e2890313913, type: 3}
   m_Name: 
@@ -17523,13 +19299,27 @@ GameObject:
   m_Component:
   - component: {fileID: 1262993500437187314}
   - component: {fileID: 1262993500437187315}
-  m_Layer: 0
+  - component: {fileID: 1262993500437187317}
+  m_Layer: 14
   m_Name: vinesForSplitjaw
-  m_TagString: Untagged
+  m_TagString: Vine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1262993500437187317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262993500437187316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee939c2b91cacd84dbcbb610ef362282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggle: 1
 --- !u!4 &1465173858050876301
 Transform:
   m_ObjectHideFlags: 0

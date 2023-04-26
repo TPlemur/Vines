@@ -14,7 +14,7 @@ public class RCcrawler : MonoBehaviour
     [SerializeField] float crawlSpeed = 1;
     float currentAmountF = 0.827f;
     float currentAmountB = 0.827f;
-    LayerMask validSurfaces = ~0;
+    [SerializeField] LayerMask validSurfaces = ~0;
     float timer = 0;
 
     //mesh Properties
@@ -34,6 +34,8 @@ public class RCcrawler : MonoBehaviour
     public bool isSeek = false;
     public GameObject seekTarget;
     [SerializeField] float SeakStrength = 0.5f;
+    public bool isSense = false;
+    [SerializeField] float senseRad = 0.25f;
 
     //currently active nodes
     List<CrawlerNode> branchNodes;
@@ -42,10 +44,18 @@ public class RCcrawler : MonoBehaviour
     {
         amountPerNode = MaxAmount / numNodes;
         currentAmountF -= amountPerNode;
+        StartCoroutine(spawnOnDelay());
 
+    }
+
+    IEnumerator spawnOnDelay()
+    {
+        yield return new WaitForSeconds(1);
         transform.position = Vector3.zero;
         RaycastHit hit;
-        Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit);
+        Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit, validSurfaces);
+        Debug.Log("asd;kjhja;lkerhgaewoihj");
+        Debug.DrawLine(hit.point, hit.point + new Vector3(0, 100, 0), new Color(0, 255, 0), 1000);
         branchNodes = createBranch(hit.point, hit.normal);
         init();
         doUpdate = true;
@@ -61,6 +71,15 @@ public class RCcrawler : MonoBehaviour
             if (timer > crawlSpeed)
             {
                 addNode(branchNodes);
+                if (isSense)
+                {
+                    SphereCollider col = gameObject.AddComponent<SphereCollider>();
+                    col.isTrigger = true;
+                    col.radius = senseRad;
+                    col.center = branchNodes[branchNodes.Count - 1].getPosition();
+                    branchNodes[branchNodes.Count - 1].col = col;
+                }
+                Destroy(branchNodes[0].col);
                 branchNodes.RemoveAt(0);
                 mesh = createMesh(branchNodes);
                 meshFilter.mesh = mesh;
@@ -352,4 +371,5 @@ public class RCcrawler : MonoBehaviour
         float t = Mathf.InverseLerp(oldLow, oldHigh, input);
         return Mathf.Lerp(newLow, newHigh, t);
     }
+
 }
