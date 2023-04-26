@@ -82,6 +82,7 @@ public class Room
         List<Room> possible = this.RoomsToNotOfType(temp);
         int numExits = 3;
         for(;numExits > 0; numExits--){
+            //Random.InitState(51238);
             int index = UnityEngine.Random.Range(0, possible.Count);
             this.ConnectTo(possible[index]);
             possible.RemoveAt(index);
