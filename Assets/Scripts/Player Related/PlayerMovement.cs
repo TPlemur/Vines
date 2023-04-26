@@ -96,7 +96,12 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer(){
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        if (Input.GetKey(KeyCode.S)) {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 4f, ForceMode.Force);
+        }
+        else {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        }
     }
 
     private void SpeedCapper(){
