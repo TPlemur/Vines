@@ -32,12 +32,14 @@ public class BlockedBehaviour : StateMachineBehaviour
         }else{
             mobBrain.isShielded = false;
             animator.SetBool("isBlocked", false);
+            animator.SetBool("isChasing", false);
+            animator.SetBool("isCharging", false);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Mob.GetComponentInChildren<MonsterSounds>().Howl();
+        //Mob.GetComponentInChildren<MonsterSounds>().Howl();
     }
 }

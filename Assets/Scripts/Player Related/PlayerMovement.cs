@@ -174,8 +174,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(collision.tag == "Vine")
         {
-            //Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
-            mobBrain.detectsPlayer = true;
+            Debug.Log("SHIELD: " + mobBrain.isShielded);
+            if(!mobBrain.isShielded){
+                mobBrain.detectsPlayer = true;
+            }else{
+                mobBrain.detectsPlayer = false;
+            }
         }
         else if (collision.name == "HideTrigger")
         {
