@@ -19905,7 +19905,8 @@ MonoBehaviour:
   groundDrag: 4
   vineDrag: 0.5
   dragCap: 4
-  capsuleCol: {fileID: 1571679568}
+  FloorCollider: {fileID: 1571679568}
+  WallsCollider: {fileID: 1571679567}
   playerHeight: 1
   whatIsGround:
     serializedVersion: 2
@@ -19920,6 +19921,7 @@ MonoBehaviour:
   Objectives: {fileID: 1595614446}
   ItemPosition: {fileID: 1521533488}
   debugInvincibility: 0
+  crouchHeight: 0
 --- !u!54 &1571679561
 Rigidbody:
   m_ObjectHideFlags: 0
