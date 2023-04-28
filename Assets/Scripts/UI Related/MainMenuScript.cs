@@ -17,7 +17,7 @@ public class MainMenuScript : MonoBehaviour
     void Start()
     {
         fadeController = this.AddComponent<FadeController>();
-        fadeController.FadeIn(5);
+        fadeController.FadeIn(0.25f);
         //set approprate lock mode
         if(SceneManager.GetActiveScene().name == "ProtoPlayScene" || SceneManager.GetActiveScene().name == "ElevatorScene")
         {
@@ -52,7 +52,7 @@ public class MainMenuScript : MonoBehaviour
     //Call to get the player to start the elevator scene
     public void StartGame() 
     {
-        fadeController.FadeOutToSceen(3, 4);
+        fadeController.FadeOutToSceen(0.25f, 4);
     }
 
     //Call when the player gets killed by the monster
@@ -69,7 +69,7 @@ public class MainMenuScript : MonoBehaviour
             SceneManager.LoadScene(0); //if in the main gameplay scene, immediatly leave to main menu
         } 
         else {
-            fadeController.FadeOutToSceen(3, 0); //else fade away
+            fadeController.FadeOutToSceen(0.25f, 0); //else fade away
         }
     }
 

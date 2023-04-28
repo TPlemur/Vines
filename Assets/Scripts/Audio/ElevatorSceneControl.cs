@@ -33,7 +33,7 @@ public class ElevatorSceneControl : MonoBehaviour
     void Start()
     {
         fadeController = this.AddComponent<FadeController>();
-        fadeController.FadeIn(5);
+        fadeController.FadeIn(0.25f);
         skipSlider = skipSliderObj.GetComponent<Slider>();
         videoPlayer.started += VideoStarted;
         videoPlayer.loopPointReached += VideoFinished;
@@ -55,7 +55,7 @@ public class ElevatorSceneControl : MonoBehaviour
                 ending = false;
                 PlayerMovement.posRelElevator = player.transform.position + new Vector3(44.52f, 0.05f, -51.1f); //vector is difference in location between scenes
                 PlayerMovement.savedViewDir = player.transform.eulerAngles;
-                fadeController.FadeOutToSceen(3, 1);
+                fadeController.FadeOutToSceen(0.25f, 1);
             }
         }
         else {
@@ -87,6 +87,6 @@ public class ElevatorSceneControl : MonoBehaviour
     IEnumerator WaitAndEndScene()
     {
         yield return new WaitForSeconds(afterVideoWaitTime);
-        fadeController.FadeOutToSceen(3, 1); ;
+        fadeController.FadeOutToSceen(0.25f, 1); ;
     }
 }
