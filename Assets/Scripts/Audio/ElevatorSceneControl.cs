@@ -15,7 +15,7 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField]
     private Image fadeScreen;
     [SerializeField]
-    float fadeOut = 1;
+    float fadeOut = 1; //Set time of fade-out
     [SerializeField] float skipHoldTime = 1;
     [SerializeField] GameObject skipSliderObj;
     Slider skipSlider;
