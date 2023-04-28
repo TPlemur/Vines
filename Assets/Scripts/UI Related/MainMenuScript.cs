@@ -18,8 +18,17 @@ public class MainMenuScript : MonoBehaviour
     {
         fadeController = this.AddComponent<FadeController>();
         fadeController.FadeIn(5);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //set approprate lock mode
+        if(SceneManager.GetActiveScene().name == "ProtoPlayScene" || SceneManager.GetActiveScene().name == "ElevatorScene")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
         try {
             seedInput.text = UnityEngine.Random.Range(0, 2147483647).ToString();
         }
