@@ -25,6 +25,7 @@ public class Branch : MonoBehaviour
     bool deAnimate = false;
     public float delayTime = 2;
     float delayTimer = 0;
+    public bool wait = false;
 
     public bool iscloth = true;
     public float bendStiff = 5f;
@@ -105,6 +106,7 @@ public class Branch : MonoBehaviour
 
     void Update()
     {
+        if (wait) { return; }
         //grow
         if (animate)
         {
@@ -275,5 +277,16 @@ public class Branch : MonoBehaviour
     public void Remove()
     {
         Destroy(transform.parent.gameObject);
+    }
+
+    public void resetVine()
+    {
+        delayTimer = 0;
+        animate = true;
+        shrink = false;
+        deAnimate = false;
+        wait = true;
+        currentAmount = 0;
+        material.SetFloat(AMOUNT, currentAmount);
     }
 }
