@@ -10,6 +10,9 @@ public class SeekerTrigger : MonoBehaviour
     public bool toggle = false;
     bool isTog = false;
 
+    [SerializeField] GameObject monTarget;
+    [SerializeField] GameObject playerTarget;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,5 +57,15 @@ public class SeekerTrigger : MonoBehaviour
         {
             b.seekTarget = target;
         }
+    }
+
+    public void setOnPlayer()
+    {
+        setSeekTarget(playerTarget);
+    }
+
+    public void setOnMonster()
+    {
+        setSeekTarget(monTarget);
     }
 }
