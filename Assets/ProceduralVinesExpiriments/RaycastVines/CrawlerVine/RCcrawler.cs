@@ -54,8 +54,6 @@ public class RCcrawler : MonoBehaviour
         transform.position = Vector3.zero;
         RaycastHit hit;
         Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit, validSurfaces);
-        Debug.Log("asd;kjhja;lkerhgaewoihj");
-        Debug.DrawLine(hit.point, hit.point + new Vector3(0, 100, 0), new Color(0, 255, 0), 1000);
         branchNodes = createBranch(hit.point, hit.normal);
         init();
         doUpdate = true;
@@ -200,8 +198,15 @@ public class RCcrawler : MonoBehaviour
             if (Physics.Raycast(ray, out hit, segmentLength, validSurfaces))
             {
                 Vector3 p3 = hit.point;
-                if (isOccluded(p3, pos, normal))
+                
+                if ( false )//isOccluded(p3, pos, normal))
                 {
+                    if (pos.y > p3.y)
+                    {
+                        Vector3 middlePos = new Vector3(p3.x, pos.y, p3.z);
+                        Vector3 middleNorm = dir;
+                        Vector3 middleDir = normal;
+                    }
                     Vector3 middle = calculateMiddlePoint(p3, pos, (normal + dir) / 2);
                     Vector3 m0 = (pos + middle) / 2;
                     CrawlerNode m0Node = new CrawlerNode(m0, normal, dir, Mathf.Abs(Vector3.Magnitude(m0 - pos)));
@@ -211,6 +216,7 @@ public class RCcrawler : MonoBehaviour
                 }
                 else
                 {
+                
                     CrawlerNode p3Node = new CrawlerNode(p3, normal, dir, Mathf.Abs(Vector3.Magnitude(p3 - pos)));
                     nodes.Add(p3Node);
                     return nodes;
@@ -227,7 +233,7 @@ public class RCcrawler : MonoBehaviour
                 {
                     Vector3 p4 = hit.point;
                     //if an object exists between point and start
-                    if (isOccluded(p4, pos, normal))
+                    if (false)//isOccluded(p4, pos, normal))
                     {
                         Vector3 middle = calculateMiddlePoint(p4, pos, (normal + dir) / 2);
                         Vector3 m0 = (pos + middle) / 2;
@@ -248,7 +254,7 @@ public class RCcrawler : MonoBehaviour
                     Vector3 p4 = p3 - normal * segmentLength;
 
 
-                    if (isOccluded(p4, pos, normal))
+                    if (false)//isOccluded(p4, pos, normal))
                     {
                         Vector3 middle = calculateMiddlePoint(p4, pos, (normal + dir) / 2);
                         Vector3 m0 = (pos + middle) / 2;
