@@ -36,6 +36,9 @@ public class PatrolBehaviour : StateMachineBehaviour
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.PATROLLING);
         // set footstep intensity
         Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.4f);
+
+        //make vines chase player
+        GameObject.FindGameObjectWithTag("Vine").GetComponent<SeekerTrigger>().setOnMonster();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
