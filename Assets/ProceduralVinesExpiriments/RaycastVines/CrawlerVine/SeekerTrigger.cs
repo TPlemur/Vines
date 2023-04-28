@@ -82,7 +82,8 @@ public class SeekerTrigger : MonoBehaviour
 
         foreach(RCcrawler b in branches)
         {
-            yield return new WaitForSeconds(startDelay);
+            //wait one frame to stagger vine updates
+            yield return 0;
             b.spawn();
         }
     }
