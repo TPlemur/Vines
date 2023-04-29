@@ -11,7 +11,7 @@ public class RCcrawler : MonoBehaviour
     const float MaxAmount = 0.827f;
 
     //shader var inputs
-    [SerializeField] float crawlSpeed = 1;
+    public float crawlSpeed = 1;
     float currentAmountF = 0.827f;
     float currentAmountB = 0.827f;
     [SerializeField] LayerMask validSurfaces = ~0;
@@ -40,17 +40,20 @@ public class RCcrawler : MonoBehaviour
     //currently active nodes
     List<CrawlerNode> branchNodes;
 
+    bool doUpdate = false;
+    float amountPerNode;
+
     private void Start()
     {
         amountPerNode = MaxAmount / numNodes;
         currentAmountF -= amountPerNode;
-        StartCoroutine(spawnOnDelay());
+        //StartCoroutine(spawnOnDelay(1));
 
     }
 
-    IEnumerator spawnOnDelay()
+    public IEnumerator spawnOnDelay(float delay)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(delay);
         transform.position = Vector3.zero;
         RaycastHit hit;
         Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit, validSurfaces);
@@ -59,8 +62,16 @@ public class RCcrawler : MonoBehaviour
         doUpdate = true;
     }
 
-    bool doUpdate = false;
-    float amountPerNode;
+    public void spawn()
+    {
+        transform.position = Vector3.zero;
+        RaycastHit hit;
+        Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit, validSurfaces);
+        branchNodes = createBranch(hit.point, hit.normal);
+        init();
+        doUpdate = true;
+    }
+
     private void Update()
     {
         if (doUpdate)

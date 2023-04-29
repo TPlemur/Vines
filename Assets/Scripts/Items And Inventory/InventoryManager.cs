@@ -48,7 +48,6 @@ public class InventoryManager : MonoBehaviour
         inventory = new Inventory();
         scannerTargets = new List<GameObject>();
         addItem(typeof(ElectricalEquipment));
-        //StartCoroutine(addItemOnDelay(typeof(ElectricalEquipment)));
 
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;

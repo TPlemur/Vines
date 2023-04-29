@@ -11,13 +11,18 @@ public class SeekerTrigger : MonoBehaviour
     bool isTog = false;
 
     [SerializeField] GameObject monTarget;
+    [SerializeField] float monSpeed = 0.125f;
     [SerializeField] GameObject playerTarget;
+    [SerializeField] float playerSpeed = 0.08f;
+    [SerializeField] float initializationDelay = 1f;
+    [SerializeField] float startDelay = 0.01f;
 
     // Start is called before the first frame update
     void Start()
     {
         branches = gameObject.GetComponentsInChildren<RCcrawler>();
         gridBranches = gameObject.GetComponentsInChildren<CrawlerBranch>();
+        StartCoroutine(startVines());
     }
 
     // Update is called once per frame
@@ -51,21 +56,35 @@ public class SeekerTrigger : MonoBehaviour
         }
     }
 
-    public void setSeekTarget(GameObject target)
+    public void setSeekTarget(GameObject target, float speed)
     {
         foreach (RCcrawler b in branches)
         {
             b.seekTarget = target;
+            b.crawlSpeed = speed;
+       
         }
     }
 
     public void setOnPlayer()
     {
-        setSeekTarget(playerTarget);
+        setSeekTarget(playerTarget,playerSpeed);
     }
 
     public void setOnMonster()
     {
-        setSeekTarget(monTarget);
+        setSeekTarget(monTarget,monSpeed);
+    }
+
+    IEnumerator startVines()
+    {
+        yield return new WaitForSeconds(initializationDelay);
+
+        foreach(RCcrawler b in branches)
+        {
+            //wait one frame to stagger vine updates
+            yield return 0;
+            b.spawn();
+        }
     }
 }
