@@ -11,10 +11,10 @@ public class RCcrawler : MonoBehaviour
     const float MaxAmount = 0.827f;
 
     //shader var inputs
-    [SerializeField] float crawlSpeed = 1;
+    public float crawlSpeed = 1;
     float currentAmountF = 0.827f;
     float currentAmountB = 0.827f;
-    LayerMask validSurfaces = ~0;
+    [SerializeField] LayerMask validSurfaces = ~0;
     float timer = 0;
 
     //mesh Properties
@@ -34,25 +34,44 @@ public class RCcrawler : MonoBehaviour
     public bool isSeek = false;
     public GameObject seekTarget;
     [SerializeField] float SeakStrength = 0.5f;
+    public bool isSense = false;
+    [SerializeField] float senseRad = 0.25f;
 
     //currently active nodes
     List<CrawlerNode> branchNodes;
+
+    bool doUpdate = false;
+    float amountPerNode;
 
     private void Start()
     {
         amountPerNode = MaxAmount / numNodes;
         currentAmountF -= amountPerNode;
+        //StartCoroutine(spawnOnDelay(1));
 
+    }
+
+    public IEnumerator spawnOnDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         transform.position = Vector3.zero;
         RaycastHit hit;
-        Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit);
+        Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit, validSurfaces);
         branchNodes = createBranch(hit.point, hit.normal);
         init();
         doUpdate = true;
     }
 
-    bool doUpdate = false;
-    float amountPerNode;
+    public void spawn()
+    {
+        transform.position = Vector3.zero;
+        RaycastHit hit;
+        Physics.Raycast(spawningObj.transform.position, -spawningObj.transform.up, out hit, validSurfaces);
+        branchNodes = createBranch(hit.point, hit.normal);
+        init();
+        doUpdate = true;
+    }
+
     private void Update()
     {
         if (doUpdate)
@@ -61,6 +80,15 @@ public class RCcrawler : MonoBehaviour
             if (timer > crawlSpeed)
             {
                 addNode(branchNodes);
+                if (isSense)
+                {
+                    SphereCollider col = gameObject.AddComponent<SphereCollider>();
+                    col.isTrigger = true;
+                    col.radius = senseRad;
+                    col.center = branchNodes[branchNodes.Count - 1].getPosition();
+                    branchNodes[branchNodes.Count - 1].col = col;
+                }
+                Destroy(branchNodes[0].col);
                 branchNodes.RemoveAt(0);
                 mesh = createMesh(branchNodes);
                 meshFilter.mesh = mesh;
@@ -181,8 +209,15 @@ public class RCcrawler : MonoBehaviour
             if (Physics.Raycast(ray, out hit, segmentLength, validSurfaces))
             {
                 Vector3 p3 = hit.point;
-                if (isOccluded(p3, pos, normal))
+                
+                if ( false )//isOccluded(p3, pos, normal))
                 {
+                    if (pos.y > p3.y)
+                    {
+                        Vector3 middlePos = new Vector3(p3.x, pos.y, p3.z);
+                        Vector3 middleNorm = dir;
+                        Vector3 middleDir = normal;
+                    }
                     Vector3 middle = calculateMiddlePoint(p3, pos, (normal + dir) / 2);
                     Vector3 m0 = (pos + middle) / 2;
                     CrawlerNode m0Node = new CrawlerNode(m0, normal, dir, Mathf.Abs(Vector3.Magnitude(m0 - pos)));
@@ -192,6 +227,7 @@ public class RCcrawler : MonoBehaviour
                 }
                 else
                 {
+                
                     CrawlerNode p3Node = new CrawlerNode(p3, normal, dir, Mathf.Abs(Vector3.Magnitude(p3 - pos)));
                     nodes.Add(p3Node);
                     return nodes;
@@ -208,7 +244,7 @@ public class RCcrawler : MonoBehaviour
                 {
                     Vector3 p4 = hit.point;
                     //if an object exists between point and start
-                    if (isOccluded(p4, pos, normal))
+                    if (false)//isOccluded(p4, pos, normal))
                     {
                         Vector3 middle = calculateMiddlePoint(p4, pos, (normal + dir) / 2);
                         Vector3 m0 = (pos + middle) / 2;
@@ -229,7 +265,7 @@ public class RCcrawler : MonoBehaviour
                     Vector3 p4 = p3 - normal * segmentLength;
 
 
-                    if (isOccluded(p4, pos, normal))
+                    if (false)//isOccluded(p4, pos, normal))
                     {
                         Vector3 middle = calculateMiddlePoint(p4, pos, (normal + dir) / 2);
                         Vector3 m0 = (pos + middle) / 2;
@@ -352,4 +388,5 @@ public class RCcrawler : MonoBehaviour
         float t = Mathf.InverseLerp(oldLow, oldHigh, input);
         return Mathf.Lerp(newLow, newHigh, t);
     }
+
 }

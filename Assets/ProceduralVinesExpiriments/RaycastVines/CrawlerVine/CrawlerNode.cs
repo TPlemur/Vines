@@ -6,6 +6,7 @@ public class CrawlerNode
     Vector3 normal;
     Vector3 dir;
     float dist;
+    public Collider col;
 
     public CrawlerNode(Vector3 position, Vector3 normal, Vector3 dir, float dist)
     {

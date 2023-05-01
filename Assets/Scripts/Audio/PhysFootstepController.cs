@@ -40,6 +40,8 @@ public class PhysFootstepController : MonoBehaviour
     public bool IsGrounded() { return charController.IsGrounded(); }
     public bool IsCrouching() { return charController.IsCrouching(); }
 
+    public event System.Action stepped;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -138,6 +140,7 @@ public class PhysFootstepController : MonoBehaviour
     {
         DetermineTerrain();
         PlayFootstep();
+        stepped?.Invoke();
     }
 
     void DetermineTerrain()

@@ -46,8 +46,8 @@ public class InventoryManager : MonoBehaviour
     {
         //instantiate EE as monobehavior within unity higerarchy
         inventory = new Inventory();
+        scannerTargets = new List<GameObject>();
         addItem(typeof(ElectricalEquipment));
-        StartCoroutine(addItemOnDelay(typeof(Scanner)));
 
         eeOrigPos = inventory.GetEquippedGameObject().transform.localPosition;
         eeOrigRot = inventory.GetEquippedGameObject().transform.localRotation;
@@ -192,7 +192,7 @@ public class InventoryManager : MonoBehaviour
             switch (item)
             {
                 case ElectricalEquipment EE:
-                    EE.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI);
+                    EE.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI, scannerTargets);
                     break;
                 case PVTM pvtm:
                     pvtm.setup(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -200,7 +201,9 @@ public class Warehouse{
 
     // Place All Landmark rooms
     private void PlaceLandmarks(){
-        this.PlaceLandmarksFrom(this.special);
+        this.PlaceLandmarksFrom(this.alphaTeamRoom);
+        this.PlaceLandmarksFrom(this.generatorRoom);
+        this.PlaceLandmarksFrom(this.shieldRoom);
         this.PlaceLandmarksFrom(this.cameras);
         this.PlaceLandmarksFrom(this.hiding);
         this.PlaceLandmarksFrom(this.tripwire);
@@ -215,17 +218,14 @@ public class Warehouse{
      * Landmarks to place.
      */
     private void PlaceLandmarksFrom(List<Landmark> list){
-        while(list.Count != 0){
-            Room random = GetRandomGeneric();
-            foreach(Landmark landmark in list){
-                float dist = random.DistanceTo(this.startRoom);
-                if(landmark.InRange(dist)){
-                    random.type = landmark;
-                    random.ConnectToRandom();
-                    list.RemoveAt(list.IndexOf(landmark));
-                    break;
-                }
-            }
+        List<Room> roomList = GetGenericInRange(list[0].minDist, list[0].maxDist);
+        foreach (Landmark landmark in list)
+        {
+            if (roomList.Count == 0) break;
+            Room random = roomList[UnityEngine.Random.Range(0, roomList.Count - 1)];
+            random.type = landmark;
+            random.ConnectToRandom();
+            roomList.RemoveAt(roomList.IndexOf(random));
         }
     }
 
@@ -238,16 +238,21 @@ public class Warehouse{
         return data[row][column];
     }
 
-    /* GetRandomGeneric() will choose a random genric room
+    /* GetGenericInRange() will generate a list of genric rooms within the given range
      */
-    private Room GetRandomGeneric(){
-        while(true){
-            int row = UnityEngine.Random.Range(0, this.rows - 1);
-            int column = UnityEngine.Random.Range(0, this.columns -1);
-            if(data[row][column].type.GetType() == typeof(Generic)){
-                return data[row][column];
+    private List<Room> GetGenericInRange(float min, float max)
+    {
+        List<Room> list = new List<Room>();
+        foreach (List<Room> row in data){
+            foreach (Room room in row){
+                float dist = room.DistanceTo(this.startRoom);
+                if (dist >= min && dist <= max && room.type.GetType() == typeof(Generic))
+                {
+                    list.Add(room);
+                }
             }
         }
+        return list;
     }
 
     /* PlacePlayerAndMonster() will place the player, camera, 

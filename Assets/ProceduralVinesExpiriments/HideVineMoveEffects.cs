@@ -7,12 +7,14 @@ public class HideVineMoveEffects : MonoBehaviour
     //call to make vines drift outward
     public void startDrift()
     {
+        isDrift = true;
         StartCoroutine(drift(Vector3.zero, XMacceleration, Vector3.zero, XPacceleration, oldMaxDist, newMaxDist));
     }
 
     //call to make vines drift back to origional settings
     public void stopDrift()
     {
+        isDrift = false;
         StartCoroutine(drift(XMacceleration, Vector3.zero, XPacceleration, Vector3.zero, newMaxDist, oldMaxDist));
     }
 
@@ -23,15 +25,20 @@ public class HideVineMoveEffects : MonoBehaviour
     [SerializeField] Vector3 XPacceleration = new Vector3(5, 0, 0);
     [SerializeField] float newMaxDist = 1;
     [SerializeField] float driftTime = 6;
+    [SerializeField] float activDist = 5;
 
     Cloth[] XMcloth;
     Cloth[] XPcloth;
     float timer = 0;
     float oldMaxDist;
+
+    GameObject player;
+    bool isDrift = false;
     
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
         StartCoroutine(lateStart());
     }
 
@@ -51,9 +58,14 @@ public class HideVineMoveEffects : MonoBehaviour
         timer = 0;
         while (timer < driftTime)
         {
+            Vector3 nmWorld = transform.localToWorldMatrix * newMdrift;
+            Vector3 npWorld = transform.localToWorldMatrix * newPdrift;
+            Vector3 omWorld = transform.localToWorldMatrix * oldMdrift;
+            Vector3 opWorld = transform.localToWorldMatrix * oldPdrift;
+
             timer += Time.deltaTime;
-            Vector3 tempXMaccel = Vector3.Lerp(oldMdrift, newMdrift, timer / driftTime);
-            Vector3 tempXPaccel = Vector3.Lerp(oldPdrift, newPdrift, timer / driftTime);
+            Vector3 tempXMaccel = Vector3.Lerp(omWorld, nmWorld, timer / driftTime);
+            Vector3 tempXPaccel = Vector3.Lerp(opWorld, npWorld, timer / driftTime);
             float skinn = Mathf.Lerp(oldMax, newMax, timer / driftTime);
             ClothSkinningCoefficient[] skinns = XMcloth[0].coefficients;
             for (int i = 0; i < skinns.Length; i++)
@@ -78,24 +90,23 @@ public class HideVineMoveEffects : MonoBehaviour
     }
 
 
-    //Debug manual toggle
-    /*
-    [SerializeField] bool doDrift = false;
-    bool isDrift = false;
-
     // Update is called once per frame
     void Update()
     {
-        if (doDrift && !isDrift)
+        //start drift on player proximity
+        if ((player.transform.position - transform.position).magnitude < activDist)
         {
-            startDrift();
-            isDrift = true;
+            if (!isDrift)
+            {
+                startDrift();
+            }
         }
-        if (!doDrift && isDrift)
+        else
         {
-            stopDrift();
-            isDrift = false;
+            if (isDrift)
+            {
+                stopDrift();
+            }
         }
     }
-    */
 }

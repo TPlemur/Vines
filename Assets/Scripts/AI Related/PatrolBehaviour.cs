@@ -36,6 +36,9 @@ public class PatrolBehaviour : StateMachineBehaviour
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.PATROLLING);
         // set footstep intensity
         Mob.GetComponentInChildren<SplitjawFootstepController>().SetIntensity(0.4f);
+
+        //make vines chase player
+        GameObject.FindGameObjectWithTag("Vine").GetComponent<SeekerTrigger>().setOnMonster();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -69,10 +72,6 @@ public class PatrolBehaviour : StateMachineBehaviour
                     Mob.SetDestination(patrolPos);
                     Mob.speed = 3;
                 }
-            }else if (GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ //One time hunt event as a result of the generator turning on
-                animator.SetBool("isInvestigating", true);
-                mobBrain.huntedGeneratorEvent = true;
-                mobBrain.investigating = true;
             }else{  // Patrol to random location on navmesh
                 patrolPos = RandomNavmeshLocation(patrolRadius);
                 Mob.SetDestination(patrolPos);

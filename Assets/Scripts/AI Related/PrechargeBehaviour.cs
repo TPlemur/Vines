@@ -32,6 +32,10 @@ public class PrechargeBehaviour : StateMachineBehaviour
         // AUDIO
         //FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseState", (float)MixerController.CHASE_STATE.CHASING);
         Mob.GetComponentInChildren<MonsterSounds>().StartPreCharge();
+
+
+        //make vines chase player
+        GameObject.FindGameObjectWithTag("Vine").GetComponent<SeekerTrigger>().setOnPlayer();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

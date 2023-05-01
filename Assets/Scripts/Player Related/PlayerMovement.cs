@@ -8,13 +8,16 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
     Brain mobBrain;
+    static public Vector3 posRelElevator = new Vector3(44.58f,2.29f,-37.70f);
+    static public Vector3 savedViewDir;
 
     [Header("Movement")]
     public float moveSpeed;
     public float groundDrag;
     public float vineDrag = 0.5f;
     public float dragCap = 4;
-    public CapsuleCollider capsuleCol;
+    public CapsuleCollider FloorCollider;
+    public CapsuleCollider WallsCollider;
 
     float numVines = 0;
 
@@ -55,6 +58,16 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         mobBrain = Monster.GetComponentInChildren<Brain>();
+
+        //if protoPlay place player relitive to elevator
+        //BROKEN IF ELEVATOR ROOM ROTATES
+        string SceneName = SceneManager.GetActiveScene().name;
+        if(SceneName == "ProtoPlayScene")
+        {
+
+            //GameObject elevConsole = GameObject.Find("Elevator_Interface_Test");elevConsole.transform.position + 
+            transform.position = posRelElevator;
+        }
     }
 
     // Update is called once per frame
@@ -96,7 +109,12 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer(){
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        if (Input.GetKey(KeyCode.S)) {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 4f, ForceMode.Force);
+        }
+        else {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        }
     }
 
     private void SpeedCapper(){
@@ -108,11 +126,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    [SerializeField] float crouchHeight;
+
     private void Crouch(){
         if(Input.GetKeyDown(crouchKey)){
             if(!crouching){
                 crouching = true;
-                capsuleCol.height = 1;
+                FloorCollider.height = 1;
+                WallsCollider.height = 0.8f;
                 moveSpeed /= 2;
             }
             else if(crouching && ToggleCrouch){
@@ -128,7 +150,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void UnCrouch(){
-        capsuleCol.height = 2;
+        FloorCollider.height = 2;
+        WallsCollider.height = 1.8f;
         crouching = false;
         moveSpeed *= 2;
     }
