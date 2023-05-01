@@ -162,6 +162,17 @@ public class ShieldRoom : Landmark{
     }
 }
 
+public class HoleRoom : Landmark{
+    public HoleRoom(){
+        path = "ProcgenGreyboxesTextured/room-hole-";
+        minDist = 1.5f;
+        maxDist = 3.5f;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return this.LoadLandmark(dirs);
+    }
+}
+
 // Trip wire, Camera, and Hiding Rooms
 public class TripWire : Landmark{
     public TripWire(){

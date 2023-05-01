@@ -27,9 +27,10 @@ public class Warehouse{
     public int rows;
 
     // List containing landmark rooms to make, add appropriate landmark subclass to list
-    private List<Landmark> alphaTeamRoom  = new List<Landmark>(new Landmark[] {new AlphaTeam()});
+    private List<Landmark> alphaTeamRoom  = new List<Landmark>(new Landmark[] { new AlphaTeam() });
     private List<Landmark> generatorRoom = new List<Landmark>(new Landmark[] { new Generator() });
     private List<Landmark> shieldRoom = new List<Landmark>(new Landmark[] { new ShieldRoom() });
+    private List<Landmark> holeRoom = new List<Landmark>(new Landmark[] { new HoleRoom() });
     private List<Landmark> cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
     private List<Landmark> hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
     private List<Landmark> tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
@@ -82,6 +83,7 @@ public class Warehouse{
         alphaTeamRoom  = new List<Landmark>(new Landmark[] {new AlphaTeam()});
         generatorRoom  = new List<Landmark>(new Landmark[] {new Generator()});
         shieldRoom  = new List<Landmark>(new Landmark[] {new ShieldRoom()});
+        holeRoom = new List<Landmark>(new Landmark[] {new HoleRoom()});
         cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
         hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
         tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
@@ -208,6 +210,7 @@ public class Warehouse{
         this.PlaceLandmarksFrom(this.alphaTeamRoom);
         this.PlaceLandmarksFrom(this.generatorRoom);
         this.PlaceLandmarksFrom(this.shieldRoom);
+        this.PlaceLandmarksFrom(this.holeRoom);
         this.PlaceLandmarksFrom(this.cameras);
         this.PlaceLandmarksFrom(this.hiding);
         this.PlaceLandmarksFrom(this.tripwire);
