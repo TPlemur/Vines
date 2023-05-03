@@ -132,15 +132,23 @@ public class InventoryManager : MonoBehaviour
             //add approprate item to inventory
             if (interact.tag == "PVTM" && !inventory.Has(typeof(PVTM))) {
                 addItem(typeof(PVTM));
+                Destroy(interact.gameObject);
             }
             if (interact.tag == "Shield" && !inventory.Has(typeof(Shield)))
             {
                 addItem(typeof(Shield));
+                Destroy(interact.gameObject);
             }
             if (interact.tag == "Flashlight" && !inventory.Has(typeof(Flashlight))) {
                 addItem(typeof(Flashlight));
+                Destroy(interact.gameObject);
             }
-            Destroy(interact.gameObject);
+            //Activate valve
+            if (interact.tag == "Valve")
+            {
+                interact.gameObject.GetComponent<ValveInteractable>().startInteract(interactKey);
+            }
+
         }
     }
 
@@ -152,6 +160,7 @@ public class InventoryManager : MonoBehaviour
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f))
         {
             var interact = hit.transform;
+            //Toggle Items
             if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
             {
                 PText.transform.GetComponent<TextMeshProUGUI>().text = "Pick up " + interact.tag;
@@ -159,17 +168,30 @@ public class InventoryManager : MonoBehaviour
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
+            //toggle valves
+            else if (interact.tag == "Valve")
+            {
+
+                PText.transform.GetComponent<TextMeshProUGUI>().text = "Turn Valve";
+                PText.SetActive(true);
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
+            //toggle electrical panel
             else if (interact.tag == "ElectricalPanel")
             {
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
+            //toggle off
             else if (lastOutline != null)
             {
+
                 PText.SetActive(false);
                 lastOutline.Off();
             }
         }
+        //also toggle off
         else if (lastOutline != null)
         {
             PText.SetActive(false);
