@@ -101,6 +101,7 @@ public class ObjectiveScript : MonoBehaviour
         Time.timeScale = 0;
         SetUIElements(false);
         Cursor.lockState = CursorLockMode.Confined; //unlock cursor on resume
+        Cursor.visible = true;
     }
 
     public void ResumeGame()
@@ -109,6 +110,7 @@ public class ObjectiveScript : MonoBehaviour
         Time.timeScale = 1;
         SetUIElements(true);
         Cursor.lockState = CursorLockMode.Locked; //relock cursor on resume
+
     }
 
     public void SetUIElements(bool status){
