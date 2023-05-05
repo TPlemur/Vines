@@ -4,21 +4,6 @@ using UnityEngine;
 
 public class HideVineMoveEffects : MonoBehaviour
 {
-    //call to make vines drift outward
-    public void startDrift()
-    {
-        isDrift = true;
-        StartCoroutine(drift(Vector3.zero, XMacceleration, Vector3.zero, XPacceleration, oldMaxDist, newMaxDist));
-    }
-
-    //call to make vines drift back to origional settings
-    public void stopDrift()
-    {
-        isDrift = false;
-        StartCoroutine(drift(XMacceleration, Vector3.zero, XPacceleration, Vector3.zero, newMaxDist, oldMaxDist));
-    }
-
-
     [SerializeField] GameObject XMBranches;
     [SerializeField] GameObject XPBranches;
     [SerializeField] Vector3 XMacceleration = new Vector3(-5, 0, 0);
@@ -31,6 +16,8 @@ public class HideVineMoveEffects : MonoBehaviour
     Cloth[] XPcloth;
     float timer = 0;
     float oldMaxDist;
+    Vector3 oldXMacceleration = new Vector3(-5, 0, 0);
+    Vector3 oldXPacceleration = new Vector3(5, 0, 0);
 
     GameObject player;
     bool isDrift = false;
@@ -52,31 +39,29 @@ public class HideVineMoveEffects : MonoBehaviour
         oldMaxDist = XMcloth[0].gameObject.GetComponent<Branch>().maxMove;
     }
 
-    //lerps drift and max movement between values
-    IEnumerator drift(Vector3 oldMdrift, Vector3 newMdrift, Vector3 oldPdrift, Vector3 newPdrift, float oldMax, float newMax)
+    //interpolates drift acording to currnet state of timer
+    void driftInterpolate()
     {
-        timer = 0;
-        while (timer < driftTime)
-        {
-            Vector3 nmWorld = transform.localToWorldMatrix * newMdrift;
-            Vector3 npWorld = transform.localToWorldMatrix * newPdrift;
-            Vector3 omWorld = transform.localToWorldMatrix * oldMdrift;
-            Vector3 opWorld = transform.localToWorldMatrix * oldPdrift;
+        Vector3 currentXMDrift = new Vector3(Mathf.Lerp(oldXMacceleration.x, XMacceleration.x, timer / driftTime), 
+                                             Mathf.Lerp(oldXMacceleration.y, XMacceleration.y, timer / driftTime), 
+                                             Mathf.Lerp(oldXMacceleration.z, XMacceleration.z, timer / driftTime));
 
-            timer += Time.deltaTime;
-            Vector3 tempXMaccel = Vector3.Lerp(omWorld, nmWorld, timer / driftTime);
-            Vector3 tempXPaccel = Vector3.Lerp(opWorld, npWorld, timer / driftTime);
-            float skinn = Mathf.Lerp(oldMax, newMax, timer / driftTime);
-            ClothSkinningCoefficient[] skinns = XMcloth[0].coefficients;
-            for (int i = 0; i < skinns.Length; i++)
-            {
-                skinns[i].maxDistance = skinn;
-            }
-            skinns[0].maxDistance = 0.0f;
-            setCloth(XMcloth, tempXMaccel, skinns);
-            setCloth(XPcloth, tempXPaccel, skinns);
-            yield return null;
+        Vector3 currentXPDrift = new Vector3(Mathf.Lerp(oldXPacceleration.x, XPacceleration.x, timer / driftTime),
+                                             Mathf.Lerp(oldXPacceleration.y, XPacceleration.y, timer / driftTime),
+                                             Mathf.Lerp(oldXPacceleration.z, XPacceleration.z, timer / driftTime));
+
+        currentXMDrift = transform.localToWorldMatrix * currentXMDrift;
+        currentXPDrift = transform.localToWorldMatrix * currentXPDrift;
+
+        float skinCoef = Mathf.Lerp(oldMaxDist, newMaxDist, timer / driftTime);
+        ClothSkinningCoefficient[] skinns = XMcloth[0].coefficients;
+        for (int i = 0; i < skinns.Length; i++)
+        {
+            skinns[i].maxDistance = skinCoef;
         }
+        skinns[0].maxDistance = 0.0f;
+        setCloth(XMcloth, currentXMDrift, skinns);
+        setCloth(XPcloth, currentXPDrift, skinns);
     }
 
     //helper function to set all cloth obj parameter
@@ -88,7 +73,7 @@ public class HideVineMoveEffects : MonoBehaviour
             c.coefficients = cs;
         }
     }
-
+    
 
     // Update is called once per frame
     void Update()
@@ -96,17 +81,19 @@ public class HideVineMoveEffects : MonoBehaviour
         //start drift on player proximity
         if ((player.transform.position - transform.position).magnitude < activDist)
         {
-            if (!isDrift)
+            if (timer<driftTime)
             {
-                startDrift();
+                timer += Time.deltaTime;
             }
         }
         else
         {
-            if (isDrift)
+            if (timer>0)
             {
-                stopDrift();
+                timer -= Time.deltaTime;
             }
         }
+        driftInterpolate();
+
     }
 }

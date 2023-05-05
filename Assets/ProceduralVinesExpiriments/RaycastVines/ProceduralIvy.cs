@@ -5,46 +5,44 @@ using UnityEngine;
 public class ProceduralIvy : MonoBehaviour
 {
     [Header("Required")]
-    public GameObject[] targetObjs;
-    public Material branchMaterial;
+    public GameObject[] targetObjs;        //vines will spawn at the end of a cast in the -y direction
+    public Material branchMaterial;        //Must be set to an approprate branch material
     [Space]
     [Header("Physical Characteristics")]
-    public int branches = 3;
-    public int maxPointsForBranch = 60;
-    public float segmentLength = .15f;
-    public float branchRadius = 0.04f;
-    public LayerMask validSurfaces = ~0;
+    public int branches = 3;               //number of branches spawnend in this cluster
+    public int maxPointsForBranch = 60;    //the number of nodes spawned for this branch
+    public float segmentLength = .15f;     //the length between each node "maxPointsForBranch" * "segmentLength" is the aprox length of the vine
+    public float branchRadius = 0.04f;     //the approximate radius of the branch
+    public LayerMask validSurfaces = ~0;   //determines what colliders vines will grow across
 
     [Space]
     [Header("Spawning Characteristics")]
-    public float lowAngle = 0;
-    public float highAngle = 360f;
-    public bool useTargetForAngle = false;
+    public float lowAngle = 0;              //minimum spawn angle
+    public float highAngle = 360f;          //maximum spawn angle (clusters spawn evenly and randomly between these)
+    public bool useTargetForAngle = false;  //determines if target.transform.forward is used as the initial angle
     [Space]
-    public float branchDelay = 0.75f;
-    public float branchGrowSpeed = 1;
-    public float branchShrinkSpeed = 1;
-    public float initialDelay = 0;
+    public float branchDelay = 0.75f;       //time in seconds between clusters of vines if "continuousVines"
+    public float branchGrowSpeed = 1;       //time in seconds between zero and fully grown
+    public float branchShrinkSpeed = 1;     //time in seconds between full grown and fully shrunk
+    public float initialDelay = 0;          //if "vinesAtStart" delay before vines start growing
     
     [Space]
     [Header("Branch Behavior")]
     [Space]
-    public bool vinesAtStart = false;
-    public bool continuousVines = true;
-    public bool WitherBranch = true;
-    public float timeAtGrown = 2;
-    public bool canSense = false;
-    public float senseMultiplier = 1;
-    public string objTag = "Vine";
+    public bool vinesAtStart = false;       //determines if vines will spanwn from the start function
+    public bool continuousVines = true;     //determines if vines will continue to spawn from this
+    public bool WitherBranch = true;        //determines if branches will shrink and be destroyed after growing
+    public float timeAtGrown = 2;           //time in seconds spent at max size
+    public bool canSense = false;           //if collideers should be spawned
+    public float senseMultiplier = 1;       //collider size = "senseMultiplier" * "branchRadius"
+    public string objTag = "Vine";          //object tag applied to each branch
     public bool wait = false;
 
     [Header("Cloth Settings")]
-    public bool isCloth = false;
-    public float bendstiffness = 5;
-    public float maxDist = 0.5f;
-    public CapsuleCollider[] clothColliders;
-    [Space]
-    public float recycleInterval = 30;
+    public bool isCloth = false;            //determines if the branch should have cloth physics
+    public float bendstiffness = 5;         //the stiffness coeficiant of the branch's cloth
+    public float maxDist = 0.5f;            //the max travel distance of the branch's cloth
+    public CapsuleCollider[] clothColliders;//colliders that interact with the branch's cloth
 
 
     int ivyCount = 0;

@@ -40,6 +40,7 @@ public class FadeController : MonoBehaviour{
         fadeHolder = new GameObject();
         fadeHolder.transform.SetParent(canvas.transform, false);
         group = fadeHolder.AddComponent<CanvasGroup>();
+        group.alpha = 0;
         fadeImage = fadeHolder.AddComponent<Image>();
         fadeImage.color = Color.black;
         fadeImage.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
