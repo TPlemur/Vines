@@ -13,6 +13,9 @@ public class MainMenuScript : MonoBehaviour
     private FadeController fadeController;
     public TMP_InputField seedInput;
     public TMP_Text text;
+    public Toggle story;
+    public Toggle radar;
+    public Toggle timer;
 
     void Start()
     {
@@ -49,10 +52,17 @@ public class MainMenuScript : MonoBehaviour
             text.gameObject.SetActive(true);
         }
     }
+
+
     //Call to get the player to start the elevator scene
     public void StartGame() 
     {
-        fadeController.FadeOutToSceen(0.25f, 4);
+        if (story.isOn) {
+            fadeController.FadeOutToSceen(0.25f, 4);
+        }
+        else {
+            fadeController.FadeOutToSceen(0.25f, 1);
+        }
     }
 
     //Call when the player gets killed by the monster
