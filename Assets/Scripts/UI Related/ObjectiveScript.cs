@@ -56,7 +56,7 @@ public class ObjectiveScript : MonoBehaviour
             ActiveUI.Add(objective);
             objective.SetActive(true);
             // subtract the ui elements height from the current y offset
-            UIyOffset -= rt.rect.height;
+            UIyOffset -= rt.rect.height/2;
         }
     }
 
@@ -67,8 +67,8 @@ public class ObjectiveScript : MonoBehaviour
             ActiveUI.RemoveAt(index);
             // get height of element just removed, adjust all current elements, add to current y offset
             float height = objective.transform.GetComponent<RectTransform>().rect.height;
-            AdjustActiveUI(index, height);
-            UIyOffset += height;
+            AdjustActiveUI(index, height/2);
+            UIyOffset += height/2;
         }
     }
 
