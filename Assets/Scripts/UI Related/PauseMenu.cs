@@ -10,11 +10,22 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject SettingLevel;
 
 
+    [SerializeField] GameObject EquipmentLevel;
+    [SerializeField] List<GameObject> EquipPages;
+    int EquipcurrnetPage = 0;
+
+    [SerializeField] GameObject CaseLevel;
+    [SerializeField] List<GameObject> CasePages;
+    int caseCurrnetPage = 0;
+
+
     enum menuState
     {
         off,
         main,
-        settings
+        settings,
+        equip,
+        Case
     }
     menuState currentState = menuState.off;
 
@@ -27,6 +38,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //manage page changes/pause unpause
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             switch (currentState)
@@ -38,11 +50,41 @@ public class PauseMenu : MonoBehaviour
                     ResumeGame();
                     break;
                 case menuState.settings:
-                    SettingsToMain();
+                    PageToMain(SettingLevel);
+                    break;
+                case menuState.equip:
+                    PageToMain(EquipmentLevel);
+                    break;
+                case menuState.Case:
+                    PageToMain(CaseLevel);
                     break;
             }
+        }
 
-           
+        //manage sub-page changes
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            switch (currentState)
+            {
+                case menuState.equip:
+                    advPage(EquipPages,ref EquipcurrnetPage, true);
+                    break;
+                case menuState.Case:
+                    advPage(CasePages,ref caseCurrnetPage, true);
+                    break;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            switch (currentState)
+            {
+                case menuState.equip:
+                    advPage(EquipPages,ref EquipcurrnetPage, false);
+                    break;
+                case menuState.Case:
+                    advPage(CasePages,ref caseCurrnetPage, false);
+                    break;
+            }
         }
     }
 
@@ -65,6 +107,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; //relock cursor on resume
     }
 
+    //go to settings
     public void MainToSettings()
     {
         MainLevel.SetActive(false);
@@ -72,12 +115,44 @@ public class PauseMenu : MonoBehaviour
         currentState = menuState.settings;
     }
 
-    public void SettingsToMain()
+    //go to case files
+    public void MainToCase()
+    {
+        MainLevel.SetActive(false);
+        CaseLevel.SetActive(true);
+        currentState = menuState.Case;
+    }
+
+    //go to equip
+    public void MainToEquip()
+    {
+        MainLevel.SetActive(false);
+        EquipmentLevel.SetActive(true);
+        currentState = menuState.equip;
+    }
+
+    //Deactivate page, activate main menu
+    void PageToMain(GameObject page)
     {
         MainLevel.SetActive(true);
-        SettingLevel.SetActive(false);
+        page.SetActive(false);
         currentState = menuState.main;
         FolderSFX();
+    }
+
+    //Switch sub-pages
+    void advPage(List<GameObject> List, ref int current, bool forward)
+    {
+        List[current].SetActive(false);
+        if (forward){
+            current++;
+            if(current == List.Count) { current = 0; }
+        }
+        else {
+            current--;
+            if(current == -1) { current = List.Count - 1; }
+        }
+        List[current].SetActive(true);
     }
 
     private void FolderSFX()
