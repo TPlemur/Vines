@@ -89,6 +89,11 @@ public class PatrolBehaviour : StateMachineBehaviour
             Mob.velocity = Vector3.zero;
             animator.SetBool("isCharging", true);
         }
+        // Enters charge state if the player takes a picture of the monster
+        if(!mobBrain.picTakenEvent && GameStateManager.ValidSplitjawPic){
+            Mob.velocity = Vector3.zero;
+            animator.SetBool("isCharging", true);
+        }
     }
 
     // Finds a random location on the navmesh within a radius around the player, then returns it
