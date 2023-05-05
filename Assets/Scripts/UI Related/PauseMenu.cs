@@ -77,5 +77,14 @@ public class PauseMenu : MonoBehaviour
         MainLevel.SetActive(true);
         SettingLevel.SetActive(false);
         currentState = menuState.main;
+        FolderSFX();
+    }
+
+    private void FolderSFX()
+    {
+        const string eventName = "event:/UI/Envelope/Folder";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
     }
 }
