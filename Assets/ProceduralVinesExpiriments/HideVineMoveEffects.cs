@@ -37,6 +37,7 @@ public class HideVineMoveEffects : MonoBehaviour
         XPcloth = XPBranches.GetComponentsInChildren<Cloth>();
 
         oldMaxDist = XMcloth[0].gameObject.GetComponent<Branch>().maxMove;
+        isDrift = true;
     }
 
     //interpolates drift acording to currnet state of timer
@@ -93,7 +94,10 @@ public class HideVineMoveEffects : MonoBehaviour
                 timer -= Time.deltaTime;
             }
         }
-        driftInterpolate();
+        if (isDrift)
+        {
+            driftInterpolate();
+        }
 
     }
 }
