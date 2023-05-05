@@ -15,6 +15,7 @@ public class GameStateManager : MonoBehaviour
     public static bool TrapArmed;
     public static bool SplitjawTrapped;
     public static bool ValidSplitjawPic;
+    bool switchTextNeeded = true;
 
     [Header("Other")]
     public GameObject Warehouse;
@@ -80,7 +81,7 @@ public class GameStateManager : MonoBehaviour
             OBJSC.AddToActiveUI(OBJSC.CameraObj);
         }
         //add switch ui if first pickup
-        if (FlashlightAcquired ^ ShieldAcquired ^ PVTMAcquired) { OBJSC.AddToActiveUI(OBJSC.switchText); }
+        if (switchTextNeeded) { OBJSC.AddToActiveUI(OBJSC.switchText); switchTextNeeded = false; }
     }
 
     public void FlashlightObtained(){
@@ -90,7 +91,7 @@ public class GameStateManager : MonoBehaviour
         // code/sounds/animations/UI for after acquiring Flashlight
         OBJSC.RemoveFromActiveUI(OBJSC.FlashObj);
         //add switch ui if first pickup
-        if (FlashlightAcquired ^ ShieldAcquired ^ PVTMAcquired) { OBJSC.AddToActiveUI(OBJSC.switchText); }
+        if (switchTextNeeded) { OBJSC.AddToActiveUI(OBJSC.switchText); switchTextNeeded = false; }
     }
 
     public void ShieldObtained(){
@@ -98,7 +99,7 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("SHIELD OBTAINED");
         // code/sounds/animations/UI for after acquiring Shield
         //add switch ui if first pickup
-        if (FlashlightAcquired ^ ShieldAcquired ^ PVTMAcquired) { OBJSC.AddToActiveUI(OBJSC.switchText); }
+        if (switchTextNeeded) { OBJSC.AddToActiveUI(OBJSC.switchText); switchTextNeeded = false; }
     }
 
     public void FirstCameraLinked(){
