@@ -28,10 +28,37 @@ public class PVTM : Item
     private LineRenderer lr;
     private Transform laserStart;
 
+    // Timers for vines covering cameras
+    public float camVineTime = 11;
 
     private void Start()
     {
         activeCams = new List<GameObject>();
+    }
+
+    IEnumerator cameraDeactivationTimer(int index)
+    {
+        GameObject camToRemove = activeCams[index];
+        yield return new WaitForSeconds(camVineTime-10);
+        camToRemove.GetComponentInChildren<ProceduralIvy>().GenIvy();
+        yield return new WaitForSeconds(10);
+        camToRemove.GetComponent<Collider>().enabled = true;
+        // If there is more than one camera linked, cycles cameras after removing one
+        if(activeCams.Count > 1){
+            if(current > index){
+                current--;
+            }
+        }else{ 
+            // If only camera in the list, screen goes black
+            real.transform.SetParent(null);
+            real.transform.localPosition = new Vector3(0, 1000, 0);
+            canTakePic = false;
+        }
+        activeCams.RemoveAt(0);
+        // Reloads camera
+        if(activeCams.Count > 0){
+            ConnectCurrent();
+        }
     }
 
     public void setup(Camera cam, LayerMask camMask, GameObject realPVTMCam, LayerMask monsterMask,
@@ -89,6 +116,7 @@ public class PVTM : Item
                     real.transform.localPosition = obj.transform.GetChild(0).gameObject.transform.localPosition;
                     real.transform.localRotation = obj.transform.GetChild(0).gameObject.transform.localRotation;
                     CameraWhirUpSFX(obj);
+                    StartCoroutine(cameraDeactivationTimer(activeCams.Count - 1));
                 }
             }
         }
@@ -133,6 +161,14 @@ public class PVTM : Item
             real.transform.localRotation = currentCam.transform.GetChild(0).gameObject.transform.localRotation;
             CameraChangeSFX();
         }
+    }
+
+    void ConnectCurrent(){
+        currentCam = activeCams[current];
+        real.transform.SetParent(currentCam.transform);
+        real.transform.localPosition = currentCam.transform.GetChild(0).gameObject.transform.localPosition;
+        real.transform.localRotation = currentCam.transform.GetChild(0).gameObject.transform.localRotation;
+        CameraChangeSFX();
     }
 
     public override bool IsToggled(){
