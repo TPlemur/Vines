@@ -29,6 +29,13 @@ public class PauseMenu : MonoBehaviour
     }
     menuState currentState = menuState.off;
 
+    public enum techPage
+    {
+        EEsc = 0,
+        trpSh = 1,
+        pvtm = 2
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -153,6 +160,31 @@ public class PauseMenu : MonoBehaviour
             if(current == -1) { current = List.Count - 1; }
         }
         List[current].SetActive(true);
+    }
+
+    //sets current equip page to Page, and opens the menu directly to that page
+    public void openToEquip(techPage page)
+    {
+        EquipPages[EquipcurrnetPage].SetActive(false);
+        EquipcurrnetPage = (int)page;
+        EquipPages[EquipcurrnetPage].SetActive(true);
+        PauseGame();
+        MainToEquip();
+    }
+
+    public void openToCase()
+    {
+        PauseGame();
+        MainToCase();
+    }
+
+    //adds new lorePage and sets it to current
+    public void addCasePage(GameObject page)
+    {
+        CasePages.Add(page);
+        CasePages[caseCurrnetPage].SetActive(false);
+        caseCurrnetPage = CasePages.Count - 1;
+        CasePages[caseCurrnetPage].SetActive(true);
     }
 
     private void FolderSFX()
