@@ -14,7 +14,6 @@ public class ObjectiveScript : MonoBehaviour
     public GameObject DocumentObj;
     public GameObject EscapeObj;
     public GameObject FlashObj;
-    public GameObject PauseMenu;
     public GameObject CameraObj;
 
     private List<GameObject> ActiveUI = new List<GameObject>();
@@ -30,19 +29,6 @@ public class ObjectiveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (Time.timeScale == 1)
-            {
-                PauseGame();
-            }
-            else if(Time.timeScale == 0)
-            {
-                ResumeGame();
-            }
-            
-        }
-
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && (inputCounter < 3))
         {
             inputCounter++;
@@ -93,24 +79,6 @@ public class ObjectiveScript : MonoBehaviour
             rt.anchoredPosition = new Vector2(position.x, position.y + height);
             float temp = position.y + UIyOffset;
         }
-    }
-
-    public void PauseGame()
-    {
-        PauseMenu.SetActive(true);
-        Time.timeScale = 0;
-        SetUIElements(false);
-        Cursor.lockState = CursorLockMode.Confined; //unlock cursor on resume
-        Cursor.visible = true;
-    }
-
-    public void ResumeGame()
-    {
-        PauseMenu.SetActive(false);
-        Time.timeScale = 1;
-        SetUIElements(true);
-        Cursor.lockState = CursorLockMode.Locked; //relock cursor on resume
-
     }
 
     public void SetUIElements(bool status){
