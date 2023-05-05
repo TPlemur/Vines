@@ -9,26 +9,7 @@ public class CamVines : MonoBehaviour
     /// </summary>
     public void startVines()
     {
-        foreach(Branch b in branches) { b.wait = false; }
-    }
-
-    /// <summary>
-    /// use this to set the vines back to initial state
-    /// </summary>
-    public void resetVines()
-    {
-        foreach(Branch b in branches) { b.resetVine(); }
-    }
-
-    //Internal:
-    Branch[] branches;
-
-    //give the branches a set to spawn, then compile them to list
-    void Start() { StartCoroutine(lateStart()); }
-    IEnumerator lateStart()
-    {
-        yield return new WaitForSeconds(0.05f);
-        branches = GetComponentsInChildren<Branch>();
+        gameObject.GetComponent<ProceduralIvy>().GenIvy();
     }
 
 
