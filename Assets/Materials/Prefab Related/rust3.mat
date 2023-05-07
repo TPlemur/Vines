@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: rust3
-  m_Shader: {fileID: -6465566751694194690, guid: 6fd51a9a0f302a74db5931492b626522, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1e86e9c1a5cc23f498c09be2b12088e9, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 4ba2726cd36b367409cd7bb8cdfb6ee4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 4ba2726cd36b367409cd7bb8cdfb6ee4, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -38,8 +42,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Smoothness: 0
+    - _TexScale: 0.1
     - _metallic: 0
     - _smoothness: 0
     m_Colors:
