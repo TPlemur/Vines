@@ -13,9 +13,12 @@ public class MainMenuScript : MonoBehaviour
     private FadeController fadeController;
     public TMP_InputField seedInput;
     public TMP_Text text;
+    public TMP_Text finalTime;
     public Toggle story;
     public Toggle radar;
     public Toggle timer;
+
+    public static bool speedRun = false;
 
     void Start()
     {
@@ -33,14 +36,29 @@ public class MainMenuScript : MonoBehaviour
             Cursor.visible = true;
         }
         try {
+            if (speedRun) {
+                finalTime.gameObject.SetActive(true);
+                finalTime.text = "Time: " + ObjectiveScript.timeElapsed.ToString(@"mm\:ss\:ff");
+            }
             seedInput.text = UnityEngine.Random.Range(0, 2147483647).ToString();
         }
         catch (NullReferenceException ex) {
         }
     }
+
+    public void SetTimer() {
+        if (timer.isOn) {
+            MainMenuScript.speedRun = true;          
+        }
+        else {
+            MainMenuScript.speedRun = false;
+        }
+    }
+
     public void randomSeed() {
         seedInput.text = UnityEngine.Random.Range(0, 2147483647).ToString();
     }
+
     //Check if seed is legal, if so start game else 
     public void CheckSeed() {
         int test;
@@ -77,9 +95,11 @@ public class MainMenuScript : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             SceneManager.LoadScene(0); //if in the main gameplay scene, immediatly leave to main menu
+            MainMenuScript.speedRun = false;
         } 
         else {
             fadeController.FadeOutToSceen(0.25f, 0); //else fade away
+            MainMenuScript.speedRun = false;
         }
     }
 

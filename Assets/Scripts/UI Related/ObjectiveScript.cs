@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class ObjectiveScript : MonoBehaviour
 {
@@ -15,12 +17,20 @@ public class ObjectiveScript : MonoBehaviour
     public GameObject EscapeObj;
     public GameObject FlashObj;
     public GameObject CameraObj;
+    public TMP_Text timerText;
+    public DateTime startTime;
+
+    public static TimeSpan timeElapsed {get; private set;}
 
     private List<GameObject> ActiveUI = new List<GameObject>();
     private float UIyOffset = 0;
     // Start is called before the first frame update
     void Start()
     {
+        if (MainMenuScript.speedRun) {
+            startTime = DateTime.Now;
+            timerText.gameObject.SetActive(true);
+        }
         AddToActiveUI(MoveText);
         AddToActiveUI(FlashObj);
         AddToActiveUI(PowerObj);
@@ -29,6 +39,11 @@ public class ObjectiveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (MainMenuScript.speedRun) {
+            ObjectiveScript.timeElapsed = DateTime.Now - startTime;
+            timerText.text = "Time: " + ObjectiveScript.timeElapsed.ToString(@"mm\:ss\:ff");
+        }
+
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && (inputCounter < 3))
         {
             inputCounter++;
