@@ -29,6 +29,11 @@ public class MonsterSounds : MonoBehaviour
 
     Dictionary<string, MONSTER_STATES> transitionQueue = new Dictionary<string, MONSTER_STATES>();
 
+    Dictionary<MONSTER_STATES, float> arrivalDistanceMultipliers = new Dictionary<MONSTER_STATES, float>();
+    float defaultArrivalDistanceMultiplier = 1.0f;
+    Dictionary<MONSTER_STATES, float> transitionDistanceMultipliers = new Dictionary<MONSTER_STATES, float>();
+    float defaultTransitionDistanceMultiplier = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +49,9 @@ public class MonsterSounds : MonoBehaviour
         // Pass the object through the userdata of the instance
         emitter.EventInstance.setUserData(GCHandle.ToIntPtr(timelineHandle));
         emitter.EventInstance.setCallback(MarkerEventCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
+
+        arrivalDistanceMultipliers[MONSTER_STATES.IDLE] = 0.5f;
+        emitter.EventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, emitter.OverrideMaxDistance * arrivalDistanceMultipliers[MONSTER_STATES.IDLE]);
     }
 
     // Update is called once per frame
@@ -55,6 +63,13 @@ public class MonsterSounds : MonoBehaviour
             markerInfo.newMarker = false;
 
             string trimmed = TrimMarkerName(markerInfo.markerName);
+            MONSTER_STATES state = MarkerTrimmedToState(trimmed);
+
+            // temp / experimental
+            if (arrivalDistanceMultipliers.ContainsKey(state))
+                emitter.EventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, emitter.OverrideMaxDistance * arrivalDistanceMultipliers[state]);
+            else
+                emitter.EventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, emitter.OverrideMaxDistance * defaultArrivalDistanceMultiplier);
 
             if (transitionQueue.ContainsKey(trimmed))
             {
@@ -85,6 +100,26 @@ public class MonsterSounds : MonoBehaviour
         }
 
         return "";
+    }
+    private MONSTER_STATES MarkerTrimmedToState(string trimmed)
+    {
+        switch (trimmed)
+        {
+            case "Idle":
+                return MONSTER_STATES.IDLE;
+            case "Chasing":
+                return MONSTER_STATES.CHASING;
+            case "Click":
+                return MONSTER_STATES.CLICK;
+            case "Roar":
+                return MONSTER_STATES.ROAR;
+            case "Growl":
+                return MONSTER_STATES.GROWL;
+            case "Howl":
+                return MONSTER_STATES.HOWL;
+        }
+
+        return MONSTER_STATES.IDLE;
     }
     private string TrimMarkerName(string name)
     {
@@ -120,7 +155,7 @@ public class MonsterSounds : MonoBehaviour
         // Get the object to store beat and marker details
         GCHandle timelineHandle = GCHandle.FromIntPtr(timelineInfoPtr);
         MarkerInfo markerInfo = (MarkerInfo)timelineHandle.Target;
-
+        
         switch (type)
         {
             case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
@@ -200,6 +235,11 @@ public class MonsterSounds : MonoBehaviour
 
         SetRandomTransitionValue();
         emitter.EventInstance.setParameterByName("MonsterState", (float)state);
+
+        if (transitionDistanceMultipliers.ContainsKey(state))
+            emitter.EventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, emitter.OverrideMaxDistance * transitionDistanceMultipliers[state]);
+        else
+            emitter.EventInstance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, emitter.OverrideMaxDistance * defaultTransitionDistanceMultiplier);
     }
     private MONSTER_STATES GetState()
     {

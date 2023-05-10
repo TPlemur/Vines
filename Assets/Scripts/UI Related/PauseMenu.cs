@@ -160,6 +160,8 @@ public class PauseMenu : MonoBehaviour
             if(current == -1) { current = List.Count - 1; }
         }
         List[current].SetActive(true);
+        // trigger SFX
+        PageTurnSFX();
     }
 
     //sets current equip page to Page, and opens the menu directly to that page
@@ -190,6 +192,13 @@ public class PauseMenu : MonoBehaviour
     private void FolderSFX()
     {
         const string eventName = "event:/UI/Envelope/Folder";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
+    private void PageTurnSFX()
+    {
+        const string eventName = "event:/UI/Envelope/PageTurn";
         var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
         sound.start();
         sound.release();
