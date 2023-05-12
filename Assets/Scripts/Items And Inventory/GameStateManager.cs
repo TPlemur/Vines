@@ -63,27 +63,33 @@ public class GameStateManager : MonoBehaviour
             foreach (var emitter in lightGen.GetEmitters())
                 emitter.Play();
         }
-        // code/sounds/animations/UI for after turning on power
-        OBJSC.RemoveFromActiveUI(OBJSC.PowerObj);
+        //OBJSC.RemoveFromActiveUI(OBJSC.PowerObj);
         if(!PVTMAcquired){
-            OBJSC.AddToActiveUI(OBJSC.PVTMObj);
+            //OBJSC.AddToActiveUI(OBJSC.PVTMObj);
+            OBJSC.activateObjective(ObjectiveScript.ojbectives.pvtm);
         }
         else if(PVTMAcquired){
-            OBJSC.AddToActiveUI(OBJSC.CameraObj);
+            //OBJSC.AddToActiveUI(OBJSC.CameraObj);
+            OBJSC.activateObjective(ObjectiveScript.ojbectives.camera);
         }
+        // code/sounds/animations/UI for after turning on power
+        OBJSC.deActivateObjective(ObjectiveScript.ojbectives.power);
     }
 
     public void PVTMObtained(){
         PVTMAcquired = true;
         Debug.Log("PVTM ACQUIRED");
         // code/sounds/animations/UI for after acquiring PVTM
-        OBJSC.RemoveFromActiveUI(OBJSC.PVTMObj);
+        //OBJSC.RemoveFromActiveUI(OBJSC.PVTMObj);
+        //add switch ui if first pickup
+        if (switchTextNeeded) { OBJSC.activateObjective(ObjectiveScript.ojbectives.switchItems); switchTextNeeded = false; }
         infoPop.wakeUp(PauseMenu.techPage.pvtm);
         if(GeneratorOn){
-            OBJSC.AddToActiveUI(OBJSC.CameraObj);
+            //OBJSC.AddToActiveUI(OBJSC.CameraObj);
+            OBJSC.activateObjective(ObjectiveScript.ojbectives.camera);
         }
-        //add switch ui if first pickup
-        if (switchTextNeeded) { OBJSC.AddToActiveUI(OBJSC.switchText); switchTextNeeded = false; }
+        OBJSC.deActivateObjective(ObjectiveScript.ojbectives.pvtm);
+
     }
 
     public void FlashlightObtained(){
@@ -91,9 +97,10 @@ public class GameStateManager : MonoBehaviour
         OBJSC.inputCounter = 1;
         Debug.Log("FLASHLIGHT ACQUIRED");
         // code/sounds/animations/UI for after acquiring Flashlight
-        OBJSC.RemoveFromActiveUI(OBJSC.FlashObj);
+        //OBJSC.RemoveFromActiveUI(OBJSC.FlashObj);
         //add switch ui if first pickup
-        if (switchTextNeeded) { OBJSC.AddToActiveUI(OBJSC.switchText); switchTextNeeded = false; }
+        if (switchTextNeeded) { OBJSC.activateObjective(ObjectiveScript.ojbectives.switchItems); switchTextNeeded = false; }
+        OBJSC.deActivateObjective(ObjectiveScript.ojbectives.flash);
     }
 
     public void ShieldObtained(){
@@ -102,15 +109,17 @@ public class GameStateManager : MonoBehaviour
         infoPop.wakeUp(PauseMenu.techPage.trpSh);
         // code/sounds/animations/UI for after acquiring Shield
         //add switch ui if first pickup
-        if (switchTextNeeded) { OBJSC.AddToActiveUI(OBJSC.switchText); switchTextNeeded = false; }
+        if (switchTextNeeded) { OBJSC.activateObjective(ObjectiveScript.ojbectives.switchItems); switchTextNeeded = false; }
     }
 
     public void FirstCameraLinked(){
         FirstCameraConnected = true;
         Debug.Log("FIRST CAMERA LINKED");
         // code/sounds/animations/UI for after linking the first camera
-        OBJSC.RemoveFromActiveUI(OBJSC.CameraObj);
-        OBJSC.AddToActiveUI(OBJSC.DocumentObj);
+        OBJSC.activateObjective(ObjectiveScript.ojbectives.document);
+        OBJSC.deActivateObjective(ObjectiveScript.ojbectives.camera);
+        //OBJSC.RemoveFromActiveUI(OBJSC.CameraObj);
+        //OBJSC.AddToActiveUI(OBJSC.DocumentObj);
     }
 
     public void AnotherCameraLinked(){
@@ -129,15 +138,18 @@ public class GameStateManager : MonoBehaviour
         SplitjawTrapped = true;
         Debug.Log("SPLITJAW CONTAINED");
         // code/sounds/animations/UI for after containing splitjaw
-        OBJSC.AddToActiveUI(OBJSC.EscapeObj);
+        //OBJSC.AddToActiveUI(OBJSC.EscapeObj);
+        OBJSC.activateObjective(ObjectiveScript.ojbectives.escape);
     }
 
     public void SplitjawDocumented(){
         ValidSplitjawPic = true;
         Debug.Log("SPLITJAW DOCUMENTED");
         // code/sounds/animations/UI for after documenting splitjaw
-        OBJSC.RemoveFromActiveUI(OBJSC.DocumentObj);
-        OBJSC.AddToActiveUI(OBJSC.EscapeObj);
+        OBJSC.activateObjective(ObjectiveScript.ojbectives.escape);
+        OBJSC.deActivateObjective(ObjectiveScript.ojbectives.document);
+        //OBJSC.RemoveFromActiveUI(OBJSC.DocumentObj);
+        //OBJSC.AddToActiveUI(OBJSC.EscapeObj);
     }
 
     public bool IsPowerRestored(){

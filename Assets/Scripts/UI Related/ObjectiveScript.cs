@@ -7,6 +7,56 @@ using System;
 
 public class ObjectiveScript : MonoBehaviour
 {
+    public enum ojbectives
+    {
+        move,
+        switchItems,
+        power,
+        pvtm,
+        document,
+        escape,
+        flash,
+        camera,
+    }
+
+    [SerializeField] List<ObjectiveToggle> toggleslist = new List<ObjectiveToggle>();
+     float cumulatveY;
+     List<ObjectiveToggle> active = new List<ObjectiveToggle>();
+    
+    public void activateObjective(ojbectives obj)
+    {
+        for(int i = 0;i < toggleslist.Count; i++)
+        {
+            if(toggleslist[i].objectiveType == obj)
+            {
+                cumulatveY += toggleslist[i].popIn(-cumulatveY);
+                active.Add(toggleslist[i]);
+                break;
+            }
+        }
+    }
+
+    public void deActivateObjective(ojbectives obj)
+    {
+        bool hasRemoved = false;
+        int toRemove = -1;
+        float yOffset = 0;
+        for (int i = 0; i < active.Count; i++)
+        {
+            //remove objective if found
+            if (active[i].objectiveType == obj)
+            {
+                hasRemoved = true;
+                toRemove = i;
+                yOffset = active[i].popOut();
+                cumulatveY -= yOffset;
+            }
+            //adjust remaining objectives
+            if (hasRemoved) { active[i].adjustY(yOffset); }
+        }
+        if (hasRemoved) { active.RemoveAt(toRemove); }
+    }
+
     public int inputCounter = 0;
 
     public GameObject MoveText;
@@ -31,9 +81,20 @@ public class ObjectiveScript : MonoBehaviour
             startTime = DateTime.Now;
             timerText.gameObject.SetActive(true);
         }
-        AddToActiveUI(MoveText);
-        AddToActiveUI(FlashObj);
-        AddToActiveUI(PowerObj);
+        //AddToActiveUI(MoveText);
+        //AddToActiveUI(FlashObj);
+        //AddToActiveUI(PowerObj);
+        StartCoroutine(AnimInitObjs());
+    }
+
+    IEnumerator AnimInitObjs()
+    {
+        yield return new WaitForSeconds(0.5f);
+        activateObjective(ojbectives.move);
+        yield return new WaitForSeconds(0.25f);
+        activateObjective(ojbectives.power);
+        yield return new WaitForSeconds(0.25f);
+        activateObjective(ojbectives.flash);
     }
 
     // Update is called once per frame
@@ -49,14 +110,14 @@ public class ObjectiveScript : MonoBehaviour
             inputCounter++;
             if (inputCounter == 1)
             {
-                RemoveFromActiveUI(MoveText);
+                deActivateObjective(ojbectives.move);
             }
             
         }
 
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)))
         {
-                RemoveFromActiveUI(switchText);
+                deActivateObjective(ojbectives.switchItems);
         }
 
     }
