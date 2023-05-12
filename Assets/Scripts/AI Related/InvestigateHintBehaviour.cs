@@ -48,5 +48,6 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        mobBrain.investigating = false;
+       mobBrain.timeForHint = false;
     }
 }
