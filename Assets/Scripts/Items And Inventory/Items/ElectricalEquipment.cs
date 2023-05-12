@@ -262,8 +262,10 @@ public class ElectricalEquipment : Item
 
         //get a bunch of info
         Vector3 targetDir = obj.transform.position - playerCam.transform.position;
-        float angleFront = Vector3.Angle(targetDir.normalized, playerCam.transform.forward);
-        float angleRight = Vector3.Angle(targetDir.normalized, playerCam.transform.right);
+        targetDir = Vector3.ProjectOnPlane(targetDir, new Vector3(0, 1, 0));
+        Vector3 playercamLookAngle = Vector3.ProjectOnPlane(playerCam.transform.forward, new Vector3(0, 1, 0));
+        float angleFront = Vector3.Angle(targetDir.normalized, playercamLookAngle);
+        float angleRight = Vector3.Angle(targetDir.normalized, Vector3.ProjectOnPlane(playerCam.transform.right, new Vector3(0, 1, 0)));
         float targetDist = targetDir.magnitude;
 
         //find col
@@ -290,7 +292,9 @@ public class ElectricalEquipment : Item
         foreach (GameObject target in trackerTargets)
         {
             Vector3 targetDir = target.transform.position - playerCam.transform.position;
-            float angle = Vector3.Angle(targetDir.normalized, playerCam.transform.forward);
+            targetDir = Vector3.ProjectOnPlane(targetDir, new Vector3(0, 1, 0));
+            Vector3 playercamLookAngle = Vector3.ProjectOnPlane(playerCam.transform.forward, new Vector3(0, 1, 0));
+            float angle = Vector3.Angle(targetDir.normalized, playercamLookAngle.normalized);
             if (angle < scanWidth)
             {
                 dists.Add(Mathf.Abs(targetDir.magnitude));
