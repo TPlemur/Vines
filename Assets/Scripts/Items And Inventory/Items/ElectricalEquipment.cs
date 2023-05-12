@@ -104,7 +104,7 @@ public class ElectricalEquipment : Item
         float timer = 0f;
 
         // keep updating while held down
-        while (Input.GetMouseButton(0))
+        while (Input.GetMouseButton(0) && Time.timeScale != 0)
         {
             if (sfxUpdateTarget != null)
             {

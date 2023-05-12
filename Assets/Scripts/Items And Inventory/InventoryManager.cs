@@ -63,7 +63,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         if (inventory.EquippedIsElectricalEquipment()) {
-            if (Input.GetMouseButton(0)) {
+            if (Input.GetMouseButton(0) && Time.timeScale != 0) {
                 inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float)-0.08, (float)0.1, (float)0);
                 inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float)0, (float)0, (float)38.892);
                 inventory.EquippedPrimary(); //allows access to update funct for time based things
@@ -96,12 +96,12 @@ public class InventoryManager : MonoBehaviour
         }
 
         // left click
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && Time.timeScale !=0) {
             inventory.EquippedPrimary();
         }
 
         // right click
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(1) && Time.timeScale != 0) {
             inventory.EquippedSecondary();
         }
 
