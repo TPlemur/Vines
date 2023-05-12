@@ -94,7 +94,6 @@ public class HideVineMoveEffects : MonoBehaviour
         {
             foreach (Material b in branchMats)
             {
-                Debug.Log("MatFound");
                 b.SetColor("_TipTint", Color.Lerp(livingTip, new Color(0, 0, 0), timer / witherTime));
                 b.SetColor("_BaseTint", Color.Lerp(livingBase, new Color(0, 0, 0), timer / witherTime));
                 b.SetFloat("_Amount", Mathf.Lerp(0.91f, 0.5f, timer / witherTime));
