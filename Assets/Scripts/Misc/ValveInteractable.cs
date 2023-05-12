@@ -23,6 +23,13 @@ public class ValveInteractable : MonoBehaviour
     KeyCode interact;
     float timeRotated = 0;
 
+    public void resetValve()
+    {
+        turning = false;
+        canTurn = true;
+        timeRotated = 0;
+    }
+
     //starts turning, called by InventoryManager
     public void startInteract(KeyCode interactKey)
     {

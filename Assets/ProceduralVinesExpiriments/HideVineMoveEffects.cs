@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HideVineMoveEffects : MonoBehaviour
 {
+    [SerializeField] GameObject toggledObjs;
+    [SerializeField] ValveInteractable valve;
     [SerializeField] GameObject XMBranches;
     [SerializeField] GameObject XPBranches;
     [SerializeField] Vector3 XMacceleration = new Vector3(-5, 0, 0);
@@ -11,6 +13,10 @@ public class HideVineMoveEffects : MonoBehaviour
     [SerializeField] float newMaxDist = 1;
     [SerializeField] float driftTime = 6;
     [SerializeField] float activDist = 5;
+    [SerializeField] float witherTime = 1;
+    [SerializeField] Color livingTip;
+    [SerializeField] Color livingBase;
+    List<Material> branchMats = new List<Material>();
 
     Cloth[] XMcloth;
     Cloth[] XPcloth;
@@ -35,9 +41,15 @@ public class HideVineMoveEffects : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         XMcloth = XMBranches.GetComponentsInChildren<Cloth>();
         XPcloth = XPBranches.GetComponentsInChildren<Cloth>();
+        List<SkinnedMeshRenderer> mr = new List<SkinnedMeshRenderer>();
+        mr.AddRange(XMBranches.GetComponentsInChildren<SkinnedMeshRenderer>());
+        mr.AddRange(XPBranches.GetComponentsInChildren<SkinnedMeshRenderer>());
+        Debug.Log(mr.Count);
+        foreach(SkinnedMeshRenderer m in mr) { branchMats.Add(m.material); }
 
         oldMaxDist = XMcloth[0].gameObject.GetComponent<Branch>().maxMove;
         isDrift = true;
+        toggledObjs.SetActive(false);
     }
 
     //interpolates drift acording to currnet state of timer
@@ -74,7 +86,52 @@ public class HideVineMoveEffects : MonoBehaviour
             c.coefficients = cs;
         }
     }
-    
+
+    IEnumerator witherBranchs()
+    {
+        timer = 0;
+        while (timer < witherTime)
+        {
+            foreach (Material b in branchMats)
+            {
+                Debug.Log("MatFound");
+                b.SetColor("_TipTint", Color.Lerp(livingTip, new Color(0, 0, 0), timer / witherTime));
+                b.SetColor("_BaseTint", Color.Lerp(livingBase, new Color(0, 0, 0), timer / witherTime));
+                b.SetFloat("_Amount", Mathf.Lerp(0.91f, 0.5f, timer / witherTime));
+            }
+            timer += Time.deltaTime;
+            yield return 0;
+        }
+    }
+
+    IEnumerator GrowBranchs()
+    {
+        timer = 0;
+        while (timer < witherTime)
+        {
+            foreach (Material b in branchMats)
+            {
+                b.SetColor("_TipTint", Color.Lerp(new Color(0, 0, 0), livingTip, timer / witherTime));
+                b.SetColor("_BaseTint", Color.Lerp(new Color(0, 0, 0), livingBase, timer / witherTime));
+                b.SetFloat("_Amount", Mathf.Lerp(0.5f, 0.91f, timer / witherTime));
+            }
+            timer += Time.deltaTime;
+            yield return 0;
+        }
+    }
+
+    public void witherVines()
+    {
+        StartCoroutine(witherBranchs());
+        toggledObjs.SetActive(true);
+    }
+
+    public void growVine()
+    {
+        StartCoroutine(GrowBranchs());
+        toggledObjs.SetActive(false);
+        valve.resetValve();
+    }
 
     // Update is called once per frame
     void Update()
