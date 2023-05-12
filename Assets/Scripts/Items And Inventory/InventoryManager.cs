@@ -163,7 +163,7 @@ public class InventoryManager : MonoBehaviour
             //Toggle Items
             if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
             {
-                PText.transform.GetComponent<TextMeshProUGUI>().text = "Pick up " + interact.tag;
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Pick up " + interact.tag;
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
@@ -172,7 +172,7 @@ public class InventoryManager : MonoBehaviour
             else if (interact.tag == "Valve")
             {
 
-                PText.transform.GetComponent<TextMeshProUGUI>().text = "Turn Valve";
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Turn Valve";
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
