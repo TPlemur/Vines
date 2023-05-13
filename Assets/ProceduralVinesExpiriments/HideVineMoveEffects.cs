@@ -44,7 +44,6 @@ public class HideVineMoveEffects : MonoBehaviour
         List<SkinnedMeshRenderer> mr = new List<SkinnedMeshRenderer>();
         mr.AddRange(XMBranches.GetComponentsInChildren<SkinnedMeshRenderer>());
         mr.AddRange(XPBranches.GetComponentsInChildren<SkinnedMeshRenderer>());
-        Debug.Log(mr.Count);
         foreach(SkinnedMeshRenderer m in mr) { branchMats.Add(m.material); }
 
         oldMaxDist = XMcloth[0].gameObject.GetComponent<Branch>().maxMove;

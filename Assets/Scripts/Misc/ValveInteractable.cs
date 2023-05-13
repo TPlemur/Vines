@@ -28,6 +28,7 @@ public class ValveInteractable : MonoBehaviour
         turning = false;
         canTurn = true;
         timeRotated = 0;
+        this.tag = "Valve";
     }
 
     //starts turning, called by InventoryManager
