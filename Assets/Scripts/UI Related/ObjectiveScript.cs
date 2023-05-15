@@ -121,45 +121,4 @@ public class ObjectiveScript : MonoBehaviour
         }
 
     }
-
-    public void AddToActiveUI(GameObject objective)
-    {
-        if(!objective.activeSelf){
-            // get original position of ui element and place it at an offset
-            var rt = objective.transform.GetComponent<RectTransform>();
-            var position = rt.anchoredPosition;
-            rt.anchoredPosition = new Vector2(position.x, position.y + UIyOffset);
-            ActiveUI.Add(objective);
-            objective.SetActive(true);
-            // subtract the ui elements height from the current y offset
-            UIyOffset -= rt.rect.height/2;
-        }
-    }
-
-    public void RemoveFromActiveUI(GameObject objective){
-        int index = ActiveUI.FindIndex(x => x.name == objective.name);
-        if(index > -1){
-            objective.SetActive(false);
-            ActiveUI.RemoveAt(index);
-            // get height of element just removed, adjust all current elements, add to current y offset
-            float height = objective.transform.GetComponent<RectTransform>().rect.height;
-            AdjustActiveUI(index, height/2);
-            UIyOffset += height/2;
-        }
-    }
-
-    public void AdjustActiveUI(int index, float height){
-        for(int i = index; i < ActiveUI.Count; i++){
-            var rt = ActiveUI[i].transform.GetComponent<RectTransform>();
-            var position = rt.anchoredPosition;
-            rt.anchoredPosition = new Vector2(position.x, position.y + height);
-            float temp = position.y + UIyOffset;
-        }
-    }
-
-    public void SetUIElements(bool status){
-        foreach(GameObject elem in ActiveUI){
-            elem.SetActive(status);
-        }
-    }
 }
