@@ -71,6 +71,7 @@ public class ElectricalEquipment : Item
                 {
                     SocketTesterSFX();
                     gameState.PowerRestored();
+                    clearTarget(generator); // remove gen from scanner
                     //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
                     obj.transform.parent.GetComponent<GeneratorVibe>().enabled = true;
                     obj.GetComponent<Collider>().enabled = false;
@@ -238,12 +239,14 @@ public class ElectricalEquipment : Item
 
 
     //ScannerFunctions
+    GameObject generator;
     void findItems()
     {
         trackerTargets.Add(GameObject.Find("Flashlight_I"));
         trackerTargets.Add(GameObject.Find("PVTM_Prefab_I"));
         trackerTargets.Add(GameObject.Find("Shield_I"));
-        trackerTargets.Add(GameObject.Find("GenOffLight"));
+        generator = GameObject.Find("GenOffLight");
+        trackerTargets.Add(generator);
         trackerTargets.Add(GameObject.Find("Monster"));
     }
 
