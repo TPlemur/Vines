@@ -22,7 +22,7 @@ public class ScannerBeacon : Item
         gameState = stateManager.GetComponent<GameStateManager>();
         ItemUI = UIElement;
         layer = mask;
-        LoadItem("Scanner");
+        LoadItem("ScannerBeacon");
         scanner = scannerScript;
     }
 
