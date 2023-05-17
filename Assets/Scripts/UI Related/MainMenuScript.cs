@@ -19,6 +19,7 @@ public class MainMenuScript : MonoBehaviour
     public Toggle timer;
 
     public static bool speedRun = false;
+    public static bool scannerOn = true;
 
     void Start()
     {
@@ -44,14 +45,44 @@ public class MainMenuScript : MonoBehaviour
         }
         catch (NullReferenceException ex) {
         }
+        story.isOn = PlayerPrefs.GetInt("isStory", 0) == 0;
+        radar.isOn = PlayerPrefs.GetInt("isRadar", 0) == 0;
+        timer.isOn = PlayerPrefs.GetInt("isTimer", 1) == 0;
     }
 
+    //set the appropreate variable
     public void SetTimer() {
         if (timer.isOn) {
-            MainMenuScript.speedRun = true;          
+            MainMenuScript.speedRun = true;
+            PlayerPrefs.SetInt("isTimer", 0);
         }
         else {
             MainMenuScript.speedRun = false;
+            PlayerPrefs.SetInt("isTimer", 1);
+        }
+    }
+    public void SetStory()
+    {
+        if (story.isOn)
+        {
+            PlayerPrefs.SetInt("isStory", 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("isStory", 1);
+        }
+    }
+    public void SetScanner()
+    {
+        if (timer.isOn)
+        {
+            MainMenuScript.scannerOn = true;
+            PlayerPrefs.SetInt("isRadar", 0);
+        }
+        else
+        {
+            MainMenuScript.scannerOn = false;
+            PlayerPrefs.SetInt("isRadar", 1);
         }
     }
 
