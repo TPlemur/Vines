@@ -75,6 +75,7 @@ public class Brain : MonoBehaviour
             hintTimer += Time.deltaTime;
         }else if(detectsPlayer){
             hintTimer = 0;
+            timeForHint = false;
         }
         else if(!isHiding){
             timeForHint = true;

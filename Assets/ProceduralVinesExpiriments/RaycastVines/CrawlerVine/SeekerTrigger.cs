@@ -56,6 +56,11 @@ public class SeekerTrigger : MonoBehaviour
         }
     }
 
+    public void setWander()
+    {
+        toggle = false;
+    }
+
     public void setSeekTarget(GameObject target, float speed)
     {
         foreach (RCcrawler b in branches)

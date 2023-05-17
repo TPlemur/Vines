@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
     Brain mobBrain;
-    static public Vector3 posRelElevator = new Vector3(44.58f,2.29f,-37.70f);
-    static public Vector3 savedViewDir;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -58,16 +56,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         mobBrain = Monster.GetComponentInChildren<Brain>();
-
-        //if protoPlay place player relitive to elevator
-        //BROKEN IF ELEVATOR ROOM ROTATES
-        string SceneName = SceneManager.GetActiveScene().name;
-        if(SceneName == "ProtoPlayScene")
-        {
-
-            //GameObject elevConsole = GameObject.Find("Elevator_Interface_Test");elevConsole.transform.position + 
-            transform.position = posRelElevator;
-        }
     }
 
     // Update is called once per frame

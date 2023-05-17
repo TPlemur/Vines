@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class InfoPopup : MonoBehaviour
 {
-    [SerializeField]PauseMenu pm;
+    [SerializeField] PauseMenu pm;
     [SerializeField] float timeForPrompt = 3;
+    [SerializeField] GameObject toggledObjs;
     PauseMenu.techPage page;
     float inverseTime;
     float timer;
@@ -15,7 +16,7 @@ public class InfoPopup : MonoBehaviour
     
     public void wakeUp(PauseMenu.techPage NewPage)
     {
-        gameObject.SetActive(true);
+        toggledObjs.SetActive(true);
         timer = timeForPrompt;
         slider.value = 1;
         page = NewPage;
@@ -29,7 +30,7 @@ public class InfoPopup : MonoBehaviour
         slider.value = timer * inverseTime;
         if(timer <= 0)
         {
-            gameObject.SetActive(false);
+            toggledObjs.SetActive(false);
         }
         if (Input.GetKeyDown(KeyCode.T)) { pm.openToEquip(page);}
 
@@ -39,6 +40,7 @@ public class InfoPopup : MonoBehaviour
     {
         slider = GetComponent<Slider>();
         inverseTime = 1 / timeForPrompt;
-        gameObject.SetActive(false);
+        toggledObjs.SetActive(false);
+        page = PauseMenu.techPage.EEsc;
     }
 }

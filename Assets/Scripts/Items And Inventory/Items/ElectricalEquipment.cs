@@ -71,6 +71,7 @@ public class ElectricalEquipment : Item
                 {
                     SocketTesterSFX();
                     gameState.PowerRestored();
+                    clearTarget(generator); // remove gen from scanner
                     //Destroy(panel.gameObject); -- don't destroy just disabled collider because the object holds some audio components
                     obj.transform.parent.GetComponent<GeneratorVibe>().enabled = true;
                     obj.GetComponent<Collider>().enabled = false;
@@ -104,7 +105,7 @@ public class ElectricalEquipment : Item
         float timer = 0f;
 
         // keep updating while held down
-        while (Input.GetMouseButton(0))
+        while (Input.GetMouseButton(0) && Time.timeScale != 0)
         {
             if (sfxUpdateTarget != null)
             {
@@ -238,12 +239,14 @@ public class ElectricalEquipment : Item
 
 
     //ScannerFunctions
+    GameObject generator;
     void findItems()
     {
         trackerTargets.Add(GameObject.Find("Flashlight_I"));
         trackerTargets.Add(GameObject.Find("PVTM_Prefab_I"));
         trackerTargets.Add(GameObject.Find("Shield_I"));
-        trackerTargets.Add(GameObject.Find("GenOffLight"));
+        generator = GameObject.Find("GenOffLight");
+        trackerTargets.Add(generator);
         trackerTargets.Add(GameObject.Find("Monster"));
     }
 
@@ -262,8 +265,10 @@ public class ElectricalEquipment : Item
 
         //get a bunch of info
         Vector3 targetDir = obj.transform.position - playerCam.transform.position;
-        float angleFront = Vector3.Angle(targetDir.normalized, playerCam.transform.forward);
-        float angleRight = Vector3.Angle(targetDir.normalized, playerCam.transform.right);
+        targetDir = Vector3.ProjectOnPlane(targetDir, new Vector3(0, 1, 0));
+        Vector3 playercamLookAngle = Vector3.ProjectOnPlane(playerCam.transform.forward, new Vector3(0, 1, 0));
+        float angleFront = Vector3.Angle(targetDir.normalized, playercamLookAngle);
+        float angleRight = Vector3.Angle(targetDir.normalized, Vector3.ProjectOnPlane(playerCam.transform.right, new Vector3(0, 1, 0)));
         float targetDist = targetDir.magnitude;
 
         //find col
@@ -290,7 +295,9 @@ public class ElectricalEquipment : Item
         foreach (GameObject target in trackerTargets)
         {
             Vector3 targetDir = target.transform.position - playerCam.transform.position;
-            float angle = Vector3.Angle(targetDir.normalized, playerCam.transform.forward);
+            targetDir = Vector3.ProjectOnPlane(targetDir, new Vector3(0, 1, 0));
+            Vector3 playercamLookAngle = Vector3.ProjectOnPlane(playerCam.transform.forward, new Vector3(0, 1, 0));
+            float angle = Vector3.Angle(targetDir.normalized, playercamLookAngle.normalized);
             if (angle < scanWidth)
             {
                 dists.Add(Mathf.Abs(targetDir.magnitude));

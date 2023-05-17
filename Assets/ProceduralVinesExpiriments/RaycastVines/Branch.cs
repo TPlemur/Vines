@@ -17,7 +17,7 @@ public class Branch : MonoBehaviour
     float branchRadius = 0.02f;
     int meshFaces = 3;
 
-    bool animate;
+    public bool animate;
     public bool shrink = true;
     public float growthSpeed = 0.5f;
     public float shrinkSpeed = 0.3f;

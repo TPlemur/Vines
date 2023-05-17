@@ -53,8 +53,6 @@ public class ElevatorSceneControl : MonoBehaviour
             if (skipTimer > skipHoldTime && ending)
             {
                 ending = false;
-                PlayerMovement.posRelElevator = player.transform.position + new Vector3(44.52f, 0.05f, -51.1f); //vector is difference in location between scenes
-                PlayerMovement.savedViewDir = player.transform.eulerAngles;
                 fadeController.FadeOutToSceen(0.25f, 1);
             }
         }

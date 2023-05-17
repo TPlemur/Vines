@@ -12,7 +12,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject Flashlight_Controls;
     public GameObject Shield_Controls;
     public GameObject Electrical_Controls;
-    public GameObject Scanner_Controls;
+    public GameObject Beacon_Controls;
+    //public GameObject Scanner_Controls;
 
     [Header("Input")]
     public KeyCode interactKey = KeyCode.F;
@@ -41,6 +42,7 @@ public class InventoryManager : MonoBehaviour
 
     //Scanner related
     List<GameObject> scannerTargets;
+    ElectricalEquipment EEScript; //passed to beacons
 
     void Start()
     {
@@ -63,7 +65,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         if (inventory.EquippedIsElectricalEquipment()) {
-            if (Input.GetMouseButton(0)) {
+            if (Input.GetMouseButton(0) && Time.timeScale != 0) {
                 inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float)-0.08, (float)0.1, (float)0);
                 inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float)0, (float)0, (float)38.892);
                 inventory.EquippedPrimary(); //allows access to update funct for time based things
@@ -96,18 +98,18 @@ public class InventoryManager : MonoBehaviour
         }
 
         // left click
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && Time.timeScale !=0) {
             inventory.EquippedPrimary();
         }
 
         // right click
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(1) && Time.timeScale != 0) {
             inventory.EquippedSecondary();
         }
 
-        // SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
+        //SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha6)){
-            addItem(typeof(Scanner));
+            addItem(typeof(ScannerBeacon));
         }
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)) {
             addItem(typeof(ElectricalEquipment));
@@ -143,6 +145,11 @@ public class InventoryManager : MonoBehaviour
                 addItem(typeof(Flashlight));
                 Destroy(interact.gameObject);
             }
+            if(interact.tag == "ScannerBeacon" && !inventory.Has(typeof(ScannerBeacon)))
+            {
+                addItem(typeof(ScannerBeacon));
+                Destroy(interact.gameObject);
+            }
             //Activate valve
             if (interact.tag == "Valve")
             {
@@ -163,7 +170,7 @@ public class InventoryManager : MonoBehaviour
             //Toggle Items
             if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
             {
-                PText.transform.GetComponent<TextMeshProUGUI>().text = "Pick up " + interact.tag;
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Pick up " + interact.tag;
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
@@ -172,13 +179,13 @@ public class InventoryManager : MonoBehaviour
             else if (interact.tag == "Valve")
             {
 
-                PText.transform.GetComponent<TextMeshProUGUI>().text = "Turn Valve";
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Turn Valve";
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
             //toggle electrical panel
-            else if (interact.tag == "ElectricalPanel")
+            else if (interact.tag == "ElectricalPanel" || interact.tag == "ScannerBeacon")
             {
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
@@ -214,6 +221,7 @@ public class InventoryManager : MonoBehaviour
             switch (item)
             {
                 case ElectricalEquipment EE:
+                    EEScript = EE;
                     EE.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI, scannerTargets);
                     break;
                 case PVTM pvtm:
@@ -225,8 +233,8 @@ public class InventoryManager : MonoBehaviour
                 case Flashlight F:
                     F.setup(gameStateManager, Flashlight_Controls);
                     break;
-                case Scanner S:
-                    S.setup(playerCam, panelLayer, gameStateManager, Scanner_Controls, scannerTargets);
+                case ScannerBeacon S:
+                    S.setup(playerCam, panelLayer, gameStateManager, Beacon_Controls, EEScript);
                     break;
             }
             //add new item to inventory
