@@ -37,6 +37,7 @@ public class ScannerBeacon : Item
         int BeaconIndex = im.inventory.getCurrentIndex();
         im.inventory.setToZeroth();
         im.inventory.items.RemoveAt(BeaconIndex);
+        Destroy(itemObj);
         Destroy(this.gameObject);
     }
 

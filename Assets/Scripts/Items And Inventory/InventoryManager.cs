@@ -145,7 +145,7 @@ public class InventoryManager : MonoBehaviour
                 addItem(typeof(Flashlight));
                 Destroy(interact.gameObject);
             }
-            if(interact.tag == "ScannerBeacon" && !inventory.Has(typeof(Flashlight)))
+            if(interact.tag == "ScannerBeacon" && !inventory.Has(typeof(ScannerBeacon)))
             {
                 addItem(typeof(ScannerBeacon));
                 Destroy(interact.gameObject);
