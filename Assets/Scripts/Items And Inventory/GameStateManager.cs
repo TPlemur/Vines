@@ -21,7 +21,7 @@ public class GameStateManager : MonoBehaviour
     [Header("Other")]
     public GameObject Warehouse;
     public static bool debug = false;
-    
+
     void Start()
     {
         debug = false;
@@ -89,7 +89,6 @@ public class GameStateManager : MonoBehaviour
             OBJSC.activateObjective(ObjectiveScript.ojbectives.camera);
         }
         OBJSC.deActivateObjective(ObjectiveScript.ojbectives.pvtm);
-
     }
 
     public void FlashlightObtained(){
@@ -150,6 +149,9 @@ public class GameStateManager : MonoBehaviour
         OBJSC.deActivateObjective(ObjectiveScript.ojbectives.document);
         //OBJSC.RemoveFromActiveUI(OBJSC.DocumentObj);
         //OBJSC.AddToActiveUI(OBJSC.EscapeObj);
+
+        // Audio
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseType", (float)MixerController.CHASE_TYPE.FINAL);
     }
 
     public bool IsPowerRestored(){
