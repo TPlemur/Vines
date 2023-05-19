@@ -45,6 +45,7 @@ public class AmbushBehaviour : StateMachineBehaviour
             Mob.Stop();
             Mob.ResetPath();
             Mob.transform.LookAt(Player);
+            hidingSpotToAmbush.transform.parent.parent.GetComponentInChildren<HideVineMoveEffects>().growVine();
         }
         // If the player gets too close, charge them
         float distanceFromHidingSpot = Vector3.Distance(hidingSpotToAmbush.transform.position, Mob.transform.position);

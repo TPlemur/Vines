@@ -7,9 +7,8 @@ public class VineProfileManager : MonoBehaviour
 {
     [SerializeField] VineProfle[] MonProfiles;
     [SerializeField] ProceduralIvy MonIvy;
-    MonVineStateMachine MVSM;
 
-    static int QualLevel = 2;
+    MonVineStateMachine MVSM;
     Slider slid;
 
 
@@ -18,8 +17,8 @@ public class VineProfileManager : MonoBehaviour
     {
         MVSM = GameObject.FindObjectOfType<MonVineStateMachine>();
         slid = GetComponent<Slider>();
-        slid.value = QualLevel;
-        SetProfile((float)QualLevel);
+        slid.value = PlayerPrefs.GetFloat("vineQuality",2);
+        SetProfile(PlayerPrefs.GetFloat("vineQuality", 2));
     }
 
     //pass the setting on to the approprate scripts
@@ -28,6 +27,6 @@ public class VineProfileManager : MonoBehaviour
         int i = (int)sliderVal;
         MVSM.setSettings(MonProfiles[i]);
         MonIvy.setSettings(MonProfiles[i]);
-        QualLevel = i;
+        PlayerPrefs.SetFloat("vineQuality", sliderVal);
     }
 }

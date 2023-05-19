@@ -29,6 +29,8 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject elevConsole;
 
+    private bool videoFinished = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,8 @@ public class ElevatorSceneControl : MonoBehaviour
         videoPlayer.started += VideoStarted;
         videoPlayer.loopPointReached += VideoFinished;
 
+        videoFinished = false;
+
         StartCoroutine(WaitAndStartVideo());
     }
 
@@ -45,6 +49,20 @@ public class ElevatorSceneControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!videoFinished)
+        {
+            if (Time.timeScale == 0)
+            {
+                videoPlayer.Pause();
+                videoAudio.EventInstance.setPaused(true);
+            }
+            if (!videoPlayer.isPlaying && Time.timeScale == 1)
+            {
+                videoPlayer.Play();
+                videoAudio.EventInstance.setPaused(false);
+            }
+        }
+        
         if (Input.GetKey(KeyCode.Space))
         {
             skipSliderObj.SetActive(true);
@@ -53,8 +71,6 @@ public class ElevatorSceneControl : MonoBehaviour
             if (skipTimer > skipHoldTime && ending)
             {
                 ending = false;
-                PlayerMovement.posRelElevator = player.transform.position + new Vector3(44.52f, 0.05f, -51.1f); //vector is difference in location between scenes
-                PlayerMovement.savedViewDir = player.transform.eulerAngles;
                 fadeController.FadeOutToSceen(0.25f, 1);
             }
         }
@@ -67,11 +83,13 @@ public class ElevatorSceneControl : MonoBehaviour
     void VideoStarted(UnityEngine.Video.VideoPlayer source)
     {
         videoAudio.Play();
+        videoPlayer.started -= VideoStarted;
     }
 
     void VideoFinished(UnityEngine.Video.VideoPlayer source)
     {
         Debug.Log("video finished");
+        videoFinished = true;
 
         elevatorSFX.EventInstance.setParameterByName("State", 0);
 
@@ -87,6 +105,6 @@ public class ElevatorSceneControl : MonoBehaviour
     IEnumerator WaitAndEndScene()
     {
         yield return new WaitForSeconds(afterVideoWaitTime);
-        fadeController.FadeOutToSceen(0.25f, 1); ;
+        fadeController.FadeOutToSceen(0.25f, 1); 
     }
 }

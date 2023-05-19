@@ -13,6 +13,13 @@ public class MainMenuScript : MonoBehaviour
     private FadeController fadeController;
     public TMP_InputField seedInput;
     public TMP_Text text;
+    public TMP_Text finalTime;
+    public Toggle story;
+    public Toggle radar;
+    public Toggle timer;
+
+    public static bool speedRun = false;
+    public static bool scannerOn = true;
 
     void Start()
     {
@@ -30,14 +37,62 @@ public class MainMenuScript : MonoBehaviour
             Cursor.visible = true;
         }
         try {
+            if (speedRun) {
+                finalTime.gameObject.SetActive(true);
+                finalTime.text = "Time: " + ObjectiveScript.timeElapsed.ToString(@"mm\:ss\:ff");
+            }
             seedInput.text = UnityEngine.Random.Range(0, 2147483647).ToString();
         }
         catch (NullReferenceException ex) {
         }
+        if (story != null)
+        {
+            story.isOn = PlayerPrefs.GetInt("isStory", 0) == 0;
+            radar.isOn = PlayerPrefs.GetInt("isRadar", 0) == 0;
+            timer.isOn = PlayerPrefs.GetInt("isTimer", 1) == 0;
+        }
     }
+
+    //set the appropreate variable
+    public void SetTimer() {
+        if (timer.isOn) {
+            MainMenuScript.speedRun = true;
+            PlayerPrefs.SetInt("isTimer", 0);
+        }
+        else {
+            MainMenuScript.speedRun = false;
+            PlayerPrefs.SetInt("isTimer", 1);
+        }
+    }
+    public void SetStory()
+    {
+        if (story.isOn)
+        {
+            PlayerPrefs.SetInt("isStory", 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("isStory", 1);
+        }
+    }
+    public void SetScanner()
+    {
+        if (radar.isOn)
+        {
+            MainMenuScript.scannerOn = true;
+            PlayerPrefs.SetInt("isRadar", 0);
+        }
+        else
+        {
+            MainMenuScript.scannerOn = false;
+            PlayerPrefs.SetInt("isRadar", 1);
+        }
+    }
+
     public void randomSeed() {
         seedInput.text = UnityEngine.Random.Range(0, 2147483647).ToString();
     }
+
     //Check if seed is legal, if so start game else 
     public void CheckSeed() {
         int test;
@@ -49,10 +104,17 @@ public class MainMenuScript : MonoBehaviour
             text.gameObject.SetActive(true);
         }
     }
+
+
     //Call to get the player to start the elevator scene
     public void StartGame() 
     {
-        fadeController.FadeOutToSceen(0.25f, 4);
+        if (story.isOn) {
+            fadeController.FadeOutToSceen(0.25f, 4);
+        }
+        else {
+            fadeController.FadeOutToSceen(0.25f, 1);
+        }
     }
 
     //Call when the player gets killed by the monster
@@ -67,9 +129,11 @@ public class MainMenuScript : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             SceneManager.LoadScene(0); //if in the main gameplay scene, immediatly leave to main menu
+            MainMenuScript.speedRun = false;
         } 
         else {
             fadeController.FadeOutToSceen(0.25f, 0); //else fade away
+            MainMenuScript.speedRun = false;
         }
     }
 

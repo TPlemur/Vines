@@ -18,12 +18,24 @@ public class MonsterMusic : MonoBehaviour
     {
         if (emitter == null)
             emitter = GetComponent<FMODUnity.StudioEventEmitter>();
+
+        // init chase type
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("ChaseType", (float)MixerController.CHASE_TYPE.NORMAL);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void SetNormalChase()
+    {
+        emitter.SetParameter("ChaseType", 0);
+    }
+    public void SetFinalChase()
+    {
+        emitter.SetParameter("ChaseType", 1);
     }
 
     public void Chase()
