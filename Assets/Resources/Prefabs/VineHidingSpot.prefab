@@ -138,6 +138,38 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8478771010672951478, guid: ab218a9e4e6f03348ba65a389caaff9b, type: 3}
+--- !u!114 &4902586875105791024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072770317806259749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1449132762
+      Data2: 1139298381
+      Data3: -891557493
+      Data4: -1743101197
+    Path: event:/SFX/Items/HidingSpots/PesticideSpray
+  Event: 
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params:
+  - Name: State
+    Value: 1
+  OverrideAttenuation: 1
+  OverrideMinDistance: 0.5
+  OverrideMaxDistance: 10
 --- !u!1001 &5578095747407500230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,6 +180,34 @@ PrefabInstance:
     - target: {fileID: 1138382251512453139, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
       propertyPath: m_Name
       value: HideWithValve
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4902586875105791024}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FMODUnity.StudioEventEmitter, FMODUnity
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232557763754268997, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
+      propertyPath: triggerOnComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1969223230086979539, guid: 69f2813203d0aae47a90881c4e4b211b, type: 3}
       propertyPath: m_LocalPosition.x
