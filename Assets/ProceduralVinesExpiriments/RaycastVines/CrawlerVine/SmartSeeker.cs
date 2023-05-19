@@ -5,7 +5,7 @@ using UnityEngine;
 public class SmartSeeker : MonoBehaviour
 {
     RCcrawler crawler;
-    float wanderSpeed = 0.5f;
+    public float wanderSpeed = 0.5f;
     float searchSpeed = 0.4f;
     float seekSpeed = 0.08f;
     float reportSpeed = 0.08f;
@@ -14,6 +14,8 @@ public class SmartSeeker : MonoBehaviour
     float decayTime = 40;
     float cycleTimer = 0;
     float decayRecoveryRatio = 0.5f;
+
+    float agroRange = 30;
 
     GameObject player;
     GameObject monster;
@@ -104,9 +106,18 @@ public class SmartSeeker : MonoBehaviour
         {
             if (GameStateManager.GeneratorOn)
             {
-                Brain.detectsPlayer = true;
-                setState(seekerState.seek);
+                if ((monster.transform.position - player.transform.position).magnitude < agroRange)
+                {
+                    Brain.detectsPlayer = true;
+                    setState(seekerState.seek);
+                }
+                else
+                {
+                    Brain.investigating = true;
+                    setState(seekerState.search);
+                }
                 cycleTimer = 0;
+
             }
             else
             {

@@ -21,7 +21,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         mobBrain.oldPosition = Mob.transform.position;
         mobBrain.monsterIsHiding = true;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        mobBrain.investigating = false;
+        Brain.investigating = false;
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
     }
 

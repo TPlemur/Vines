@@ -13,7 +13,7 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public bool timeForHint = false;
     [HideInInspector]
-    public bool investigating = false;
+    public static bool investigating = false;
 
     // System that determines when the monster hunts and for how long
     public float mobPursuitTimer;

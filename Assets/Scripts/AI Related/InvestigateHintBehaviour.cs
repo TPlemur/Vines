@@ -39,7 +39,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         }
         // Returns to patrol state when player hides
         if(Brain.isHiding){
-            mobBrain.investigating = false;
+            Brain.investigating = false;
             animator.SetBool("isInvestigating", false);
         }
     }
@@ -47,7 +47,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       mobBrain.investigating = false;
+       Brain.investigating = false;
        mobBrain.timeForHint = false;
     }
 }

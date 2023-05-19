@@ -35,7 +35,7 @@ public class IdleBehaviour : StateMachineBehaviour
             animator.SetBool("isCharging", true);
 
         //Debug.Log(Mob.GetComponent<Brain>().investigating);
-        if (Mob.GetComponentInChildren<Brain>().investigating){
+        if (Brain.investigating){
             animator.SetBool("isInvestigating", true);
         }
     }

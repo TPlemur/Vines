@@ -27,7 +27,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
-        mobBrain.investigating = false;
+        Brain.investigating = false;
         // Stops the monster from trying to pursue player into hiding holes
         Mob.Stop();
         Mob.ResetPath();
@@ -50,7 +50,7 @@ public class PatrolBehaviour : StateMachineBehaviour
        // If the monster doesn't have a path and isn't supposed to change to a new state, finds random spot within a radius to patrol to
        // otherwise, it changes states and starts a new behavior
        if(!Mob.hasPath){
-            if (mobBrain.investigating){
+            if (Brain.investigating){
                 animator.SetBool("isInvestigating", true);
             }else if(mobBrain.timeForAmbush){
                 checkAmbushValidity(animator, Mob, mobBrain, patrolRadius, patrolPos);
