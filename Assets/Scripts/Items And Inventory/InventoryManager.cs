@@ -185,7 +185,7 @@ public class InventoryManager : MonoBehaviour
                 lastOutline.On();
             }
             //toggle electrical panel
-            else if (interact.tag == "ElectricalPanel" )
+            else if (interact.tag == "ElectricalPanel" && inventory.equipped.GetType() == typeof(ElectricalEquipment) )
             {
                 PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "FIX ELECTRONICS";
                 PText.SetActive(true);
