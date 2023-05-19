@@ -23,6 +23,7 @@ public class VineMeshGenerator : MonoBehaviour
     [SerializeField] float depth = 4;
 
     [SerializeField] float fuzzQty = 0.1f;
+    [SerializeField] LayerMask validCullColliders;
 
     //graph node data struct
     public struct gridDot
@@ -581,6 +582,13 @@ public class VineMeshGenerator : MonoBehaviour
         //itterate throught the collieders
         foreach (Collider col in terainColiders)
         {
+            //discard colliders on improper layers
+            //this mess sets the bit of the layermask corrisponding to the layer of the object to 1 then checks if the layermask has changed
+            if (!(validCullColliders == (validCullColliders | (1 << col.gameObject.layer)))) 
+            {
+                continue;
+            }
+
             //max and min corners of world alligned bounding box
             Vector3 maxBounds = worldToGrid(col.bounds.max);
             Vector3 minBounds = worldToGrid(col.bounds.min);

@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject ItemCamera;
     public GameObject Objectives;
     public GameObject ItemPosition;
+    [SerializeField] DeathManager death;
 
     [Header("Debug")]
     [SerializeField]
@@ -161,13 +162,15 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     // player killed
-                    OnPlayerKilled();
+                    //OnPlayerKilled();
+                    death.DIE();
                 }
             }
             else
             {
                 // player killed
-                OnPlayerKilled();
+                //OnPlayerKilled();
+                death.DIE();
             }
 
         }
@@ -216,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
-    private void OnPlayerKilled()
+    public void OnPlayerKilled()
     {
         if (!debugInvincibility && !mobBrain.isShielded){
             JumpscareCameraPosition.SetActive(true);
