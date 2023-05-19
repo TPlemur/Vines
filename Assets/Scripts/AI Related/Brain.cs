@@ -24,6 +24,8 @@ public class Brain : MonoBehaviour
     public bool detectsPlayer = false;
     [HideInInspector]
     public bool huntedGeneratorEvent = false;
+    [HideInInspector]
+    public bool picTakenEvent = false;
     
     public float patrolDelay;
 

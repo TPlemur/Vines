@@ -42,6 +42,11 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
             mobBrain.investigating = false;
             animator.SetBool("isInvestigating", false);
         }
+        // Enters charge state if the player takes a picture of the monster
+        if(!mobBrain.picTakenEvent && GameStateManager.ValidSplitjawPic){
+            Mob.velocity = Vector3.zero;
+            animator.SetBool("isCharging", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
