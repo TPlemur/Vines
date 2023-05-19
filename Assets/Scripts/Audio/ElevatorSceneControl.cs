@@ -29,6 +29,8 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject elevConsole;
 
+    private bool videoFinished = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,8 @@ public class ElevatorSceneControl : MonoBehaviour
         videoPlayer.started += VideoStarted;
         videoPlayer.loopPointReached += VideoFinished;
 
+        videoFinished = false;
+
         StartCoroutine(WaitAndStartVideo());
     }
 
@@ -45,13 +49,18 @@ public class ElevatorSceneControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale == 0) {
-            videoPlayer.Pause();
-            videoAudio.EventInstance.setPaused(true);
-        }
-        if (!videoPlayer.isPlaying && Time.timeScale == 1) {
-            videoPlayer.Play();
-            videoAudio.EventInstance.setPaused(false);
+        if (!videoFinished)
+        {
+            if (Time.timeScale == 0)
+            {
+                videoPlayer.Pause();
+                videoAudio.EventInstance.setPaused(true);
+            }
+            if (!videoPlayer.isPlaying && Time.timeScale == 1)
+            {
+                videoPlayer.Play();
+                videoAudio.EventInstance.setPaused(false);
+            }
         }
         
         if (Input.GetKey(KeyCode.Space))
@@ -80,6 +89,7 @@ public class ElevatorSceneControl : MonoBehaviour
     void VideoFinished(UnityEngine.Video.VideoPlayer source)
     {
         Debug.Log("video finished");
+        videoFinished = true;
 
         elevatorSFX.EventInstance.setParameterByName("State", 0);
 
