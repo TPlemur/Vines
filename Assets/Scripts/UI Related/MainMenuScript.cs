@@ -45,9 +45,12 @@ public class MainMenuScript : MonoBehaviour
         }
         catch (NullReferenceException ex) {
         }
-        story.isOn = PlayerPrefs.GetInt("isStory", 0) == 0;
-        radar.isOn = PlayerPrefs.GetInt("isRadar", 0) == 0;
-        timer.isOn = PlayerPrefs.GetInt("isTimer", 1) == 0;
+        if (story != null)
+        {
+            story.isOn = PlayerPrefs.GetInt("isStory", 0) == 0;
+            radar.isOn = PlayerPrefs.GetInt("isRadar", 0) == 0;
+            timer.isOn = PlayerPrefs.GetInt("isTimer", 1) == 0;
+        }
     }
 
     //set the appropreate variable
