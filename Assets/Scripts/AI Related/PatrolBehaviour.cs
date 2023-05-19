@@ -63,7 +63,7 @@ public class PatrolBehaviour : StateMachineBehaviour
             patrolToNewSpot(Mob, patrolRadius, patrolPos);
         }
         // Enters charge state if the monster detects the player
-        if(mobBrain.detectsPlayer && !mobBrain.isHiding){
+        if(Brain.detectsPlayer && !Brain.isHiding){
             Mob.velocity = Vector3.zero;
             animator.SetBool("isCharging", true);
         }

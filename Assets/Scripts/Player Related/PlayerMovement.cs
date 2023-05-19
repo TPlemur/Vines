@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
     Brain mobBrain;
+    [SerializeField] GameObject vineInvestigationTarget;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         mobBrain = Monster.GetComponentInChildren<Brain>();
+        SmartSeeker.investigateTarget = vineInvestigationTarget;
     }
 
     // Update is called once per frame
@@ -83,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.K)){
             OnPlayerKilled();
         }
+        runHint();
     }
 
     private void FixedUpdate(){
@@ -174,13 +177,14 @@ public class PlayerMovement : MonoBehaviour
         else if(collision.tag == "Vine")
         {
             //Monster.GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
-            mobBrain.detectsPlayer = true;
+            //Brain.detectsPlayer = true;
         }
         else if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(true);
-            mobBrain.isHiding = true;
-            mobBrain.detectsPlayer = false;
+            Brain.isHiding = true;
+            //Brain.detectsPlayer = false;
+            SmartSeeker.playerHidden = true;
         }
     }
 
@@ -189,11 +193,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(false);
-            mobBrain.isHiding = false;
+            Brain.isHiding = false;
+            SmartSeeker.playerHidden = false;
         }
 
         if (collision.name == "Vine"){
-            mobBrain.detectsPlayer = false;
+           // Brain.detectsPlayer = false;
         }
     }
 
@@ -225,6 +230,24 @@ public class PlayerMovement : MonoBehaviour
             ItemCamera.SetActive(false);
             Objectives.SetActive(false);
             StartCoroutine(LoadAfterTime((float)0.95));
+        }
+    }
+
+    //update hints for the player
+    float HintUpdateTime = 10;
+    float HintTimer = 0;
+    void runHint()
+    {
+        HintTimer += Time.deltaTime;
+        if (HintTimer > HintUpdateTime)
+        {
+            HintTimer = 0;
+            if (!Brain.isHiding)
+            {
+                SmartSeeker.investigateTarget.transform.position = transform.position;
+            }
+            else { SmartSeeker.investigateTarget.transform.position = Monster.transform.position; }
+            SmartSeeker.setSearch = true;
         }
     }
 }

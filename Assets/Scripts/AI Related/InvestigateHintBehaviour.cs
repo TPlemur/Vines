@@ -30,15 +30,15 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Walks towards player if they're not in a hiding spot
-        if(!Mob.hasPath &! mobBrain.isHiding){
+        if(!Mob.hasPath &! Brain.isHiding){
             Mob.SetDestination(Player.position);
         }
         // Enters charge state when player detected
-        if(mobBrain.detectsPlayer){
+        if(Brain.detectsPlayer){
             animator.SetBool("isCharging", true);
         }
         // Returns to patrol state when player hides
-        if(mobBrain.isHiding){
+        if(Brain.isHiding){
             mobBrain.investigating = false;
             animator.SetBool("isInvestigating", false);
         }

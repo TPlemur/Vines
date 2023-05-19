@@ -24,7 +24,7 @@ public class SeekerTrigger : MonoBehaviour
         gridBranches = gameObject.GetComponentsInChildren<CrawlerBranch>();
         StartCoroutine(startVines());
     }
-
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -55,7 +55,7 @@ public class SeekerTrigger : MonoBehaviour
             isTog = false;
         }
     }
-
+    */
     public void setWander()
     {
         toggle = false;
@@ -90,6 +90,7 @@ public class SeekerTrigger : MonoBehaviour
             //wait one frame to stagger vine updates
             yield return 0;
             b.spawn();
+            b.gameObject.GetComponent<SmartSeeker>().setState(SmartSeeker.seekerState.wander);
         }
     }
 }

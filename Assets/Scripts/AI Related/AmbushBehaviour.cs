@@ -39,7 +39,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         }
         // Moves monster to hiding spot
         float distanceFromPlayer = Vector3.Distance(hidingSpotToAmbush.transform.position, Player.position);
-        if(!mobBrain.isHiding && distanceFromPlayer >= 10){
+        if(!Brain.isHiding && distanceFromPlayer >= 10){
             Mob.Warp(hidingSpotToAmbush.transform.position);
             Mob.isStopped = true;
             Mob.Stop();

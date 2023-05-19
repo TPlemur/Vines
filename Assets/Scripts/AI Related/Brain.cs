@@ -21,7 +21,7 @@ public class Brain : MonoBehaviour
     public float tempPursuitTimer;
     public float maxChaseTimer;
     [HideInInspector]
-    public bool detectsPlayer = false;
+    public static bool detectsPlayer = false;
     [HideInInspector]
     public bool huntedGeneratorEvent = false;
     
@@ -35,7 +35,7 @@ public class Brain : MonoBehaviour
     [HideInInspector]
     public float timeSpentAmbushing = 0;
     [HideInInspector]
-    public bool isHiding = false;
+    public static bool isHiding = false;
     [HideInInspector]
     public bool monsterIsHiding = false;
     [HideInInspector]
