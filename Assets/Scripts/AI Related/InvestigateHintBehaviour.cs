@@ -30,16 +30,16 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Walks towards player if they're not in a hiding spot
-        if(!Mob.hasPath &! mobBrain.isHiding){
+        if(!Mob.hasPath &! Brain.isHiding){
             Mob.SetDestination(Player.position);
         }
         // Enters charge state when player detected
-        if(mobBrain.detectsPlayer){
+        if(Brain.detectsPlayer){
             animator.SetBool("isCharging", true);
         }
         // Returns to patrol state when player hides
-        if(mobBrain.isHiding){
-            mobBrain.investigating = false;
+        if(Brain.isHiding){
+            Brain.investigating = false;
             animator.SetBool("isInvestigating", false);
         }
         // Enters charge state if the player takes a picture of the monster
@@ -52,7 +52,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       mobBrain.investigating = false;
+       Brain.investigating = false;
        mobBrain.timeForHint = false;
     }
 }

@@ -31,11 +31,11 @@ public class IdleBehaviour : StateMachineBehaviour
         if (timer > patrolDelay)
             animator.SetBool("isPatrolling", true);
 
-        if(Mob.GetComponentInChildren<Brain>().detectsPlayer && !Mob.GetComponentInChildren<Brain>().isHiding)
+        if(Brain.detectsPlayer && !Brain.isHiding)
             animator.SetBool("isCharging", true);
 
         //Debug.Log(Mob.GetComponent<Brain>().investigating);
-        if (Mob.GetComponentInChildren<Brain>().investigating){
+        if (Brain.investigating){
             animator.SetBool("isInvestigating", true);
         }
     }

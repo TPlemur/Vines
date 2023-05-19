@@ -57,8 +57,8 @@ public class ChaseBehaviour : StateMachineBehaviour
             canStillSeePlayer = false;
         }
         // Exits chase state if the player is in a hiding hole (unless it can still see the player), otherwise charges them
-        if(mobBrain.isHiding && !canStillSeePlayer){
-            mobBrain.detectsPlayer = false;
+        if(Brain.isHiding && !canStillSeePlayer){
+            Brain.detectsPlayer = false;
             Mob.Stop();
             Mob.ResetPath();
             animator.SetBool("isChasing", false);
@@ -69,7 +69,7 @@ public class ChaseBehaviour : StateMachineBehaviour
         }
         // Stops chasing the player after a certain amount of time
         if(timeSpentCharging >= mobBrain.maxChaseTimer){
-            mobBrain.detectsPlayer = false;
+            Brain.detectsPlayer = false;
             animator.SetBool("isChasing", false);
         }
         // Stops the monster from killing the player when the shield is deployed

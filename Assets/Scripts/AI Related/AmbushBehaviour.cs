@@ -21,7 +21,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         mobBrain.oldPosition = Mob.transform.position;
         mobBrain.monsterIsHiding = true;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-        mobBrain.investigating = false;
+        Brain.investigating = false;
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
     }
 
@@ -39,7 +39,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         }
         // Moves monster to hiding spot
         float distanceFromPlayer = Vector3.Distance(hidingSpotToAmbush.transform.position, Player.position);
-        if(!mobBrain.isHiding && distanceFromPlayer >= 10){
+        if(!Brain.isHiding && distanceFromPlayer >= 10){
             Mob.Warp(hidingSpotToAmbush.transform.position);
             Mob.isStopped = true;
             Mob.Stop();

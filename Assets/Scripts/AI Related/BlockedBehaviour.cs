@@ -34,7 +34,7 @@ public class BlockedBehaviour : StateMachineBehaviour
         }else{
             mobBrain.isShielded = false;
             animator.SetBool("isBlocked", false);
-            mobBrain.detectsPlayer = false;
+            Brain.detectsPlayer = false;
         }
     }
 
@@ -42,6 +42,6 @@ public class BlockedBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Mob.GetComponentInChildren<MonsterSounds>().Howl();
-        mobBrain.detectsPlayer = false;
+        Brain.detectsPlayer = false;
     }
 }

@@ -21,6 +21,7 @@ public class SleepBehaviour : StateMachineBehaviour
         if(GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ 
             animator.SetBool("isSleeping", false);
             mobBrain.huntedGeneratorEvent = true;
+            SmartSeeker.setSurround = true;
         }
     }
 }

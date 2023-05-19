@@ -31,17 +31,23 @@ public class MovementEnforcer : MonoBehaviour
         timer += Time.deltaTime;
 
         //check if the player has moved outside their rad
-        if(Vector3.Distance(lastPos,transform.position) > moveRad)
+        //if(Vector3.Distance(lastPos,transform.position) > moveRad)
         {
-            lastPos = transform.position;
-            timer = 0;
+            //lastPos = transform.position;
+            //timer = 0;
         }
 
         //spawn a seekerVine if player hasn't moved enough
         if (timer > timeBeforeSeeker)
         {
             timer = 0;
-
+            if (!Brain.isHiding)
+            {
+                SmartSeeker.investigateTarget.transform.position = transform.position;
+            }
+            else { SmartSeeker.investigateTarget.transform.position = transform.position; }
+            SmartSeeker.setSearch = true;
+            /*
             //remove any old branches
             Branch[] bs = SeekerSpawner.GetComponentsInChildren<Branch>();
             foreach(Branch b in bs)
@@ -57,7 +63,7 @@ public class MovementEnforcer : MonoBehaviour
 
             //spawn a seekerVine
             seekerScript.genVine(SeekerSpawner, vineSpeeds, vineSpeeds, vineSpeeds);
-
+            */
         }
     }
 }
