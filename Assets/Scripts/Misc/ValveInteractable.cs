@@ -17,6 +17,8 @@ public class ValveInteractable : MonoBehaviour
     [SerializeField] float timeToRotate = 2;       //time in seconds spent rotating
     [SerializeField] UnityEvent triggerOnComplete; //functions to call when rotation is done
 
+    FMOD.Studio.EventInstance sfx;
+
     //internal vars
     bool turning = false;
     bool canTurn = true;
@@ -36,6 +38,16 @@ public class ValveInteractable : MonoBehaviour
     {
         turning = true;
         interact = interactKey;
+    }
+
+    private void Start()
+    {
+        InitSFX();
+    }
+
+    private void OnDestroy()
+    {
+        DestorySFX();
     }
 
     // Update is called once per frame
@@ -60,6 +72,27 @@ public class ValveInteractable : MonoBehaviour
                 //call connected functions
                 triggerOnComplete.Invoke();
             }
+
+            UpdateSFX();
         }
+    }
+
+    void InitSFX()
+    {
+        const string eventName = "event:/SFX/Items/HidingSpots/ValveTurn";
+        sfx = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sfx.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+    }
+    void UpdateSFX()
+    {
+        FMOD.Studio.PLAYBACK_STATE playbackState;
+        sfx.getPlaybackState(out playbackState);
+        if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            sfx.start();
+    }
+    void DestorySFX()
+    {
+        sfx.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        sfx.release();
     }
 }

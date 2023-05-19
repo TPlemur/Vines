@@ -103,6 +103,7 @@ public class PauseMenu : MonoBehaviour
         //SetUIElements(false);
         Cursor.lockState = CursorLockMode.Confined; //unlock cursor on resume
         Cursor.visible = true;
+        PauseSFX();
     }
 
     public void ResumeGame()
@@ -112,6 +113,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         //SetUIElements(true);
         Cursor.lockState = CursorLockMode.Locked; //relock cursor on resume
+        PauseSFX();
     }
 
     //go to settings
@@ -199,6 +201,13 @@ public class PauseMenu : MonoBehaviour
     private void PageTurnSFX()
     {
         const string eventName = "event:/UI/Envelope/PageTurn";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.start();
+        sound.release();
+    }
+    private void PauseSFX()
+    {
+        const string eventName = "event:/SFX/Items/Inventory/Bag Pickup";
         var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
         sound.start();
         sound.release();

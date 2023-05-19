@@ -77,7 +77,7 @@ public class MainMenuScript : MonoBehaviour
     }
     public void SetScanner()
     {
-        if (timer.isOn)
+        if (radar.isOn)
         {
             MainMenuScript.scannerOn = true;
             PlayerPrefs.SetInt("isRadar", 0);

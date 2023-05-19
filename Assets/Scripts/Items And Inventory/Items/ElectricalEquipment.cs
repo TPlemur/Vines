@@ -27,14 +27,24 @@ public class ElectricalEquipment : Item
 
     private void Start()
     {
-        findItems();
+        if (MainMenuScript.scannerOn)
+        {
+            findItems();
+        }
+        else
+        {
+            itemObj.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        GameObject tar = scan();
-        if (tar == null) { display.BlankDisplay(); }
-        else { objToDisplay(tar); }
+        if (MainMenuScript.scannerOn)
+        {
+            GameObject tar = scan();
+            if (tar == null) { display.BlankDisplay(); }
+            else { objToDisplay(tar); }
+        }
     }
 
     public void setup(Camera pCam, LayerMask mask, GameObject stateManager, GameObject UIElement, GameObject progressUI, List<GameObject> targets)

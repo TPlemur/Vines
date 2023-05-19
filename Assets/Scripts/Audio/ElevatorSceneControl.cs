@@ -45,6 +45,15 @@ public class ElevatorSceneControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) {
+            videoPlayer.Pause();
+            videoAudio.EventInstance.setPaused(true);
+        }
+        if (!videoPlayer.isPlaying && Time.timeScale == 1) {
+            videoPlayer.Play();
+            videoAudio.EventInstance.setPaused(false);
+        }
+        
         if (Input.GetKey(KeyCode.Space))
         {
             skipSliderObj.SetActive(true);
@@ -65,6 +74,7 @@ public class ElevatorSceneControl : MonoBehaviour
     void VideoStarted(UnityEngine.Video.VideoPlayer source)
     {
         videoAudio.Play();
+        videoPlayer.started -= VideoStarted;
     }
 
     void VideoFinished(UnityEngine.Video.VideoPlayer source)
@@ -85,6 +95,6 @@ public class ElevatorSceneControl : MonoBehaviour
     IEnumerator WaitAndEndScene()
     {
         yield return new WaitForSeconds(afterVideoWaitTime);
-        fadeController.FadeOutToSceen(0.25f, 1); ;
+        fadeController.FadeOutToSceen(0.25f, 1); 
     }
 }
