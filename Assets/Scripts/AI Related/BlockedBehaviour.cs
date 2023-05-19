@@ -21,6 +21,8 @@ public class BlockedBehaviour : StateMachineBehaviour
         Mob.speed = 0;
         Mob.ResetPath();
         Mob.GetComponentInChildren<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
+        animator.SetBool("isChasing", false);
+        animator.SetBool("isCharging", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -32,6 +34,7 @@ public class BlockedBehaviour : StateMachineBehaviour
         }else{
             mobBrain.isShielded = false;
             animator.SetBool("isBlocked", false);
+            mobBrain.detectsPlayer = false;
         }
     }
 
@@ -39,5 +42,6 @@ public class BlockedBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Mob.GetComponentInChildren<MonsterSounds>().Howl();
+        mobBrain.detectsPlayer = false;
     }
 }

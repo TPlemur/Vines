@@ -40,6 +40,7 @@ public class PatrolBehaviour : StateMachineBehaviour
 
         //make vines chase player
         GameObject.FindGameObjectWithTag("Vine").GetComponent<SeekerTrigger>().setOnMonster();
+        animator.SetBool("isCharging", false);
     }
 
 
