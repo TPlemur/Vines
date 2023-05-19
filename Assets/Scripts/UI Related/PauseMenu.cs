@@ -141,12 +141,24 @@ public class PauseMenu : MonoBehaviour
     }
 
     //Deactivate page, activate main menu
-    void PageToMain(GameObject page)
+    public void PageToMain(GameObject page)
     {
         MainLevel.SetActive(true);
         page.SetActive(false);
         currentState = menuState.main;
         FolderSFX();
+    }
+
+    public void switchPage(bool forward)
+    {
+        if(currentState == menuState.equip)
+        {
+            advPage(EquipPages, ref EquipcurrnetPage, forward);
+        }
+        if (currentState == menuState.Case)
+        {
+            advPage(CasePages, ref caseCurrnetPage, forward);
+        }
     }
 
     //Switch sub-pages
