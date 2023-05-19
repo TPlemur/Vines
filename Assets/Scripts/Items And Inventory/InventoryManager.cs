@@ -168,7 +168,7 @@ public class InventoryManager : MonoBehaviour
         {
             var interact = hit.transform;
             //Toggle Items
-            if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight")
+            if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight" || interact.tag == "ScannerBeacon")
             {
                 PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Pick up " + interact.tag;
                 PText.SetActive(true);
@@ -185,8 +185,10 @@ public class InventoryManager : MonoBehaviour
                 lastOutline.On();
             }
             //toggle electrical panel
-            else if (interact.tag == "ElectricalPanel" || interact.tag == "ScannerBeacon")
+            else if (interact.tag == "ElectricalPanel" )
             {
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "FIX ELECTRONICS";
+                PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
