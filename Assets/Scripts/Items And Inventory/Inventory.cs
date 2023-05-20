@@ -130,4 +130,22 @@ public class Inventory
         equipped = items[current];
         equipped.Equip();
     }
+
+    public int getIndexOfType(System.Type item)
+    {
+        for(int i = 0; i < items.Count;i++)
+        {
+            if(items[i].GetType() == item) { return i; }
+        }
+        Debug.Log("getIndexOfType() Failed to find item");
+        return -1;
+    }
+
+    public void setCurrent(int newCurrent)
+    {
+        equipped.UnEquip();
+        current = newCurrent;
+        equipped = items[current];
+        equipped.Equip();
+    }
 }

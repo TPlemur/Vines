@@ -16,9 +16,9 @@ public class InventoryManager : MonoBehaviour
     //public GameObject Scanner_Controls;
 
     [Header("Input")]
-    public KeyCode interactKey = KeyCode.F;
-    public KeyCode cycleRightKey = KeyCode.E;
-    public KeyCode cycleLeftKey = KeyCode.Q;
+    public KeyCode interactKey = KeyCode.E;
+    //public KeyCode cycleRightKey = KeyCode.E;
+    //public KeyCode cycleLeftKey = KeyCode.Q;
 
     [Header("Item Pick Up Related")]
     public Camera playerCam;
@@ -60,17 +60,21 @@ public class InventoryManager : MonoBehaviour
     {
         CheckOutlines();
         // interact
-        if (Input.GetKeyDown(interactKey)) {
+        if (Input.GetKeyDown(interactKey))
+        {
             Interact();
         }
 
-        if (inventory.EquippedIsElectricalEquipment()) {
-            if (Input.GetMouseButton(0) && Time.timeScale != 0) {
+        if (inventory.EquippedIsElectricalEquipment())
+        {
+            if (Input.GetMouseButton(0) && Time.timeScale != 0)
+            {
                 inventory.GetEquippedGameObject().transform.localPosition = new Vector3((float)-0.08, (float)0.1, (float)0);
                 inventory.GetEquippedGameObject().transform.localRotation = Quaternion.Euler((float)0, (float)0, (float)38.892);
                 inventory.EquippedPrimary(); //allows access to update funct for time based things
             }
-            else {
+            else
+            {
                 inventory.GetEquippedGameObject().transform.localPosition = eeOrigPos;
                 inventory.GetEquippedGameObject().transform.localRotation = eeOrigRot;
             }
@@ -78,61 +82,79 @@ public class InventoryManager : MonoBehaviour
 
         //update outlines as necessasary
         //CheckOutlines();
-
+        /*
         // cycle left and right
-        if (Input.GetKeyDown(cycleRightKey)) {
-            if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()) {
+        if (Input.GetKeyDown(cycleRightKey))
+        {
+            if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM())
+            {
                 inventory.equipped.CycleRight();
             }
-            else {
+            else
+            {
                 inventory.CycleRight();
             }
         }
-        else if (Input.GetKeyDown(cycleLeftKey)) {
-            if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM()) {
+
+        else if (Input.GetKeyDown(cycleLeftKey))
+        {
+            if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM())
+            {
                 inventory.equipped.CycleLeft();
             }
-            else {
+            else
+            {
                 inventory.CycleLeft();
             }
         }
+        */
 
         // left click
-        if (Input.GetMouseButtonDown(0) && Time.timeScale !=0) {
+        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0 && !Input.GetKey(KeyCode.Q))
+        {
             inventory.EquippedPrimary();
         }
 
         // right click
-        if (Input.GetMouseButtonDown(1) && Time.timeScale != 0) {
+        if (Input.GetMouseButtonDown(1) && Time.timeScale != 0 && !Input.GetKey(KeyCode.Q))
+        {
             inventory.EquippedSecondary();
         }
 
         //SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
-        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha6)){
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha6))
+        {
             addItem(typeof(ScannerBeacon));
         }
-        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7)) {
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha7))
+        {
             addItem(typeof(ElectricalEquipment));
         }
-        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha8)) {
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha8))
+        {
             addItem(typeof(PVTM));
         }
-        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha9)) {
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha9))
+        {
             addItem(typeof(Shield));
         }
-        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha0)) {
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha0))
+        {
             addItem(typeof(Flashlight));
         }
     }
 
     // Shoot Raycast to detect items that can be picked up
-    private void Interact() {
+    private void Interact()
+    {
         if (PText.activeSelf) { PText.SetActive(false); }
         RaycastHit hit;
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f, interactLayer)) {
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.7f, interactLayer))
+        {
             var interact = hit.transform;
             //add approprate item to inventory
-            if (interact.tag == "PVTM" && !inventory.Has(typeof(PVTM))) {
+            if (interact.tag == "PVTM" && !inventory.Has(typeof(PVTM)))
+            {
                 addItem(typeof(PVTM));
                 Destroy(interact.gameObject);
             }
@@ -141,11 +163,12 @@ public class InventoryManager : MonoBehaviour
                 addItem(typeof(Shield));
                 Destroy(interact.gameObject);
             }
-            if (interact.tag == "Flashlight" && !inventory.Has(typeof(Flashlight))) {
+            if (interact.tag == "Flashlight" && !inventory.Has(typeof(Flashlight)))
+            {
                 addItem(typeof(Flashlight));
                 Destroy(interact.gameObject);
             }
-            if(interact.tag == "ScannerBeacon" && !inventory.Has(typeof(ScannerBeacon)))
+            if (interact.tag == "ScannerBeacon" && !inventory.Has(typeof(ScannerBeacon)))
             {
                 addItem(typeof(ScannerBeacon));
                 Destroy(interact.gameObject);
@@ -164,7 +187,7 @@ public class InventoryManager : MonoBehaviour
     private void CheckOutlines()
     {
         RaycastHit hit;
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.5f))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.7f))
         {
             var interact = hit.transform;
             //Toggle Items
@@ -185,7 +208,7 @@ public class InventoryManager : MonoBehaviour
                 lastOutline.On();
             }
             //toggle electrical panel
-            else if (interact.tag == "ElectricalPanel" && inventory.equipped.GetType() == typeof(ElectricalEquipment) )
+            else if (interact.tag == "ElectricalPanel" )
             {
                 PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "FIX ELECTRONICS";
                 PText.SetActive(true);
@@ -211,7 +234,8 @@ public class InventoryManager : MonoBehaviour
     void addItem(System.Type type)
     {
         //checked if already in inventory
-        if (!inventory.Has(type)) {
+        if (!inventory.Has(type))
+        {
 
             //properly instantiate item
             GameObject itemObj = new GameObject("item" + inventory.items.Count);
@@ -248,6 +272,21 @@ public class InventoryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         addItem(type);
+    }
+
+    public bool Has(System.Type item)
+    {
+        return inventory.Has(item);
+    }
+
+    public void setActiveItem(System.Type item)
+    {
+        if (!inventory.Has(item)) { Debug.Log("Item Type Not in Inv");  return; }
+        inventory.setCurrent(inventory.getIndexOfType(item));
+    }
+    public System.Type typeofCurrent()
+    {
+        return inventory.equipped.GetType();
     }
 }
 
