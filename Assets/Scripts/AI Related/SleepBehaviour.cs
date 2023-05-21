@@ -12,6 +12,7 @@ public class SleepBehaviour : StateMachineBehaviour
     {
         Mob = animator.gameObject.GetComponentInParent<UnityEngine.AI.NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.sleep;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

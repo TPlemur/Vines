@@ -18,6 +18,7 @@ public class PrechargeBehaviour : StateMachineBehaviour
     {
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.precharge;
         timer = 0;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerObj = GameObject.FindGameObjectWithTag("Player");

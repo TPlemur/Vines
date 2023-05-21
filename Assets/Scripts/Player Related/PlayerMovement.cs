@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
                     OnPlayerKilled();
                 }
             }
-            else
+            else if(mobBrain.currentMonState != Brain.monState.sleep)
             {
                 // player killed
                 OnPlayerKilled();

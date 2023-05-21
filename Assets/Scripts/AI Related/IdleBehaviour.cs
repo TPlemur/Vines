@@ -18,6 +18,7 @@ public class IdleBehaviour : StateMachineBehaviour
         timer = 0;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
+        Mob.GetComponentInChildren<Brain>().currentMonState = Brain.monState.sleep;
         patrolDelay = Mob.GetComponentInChildren<Brain>().patrolDelay;
 
         // AUDIO

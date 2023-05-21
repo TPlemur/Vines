@@ -21,6 +21,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         playerPos = Player.position;//getClosestNavPointToPlayer(Player);
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.investigate;
         Mob.speed = 3;
         animator.SetBool("isChasing", false);
         animator.SetBool("isCharging", false);

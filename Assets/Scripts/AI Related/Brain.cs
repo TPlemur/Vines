@@ -6,6 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class Brain : MonoBehaviour
 {
+    // Keeps track of monster state outside of animator
+    public enum monState{
+        sleep,
+        idle,
+        patrol,
+        investigate,
+        precharge,
+        charge,
+        blocked,
+        ambush
+    }
+    public monState currentMonState = monState.sleep;
+
     // Hint system for investigating player locations
     public float mobHintTimer;
     [HideInInspector]

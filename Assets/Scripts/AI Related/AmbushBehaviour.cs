@@ -18,6 +18,7 @@ public class AmbushBehaviour : StateMachineBehaviour
         hidingHoles = GameObject.FindGameObjectsWithTag("HidingHole");
         Mob = animator.gameObject.GetComponentInParent<UnityEngine.AI.NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.ambush;
         mobBrain.oldPosition = Mob.transform.position;
         mobBrain.monsterIsHiding = true;
         Player = GameObject.FindGameObjectWithTag("Player").transform;

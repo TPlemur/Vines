@@ -15,6 +15,7 @@ public class BlockedBehaviour : StateMachineBehaviour
         timer = 0;
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.blocked;
         // Stops the monster from trying to pursue player through shield
         Mob.Stop();
         Mob.isStopped = true;

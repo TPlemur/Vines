@@ -26,6 +26,7 @@ public class ChaseBehaviour : StateMachineBehaviour
         //Mob.speed = enemyspeed;
         Mob.speed = chargeSpeed;
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.charge;
         timeSpentCharging = 0;
         Debug.Log("IN CHASE STATE");
         Player = GameObject.FindGameObjectWithTag("Player").transform;
