@@ -24,6 +24,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         timer = 0;
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
+        mobBrain.currentMonState = Brain.monState.patrol;
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
