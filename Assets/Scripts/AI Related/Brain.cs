@@ -14,6 +14,12 @@ public class Brain : MonoBehaviour
     public bool timeForHint = false;
     [HideInInspector]
     public static bool investigating = false;
+    [HideInInspector]
+    public enum target{
+        player,
+        lure
+    }
+    public target currentTarget = target.player;
 
     // System that determines when the monster hunts and for how long
     public float mobPursuitTimer;
@@ -80,6 +86,7 @@ public class Brain : MonoBehaviour
             timeForHint = false;
         }
         else if(!isHiding){
+            currentTarget = target.player;
             timeForHint = true;
             investigating = true;
         }

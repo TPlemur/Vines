@@ -11,6 +11,7 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     NavMeshAgent Mob;
     Vector3 playerPos;
     Brain mobBrain;
+    public static GameObject Lure;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -30,8 +31,14 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Walks towards player if they're not in a hiding spot
-        if(!Mob.hasPath &! Brain.isHiding){
-            Mob.SetDestination(Player.position);
+        if(mobBrain.currentTarget == Brain.target.player){
+            if(!Mob.hasPath &! Brain.isHiding){
+                Mob.SetDestination(Player.position);
+            }
+        }else if(mobBrain.currentTarget == Brain.target.lure){
+            if(!Mob.hasPath){
+                Mob.SetDestination(Lure.transform.position);
+            }
         }
         // Enters charge state when player detected
         if(Brain.detectsPlayer){
