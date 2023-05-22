@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using TMPro;
 
 public class ElevatorSceneControl : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class ElevatorSceneControl : MonoBehaviour
     [SerializeField] GameObject elevConsole;
 
     private bool videoFinished = false;
+
+    [SerializeField] private List<string> subtitleText;
+    [SerializeField] private GameObject subtitleHolder;
 
     // Start is called before the first frame update
     void Start()
@@ -83,6 +87,7 @@ public class ElevatorSceneControl : MonoBehaviour
     void VideoStarted(UnityEngine.Video.VideoPlayer source)
     {
         videoAudio.Play();
+        StartCoroutine(PlaceSubtitles());
         videoPlayer.started -= VideoStarted;
     }
 
@@ -106,5 +111,47 @@ public class ElevatorSceneControl : MonoBehaviour
     {
         yield return new WaitForSeconds(afterVideoWaitTime);
         fadeController.FadeOutToSceen(0.25f, 1); 
+    }
+    
+    IEnumerator PlaceSubtitles()
+    {
+        TextMeshProUGUI subtitleTextBox = subtitleHolder.GetComponentInChildren<TextMeshProUGUI>();
+        subtitleHolder.SetActive(true);
+        subtitleTextBox.text = "";
+        yield return new WaitForSeconds(0.5f);
+
+        subtitleTextBox.text = subtitleText[0];
+        yield return new WaitForSeconds(1.8f);
+
+        subtitleTextBox.text = subtitleText[1] + " " + subtitleText[2];
+        yield return new WaitForSeconds(4.2f);
+
+        subtitleTextBox.text = subtitleText[3];
+        yield return new WaitForSeconds(2.5f);
+
+        subtitleTextBox.text = subtitleText[4];
+        yield return new WaitForSeconds(2f);
+
+        subtitleTextBox.text = subtitleText[5];
+        yield return new WaitForSeconds(3f);
+
+        subtitleTextBox.text = subtitleText[6];
+        yield return new WaitForSeconds(1.2f);
+
+        subtitleTextBox.text = subtitleText[7];
+        yield return new WaitForSeconds(2f);
+
+        subtitleTextBox.text = subtitleText[8] + " " + subtitleText[9];
+        yield return new WaitForSeconds(3f);
+
+        subtitleTextBox.text = subtitleText[10];
+        yield return new WaitForSeconds(2.3f);
+
+        subtitleTextBox.text = subtitleText[11];
+        yield return new WaitForSeconds(2.2f);
+
+        subtitleTextBox.text = subtitleText[12];
+        yield return new WaitForSeconds(2.3f);
+        subtitleHolder.SetActive(false);
     }
 }
