@@ -27,6 +27,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Electrical Equipment Related")]
     public LayerMask panelLayer;
     public GameObject progressUI;
+    public GameObject LMBtext;
 
     [Header("PVTM Related")]
     public GameObject RealPVTMCamera;
@@ -208,10 +209,24 @@ public class InventoryManager : MonoBehaviour
                 lastOutline.On();
             }
             //toggle electrical panel
-            else if (interact.tag == "ElectricalPanel" )
+            else if (interact.tag == "ElectricalPanel")
             {
-                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "FIX ELECTRONICS";
-                PText.SetActive(true);
+                LMBtext.transform.GetComponentInChildren<TextMeshProUGUI>().text = "GENERATOR";
+                LMBtext.SetActive(true);
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
+            else if (interact.tag == "ContainmentButton")
+            {
+                LMBtext.transform.GetComponentInChildren<TextMeshProUGUI>().text = "CONTAINMENT CELL";
+                LMBtext.SetActive(true);
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
+            else if (interact.tag == "ElevatorConsole")
+            {
+                LMBtext.transform.GetComponentInChildren<TextMeshProUGUI>().text = "ELEVATOR INTERCOM (RETURN HERE WITH EVIDENCE)";
+                LMBtext.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
@@ -220,6 +235,7 @@ public class InventoryManager : MonoBehaviour
             {
 
                 PText.SetActive(false);
+                LMBtext.SetActive(false);
                 lastOutline.Off();
             }
         }
@@ -227,6 +243,7 @@ public class InventoryManager : MonoBehaviour
         else if (lastOutline != null)
         {
             PText.SetActive(false);
+            LMBtext.SetActive(false);
             lastOutline.Off();
         }
     }

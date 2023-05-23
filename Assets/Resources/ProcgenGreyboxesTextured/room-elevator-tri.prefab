@@ -6060,9 +6060,10 @@ GameObject:
   - component: {fileID: 1449506730167025026}
   - component: {fileID: 1547704286667941132}
   - component: {fileID: 4116408346762414495}
+  - component: {fileID: 7313559262522384799}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: ElevatorConsole
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6110,6 +6111,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 71aaef7f0b690ea49892dc631becaf01, type: 2}
   - {fileID: 2100000, guid: 71aaef7f0b690ea49892dc631becaf01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -6362,6 +6364,21 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &7313559262522384799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7023504155774432427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679d3c4c7bc52de47ad8889841a6ea30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMat: {fileID: 0}
+  rend: {fileID: 1449506730167025026}
+  separateMesh: 0
 --- !u!1 &7087199970763613537
 GameObject:
   m_ObjectHideFlags: 0
