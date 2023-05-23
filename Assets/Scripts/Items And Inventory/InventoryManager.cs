@@ -188,7 +188,7 @@ public class InventoryManager : MonoBehaviour
     private void CheckOutlines()
     {
         RaycastHit hit;
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.7f))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 2.7f,interactLayer))
         {
             var interact = hit.transform;
             //Toggle Items
@@ -265,7 +265,7 @@ public class InventoryManager : MonoBehaviour
             {
                 case ElectricalEquipment EE:
                     EEScript = EE;
-                    EE.setup(playerCam, panelLayer, gameStateManager, Electrical_Controls, progressUI, scannerTargets);
+                    EE.setup(playerCam, interactLayer, gameStateManager, Electrical_Controls, progressUI, scannerTargets);
                     break;
                 case PVTM pvtm:
                     pvtm.setup(playerCam, PVTMCamLayer, RealPVTMCamera, MonsterPicLayer, FlashMat, gameStateManager, PVTM_Controls);
@@ -277,7 +277,7 @@ public class InventoryManager : MonoBehaviour
                     F.setup(gameStateManager, Flashlight_Controls);
                     break;
                 case ScannerBeacon S:
-                    S.setup(playerCam, panelLayer, gameStateManager, Beacon_Controls, EEScript);
+                    S.setup(playerCam, interactLayer, gameStateManager, Beacon_Controls, EEScript);
                     break;
             }
             //add new item to inventory
