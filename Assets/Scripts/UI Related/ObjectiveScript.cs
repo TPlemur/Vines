@@ -29,9 +29,16 @@ public class ObjectiveScript : MonoBehaviour
         {
             if(toggleslist[i].objectiveType == obj)
             {
-                cumulatveY += toggleslist[i].popIn(-cumulatveY);
-                active.Add(toggleslist[i]);
-                break;
+                if (toggleslist[i].objectiveType == ojbectives.switchItems)
+                {
+                    toggleslist[i].popIn(0);
+                }
+                else
+                {
+                    cumulatveY += toggleslist[i].popIn(-cumulatveY);
+                    active.Add(toggleslist[i]);
+                    break;
+                }
             }
         }
     }
@@ -122,11 +129,6 @@ public class ObjectiveScript : MonoBehaviour
                 deActivateObjective(ojbectives.move);
             }
             
-        }
-
-        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)))
-        {
-                deActivateObjective(ojbectives.switchItems);
         }
 
     }
