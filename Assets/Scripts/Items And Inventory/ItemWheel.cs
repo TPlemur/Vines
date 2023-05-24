@@ -11,6 +11,7 @@ public class ItemWheel : MonoBehaviour
     [SerializeField] float animTime = 0.125f;
     [SerializeField] int smoothingTicks = 10;
     [SerializeField] float backlashFactor = 1;
+    [SerializeField] float mouseScrollThreshold = 0.9f;
 
     [Header("Items WedgeUI:")]
     [SerializeField] GameObject EWedge;
@@ -20,7 +21,7 @@ public class ItemWheel : MonoBehaviour
     [SerializeField] GameObject SWedge;
 
     Color baseColor;
-    KeyCode menuKey = KeyCode.Q;
+    static KeyCode menuKey = KeyCode.Q;
     bool menuOpen = false;
     List<Vector2> PrevMouseInpts = new List<Vector2>();
 
@@ -63,9 +64,18 @@ public class ItemWheel : MonoBehaviour
             runMenu();
         }
         //close Menu
-        else if((Input.GetKeyUp(menuKey) || Input.GetMouseButtonUp(2)) && menuOpen )
+        else if ((Input.GetKeyUp(menuKey) || Input.GetMouseButtonUp(2)) && menuOpen)
         {
             closeMenu();
+        }
+
+        if(Input.mouseScrollDelta.y > mouseScrollThreshold)
+        {
+            StartCoroutine(mouseWheelScroll(true));
+        }
+        else if(Input.mouseScrollDelta.y < -mouseScrollThreshold)
+        {
+            StartCoroutine(mouseWheelScroll(false));
         }
     }
 
@@ -116,10 +126,10 @@ public class ItemWheel : MonoBehaviour
     {
         //Get mouse input avg over a number of ticks
         PrevMouseInpts.Add(new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")));
-        if(PrevMouseInpts.Count > smoothingTicks) { PrevMouseInpts.RemoveAt(0); }
+        if (PrevMouseInpts.Count > smoothingTicks) { PrevMouseInpts.RemoveAt(0); }
 
         Vector2 mouseInput = new Vector2();
-        foreach(Vector2 v in PrevMouseInpts) { mouseInput += v; }
+        foreach (Vector2 v in PrevMouseInpts) { mouseInput += v; }
 
         if (mouseInput.magnitude > backlashFactor)
         {
@@ -148,6 +158,51 @@ public class ItemWheel : MonoBehaviour
                 activeWedge = newActive;
                 StartCoroutine(LerpWedgeColor(activeWedge, baseColor, highlightColor));
             }
+        }
+    }
+
+
+    //scroll to next valid item, upOrDown being +1 or -1 to determine direction
+    IEnumerator mouseWheelScroll(bool Positive)
+    {
+        //pop the menu open quickly
+        for (int i = 0; i < wedges.Length; i++)
+        {
+            wedges[i].inInv = inv.Has(wedges[i].type);
+            if (wedges[i].inInv) { wedges[i].obj.SetActive(true); }
+            if (wedges[i].type == inv.typeofCurrent()) { activeWedge = i; }
+        }
+        StartCoroutine(LerpWedgeColor(activeWedge, baseColor, highlightColor));
+        yield return new WaitForSeconds(animTime);
+
+        //find new activeWedge
+        int newWedge = 0;
+        if (Positive)
+        {
+            newWedge = activeWedge + 1;
+            while(!wedges[newWedge % wedges.Length].inInv) { newWedge++; }
+            newWedge = newWedge % wedges.Length;
+        }
+        else
+        {
+            newWedge = activeWedge - 1;
+            if(newWedge == -1) { newWedge = wedges.Length - 1; }
+            while (!wedges[newWedge % wedges.Length].inInv) { newWedge--; }
+            newWedge = newWedge % wedges.Length;
+        }
+
+
+        StartCoroutine(LerpWedgeColor(newWedge, baseColor, highlightColor));
+        StartCoroutine(LerpWedgeColor(activeWedge, highlightColor, baseColor));
+        activeWedge = newWedge;
+        yield return new WaitForSeconds(animTime);
+
+        //close the menu
+        inv.setActiveItem(wedges[activeWedge].type);
+        foreach (itemWedge w in wedges)
+        {
+            w.img.color = baseColor;
+            w.obj.SetActive(false);
         }
     }
 
