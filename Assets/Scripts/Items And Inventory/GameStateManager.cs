@@ -112,11 +112,15 @@ public class GameStateManager : MonoBehaviour
     }
 
     public void FirstCameraLinked(){
-        FirstCameraConnected = true;
+        
         Debug.Log("FIRST CAMERA LINKED");
         // code/sounds/animations/UI for after linking the first camera
-        OBJSC.activateObjective(ObjectiveScript.ojbectives.document);
-        OBJSC.deActivateObjective(ObjectiveScript.ojbectives.camera);
+        if (!FirstCameraConnected)
+        {
+            OBJSC.activateObjective(ObjectiveScript.ojbectives.document);
+            OBJSC.deActivateObjective(ObjectiveScript.ojbectives.camera);
+        }
+        FirstCameraConnected = true;
         //OBJSC.RemoveFromActiveUI(OBJSC.CameraObj);
         //OBJSC.AddToActiveUI(OBJSC.DocumentObj);
     }
