@@ -7,8 +7,8 @@ public class trapScript : MonoBehaviour
 {
     [SerializeField] private float setTime = 2;
     [SerializeField] private float DelayTime = 2;
-    [SerializeField] private float MonTrapTime = 5;
-    [SerializeField] private float PlayerTrapTime = 5;
+    [SerializeField] private float MonTrapTime = 7;
+    [SerializeField] private float PlayerTrapTime = 7;
 
     [SerializeField] private Material powering;
     [SerializeField] private Material ready;
