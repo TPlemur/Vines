@@ -31,9 +31,15 @@ public class PauseMenu : MonoBehaviour
 
     public enum techPage
     {
-        EEsc = 0,
-        trpSh = 1,
-        pvtm = 2
+        EE = 0,
+        SC = 1,
+        FL = 2,
+        BE = 3,
+        PV = 4,
+        TR = 5,
+        SH = 6,
+        CH = 7,
+        SZ = 8
     }
 
     // Start is called before the first frame update
