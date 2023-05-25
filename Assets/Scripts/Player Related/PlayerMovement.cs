@@ -30,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Movement Inputs")]
-    public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode crouchKey = KeyCode.LeftShift;
     public bool ToggleCrouch = false;
-    public KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode sprintKey = KeyCode.LeftControl;
     private bool crouching = false;
     private float horizontalInput;
     private float verticalInput;
