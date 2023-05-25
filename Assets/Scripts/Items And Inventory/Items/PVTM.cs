@@ -29,7 +29,7 @@ public class PVTM : Item
     private Transform laserStart;
 
     // Timers for vines covering cameras
-    public float camVineTime = 30;
+    public float camVineTime = 90;
 
     private void Start()
     {
