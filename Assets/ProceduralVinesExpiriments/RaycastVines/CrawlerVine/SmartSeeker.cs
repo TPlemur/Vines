@@ -8,10 +8,10 @@ public class SmartSeeker : MonoBehaviour
     public float wanderSpeed = 0.5f;
     float searchSpeed = 0.4f;
     float seekSpeed = 0.08f;
-    float reportSpeed = 0.08f;
+    float reportSpeed = 0.16f;
     float surroundSpeed = 0.125f;
 
-    float decayTime = 40;
+    float decayTime = 20;
     float cycleTimer = 0;
     float decayRecoveryRatio = 0.5f;
 
@@ -83,7 +83,7 @@ public class SmartSeeker : MonoBehaviour
             cycleTimer = 0;
             StartCoroutine(setSurroundOff());
         }
-        if (Brain.isHiding && currentState == seekerState.seek) { setState(seekerState.surround); }
+        if (Brain.isHiding && (currentState == seekerState.seek || currentState == seekerState.report)) { setState(seekerState.surround); }
     }
 
     IEnumerator setSurroundOff()
@@ -131,6 +131,7 @@ public class SmartSeeker : MonoBehaviour
             SmartSeeker colSmt = collider.gameObject.GetComponent<SmartSeeker>();
             if (colSmt != null && colSmt.currentState > currentState && colSmt.currentState != seekerState.surround) 
             {
+                StartCoroutine(flash());
                 setState(colSmt.currentState);
                 cycleTimer = 0;
             }
