@@ -119,6 +119,7 @@ public class TrapSetter : MonoBehaviour
             }
             PlayerContact = true;
             inventory = collision.transform.gameObject.GetComponent<InventoryManager>().inventory;
+            ObjectiveScript.playerIsTrap = true;
         }
     }
 
@@ -130,6 +131,7 @@ public class TrapSetter : MonoBehaviour
         {
             b.materials = outOffArr;
         }
+        ObjectiveScript.playerIsTrap = false;
     }
 
     //wait two seconds then activate

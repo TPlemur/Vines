@@ -74,6 +74,8 @@ public class ObjectiveScript : MonoBehaviour
     public GameObject EscapeObj;
     public GameObject FlashObj;
     public GameObject CameraObj;
+    [SerializeField] GameObject TrapObj;
+    public static bool playerIsTrap = false;
     public TMP_Text timerText;
     public DateTime startTime;
     public DateTime pauseTime;
@@ -130,6 +132,6 @@ public class ObjectiveScript : MonoBehaviour
             }
             
         }
-
+        TrapObj.SetActive(playerIsTrap);
     }
 }
