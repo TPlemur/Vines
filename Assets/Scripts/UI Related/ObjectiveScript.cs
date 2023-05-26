@@ -121,7 +121,7 @@ public class ObjectiveScript : MonoBehaviour
             }
             timerText.text = "Time: " + ObjectiveScript.timeElapsed.Add(ObjectiveScript.timeDifference).ToString(@"mm\:ss\:ff");
         }
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && (inputCounter < 3))
+        if ((Input.GetKeyDown(KeyMapper.forward) || Input.GetKeyDown(KeyMapper.backward) || Input.GetKeyDown(KeyMapper.left) || Input.GetKeyDown(KeyMapper.right)) && (inputCounter < 3))
         {
             inputCounter++;
             if (inputCounter == 1)

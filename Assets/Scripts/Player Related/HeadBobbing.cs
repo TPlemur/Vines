@@ -22,7 +22,7 @@ public class HeadBobbing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)){
+        if(Input.GetKey(KeyMapper.forward) || Input.GetKey(KeyMapper.backward) || Input.GetKey(KeyMapper.left) || Input.GetKey(KeyMapper.right)){
             //Player is moving
             timer += Time.deltaTime * bobSpeed;
             //transform.localPosition = new Vector3(defaultX + Mathf.Sin(timer) * bobIntensity, defaultY + Mathf.Sin(timer) * bobIntensity, transform.localPosition.z);

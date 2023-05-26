@@ -21,10 +21,10 @@ public class ItemWheel : MonoBehaviour
     [SerializeField] GameObject SWedge;
 
     Color baseColor;
-    static KeyCode menuKey = KeyCode.Q;
+    //static KeyCode menuKey = KeyCode.Q;
     bool menuOpen = false;
     List<Vector2> PrevMouseInpts = new List<Vector2>();
-
+    
     //struct to hold info about wedges
     struct itemWedge
     {
@@ -54,26 +54,26 @@ public class ItemWheel : MonoBehaviour
     void Update()
     {
         //open menu
-        if (Input.GetKeyDown(menuKey) || Input.GetMouseButtonDown(2))
+        if (Input.GetKeyDown(KeyMapper.itemWheel) && Time.timeScale != 0)
         {
             openMenu();
         }
         //run menu
-        else if (Input.GetKey(menuKey) || Input.GetMouseButton(2))
+        else if (Input.GetKey(KeyMapper.itemWheel))
         {
             runMenu();
         }
         //close Menu
-        else if ((Input.GetKeyUp(menuKey) || Input.GetMouseButtonUp(2)) && menuOpen)
+        else if ((Input.GetKeyUp(KeyMapper.itemWheel)) && menuOpen)
         {
             closeMenu();
         }
 
-        if(Input.mouseScrollDelta.y > mouseScrollThreshold)
+        if(Input.mouseScrollDelta.y > mouseScrollThreshold && Time.timeScale != 0)
         {
             StartCoroutine(mouseWheelScroll(true));
         }
-        else if(Input.mouseScrollDelta.y < -mouseScrollThreshold)
+        else if(Input.mouseScrollDelta.y < -mouseScrollThreshold && Time.timeScale != 0)
         {
             StartCoroutine(mouseWheelScroll(false));
         }

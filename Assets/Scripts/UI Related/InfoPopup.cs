@@ -32,7 +32,7 @@ public class InfoPopup : MonoBehaviour
         {
             toggledObjs.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.T)) { pm.openToEquip(page);}
+        if (Input.GetKeyDown(KeyMapper.techNotes)) { pm.openToEquip(page);}
 
     }
 
