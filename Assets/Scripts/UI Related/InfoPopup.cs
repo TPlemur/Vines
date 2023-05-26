@@ -41,6 +41,6 @@ public class InfoPopup : MonoBehaviour
         slider = GetComponent<Slider>();
         inverseTime = 1 / timeForPrompt;
         toggledObjs.SetActive(false);
-        page = PauseMenu.techPage.EEsc;
+        page = PauseMenu.techPage.EE;
     }
 }

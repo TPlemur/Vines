@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
     Brain mobBrain;
+    public float safeMonContactTime = 1.5f;
+    private bool touchingMonster = false;
     [SerializeField] GameObject vineInvestigationTarget;
 
     [Header("Movement")]
@@ -30,9 +32,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Movement Inputs")]
-    public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode crouchKey = KeyCode.LeftShift;
     public bool ToggleCrouch = false;
-    public KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode sprintKey = KeyCode.LeftControl;
     private bool crouching = false;
     private float horizontalInput;
     private float verticalInput;
@@ -152,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.tag == "Monster")
         {
-
+            touchingMonster = true;
             if (gameObject.GetComponent<InventoryManager>().inventory.EquippedIsShield())
             {
                 Shield sh = gameObject.GetComponent<InventoryManager>().inventory.equipped.GetComponent<Shield>();
@@ -164,13 +166,13 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     // player killed
-                    OnPlayerKilled();
+                    StartCoroutine(touchedMonster());
                 }
             }
             else if(mobBrain.currentMonState != Brain.monState.sleep)
             {
                 // player killed
-                OnPlayerKilled();
+                StartCoroutine(touchedMonster());
             }
 
         }
@@ -190,6 +192,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
+        if (collision.tag == "Monster")
+        {
+            touchingMonster = false;
+        }
+        
         if (collision.name == "HideTrigger")
         {
             MixerController.SetHiding(false);
@@ -219,6 +226,13 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene(3);
+    }
+
+    IEnumerator touchedMonster(){
+        yield return new WaitForSeconds(safeMonContactTime);
+        if(touchingMonster){
+            OnPlayerKilled();
+        }
     }
 
     private void OnPlayerKilled()
