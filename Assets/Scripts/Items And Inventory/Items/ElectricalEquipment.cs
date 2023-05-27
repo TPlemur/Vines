@@ -24,7 +24,6 @@ public class ElectricalEquipment : Item
     private FMOD.Studio.EventInstance continuousSFXInstance;
     static public GameObject sfxUpdateTarget = null; // bad code to make this static, but trying to hack together a solution that works with lots of other bad code...
 
-
     private void Start()
     {
         if (MainMenuScript.scannerOn)
@@ -92,6 +91,10 @@ public class ElectricalEquipment : Item
                 if(MonsterCheck.isMonsterInside){
                     gameState.SplitjawContained();
                     SceneManager.LoadScene(2);
+                    if(!MainMenuScript.secretEndingReached){
+                        MainMenuScript.endingsReached++;
+                        MainMenuScript.secretEndingReached = true;
+                    }
                 }
             }
         }
