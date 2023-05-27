@@ -32,9 +32,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Movement Inputs")]
-    public KeyCode crouchKey = KeyCode.LeftShift;
+    //public KeyCode crouchKey = KeyCode.LeftShift;
     public bool ToggleCrouch = false;
-    public KeyCode sprintKey = KeyCode.LeftControl;
+    //public KeyCode sprintKey = KeyCode.LeftControl;
     private bool crouching = false;
     private float horizontalInput;
     private float verticalInput;
@@ -95,14 +95,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void GetInputs(){
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = 0;//Input.GetAxisRaw("Horizontal"); //
+        if (Input.GetKey(KeyMapper.right)) { horizontalInput++; }
+        if(Input.GetKey(KeyMapper.left)) { horizontalInput--; }
+
+        verticalInput = 0;//Input.GetAxisRaw("Vertical"); //
+        if (Input.GetKey(KeyMapper.forward)) { verticalInput++; }
+        if (Input.GetKey(KeyMapper.backward)) { verticalInput--; }
+        //Debug.Log("HI: " + horizontalInput + " VI: " + verticalInput);
     }
 
     private void MovePlayer(){
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        if (Input.GetKey(KeyCode.S)) {
+        if (Input.GetKey(KeyMapper.backward)) {
             rb.AddForce(moveDirection.normalized * moveSpeed * 4f, ForceMode.Force);
         }
         else {
@@ -123,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float crouchHeight;
 
     private void Crouch(){
-        if(Input.GetKeyDown(crouchKey)){
+        if(Input.GetKeyDown(KeyMapper.crouch)){
             if(!crouching){
                 crouching = true;
                 FloorCollider.height = 1;
@@ -137,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
                 UnCrouch();
             }
         }
-        if(Input.GetKeyUp(crouchKey) && !ToggleCrouch && crouching){
+        if(Input.GetKeyUp(KeyMapper.crouch) && !ToggleCrouch && crouching){
             UnCrouch();
         }
     }

@@ -29,7 +29,7 @@ public class TrapTrapper : MonoBehaviour
         if (setter.currentState == TrapSetter.State.set)
         {
             //send collision to the approprate handeler
-            if (!triggered && collision.transform.tag == "Player" && !Input.GetKey(PM.crouchKey))
+            if (!triggered && collision.transform.tag == "Player" && !Input.GetKey(KeyMapper.crouch))
             {
                 triggered = true;
                 StartCoroutine(trapPlayer(collision.gameObject));

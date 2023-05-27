@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
     //public GameObject Scanner_Controls;
 
     [Header("Input")]
-    public KeyCode interactKey = KeyCode.E;
+    //public KeyCode interactKey = KeyCode.E;
     //public KeyCode cycleRightKey = KeyCode.E;
     //public KeyCode cycleLeftKey = KeyCode.Q;
 
@@ -61,7 +61,7 @@ public class InventoryManager : MonoBehaviour
     {
         CheckOutlines();
         // interact
-        if (Input.GetKeyDown(interactKey))
+        if (Input.GetKeyDown(KeyMapper.interact))
         {
             Interact();
         }
@@ -111,13 +111,13 @@ public class InventoryManager : MonoBehaviour
         */
 
         // left click
-        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0 && !Input.GetKey(KeyCode.Q))
+        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0 && !Input.GetKey(KeyMapper.itemWheel))
         {
             inventory.EquippedPrimary();
         }
 
         // right click
-        if (Input.GetMouseButtonDown(1) && Time.timeScale != 0 && !Input.GetKey(KeyCode.Q))
+        if (Input.GetMouseButtonDown(1) && Time.timeScale != 0 && !Input.GetKey(KeyMapper.itemWheel))
         {
             inventory.EquippedSecondary();
         }
@@ -177,7 +177,7 @@ public class InventoryManager : MonoBehaviour
             //Activate valve
             if (interact.tag == "Valve")
             {
-                interact.gameObject.GetComponent<ValveInteractable>().startInteract(interactKey);
+                interact.gameObject.GetComponent<ValveInteractable>().startInteract(KeyMapper.interact);
             }
 
         }

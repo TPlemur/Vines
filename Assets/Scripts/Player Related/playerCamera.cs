@@ -44,7 +44,10 @@ public class playerCamera : MonoBehaviour
 
     public void Tilt()
     {
-        float rotZ = -Input.GetAxis("Horizontal") * _tiltAmount;
+        float horizontalInput = 0;
+        if (Input.GetKey(KeyMapper.right)) { horizontalInput++; }
+        if (Input.GetKey(KeyMapper.left)) { horizontalInput--; }
+        float rotZ = -horizontalInput * _tiltAmount;//Input.GetAxis("Horizontal")
 
         Quaternion finalRot = Quaternion.Euler(xRotation, yRotation, rotZ);
         transform.localRotation = Quaternion.RotateTowards(transform.localRotation, finalRot, _rotationSpeed);

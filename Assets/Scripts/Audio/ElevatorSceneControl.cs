@@ -116,9 +116,9 @@ public class ElevatorSceneControl : MonoBehaviour
     IEnumerator PlaceSubtitles()
     {
         TextMeshProUGUI subtitleTextBox = subtitleHolder.GetComponentInChildren<TextMeshProUGUI>();
-        subtitleHolder.SetActive(true);
         subtitleTextBox.text = "";
         yield return new WaitForSeconds(0.5f);
+        subtitleHolder.SetActive(true);
 
         subtitleTextBox.text = subtitleText[0];
         yield return new WaitForSeconds(1.8f);

@@ -48,7 +48,7 @@ public class MainMenuScript : MonoBehaviour
         try {
             if (speedRun) {
                 finalTime.gameObject.SetActive(true);
-                finalTime.text = "Time: " + ObjectiveScript.timeElapsed.ToString(@"mm\:ss\:ff");
+                finalTime.text = "TIME: " + ObjectiveScript.timeElapsed.ToString(@"mm\:ss\:ff");
             }
             seedInput.text = UnityEngine.Random.Range(0, 2147483647).ToString();
         }

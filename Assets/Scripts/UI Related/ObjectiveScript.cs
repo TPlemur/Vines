@@ -74,6 +74,8 @@ public class ObjectiveScript : MonoBehaviour
     public GameObject EscapeObj;
     public GameObject FlashObj;
     public GameObject CameraObj;
+    [SerializeField] GameObject TrapObj;
+    public static bool playerIsTrap = false;
     public TMP_Text timerText;
     public DateTime startTime;
     public DateTime pauseTime;
@@ -119,9 +121,9 @@ public class ObjectiveScript : MonoBehaviour
                 ObjectiveScript.timeDifference = ObjectiveScript.timeDifference.Add(ObjectiveScript.timePaused.Subtract(ObjectiveScript.timeElapsed));
                 ObjectiveScript.timePaused = TimeSpan.Zero;
             }
-            timerText.text = "Time: " + ObjectiveScript.timeElapsed.Add(ObjectiveScript.timeDifference).ToString(@"mm\:ss\:ff");
+            timerText.text = "TIME: " + ObjectiveScript.timeElapsed.Add(ObjectiveScript.timeDifference).ToString(@"mm\:ss\:ff");
         }
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && (inputCounter < 3))
+        if ((Input.GetKeyDown(KeyMapper.forward) || Input.GetKeyDown(KeyMapper.backward) || Input.GetKeyDown(KeyMapper.left) || Input.GetKeyDown(KeyMapper.right)) && (inputCounter < 3))
         {
             inputCounter++;
             if (inputCounter == 1)
@@ -130,6 +132,6 @@ public class ObjectiveScript : MonoBehaviour
             }
             
         }
-
+        TrapObj.SetActive(playerIsTrap);
     }
 }

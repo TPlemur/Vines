@@ -32652,7 +32652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &797271693
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41466,7 +41466,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Subtitles
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9021bf9caaf06d64fb03d4811d93918e, type: 2}
   m_sharedMaterial: {fileID: 7375071693291146046, guid: 9021bf9caaf06d64fb03d4811d93918e, type: 2}
@@ -51088,6 +51088,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   progressUI: {fileID: 0}
+  LMBtext: {fileID: 0}
   RealPVTMCamera: {fileID: 0}
   PVTMCamLayer:
     serializedVersion: 2
@@ -82144,7 +82145,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 800, y: 75}
+  m_SizeDelta: {x: 800, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806354347
 MonoBehaviour:
@@ -84934,6 +84935,8 @@ MonoBehaviour:
   sensX: 200
   sensY: 200
   orientation: {fileID: 841831360}
+  _tiltAmount: 5
+  _rotationSpeed: 0.5
 --- !u!1 &1861055519
 GameObject:
   m_ObjectHideFlags: 0
