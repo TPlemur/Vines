@@ -9,6 +9,7 @@ using System;
 
 public class MainMenuScript : MonoBehaviour
 {
+    [SerializeField] Text endingNumber;
 
     private FadeController fadeController;
     public TMP_InputField seedInput;
@@ -20,9 +21,17 @@ public class MainMenuScript : MonoBehaviour
 
     public static bool speedRun = false;
     public static bool scannerOn = true;
+    public static bool goodEndingReached = false;
+    public static bool secretEndingReached = false;
+    public static int endingsReached = 0;
 
     void Start()
     {
+        if(endingNumber){
+            endingNumber.text = MainMenuScript.endingsReached.ToString() + "/2";
+        }
+        Debug.Log("ENDINGS: " + endingsReached);
+
         fadeController = this.AddComponent<FadeController>();
         fadeController.FadeIn(0.25f);
         //set approprate lock mode
