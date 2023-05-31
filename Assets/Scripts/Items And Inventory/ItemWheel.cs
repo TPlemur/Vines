@@ -144,12 +144,12 @@ public class ItemWheel : MonoBehaviour
             //case: doR -- angleUp > 90  , angleR < 60   , SH - 2
             //case: doL -- angleUp > 90  , angleR > 120  , BE - 3
             int newActive = -1;
-            if (angleUp < 30) { newActive = 0; }                         //set EE to active 
-            else if (angleUp > 150) { newActive = activeWedge; }        //keep current wedge active
-            else if (angleUp < 90 && angleRight < 60) { newActive = 1; } //set pvtm to active
-            else if (angleUp < 90 && angleRight > 120) { newActive = 4; }//set flash to active
-            else if (angleUp > 90 && angleRight < 60) { newActive = 2; } //set shield to active
-            else { newActive = 3; }                                     //set beacon to active
+            if (angleUp < 30) { newActive = 0; ObjectiveScript.equipedisEE = true; }                          //set EE to active 
+            else if (angleUp > 150) { newActive = activeWedge; ObjectiveScript.equipedisEE = false; }         //keep current wedge active
+            else if (angleUp < 90 && angleRight < 60) { newActive = 1; ObjectiveScript.equipedisEE = false; } //set pvtm to active
+            else if (angleUp < 90 && angleRight > 120) { newActive = 4; ObjectiveScript.equipedisEE = false; }//set flash to active
+            else if (angleUp > 90 && angleRight < 60) { newActive = 2; ObjectiveScript.equipedisEE = false; } //set shield to active
+            else { newActive = 3; ObjectiveScript.equipedisEE = false; }                                      //set beacon to active
 
             //change active if necessasary
             if (newActive != activeWedge && wedges[newActive].inInv)
@@ -195,6 +195,8 @@ public class ItemWheel : MonoBehaviour
         StartCoroutine(LerpWedgeColor(newWedge, baseColor, highlightColor));
         StartCoroutine(LerpWedgeColor(activeWedge, highlightColor, baseColor));
         activeWedge = newWedge;
+        if(activeWedge == 0) { ObjectiveScript.equipedisEE = true; }
+        else { ObjectiveScript.equipedisEE = false; }
         yield return new WaitForSeconds(animTime);
 
         //close the menu

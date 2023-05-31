@@ -44,6 +44,8 @@ public class TrapSetter : MonoBehaviour
     public float GetStartTime() { return setTime; }
     public float GetTimerRatio() { return (timer / setTime); }
 
+    public static float chargingTime;
+
     private void Start()
     {
         //setup the outline system
@@ -119,6 +121,7 @@ public class TrapSetter : MonoBehaviour
             }
             PlayerContact = true;
             inventory = collision.transform.gameObject.GetComponent<InventoryManager>().inventory;
+            chargingTime = setTime;
             ObjectiveScript.playerIsTrap = true;
         }
     }
