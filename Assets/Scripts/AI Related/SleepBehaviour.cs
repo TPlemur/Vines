@@ -19,7 +19,7 @@ public class SleepBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //One time patrol start event as a result of the generator turning on
-        if(GameStateManager.GeneratorOn && !mobBrain.huntedGeneratorEvent){ 
+        if(GameStateManager.FacilityOn && !mobBrain.huntedGeneratorEvent){ 
             animator.SetBool("isSleeping", false);
             mobBrain.huntedGeneratorEvent = true;
             SmartSeeker.setSurround = true;

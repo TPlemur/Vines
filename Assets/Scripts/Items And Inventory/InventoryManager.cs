@@ -179,7 +179,11 @@ public class InventoryManager : MonoBehaviour
             {
                 interact.gameObject.GetComponent<ValveInteractable>().startInteract(KeyMapper.interact);
             }
-
+            //Activate Security Room Door
+            if (interact.tag == "SecurityDoorConsole")
+            {
+                //interact.gameObject.GetComponent<SecurityRoomDoor>().startInteract(KeyMapper.interact);
+            }
         }
     }
 
@@ -202,7 +206,6 @@ public class InventoryManager : MonoBehaviour
             //toggle valves
             else if (interact.tag == "Valve")
             {
-
                 PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Turn Valve";
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
@@ -230,10 +233,18 @@ public class InventoryManager : MonoBehaviour
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
+            //Toggle door control
+            else if (interact.tag == "SecurityDoorConsole")
+            {
+                //Debug.Log("You're looking at the Security Door Console");
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Open Door";
+                PText.SetActive(true);
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
             //toggle off
             else if (lastOutline != null)
             {
-
                 PText.SetActive(false);
                 LMBtext.SetActive(false);
                 lastOutline.Off();

@@ -81,7 +81,7 @@ public class PVTM : Item
     }
 
     public override void Primary(){
-        if(gameState.IsPowerRestored()){
+        if(gameState.IsFacilityUnlocked()){
             if(toggled){
                 if(gameState.IsFirstCameraLinked()){
                     GameObject obj = ShootRaycast(real, 25.0f, monsterPicLayer);

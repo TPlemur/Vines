@@ -67,7 +67,7 @@ public class TrapSetter : MonoBehaviour
         //check if trap can be charged
         if (currentState == State.off)
         {
-            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn && timer <= setTime)
+            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.FacilityOn && timer <= setTime)
             {
                 ElectricalEquipment.sfxUpdateTarget = gameObject;
                 //accumulate charge

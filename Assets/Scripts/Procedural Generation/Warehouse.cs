@@ -268,12 +268,28 @@ public class Warehouse{
         monster.transform.position = this.monsterRoom.obj.transform.position;
     }
 
+    /* TurnOnEmrgLights() turn on emergency lights
+     *
+     */
+    public void TurnOnEmrgLights(){
+        foreach(List<Room> row in data){
+            foreach(Room room in row){
+                if(room.exits.NumberOf() != 0){
+                    Transform emergency_lights = room.obj.transform.GetChild(0).transform.Find("EmergencyLights");
+                    if(emergency_lights != null){
+                        emergency_lights.gameObject.SetActive(true);
+                    }
+                }
+            }
+        }
+    }
+
     /* TurnOnLights() turn on lights
      *
      */
     public void TurnOnLights(){
 
-        float postGenBrightness = PlayerPrefs.GetFloat("postGenBrightness", 160);
+        float postGenBrightness = PlayerPrefs.GetFloat("postGenBrightness", 150);
         RenderSettings.ambientLight = new Color(postGenBrightness / 255f, postGenBrightness / 255f, postGenBrightness / 255f);
         foreach(List<Room> row in data){
             foreach(Room room in row){
@@ -281,6 +297,27 @@ public class Warehouse{
                     Transform lights = room.obj.transform.GetChild(0).transform.Find("Lights");
                     if(lights != null){
                         lights.gameObject.SetActive(true);
+                    }
+                    Transform emergency_lights = room.obj.transform.GetChild(0).transform.Find("EmergencyLights");
+                    if(emergency_lights != null){
+                        emergency_lights.gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    /* TurnOffAllLights() turn off all lights
+     *
+     */
+    public void TurnOffAllLights(){
+
+        foreach(List<Room> row in data){
+            foreach(Room room in row){
+                if(room.exits.NumberOf() != 0){
+                    Transform lights = room.obj.transform.GetChild(0).transform.Find("Lights");
+                    if(lights != null){
+                        lights.gameObject.SetActive(false);
                     }
                     Transform emergency_lights = room.obj.transform.GetChild(0).transform.Find("EmergencyLights");
                     if(emergency_lights != null){

@@ -18,7 +18,7 @@ public class PVTM_Room_Monitors : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!positionsSet && stateManager.IsPowerRestored()){
+        if(!positionsSet && stateManager.IsFacilityUnlocked()){
             // Finds cameras in the world space
             cams = GameObject.FindGameObjectsWithTag("Camera");
             worldCams = GameObject.FindGameObjectsWithTag("WorldCam");

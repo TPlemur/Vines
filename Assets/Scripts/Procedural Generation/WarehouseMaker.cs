@@ -27,6 +27,7 @@ public class WarehouseMaker : MonoBehaviour
         warehouse.Generate();
         warehouse.PlacePlayerAndMosnter(player, playerCamera, monster);
         surface.BuildNavMesh();
+        warehouse.TurnOffAllLights();
     }
 
     void Update(){
@@ -37,6 +38,7 @@ public class WarehouseMaker : MonoBehaviour
             warehouse.Regenerate();
             warehouse.PlacePlayerAndMosnter(player, playerCamera, monster);
             surface.BuildNavMesh();
+            warehouse.TurnOffAllLights();
         }
     }
 }

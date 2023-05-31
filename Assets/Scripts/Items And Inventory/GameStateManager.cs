@@ -8,6 +8,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] InfoPopup infoPop;
     [Header("Objective Realted")]
     public static bool GeneratorOn;
+    public static bool FacilityOn;
     public static bool PVTMAcquired;
     public static bool FlashlightAcquired;
     public static bool ShieldAcquired;
@@ -26,6 +27,7 @@ public class GameStateManager : MonoBehaviour
     {
         debug = false;
         GeneratorOn = false;
+        FacilityOn = false;
         PVTMAcquired = false;
         FlashlightAcquired = false;
         ShieldAcquired = false;
@@ -42,6 +44,10 @@ public class GameStateManager : MonoBehaviour
         if(debug && Input.GetKeyDown(KeyCode.P) && !GeneratorOn){
             PowerRestored();
         }
+        if(debug && Input.GetKeyDown(KeyCode.O) && !FacilityOn){
+            PowerRestored();
+            FacilityUnlocked();
+        }
         if(debug && Input.GetKeyDown(KeyCode.LeftBracket) && !SplitjawTrapped){
             SplitjawContained();
         }
@@ -56,13 +62,7 @@ public class GameStateManager : MonoBehaviour
     public void PowerRestored(){
         GeneratorOn = true;
         Debug.Log("POWER RESTORED");
-        Warehouse.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
-        // toggle on light SFX
-        foreach (var lightGen in Warehouse.GetComponent<WarehouseMaker>().lightSFXGenerators)
-        {
-            foreach (var emitter in lightGen.GetEmitters())
-                emitter.Play();
-        }
+        Warehouse.GetComponent<WarehouseMaker>().warehouse.TurnOnEmrgLights();
         //OBJSC.RemoveFromActiveUI(OBJSC.PowerObj);
         if(!PVTMAcquired){
             //OBJSC.AddToActiveUI(OBJSC.PVTMObj);
@@ -74,6 +74,18 @@ public class GameStateManager : MonoBehaviour
         }
         // code/sounds/animations/UI for after turning on power
         OBJSC.deActivateObjective(ObjectiveScript.ojbectives.power);
+    }
+
+    public void FacilityUnlocked(){
+        FacilityOn = true;
+        Debug.Log("FACILITY UNLOCKED");
+        Warehouse.GetComponent<WarehouseMaker>().warehouse.TurnOnLights();
+        // toggle on light SFX
+        foreach (var lightGen in Warehouse.GetComponent<WarehouseMaker>().lightSFXGenerators)
+        {
+            foreach (var emitter in lightGen.GetEmitters())
+                emitter.Play();
+        }
     }
 
     public void PVTMObtained(){
@@ -160,6 +172,10 @@ public class GameStateManager : MonoBehaviour
 
     public bool IsPowerRestored(){
         return GeneratorOn;
+    }
+
+    public bool IsFacilityUnlocked(){
+        return FacilityOn;
     }
 
     public bool IsPVTMObtained(){
