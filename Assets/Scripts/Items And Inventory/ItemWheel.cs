@@ -56,7 +56,7 @@ public class ItemWheel : MonoBehaviour
     void Update()
     {
         //open menu
-        if (Input.GetKeyDown(KeyMapper.itemWheel) && Time.timeScale != 0)
+        if (Input.GetKeyDown(KeyMapper.itemWheel) && Time.timeScale != 0 && !inv.inventory.EquippedIsToggled())
         {
             openMenu();
         }
@@ -71,12 +71,12 @@ public class ItemWheel : MonoBehaviour
             closeMenu();
         }
 
-        if(Input.mouseScrollDelta.y > mouseScrollThreshold && Time.timeScale != 0)
+        if(Input.mouseScrollDelta.y > mouseScrollThreshold && Time.timeScale != 0 && !inv.inventory.EquippedIsToggled())
         {
             mouseWheelScroll(true);
             //StartCoroutine(mouseWheelScroll(true));
         }
-        else if(Input.mouseScrollDelta.y < -mouseScrollThreshold && Time.timeScale != 0)
+        else if(Input.mouseScrollDelta.y < -mouseScrollThreshold && Time.timeScale != 0 && !inv.inventory.EquippedIsToggled())
         {
             mouseWheelScroll(false);
             //StartCoroutine(mouseWheelScroll(false));
