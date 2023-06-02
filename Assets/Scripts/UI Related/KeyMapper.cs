@@ -36,6 +36,8 @@ public class KeyMapper : MonoBehaviour
     public static KeyCode crouch;
     public static KeyCode techNotes;
     public static KeyCode primary = KeyCode.Mouse0;
+    public static KeyCode cycleRightKey = KeyCode.E;
+    public static KeyCode cycleLeftKey = KeyCode.Q;
 
     public enum keys
     {
