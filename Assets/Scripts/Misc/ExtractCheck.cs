@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ExtractCheck : MonoBehaviour
 {
-    void OnTriggerEnter(Collider col){
-        if(GameStateManager.ValidSplitjawPic){
+    void OnTriggerStay(Collider col){
+        if(GameStateManager.ValidSplitjawPic && col.tag == "Player"){
             if(!MainMenuScript.goodEndingReached){
                 MainMenuScript.endingsReached++;
                 MainMenuScript.goodEndingReached = true;
