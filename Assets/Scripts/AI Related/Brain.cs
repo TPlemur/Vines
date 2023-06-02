@@ -32,7 +32,7 @@ public class Brain : MonoBehaviour
         player,
         lure
     }
-    public target currentTarget = target.player;
+    public static target currentTarget = target.player;
 
     // System that determines when the monster hunts and for how long
     public float mobPursuitTimer;

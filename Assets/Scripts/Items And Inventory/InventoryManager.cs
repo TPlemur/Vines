@@ -35,6 +35,8 @@ public class InventoryManager : MonoBehaviour
     public LayerMask MonsterPicLayer;
     public Material FlashMat;
 
+    [Header("Chirper Related")]
+
     [Header("Game State Related")]
     public GameObject gameStateManager;
 
@@ -123,6 +125,10 @@ public class InventoryManager : MonoBehaviour
         }
 
         //SECRET DEV TOOLS SHHHHH DONT TELL ANYONE
+        if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            addItem(typeof(Chirper));
+        }
         if (GameStateManager.debug && Input.GetKeyDown(KeyCode.Alpha6))
         {
             addItem(typeof(ScannerBeacon));
@@ -174,6 +180,12 @@ public class InventoryManager : MonoBehaviour
                 addItem(typeof(ScannerBeacon));
                 Destroy(interact.gameObject);
             }
+            if (interact.tag == "Chirper" && !inventory.Has(typeof(Chirper)))
+            {
+                addItem(typeof(Chirper));
+                Destroy(interact.gameObject);
+                Brain.currentTarget = Brain.target.player;
+            }
             //Activate valve
             if (interact.tag == "Valve")
             {
@@ -192,7 +204,7 @@ public class InventoryManager : MonoBehaviour
         {
             var interact = hit.transform;
             //Toggle Items
-            if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight" || interact.tag == "ScannerBeacon")
+            if (interact.tag == "PVTM" || interact.tag == "Shield" || interact.tag == "Flashlight" || interact.tag == "ScannerBeacon" || interact.tag == "Chirper")
             {
                 PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Pick up " + interact.tag;
                 PText.SetActive(true);
@@ -278,6 +290,9 @@ public class InventoryManager : MonoBehaviour
                     break;
                 case ScannerBeacon S:
                     S.setup(playerCam, interactLayer, gameStateManager, Beacon_Controls, EEScript);
+                    break;
+                case Chirper C:
+                    C.setup(playerCam, interactLayer, gameStateManager, Beacon_Controls);
                     break;
             }
             //add new item to inventory

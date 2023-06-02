@@ -7,6 +7,8 @@ public class OutlineToggle : MonoBehaviour
     [SerializeField] private Material outlineMat;
     [SerializeField] private MeshRenderer rend;
     [SerializeField] private bool separateMesh = false;
+    [SerializeField] private SkinnedMeshRenderer smr;
+    [SerializeField] private bool isSMR = false;
     private Material[] offMats;
     private Material[] onMats;
     bool on = false;
@@ -19,11 +21,14 @@ public class OutlineToggle : MonoBehaviour
             on = true;
             if (separateMesh)
             {
-                rend.enabled = true;
+                if (isSMR) { smr.enabled = true; }
+                else { rend.enabled = true; }
             }
             else
             {
-                rend.materials = onMats;
+                if (isSMR) { smr.materials = onMats; }
+                else { rend.materials = onMats; }
+
             }
         }
     }
@@ -36,11 +41,13 @@ public class OutlineToggle : MonoBehaviour
             on = false;
             if (separateMesh)
             {
-                rend.enabled = false;
+                if (isSMR) { smr.enabled = false; }
+                else { rend.enabled = false; }
             }
             else
             {
-                rend.materials = offMats;
+                if (isSMR) { smr.materials = offMats; }
+                else { rend.materials = offMats; }
             }
         }
     }
@@ -48,8 +55,16 @@ public class OutlineToggle : MonoBehaviour
     // create the approprate material arrays for on and off
     void Start()
     {
-        offMats = rend.materials;
-        onMats = rend.materials;
+        if (isSMR)
+        {
+            offMats = smr.materials;
+            onMats = smr.materials;
+        }
+        else
+        {
+            offMats = rend.materials;
+            onMats = rend.materials;
+        }
         onMats[onMats.Length - 1] = outlineMat;
     }
 }

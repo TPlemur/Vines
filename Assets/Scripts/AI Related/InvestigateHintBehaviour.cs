@@ -32,11 +32,11 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Walks towards player if they're not in a hiding spot
-        if(mobBrain.currentTarget == Brain.target.player){
+        if(Brain.currentTarget == Brain.target.player){
             if(!Mob.hasPath &! Brain.isHiding){
                 Mob.SetDestination(Player.position);
             }
-        }else if(mobBrain.currentTarget == Brain.target.lure){
+        }else if(Brain.currentTarget == Brain.target.lure){
             if(!Mob.hasPath){
                 Mob.SetDestination(Lure.transform.position);
             }
