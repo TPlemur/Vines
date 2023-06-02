@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public GameObject Monster;
     Brain mobBrain;
-    public float safeMonContactTime = 1.5f;
+    public float safeMonContactTime = 0.5f;
     private bool touchingMonster = false;
     [SerializeField] GameObject vineInvestigationTarget;
 

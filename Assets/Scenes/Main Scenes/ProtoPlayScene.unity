@@ -25175,7 +25175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Monster: {fileID: 1952833646}
-  safeMonContactTime: 1.5
+  safeMonContactTime: 0.5
   vineInvestigationTarget: {fileID: 926031646}
   moveSpeed: 6
   groundDrag: 4
@@ -25378,6 +25378,8 @@ MonoBehaviour:
   Shield_Controls: {fileID: 1330543898}
   Electrical_Controls: {fileID: 493636604}
   Beacon_Controls: {fileID: 50448147}
+  cycleRightKey: 101
+  cycleLeftKey: 113
   playerCam: {fileID: 601828013}
   interactLayer:
     serializedVersion: 2
@@ -29188,6 +29190,7 @@ GameObject:
   - component: {fileID: 1952833647}
   - component: {fileID: 1952833651}
   - component: {fileID: 1952833650}
+  - component: {fileID: 1952833652}
   m_Layer: 2
   m_Name: Monster
   m_TagString: Monster
@@ -29269,6 +29272,19 @@ CapsuleCollider:
   m_Height: 4.46
   m_Direction: 1
   m_Center: {x: 0.39, y: 0.63, z: -0.00000008940697}
+--- !u!65 &1952833652
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952833646}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1, z: 3}
+  m_Center: {x: -0.5, y: 0, z: 0}
 --- !u!1 &1957908807
 GameObject:
   m_ObjectHideFlags: 0

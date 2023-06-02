@@ -23,6 +23,7 @@ public class SleepBehaviour : StateMachineBehaviour
             animator.SetBool("isSleeping", false);
             mobBrain.huntedGeneratorEvent = true;
             SmartSeeker.setSurround = true;
+            animator.gameObject.GetComponentInParent<UnityEngine.BoxCollider>().enabled = false;
         }
     }
 }
