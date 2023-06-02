@@ -17,8 +17,8 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Input")]
     //public KeyCode interactKey = KeyCode.E;
-    //public KeyCode cycleRightKey = KeyCode.E;
-    //public KeyCode cycleLeftKey = KeyCode.Q;
+    public KeyCode cycleRightKey = KeyCode.E;
+    public KeyCode cycleLeftKey = KeyCode.Q;
 
     [Header("Item Pick Up Related")]
     public Camera playerCam;
@@ -83,32 +83,30 @@ public class InventoryManager : MonoBehaviour
 
         //update outlines as necessasary
         //CheckOutlines();
-        /*
         // cycle left and right
-        if (Input.GetKeyDown(cycleRightKey))
+        if (Input.GetKeyDown(KeyMapper.cycleRightKey))
         {
             if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM())
             {
                 inventory.equipped.CycleRight();
             }
-            else
-            {
-                inventory.CycleRight();
-            }
+            // else
+            // {
+            //     inventory.CycleRight();
+            // }
         }
 
-        else if (Input.GetKeyDown(cycleLeftKey))
+        else if (Input.GetKeyDown(KeyMapper.cycleLeftKey))
         {
             if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM())
             {
                 inventory.equipped.CycleLeft();
             }
-            else
-            {
-                inventory.CycleLeft();
-            }
+            // else
+            // {
+            //     inventory.CycleLeft();
+            // }
         }
-        */
 
         // left click
         if (Input.GetMouseButtonDown(0) && Time.timeScale != 0 && !Input.GetKey(KeyMapper.itemWheel))
