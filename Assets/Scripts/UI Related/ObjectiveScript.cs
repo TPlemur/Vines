@@ -22,7 +22,8 @@ public class ObjectiveScript : MonoBehaviour
     [SerializeField] List<ObjectiveToggle> toggleslist = new List<ObjectiveToggle>();
      float cumulatveY;
      List<ObjectiveToggle> active = new List<ObjectiveToggle>();
-    
+    public static bool equipedisEE = true;
+
     public void activateObjective(ojbectives obj)
     {
         for(int i = 0;i < toggleslist.Count; i++)
@@ -80,6 +81,9 @@ public class ObjectiveScript : MonoBehaviour
     public DateTime startTime;
     public DateTime pauseTime;
 
+    UnityEngine.UI.Slider trapSlider;
+    float trapTimer = 0;
+
     public static TimeSpan timeElapsed {get; private set;}
     public static TimeSpan timePaused {get; private set;}
     public static TimeSpan timeDifference = TimeSpan.Zero;
@@ -97,6 +101,8 @@ public class ObjectiveScript : MonoBehaviour
         //AddToActiveUI(FlashObj);
         //AddToActiveUI(PowerObj);
         StartCoroutine(AnimInitObjs());
+        trapSlider = TrapObj.GetComponentInChildren<UnityEngine.UI.Slider>();
+        TrapObj.SetActive(false);
     }
 
     IEnumerator AnimInitObjs()
@@ -108,7 +114,9 @@ public class ObjectiveScript : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         activateObjective(ojbectives.flash);
     }
-    
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -132,6 +140,26 @@ public class ObjectiveScript : MonoBehaviour
             }
             
         }
-        TrapObj.SetActive(playerIsTrap);
+        if (playerIsTrap)
+        {
+            TrapObj.SetActive(true);
+            if(Input.GetKey(KeyMapper.primary) && equipedisEE)//set true to EE Equiped
+            {
+                trapSlider.gameObject.SetActive(true);
+                trapTimer += Time.deltaTime;
+                trapSlider.value = trapTimer / TrapSetter.chargingTime;
+            }
+            else
+            {
+                trapSlider.gameObject.SetActive(false); 
+                trapTimer = 0;
+                trapSlider.value = 0;
+            }
+
+        }
+        else
+        {
+            TrapObj.SetActive(false);
+        }
     }
 }
