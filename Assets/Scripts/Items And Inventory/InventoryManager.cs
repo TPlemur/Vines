@@ -17,8 +17,9 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Input")]
     //public KeyCode interactKey = KeyCode.E;
-    public KeyCode cycleRightKey = KeyCode.E;
-    public KeyCode cycleLeftKey = KeyCode.Q;
+    //public KeyCode cycleRightKey = KeyCode.E;
+    //public KeyCode cycleLeftKey = KeyCode.Q;
+    [SerializeField] InfoPopup infoPop;
 
     [Header("Item Pick Up Related")]
     public Camera playerCam;
@@ -162,32 +163,44 @@ public class InventoryManager : MonoBehaviour
             {
                 addItem(typeof(PVTM));
                 Destroy(interact.gameObject);
+                PauseMenu.setTechActive(PauseMenu.techPage.PV);
+                infoPop.wakeUp(PauseMenu.techPage.PV);
             }
             if (interact.tag == "Shield" && !inventory.Has(typeof(Shield)))
             {
                 addItem(typeof(Shield));
                 Destroy(interact.gameObject);
+                PauseMenu.setTechActive(PauseMenu.techPage.SH);
+                infoPop.wakeUp(PauseMenu.techPage.SH);
             }
             if (interact.tag == "Flashlight" && !inventory.Has(typeof(Flashlight)))
             {
                 addItem(typeof(Flashlight));
                 Destroy(interact.gameObject);
+                PauseMenu.setTechActive(PauseMenu.techPage.FL);
+                infoPop.wakeUp(PauseMenu.techPage.FL);
             }
             if (interact.tag == "ScannerBeacon" && !inventory.Has(typeof(ScannerBeacon)))
             {
                 addItem(typeof(ScannerBeacon));
                 Destroy(interact.gameObject);
+                PauseMenu.setTechActive(PauseMenu.techPage.BE);
+                infoPop.wakeUp(PauseMenu.techPage.BE);
             }
             if (interact.tag == "Chirper" && !inventory.Has(typeof(Chirper)))
             {
                 addItem(typeof(Chirper));
                 Destroy(interact.gameObject);
                 Brain.currentTarget = Brain.target.player;
+                PauseMenu.setTechActive(PauseMenu.techPage.CH);
+                infoPop.wakeUp(PauseMenu.techPage.CH);
             }
             //Activate valve
             if (interact.tag == "Valve")
             {
                 interact.gameObject.GetComponent<ValveInteractable>().startInteract(KeyMapper.interact);
+                PauseMenu.setTechActive(PauseMenu.techPage.SZ);
+                infoPop.wakeUp(PauseMenu.techPage.SZ);
             }
 
         }

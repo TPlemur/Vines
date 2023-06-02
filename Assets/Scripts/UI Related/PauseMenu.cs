@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] GameObject EquipmentLevel;
     [SerializeField] List<GameObject> EquipPages;
+    public static List<bool> EquipPagesActive;
     int EquipcurrnetPage = 0;
 
     [SerializeField] GameObject CaseLevel;
@@ -45,6 +46,8 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+                                             //EE    SC    FL     BE     PV     TR     SH     CH     SZ
+        EquipPagesActive = new List<bool>() { true, true, false, false, false, false, false, false, false };
         
     }
 
@@ -159,7 +162,7 @@ public class PauseMenu : MonoBehaviour
     {
         if(currentState == menuState.equip)
         {
-            advPage(EquipPages, ref EquipcurrnetPage, forward);
+            advTech(ref EquipcurrnetPage, forward);
         }
         if (currentState == menuState.Case)
         {
@@ -181,6 +184,29 @@ public class PauseMenu : MonoBehaviour
         }
         List[current].SetActive(true);
         // trigger SFX
+        PageTurnSFX();
+    }
+
+    //
+    public void advTech(ref int current, bool forward)
+    {
+        EquipPages[current].SetActive(false);
+        int currentIndex = 0;
+        int cycleCount = 0;
+        if (forward)
+        {
+            currentIndex = current + 1;
+            while (!EquipPagesActive[currentIndex % EquipPagesActive.Count]) { currentIndex++; cycleCount++; if (cycleCount > 10) { break; } }
+            currentIndex = currentIndex % EquipPagesActive.Count;
+        }
+        else
+        {
+            currentIndex = current - 1;
+            while (!EquipPagesActive[currentIndex % EquipPagesActive.Count]) { currentIndex--; cycleCount++; if (cycleCount > 10) { break; } }
+            currentIndex = currentIndex % EquipPagesActive.Count;
+        }
+        current = currentIndex;
+        EquipPages[current].SetActive(true);
         PageTurnSFX();
     }
 
@@ -207,6 +233,11 @@ public class PauseMenu : MonoBehaviour
         CasePages[caseCurrnetPage].SetActive(false);
         caseCurrnetPage = CasePages.Count - 1;
         CasePages[caseCurrnetPage].SetActive(true);
+    }
+
+    public static void setTechActive(techPage page)
+    {
+        EquipPagesActive[(int)page] = true;
     }
 
     private void FolderSFX()
