@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     public ObjectiveScript OBJSC;
-    [SerializeField] InfoPopup infoPop;
     [Header("Objective Realted")]
     public static bool GeneratorOn;
     public static bool PVTMAcquired;
@@ -83,7 +82,6 @@ public class GameStateManager : MonoBehaviour
         //OBJSC.RemoveFromActiveUI(OBJSC.PVTMObj);
         //add switch ui if first pickup
         if (switchTextNeeded) { OBJSC.activateObjective(ObjectiveScript.ojbectives.switchItems); switchTextNeeded = false; }
-        infoPop.wakeUp(PauseMenu.techPage.PV);
         if(GeneratorOn){
             //OBJSC.AddToActiveUI(OBJSC.CameraObj);
             OBJSC.activateObjective(ObjectiveScript.ojbectives.camera);
@@ -105,7 +103,6 @@ public class GameStateManager : MonoBehaviour
     public void ShieldObtained(){
         ShieldAcquired = true;
         Debug.Log("SHIELD OBTAINED");
-        infoPop.wakeUp(PauseMenu.techPage.SH);
         // code/sounds/animations/UI for after acquiring Shield
         //add switch ui if first pickup
         if (switchTextNeeded) { OBJSC.activateObjective(ObjectiveScript.ojbectives.switchItems); switchTextNeeded = false; }

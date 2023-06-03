@@ -202,7 +202,8 @@ public class PauseMenu : MonoBehaviour
         else
         {
             currentIndex = current - 1;
-            while (!EquipPagesActive[currentIndex % EquipPagesActive.Count]) { currentIndex--; cycleCount++; if (cycleCount > 10) { break; } }
+            if (currentIndex < 0) { currentIndex = EquipPagesActive.Count - 1; }
+            while (!EquipPagesActive[currentIndex % EquipPagesActive.Count]) { currentIndex--; if (currentIndex < 0) { currentIndex = EquipPagesActive.Count - 1; } cycleCount++; if (cycleCount > 10) { break; } }
             currentIndex = currentIndex % EquipPagesActive.Count;
         }
         current = currentIndex;
