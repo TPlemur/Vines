@@ -207,7 +207,7 @@ public class Warehouse{
 
     // Place All Landmark rooms
     private void PlaceLandmarks(){
-        if (PlayerPrefs.GetInt("isStory", 0) == 1)
+        if (PlayerPrefs.GetInt("isRandGen", 0) == 0)
         {
             this.PlaceLandmarksFrom(this.alphaTeamRoom);
         } else

@@ -2962,8 +2962,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 1
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3030,6 +3030,7 @@ MonoBehaviour:
   seedInput: {fileID: 448686061}
   text: {fileID: 1872373119}
   finalTime: {fileID: 0}
+  randGen: {fileID: 1410268462}
   story: {fileID: 1120573933}
   radar: {fileID: 2006900053}
   timer: {fileID: 644356039}
@@ -15060,6 +15061,15 @@ MonoBehaviour:
   iteField: {fileID: 55592877}
   intField: {fileID: 2047386784}
   croField: {fileID: 1158173213}
+  tecField: {fileID: 0}
+  forwardUi: {fileID: 0}
+  backwardUi: {fileID: 0}
+  rightUi: {fileID: 0}
+  leftUi: {fileID: 0}
+  ItemWheelUi: {fileID: 0}
+  InteractUi: {fileID: 0}
+  techNoteUi: {fileID: 0}
+  techNoteText: ' - SHOW INFO'
 --- !u!1 &1348696648
 GameObject:
   m_ObjectHideFlags: 0
@@ -15662,7 +15672,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 276775411}
         m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
-        m_MethodName: CheckStory
+        m_MethodName: SetRandGen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -35958,6 +35968,8 @@ MonoBehaviour:
   outlineMat: {fileID: 2100000, guid: ac688b2e7fad2b542aaae32cac6efac0, type: 2}
   rend: {fileID: 9120688045125951887}
   separateMesh: 0
+  smr: {fileID: 0}
+  isSMR: 0
 --- !u!4 &8243959030484257742
 Transform:
   m_ObjectHideFlags: 0

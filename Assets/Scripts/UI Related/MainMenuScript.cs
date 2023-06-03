@@ -15,6 +15,7 @@ public class MainMenuScript : MonoBehaviour
     public TMP_InputField seedInput;
     public TMP_Text text;
     public TMP_Text finalTime;
+    public Toggle randGen;
     public Toggle story;
     public Toggle radar;
     public Toggle timer;
@@ -56,6 +57,7 @@ public class MainMenuScript : MonoBehaviour
         }
         if (story != null)
         {
+            randGen.isOn = PlayerPrefs.GetInt("isRandGen", 0) == 0;
             story.isOn = PlayerPrefs.GetInt("isStory", 0) == 0;
             radar.isOn = PlayerPrefs.GetInt("isRadar", 0) == 0;
             timer.isOn = PlayerPrefs.GetInt("isTimer", 1) == 0;
@@ -63,6 +65,17 @@ public class MainMenuScript : MonoBehaviour
     }
 
     //set the appropreate variable
+    public void SetRandGen()
+    {
+        if (randGen.isOn)
+        {
+            PlayerPrefs.SetInt("isRandGen", 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("isRandGen", 1);
+        }
+    }
     public void SetTimer() {
         if (timer.isOn) {
             MainMenuScript.speedRun = true;
