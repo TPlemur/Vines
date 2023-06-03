@@ -140,6 +140,17 @@ public class AlphaTeam : Landmark{
     }
 }
 
+public class SecurityRoom : Landmark{
+    public SecurityRoom(){
+        path = "ProcgenGreyboxesTextured/room-security-";
+        minDist = 1.3f;
+        maxDist = 2.5f;
+    }
+    public override (UnityEngine.Object prefab, int rotation) LoadPrefab(Exits dirs){
+        return this.LoadLandmark(dirs);
+    }
+}
+
 public class Generator : Landmark{
     public Generator(){
         path = "ProcgenGreyboxesTextured/room-generator-";

@@ -28,6 +28,7 @@ public class Warehouse{
 
     // List containing landmark rooms to make, add appropriate landmark subclass to list
     private List<Landmark> alphaTeamRoom  = new List<Landmark>(new Landmark[] {new AlphaTeam()});
+    private List<Landmark> securityRoom = new List<Landmark>(new Landmark[] {new SecurityRoom()});
     private List<Landmark> generatorRoom = new List<Landmark>(new Landmark[] { new Generator() });
     private List<Landmark> shieldRoom = new List<Landmark>(new Landmark[] { new ShieldRoom() });
     private List<Landmark> cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
@@ -79,12 +80,13 @@ public class Warehouse{
      */
     public void Regenerate(){
         this.Teardown();
-        alphaTeamRoom  = new List<Landmark>(new Landmark[] {new AlphaTeam()});
-        generatorRoom  = new List<Landmark>(new Landmark[] {new Generator()});
-        shieldRoom  = new List<Landmark>(new Landmark[] {new ShieldRoom()});
-        cameras  = new List<Landmark>(new Landmark[] {new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera()});
-        hiding   = new List<Landmark>(new Landmark[] {new Hide(), new Hide(), new Hide(), new Hide()});
-        tripwire = new List<Landmark>(new Landmark[] {new TripWire(), new TripWire(), new TripWire(), new TripWire()});
+        alphaTeamRoom = new List<Landmark>(new Landmark[] { new AlphaTeam() });
+        securityRoom = new List<Landmark>(new Landmark[] { new SecurityRoom() });
+        generatorRoom = new List<Landmark>(new Landmark[] { new Generator() });
+        shieldRoom = new List<Landmark>(new Landmark[] { new ShieldRoom() });
+        cameras = new List<Landmark>(new Landmark[] { new PVTMCamera(), new PVTMCamera(), new PVTMCamera(), new PVTMCamera() });
+        hiding = new List<Landmark>(new Landmark[] { new Hide(), new Hide(), new Hide(), new Hide() });
+        tripwire = new List<Landmark>(new Landmark[] { new TripWire(), new TripWire(), new TripWire(), new TripWire() });
         this.Generate();
     }
 
@@ -205,7 +207,13 @@ public class Warehouse{
 
     // Place All Landmark rooms
     private void PlaceLandmarks(){
-        this.PlaceLandmarksFrom(this.alphaTeamRoom);
+        if (PlayerPrefs.GetInt("isStory", 0) == 1)
+        {
+            this.PlaceLandmarksFrom(this.alphaTeamRoom);
+        } else
+        {
+            this.PlaceSecurityRoom(this.securityRoom);
+        }
         this.PlaceLandmarksFrom(this.generatorRoom);
         this.PlaceLandmarksFrom(this.shieldRoom);
         this.PlaceLandmarksFrom(this.cameras);
@@ -231,6 +239,25 @@ public class Warehouse{
             random.ConnectToRandom();
             roomList.RemoveAt(roomList.IndexOf(random));
         }
+    }
+
+    private void PlaceSecurityRoom(List<Landmark> list)
+    {
+        bool wall = startRow > monsterRoom.row;
+        List<Room> roomList = wall ? roomList = this.data[rows - 1] : roomList = this.data[0];
+        Room random = roomList[UnityEngine.Random.Range(1, columns - 2)];
+        random.type = list[0];
+        random.ConnectTo(random.RoomToLeft());
+        random.ConnectTo(random.RoomToRight());
+        if (wall)
+        {
+            random.ConnectTo(random.RoomAbove());
+        } else
+        {
+            random.ConnectTo(random.RoomUnderneath());
+        }
+        Debug.Log("RoomMade: " + random.row + "_" + random.column);
+
     }
 
     /* GetRandomCorner() will choose a random corner of the

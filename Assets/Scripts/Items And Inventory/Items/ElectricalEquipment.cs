@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -88,6 +89,7 @@ public class ElectricalEquipment : Item
                 }
             }
             if(obj.tag == "ContainmentButton" && gameState.IsPowerRestored()){
+                MonsterCheck.CheckMonsterContained();
                 if(MonsterCheck.isMonsterInside){
                     gameState.SplitjawContained();
                     SceneManager.LoadScene(2);
