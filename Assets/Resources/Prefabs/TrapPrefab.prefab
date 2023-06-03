@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4620349827920258879}
   m_Layer: 0
   m_Name: TrapBar
-  m_TagString: Untagged
+  m_TagString: Electrical Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,9 +31,10 @@ Transform:
   m_LocalPosition: {x: -0.022, y: 0.30400002, z: -0.028}
   m_LocalScale: {x: 0.05999999, y: 1.95, z: 0.060000006}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2113711979787048046}
   m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!136 &7860345896298145896
 CapsuleCollider:
@@ -127,7 +128,7 @@ GameObject:
   - component: {fileID: 7183309853430151302}
   m_Layer: 0
   m_Name: StartBar
-  m_TagString: Untagged
+  m_TagString: Electrical Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,7 +146,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &8059140496575371582
 MeshFilter:
@@ -293,7 +294,7 @@ GameObject:
   - component: {fileID: 8739726118198079449}
   m_Layer: 10
   m_Name: TrapPrefab
-  m_TagString: Untagged
+  m_TagString: Electrical Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,7 +312,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7986025878972542620}
-  - {fileID: 2113711979787048046}
   - {fileID: 286342747935553562}
   - {fileID: 7614659054662548135}
   - {fileID: 1714242380080386262}
@@ -5296,7 +5296,7 @@ GameObject:
   - component: {fileID: 1268173953716052470}
   m_Layer: 14
   m_Name: PlayerProximitySensor
-  m_TagString: Untagged
+  m_TagString: Electrical Equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5308,13 +5308,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7662508158234288364}
-  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -0.022000005, y: 0.30400002, z: -0.02799988}
-  m_LocalScale: {x: 0.05999999, y: 1.95, z: 0.060000006}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8739726118198079449}
-  m_RootOrder: 1
+  m_Father: {fileID: 286342747935553562}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!136 &6212591488790083498
 CapsuleCollider:
@@ -5326,7 +5326,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 10.45
+  m_Radius: 17
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
@@ -5460,7 +5460,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_LocalScale.x
@@ -5530,6 +5530,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Electric_Socketblend (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
+      propertyPath: m_TagString
+      value: Electrical Equipment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
 --- !u!23 &540742567713795001 stripped
@@ -5551,7 +5555,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_LocalScale.x
@@ -5620,6 +5624,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
       propertyPath: m_Name
       value: Electric_Socketblend
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}
+      propertyPath: m_TagString
+      value: Electrical Equipment
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b8749c4c5ae43a4682a45b92955369d, type: 3}

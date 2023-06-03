@@ -69,7 +69,7 @@ public class TrapSetter : MonoBehaviour
         //check if trap can be charged
         if (currentState == State.off)
         {
-            if (PlayerContact && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn && timer <= setTime)
+            if (PlayerContact && LookAtTrap() && Input.GetMouseButton(0) && inventory.EquippedIsElectricalEquipment() && GameStateManager.GeneratorOn && timer <= setTime)
             {
                 ElectricalEquipment.sfxUpdateTarget = gameObject;
                 //accumulate charge
@@ -122,7 +122,6 @@ public class TrapSetter : MonoBehaviour
             PlayerContact = true;
             inventory = collision.transform.gameObject.GetComponent<InventoryManager>().inventory;
             chargingTime = setTime;
-            ObjectiveScript.playerIsTrap = true;
         }
     }
 
@@ -135,6 +134,19 @@ public class TrapSetter : MonoBehaviour
             b.materials = outOffArr;
         }
         ObjectiveScript.playerIsTrap = false;
+    }
+
+    private bool LookAtTrap()
+    {
+        RaycastHit hit;
+        Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit);
+        if (hit.transform.gameObject.tag == "Electrical Equipment" || hit.transform.gameObject.tag == "Player")
+        {
+            ObjectiveScript.playerIsTrap = true;
+            return true;
+        }
+        ObjectiveScript.playerIsTrap = false;
+        return false;
     }
 
     //wait two seconds then activate
