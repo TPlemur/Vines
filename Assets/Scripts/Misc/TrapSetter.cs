@@ -14,10 +14,14 @@ public class TrapSetter : MonoBehaviour
     [SerializeField] private GameObject sparkObject;
 
     //materials for different states
-    [SerializeField] private Material powering;
-    [SerializeField] private Material ready;
-    [SerializeField] private Material active;
     [SerializeField] private Material InteractableOutline;
+    [SerializeField] private GameObject electricityArcHolder;
+    [SerializeField] private ParticleSystem electricArc1;
+    [SerializeField] private ParticleSystem electricArc2;
+    [SerializeField] private float electricArcLength;
+    [SerializeField] private Color electricArcPowerUpColor;
+    [SerializeField] private Color electricArcReadyColor;
+    [SerializeField] private Color electricArcActiveColor;
 
     [SerializeField] private MeshRenderer[] blocks;
 
@@ -46,8 +50,12 @@ public class TrapSetter : MonoBehaviour
 
     public static float chargingTime;
 
+    private ParticleSystem.MainModule EA1;
+    private ParticleSystem.MainModule EA2;
     private void Start()
     {
+        EA1 = electricArc1.main;
+        EA2 = electricArc2.main;
         //setup the outline system
         rend = gameObject.GetComponent<MeshRenderer>();
         rend.enabled = false;
@@ -73,8 +81,10 @@ public class TrapSetter : MonoBehaviour
             {
                 ElectricalEquipment.sfxUpdateTarget = gameObject;
                 //accumulate charge
-                if (timer == 0) { rend.enabled = true; rend.material = powering; }
+                if (timer == 0) { electricityArcHolder.SetActive(true); }
                 timer += Time.deltaTime;
+                EA1.startLifetime = (timer / setTime) * electricArcLength;
+                EA2.startLifetime = (timer / setTime) * electricArcLength;
             }
             else if (timer > setTime)
             {
@@ -86,11 +96,14 @@ public class TrapSetter : MonoBehaviour
             {
                 //reset if player stops
                 rend.enabled = false;
+                electricityArcHolder.SetActive(false);
+                EA1.startColor = electricArcPowerUpColor;
+                EA2.startColor = electricArcPowerUpColor;
                 timer = 0;
                 emitter.Stop();
             }
             //vissualy indicate that trap is ready
-            if (timer > setTime) { rend.material = ready; }
+            if (timer > setTime) { EA1.startColor = electricArcReadyColor; EA2.startColor = electricArcReadyColor; }
 
             if (GameStateManager.GeneratorOn)
             {
@@ -154,7 +167,8 @@ public class TrapSetter : MonoBehaviour
     {
         currentState = State.charged;
         yield return new WaitForSeconds(DelayTime);
-        rend.material = active;
+        EA1.startColor = electricArcActiveColor; 
+        EA2.startColor = electricArcActiveColor;
         currentState = State.set;
         trapper.enabled = true;
 
