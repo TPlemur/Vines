@@ -148,9 +148,9 @@ public class MainMenuScript : MonoBehaviour
     public void BackToMainMenu() 
     {
         Time.timeScale = 1; //resume time if time was paused during last game
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 4)
         {
-            SceneManager.LoadScene(0); //if in the main gameplay scene, immediatly leave to main menu
+            SceneManager.LoadScene(0); //if in the main gameplay scene or the elevator scene, immediatly leave to main menu
             MainMenuScript.speedRun = false;
         } 
         else {
