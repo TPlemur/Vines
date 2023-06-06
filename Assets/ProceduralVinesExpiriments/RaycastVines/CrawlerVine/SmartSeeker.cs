@@ -7,13 +7,13 @@ public class SmartSeeker : MonoBehaviour
     RCcrawler crawler;
     public float wanderSpeed = 0.5f;
     float searchSpeed = 0.4f;
-    float seekSpeed = 0.08f;
+    float seekSpeed = 0.16f;
     float reportSpeed = 0.16f;
     float surroundSpeed = 0.125f;
 
-    float decayTime = 20;
+    float decayTime = 40;
     float cycleTimer = 0;
-    float decayRecoveryRatio = 0.5f;
+    float decayRecoveryRatio = 0.25f;
 
     float agroRange = 30;
 
@@ -150,8 +150,8 @@ public class SmartSeeker : MonoBehaviour
         switch (currentState)
         {
             case seekerState.wander:
-                if (Random.Range(1, 10) == 1) { setState(seekerState.surround); }
-                else if (Random.Range(1, 15) == 1) { setState(seekerState.search); }
+                if (Random.Range(1, 3) == 1 && GameStateManager.GeneratorOn) { setState(seekerState.search); }
+                else if (Random.Range(1, 1) == 1 && GameStateManager.GeneratorOn) { setState(seekerState.surround); }
                 break;
             case seekerState.search:
                 setState(seekerState.wander);
