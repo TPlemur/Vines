@@ -25757,6 +25757,7 @@ MonoBehaviour:
   seedInput: {fileID: 0}
   text: {fileID: 0}
   finalTime: {fileID: 0}
+  randGen: {fileID: 0}
   story: {fileID: 0}
   radar: {fileID: 0}
   timer: {fileID: 0}
@@ -27585,6 +27586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1773562161}
   - component: {fileID: 1773562162}
+  - component: {fileID: 1773562163}
   m_Layer: 0
   m_Name: GlobalStateInit
   m_TagString: Untagged
@@ -27623,6 +27625,22 @@ MonoBehaviour:
   Parameter: ChaseState
   TriggerEvent: 1
   Value: 1
+--- !u!114 &1773562163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773562160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: HideFilter
+  TriggerEvent: 2
+  Value: 0
 --- !u!1 &1782845218
 GameObject:
   m_ObjectHideFlags: 0
@@ -28856,7 +28874,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OBJSC: {fileID: 1595614451}
-  infoPop: {fileID: 1353723799}
   Warehouse: {fileID: 1279386217}
 --- !u!4 &1903244511
 Transform:

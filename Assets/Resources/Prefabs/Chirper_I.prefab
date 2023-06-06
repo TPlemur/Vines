@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2155112284050048516}
   - component: {fileID: 7654552330643852836}
   - component: {fileID: 7654552330643852843}
+  - component: {fileID: 8276809776349180631}
+  - component: {fileID: 3791885463863954207}
   m_Layer: 9
   m_Name: Chirper_I
   m_TagString: Chirper
@@ -81,6 +83,51 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.22, y: 0.18, z: 0.2}
   m_Center: {x: 0, y: 0.07, z: 0}
+--- !u!114 &8276809776349180631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7654552330643852841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1815137957
+      Data2: 1262084643
+      Data3: -1538037330
+      Data4: -1930368601
+    Path: event:/SFX/Items/Chirper/Chirper
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 10
+--- !u!114 &3791885463863954207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7654552330643852841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0764f0dca9d46ca44a6a68c801cb9e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impactLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &7654552331513704337
 PrefabInstance:
   m_ObjectHideFlags: 0
