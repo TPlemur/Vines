@@ -14,6 +14,7 @@ public class KeyMapper : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI intField;
     [SerializeField] TMPro.TextMeshProUGUI croField;
     [SerializeField] TMPro.TextMeshProUGUI tecField;
+    [SerializeField] Slider Imode;
 
     [Header("In game UI")]
 
@@ -38,6 +39,8 @@ public class KeyMapper : MonoBehaviour
     public static KeyCode primary = KeyCode.Mouse0;
     public static KeyCode cycleRightKey = KeyCode.E;
     public static KeyCode cycleLeftKey = KeyCode.Q;
+
+    public static bool itemModeIsRel;
 
     public enum keys
     {
@@ -67,8 +70,16 @@ public class KeyMapper : MonoBehaviour
     {
         getKeyCodes();
         allCodes = (int[])System.Enum.GetValues(typeof(KeyCode));
+        Debug.Log("ImodeValue: " + Imode.value + " " + (Imode.value == 1));
+        StartCoroutine(lateAwake());
     }
-   
+
+    IEnumerator lateAwake()
+    {
+        yield return new WaitForSeconds(0.25f);
+        itemModeIsRel = (Imode.value == 1);
+    }
+
     //check if any keys are pressed
     void CheckForKeyPress()
     {
@@ -182,7 +193,21 @@ public class KeyMapper : MonoBehaviour
         targetUI.text = target.ToString();
     }
 
+    //changes ItemWheel mode
+    public void itemWheelMode(float mode)
+    {
 
+        if(Imode.value == 1)
+        {
+            itemModeIsRel = true;
+            PlayerPrefs.SetInt("itemMode", 1);
+        }
+        else
+        {
+            itemModeIsRel = false;
+            PlayerPrefs.SetInt("itemMode", 0);
+        }
+    }
 
 
 }

@@ -22,7 +22,6 @@ public class ItemWheel : MonoBehaviour
     [SerializeField] GameObject CWedge;
 
     Color baseColor;
-    //static KeyCode menuKey = KeyCode.Q;
     bool menuOpen = false;
     List<Vector2> PrevMouseInpts = new List<Vector2>();
     
@@ -43,11 +42,11 @@ public class ItemWheel : MonoBehaviour
     {
         //link ui to item type
         wedges[0] = new itemWedge() { obj = EWedge, img = EWedge.GetComponent<Image>(), inInv = false, type = typeof(ElectricalEquipment) };
-        wedges[4] = new itemWedge() { obj = FWedge, img = FWedge.GetComponent<Image>(), inInv = false, type = typeof(Flashlight) };
-        wedges[3] = new itemWedge() { obj = BWedge, img = BWedge.GetComponent<Image>(), inInv = false, type = typeof(ScannerBeacon) };
+        wedges[5] = new itemWedge() { obj = FWedge, img = FWedge.GetComponent<Image>(), inInv = false, type = typeof(Flashlight) };
+        wedges[4] = new itemWedge() { obj = BWedge, img = BWedge.GetComponent<Image>(), inInv = false, type = typeof(ScannerBeacon) };
         wedges[1] = new itemWedge() { obj = PWedge, img = PWedge.GetComponent<Image>(), inInv = false, type = typeof(PVTM) };
         wedges[2] = new itemWedge() { obj = SWedge, img = SWedge.GetComponent<Image>(), inInv = false, type = typeof(Shield) };
-        wedges[5] = new itemWedge() { obj = CWedge, img = CWedge.GetComponent<Image>(), inInv = false, type = typeof(Chirper) };
+        wedges[3] = new itemWedge() { obj = CWedge, img = CWedge.GetComponent<Image>(), inInv = false, type = typeof(Chirper) };
         //grab base color
         baseColor = wedges[0].img.color;
     }
@@ -63,7 +62,8 @@ public class ItemWheel : MonoBehaviour
         //run menu
         else if (Input.GetKey(KeyMapper.itemWheel))
         {
-            runMenu();
+            if (KeyMapper.itemModeIsRel) { runRelMenu(); }
+            else { runAbsMenu(); }
         }
         //close Menu
         else if ((Input.GetKeyUp(KeyMapper.itemWheel)) && menuOpen)
@@ -126,7 +126,7 @@ public class ItemWheel : MonoBehaviour
     }
 
     //run the item selection
-    void runMenu()
+    void runAbsMenu()
     {
         //Get mouse input avg over a number of ticks
         PrevMouseInpts.Add(new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")));
@@ -142,18 +142,18 @@ public class ItemWheel : MonoBehaviour
             float angleRight = Vector2.Angle(new Vector2(1, 0), mouseInput);
             //Use this lookup table to match item to angles
             //case: up  -- angleUp < 30                  , EE - 0
-            //case: dwn -- angleUp > 150                 , CH - 5
+            //case: dwn -- angleUp > 150                 , CH - 3
             //case: upR -- angleUp < 90  , angleR < 60   , PV - 1
-            //case: upL -- angleUp < 90  , angleR > 120  , FL - 4
+            //case: upL -- angleUp < 90  , angleR > 120  , FL - 5
             //case: doR -- angleUp > 90  , angleR < 60   , SH - 2
-            //case: doL -- angleUp > 90  , angleR > 120  , BE - 3
+            //case: doL -- angleUp > 90  , angleR > 120  , BE - 4
             int newActive = -1;
             if (angleUp < 30) { newActive = 0; ObjectiveScript.equipedisEE = true; }                          //set EE to active 
-            else if (angleUp > 150) { newActive = 5; ObjectiveScript.equipedisEE = false; }                   //set chirp to actice
+            else if (angleUp > 150) { newActive = 3; ObjectiveScript.equipedisEE = false; }                   //set chirp to actice
             else if (angleUp < 90 && angleRight < 60) { newActive = 1; ObjectiveScript.equipedisEE = false; } //set pvtm to active
-            else if (angleUp < 90 && angleRight > 120) { newActive = 4; ObjectiveScript.equipedisEE = false; }//set flash to active
+            else if (angleUp < 90 && angleRight > 120) { newActive = 5; ObjectiveScript.equipedisEE = false; }//set flash to active
             else if (angleUp > 90 && angleRight < 60) { newActive = 2; ObjectiveScript.equipedisEE = false; } //set shield to active
-            else { newActive = 3; ObjectiveScript.equipedisEE = false; }                                      //set beacon to active
+            else { newActive = 4; ObjectiveScript.equipedisEE = false; }                                      //set beacon to active
 
             //change active if necessasary
             if (newActive != activeWedge && wedges[newActive].inInv)
@@ -162,6 +162,46 @@ public class ItemWheel : MonoBehaviour
                 activeWedge = newActive;
                 StartCoroutine(LerpWedgeColor(activeWedge, baseColor, highlightColor));
             }
+        }
+    }
+
+    float coolDown = 0;
+    void runRelMenu()
+    {
+        //Get mouse input avg over a number of ticks
+        PrevMouseInpts.Add(new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")));
+        if (PrevMouseInpts.Count > smoothingTicks) { PrevMouseInpts.RemoveAt(0); }
+
+        Vector2 mouseInput = new Vector2();
+        foreach (Vector2 v in PrevMouseInpts) { mouseInput += v; }
+        coolDown += Time.deltaTime;
+        if (Mathf.Abs(mouseInput.x) > backlashFactor && coolDown > animTime)
+        {
+            coolDown = 0;
+            bool Positive = true;
+            if (mouseInput.x < 0) { Positive = false; }
+            int cycleCount = 0;
+            //find new activeWedge
+            int newWedge = 0;
+            if (Positive)
+            {
+                newWedge = activeWedge + 1;
+                while (!wedges[newWedge % wedges.Length].inInv) { newWedge++; cycleCount++; if (cycleCount > 10) { break; } }
+                newWedge = newWedge % wedges.Length;
+            }
+            else
+            {
+                newWedge = activeWedge - 1;
+                if (newWedge == -1) { newWedge = wedges.Length - 1; }
+                while (!wedges[newWedge % wedges.Length].inInv) { newWedge--; cycleCount++; if (cycleCount > 10) { break; } }
+                newWedge = newWedge % wedges.Length;
+            }
+
+            StartCoroutine(LerpWedgeColor(newWedge, baseColor, highlightColor));
+            StartCoroutine(LerpWedgeColor(activeWedge, highlightColor, baseColor));
+            activeWedge = newWedge;
+            if (activeWedge == 0) { ObjectiveScript.equipedisEE = true; }
+            else { ObjectiveScript.equipedisEE = false; }
         }
     }
 
