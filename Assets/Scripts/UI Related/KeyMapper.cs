@@ -70,7 +70,8 @@ public class KeyMapper : MonoBehaviour
     {
         getKeyCodes();
         allCodes = (int[])System.Enum.GetValues(typeof(KeyCode));
-        Debug.Log("ImodeValue: " + Imode.value + " " + (Imode.value == 1));
+
+        Imode.value = PlayerPrefs.GetInt("itemMode", 1);
         StartCoroutine(lateAwake());
     }
 
