@@ -16,10 +16,13 @@ public class ElectricalEquipment : Item
     //Animator anim;
 
     //scannerParams
-    float scanWidth = 15f;
+    float scanWidth = 20f;
     List<GameObject> trackerTargets;
     ScannerDisplay display;
     float scannerScale = 80;
+    float boopTimer = 0;
+    float boopInterval = -1;
+    float boopScale = 0.04f;
 
     public Coroutine sfxUpdateCoroutine = null;
     private FMOD.Studio.EventInstance continuousSFXInstance;
@@ -37,6 +40,7 @@ public class ElectricalEquipment : Item
         }
     }
 
+
     private void Update()
     {
         if (MainMenuScript.scannerOn)
@@ -44,6 +48,16 @@ public class ElectricalEquipment : Item
             GameObject tar = scan();
             if (tar == null) { display.BlankDisplay(); }
             else { objToDisplay(tar); }
+            if(boopInterval > 0)
+            {
+                boopTimer += Time.deltaTime;
+                if (boopTimer > boopInterval)
+                {
+                    boopTimer = 0;
+                    //PlayChirp
+                    Debug.Log("BOOP");
+                }
+            }
         }
     }
 
@@ -274,6 +288,7 @@ public class ElectricalEquipment : Item
         return trackerTargets.Remove(tar);
     }
 
+
     //converts an object into a display position, and outputs it
     void objToDisplay(GameObject obj)
     {
@@ -285,6 +300,8 @@ public class ElectricalEquipment : Item
         float angleFront = Vector3.Angle(targetDir.normalized, playercamLookAngle);
         float angleRight = Vector3.Angle(targetDir.normalized, Vector3.ProjectOnPlane(playerCam.transform.right, new Vector3(0, 1, 0)));
         float targetDist = targetDir.magnitude;
+        boopInterval = targetDist * boopScale;
+
 
         //find col
         int col;
@@ -319,7 +336,7 @@ public class ElectricalEquipment : Item
                 objs.Add(target);
             }
         }
-        if (dists.Count == 0) { return null; }
+        if (dists.Count == 0) { boopInterval = -1; return null; }
         else
         {
             //find min in list
