@@ -33,6 +33,7 @@ public class ScannerBeacon : Item
         beacon.GetComponentInChildren<MeshRenderer>().materials[1] = null;
 
         //removefromInventory
+        ObjectiveScript.equipedisEE = true;
         InventoryManager im = FindObjectOfType<InventoryManager>();
         int BeaconIndex = im.inventory.getCurrentIndex();
         im.inventory.setToZeroth();

@@ -31,10 +31,11 @@ public class Chirper : Item
         InvestigateHintBehaviour.Lure = beacon;
         Brain.currentTarget = Brain.target.lure;
         Brain.investigating = true;
-        
+
 
 
         //removefromInventory
+        ObjectiveScript.equipedisEE = true;
         InventoryManager im = FindObjectOfType<InventoryManager>();
         int ChirpIndex = im.inventory.getCurrentIndex();
         im.inventory.setToZeroth();
