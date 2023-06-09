@@ -23,6 +23,8 @@ public class ElectricalEquipment : Item
     float boopTimer = 0;
     float boopInterval = -1;
     float boopScale = 0.04f;
+    const float minBoopInterval = 0.15f;
+    const float maxBoopInterval = 5.0f;
 
     public Coroutine sfxUpdateCoroutine = null;
     private FMOD.Studio.EventInstance continuousSFXInstance;
@@ -48,14 +50,19 @@ public class ElectricalEquipment : Item
             GameObject tar = scan();
             if (tar == null) { display.BlankDisplay(); }
             else { objToDisplay(tar); }
-            if(boopInterval > 0)
+            if(ObjectiveScript.equipedisEE && boopInterval > 0)
             {
                 boopTimer += Time.deltaTime;
                 if (boopTimer > boopInterval)
                 {
                     boopTimer = 0;
-                    //PlayChirp
-                    Debug.Log("BOOP");
+                    // play boop sfx if continuous sound isn't playing
+                    if (!IsContinuousSFXPlaying())
+                    {
+                        float dist = Mathf.InverseLerp(minBoopInterval, maxBoopInterval, boopInterval);
+                        ScannerBoopSFX(dist);
+                    }
+                    //Debug.Log("BOOP");
                 }
             }
         }
@@ -228,6 +235,12 @@ public class ElectricalEquipment : Item
     {
         continuousSFXInstance.setParameterByName("Pitch", pitch);
     }
+    private bool IsContinuousSFXPlaying()
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        continuousSFXInstance.getPlaybackState(out state);
+        return (state == FMOD.Studio.PLAYBACK_STATE.PLAYING);
+    }
     private void PickupSFX()
     {
         const string eventName = "event:/SFX/Items/Inventory/Bag Pickup";
@@ -266,6 +279,15 @@ public class ElectricalEquipment : Item
         }
     }
 
+    private void ScannerBoopSFX(float Distance0To1)
+    {
+        const string eventName = "event:/SFX/Items/Electrical/Scanner Boop";
+        var sound = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        sound.setParameterByName("ScanDistance", Distance0To1);
+        sound.start();
+        sound.release();
+    }
+
 
     //ScannerFunctions
     GameObject generator;
@@ -300,7 +322,7 @@ public class ElectricalEquipment : Item
         float angleFront = Vector3.Angle(targetDir.normalized, playercamLookAngle);
         float angleRight = Vector3.Angle(targetDir.normalized, Vector3.ProjectOnPlane(playerCam.transform.right, new Vector3(0, 1, 0)));
         float targetDist = targetDir.magnitude;
-        boopInterval = targetDist * boopScale;
+        boopInterval = Mathf.Clamp(targetDist * boopScale, minBoopInterval, maxBoopInterval);
 
 
         //find col
