@@ -13,6 +13,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject Shield_Controls;
     public GameObject Electrical_Controls;
     public GameObject Beacon_Controls;
+    public GameObject valveSlider;
     //public GameObject Scanner_Controls;
 
     [Header("Input")]
@@ -198,7 +199,7 @@ public class InventoryManager : MonoBehaviour
             //Activate valve
             if (interact.tag == "Valve")
             {
-                interact.gameObject.GetComponent<ValveInteractable>().startInteract(KeyMapper.interact);
+                interact.gameObject.GetComponent<ValveInteractable>().startInteract(KeyMapper.interact,valveSlider);
                 PauseMenu.setTechActive(PauseMenu.techPage.SZ);
                 infoPop.wakeUp(PauseMenu.techPage.SZ);
             }

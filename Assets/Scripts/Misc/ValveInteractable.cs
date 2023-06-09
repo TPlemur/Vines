@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class ValveInteractable : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class ValveInteractable : MonoBehaviour
     bool canTurn = true;
     KeyCode interact;
     float timeRotated = 0;
+    Slider progressBar;
+    
 
     public void resetValve()
     {
@@ -34,10 +37,13 @@ public class ValveInteractable : MonoBehaviour
     }
 
     //starts turning, called by InventoryManager
-    public void startInteract(KeyCode interactKey)
+    public void startInteract(KeyCode interactKey,GameObject UIElements)
     {
         turning = true;
         interact = interactKey;
+        UIElements.SetActive(true);
+        progressBar = UIElements.GetComponent<Slider>();
+        progressBar.value = 0;
     }
 
     private void Start()
@@ -56,11 +62,15 @@ public class ValveInteractable : MonoBehaviour
         if (turning && canTurn)
         {
             //stop rotating if key not pressed
-            if (!Input.GetKey(interact)) { turning = false; }
+            if (!Input.GetKey(interact))
+            {
+                turning = false;
+                progressBar.gameObject.SetActive(false);
+            }
 
             //do the rotation
             transform.Rotate(0, Time.deltaTime * rotationSpeed, 0, Space.Self);
-
+            progressBar.value = timeRotated / timeToRotate;
             //check if rotation is done
             timeRotated += Time.deltaTime;
             if (timeRotated > timeToRotate)
@@ -71,6 +81,7 @@ public class ValveInteractable : MonoBehaviour
                 this.tag = "Untagged";
                 //call connected functions
                 triggerOnComplete.Invoke();
+
             }
 
             UpdateSFX();
