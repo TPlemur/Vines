@@ -11,13 +11,16 @@ public class RCcrawler : MonoBehaviour
     const float MaxAmount = 0.827f;
 
     //shader var inputs
-    public float crawlSpeed = 1;
+    public float crawlSpeed = 0.5f;
     float currentAmountF = 0.827f;
     float currentAmountB = 0.827f;
-    [SerializeField] LayerMask validSurfaces = ~0;
+    float frontDist;
+    float backDist;
+
     float timer = 0;
 
     //mesh Properties
+    [SerializeField] LayerMask validSurfaces = ~0;
     [SerializeField] GameObject spawningObj;
     Mesh mesh;
     [SerializeField] Material material;
@@ -92,15 +95,18 @@ public class RCcrawler : MonoBehaviour
                 branchNodes.RemoveAt(0);
                 mesh = createMesh(branchNodes);
                 meshFilter.mesh = mesh;
-                currentAmountF -= amountPerNode;
-                currentAmountB += amountPerNode;
-                material.SetFloat(AMOUNTF, currentAmountF);
-                material.SetFloat(AMOUNTB, currentAmountB);
-                timer -= crawlSpeed;
+                frontDist = MaxAmount + amountPerNode * (branchNodes[branchNodes.Count - 1].getDist()/segmentLength);
+                backDist = MaxAmount - amountPerNode * (branchNodes[0].getDist()/segmentLength);
+                //currentAmountF = AmountBase;
+                //currentAmountB = AmountBase;
+                //material.SetFloat(AMOUNTF, currentAmountF);
+                //material.SetFloat(AMOUNTB, currentAmountB);
+                timer = 0;
             }
-
-            currentAmountF += amountPerNode * Time.deltaTime / crawlSpeed;
-            currentAmountB -= amountPerNode * Time.deltaTime / crawlSpeed;
+            currentAmountF = Mathf.Lerp(MaxAmount, frontDist, timer / crawlSpeed);
+            currentAmountB = Mathf.Lerp(MaxAmount, backDist, timer / crawlSpeed);
+            //currentAmountF += amountPerNode * Time.deltaTime * crawlSpeed;
+            //currentAmountB -= amountPerNode * Time.deltaTime * crawlSpeed;
             material.SetFloat(AMOUNTF, currentAmountF);
             material.SetFloat(AMOUNTB, currentAmountB);
         }
@@ -165,8 +171,8 @@ public class RCcrawler : MonoBehaviour
             dirToST = dirToST - Vector3.Project(dirToST, normal);
             dirToST.Normalize();
             dir = dir + SeakStrength * dirToST;
-            dir.Normalize();
         }
+        dir.Normalize();
 
         //Add some randomness so it looks organic
         randControl += 1;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SmartSeeker : MonoBehaviour
 {
+    const string emmisive = "_Emmisive";
     RCcrawler crawler;
     public float wanderSpeed = 0.5f;
     float searchSpeed = 0.4f;
@@ -201,11 +202,26 @@ public class SmartSeeker : MonoBehaviour
         }
     }
 
+    float flashTime = 0.125f;
+    Vector4 baseEmmisive = new Vector4(0.007843137255f, 0.06666666667f, 0, 0);
+    Vector4 flashEmmisive = new Vector4(0.0941176489f, 1.20784318f, 0, 0);
     IEnumerator flash()
     {
+        float timer = 0;
         vineRender = GetComponent<MeshRenderer>();
-        vineRender.material = new Material(flashMat);
-        yield return new WaitForSeconds(0.25f);
-        vineRender.material = new Material(baseMat);
+        while (timer < flashTime)
+        {
+            timer += Time.deltaTime;
+            vineRender.material.SetColor(emmisive, Vector4.Lerp(baseEmmisive, flashEmmisive, timer / flashTime));
+            yield return 0;
+        }
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            vineRender.material.SetColor(emmisive, Vector4.Lerp(baseEmmisive, flashEmmisive, timer / flashTime));
+            yield return 0;
+        }
+        vineRender.material.SetColor(emmisive, baseEmmisive);
+
     }
 }
