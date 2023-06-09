@@ -277,6 +277,7 @@ public class InventoryManager : MonoBehaviour
         //checked if already in inventory
         if (!inventory.Has(type))
         {
+            if(type != typeof(ElectricalEquipment)) { ObjectiveScript.equipedisEE = false; }
 
             //properly instantiate item
             GameObject itemObj = new GameObject("item" + inventory.items.Count);

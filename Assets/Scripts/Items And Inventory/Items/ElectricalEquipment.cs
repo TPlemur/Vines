@@ -48,14 +48,14 @@ public class ElectricalEquipment : Item
             GameObject tar = scan();
             if (tar == null) { display.BlankDisplay(); }
             else { objToDisplay(tar); }
-            if(boopInterval > 0)
+            if(ObjectiveScript.equipedisEE && boopInterval > 0)
             {
                 boopTimer += Time.deltaTime;
                 if (boopTimer > boopInterval)
                 {
                     boopTimer = 0;
-                    //PlayChirp
-                    Debug.Log("BOOP");
+                    //Play Boop Here
+                    //Debug.Log("BOOP");
                 }
             }
         }
