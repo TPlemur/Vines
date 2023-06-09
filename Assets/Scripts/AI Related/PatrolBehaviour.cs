@@ -88,15 +88,17 @@ public class PatrolBehaviour : StateMachineBehaviour
         NavMeshHit NavMeshEnemy;
         Vector3 finalPosition = Vector3.zero;
         tooCloseToPlayer = false;
-        foreach(GameObject i in hidingHoles){   // For every hiding hole
-            float distance = Vector3.Distance(i.transform.position, Player.position);
-            Debug.Log("Distance: " + distance);
-            if(distance <= 5){
-                tooCloseToPlayer = true;
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
+            foreach(GameObject i in hidingHoles){   // For every hiding hole
+                float distance = Vector3.Distance(i.transform.position, NavMeshEnemy.position);
+                Debug.Log("Distance: " + distance);
+                if(distance <= 5){
+                    tooCloseToPlayer = true;
+                }
             }
-        }
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1) && !tooCloseToPlayer) {
-            finalPosition = NavMeshEnemy.position;            
+            if(!tooCloseToPlayer){
+                finalPosition = NavMeshEnemy.position;    
+            }   
         }
         return finalPosition;
     }
