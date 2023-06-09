@@ -21,7 +21,7 @@ public class ElevatorSceneControl : MonoBehaviour
     float skipTimer = 0;
 
     [SerializeField]
-    private float beforeVideoWaitTime = 5.0f;
+    private float beforeVideoWaitTime = 10.0f;
     [SerializeField]
     private float afterVideoWaitTime = 1.0f;
 
@@ -103,7 +103,9 @@ public class ElevatorSceneControl : MonoBehaviour
 
     IEnumerator WaitAndStartVideo()
     {
+        Debug.Log("before wait time"); 
         yield return new WaitForSeconds(beforeVideoWaitTime);
+        Debug.Log("after wait time");
         videoPlayer.Play();
     }
 
