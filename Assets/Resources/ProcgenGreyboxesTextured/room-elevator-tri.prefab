@@ -1520,7 +1520,7 @@ GameObject:
   - component: {fileID: 8359260928140721137}
   - component: {fileID: 6108656732134242528}
   - component: {fileID: 2968612041979029640}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1619,7 +1619,7 @@ GameObject:
   - component: {fileID: 411863035916258210}
   - component: {fileID: 4001326337893639982}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1633,7 +1633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2959411399719461163}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 254.2, y: 6.2, z: -231.2}
+  m_LocalPosition: {x: 254.2, y: 6.8, z: -231.2}
   m_LocalScale: {x: 500, y: 1, z: 500}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1877,7 +1877,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25a9fb42d361f46ad89221f6d301e96e, type: 2}
+  - {fileID: 2100000, guid: 52fbf62845205104994fc27cba2209e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6379,6 +6379,8 @@ MonoBehaviour:
   outlineMat: {fileID: 0}
   rend: {fileID: 1449506730167025026}
   separateMesh: 0
+  smr: {fileID: 0}
+  isSMR: 0
 --- !u!1 &7087199970763613537
 GameObject:
   m_ObjectHideFlags: 0
@@ -8423,7 +8425,7 @@ GameObject:
   - component: {fileID: 7183216850551301233}
   - component: {fileID: 7183216850551301232}
   - component: {fileID: 7183216850551301239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10252,6 +10254,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7183216851297207152}
     m_Modifications:
+    - target: {fileID: 2295055981097065711, guid: 0b7fc8847213f024dadd6f4819d6d3c2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4758335276676626291, guid: 0b7fc8847213f024dadd6f4819d6d3c2, type: 3}
       propertyPath: m_Name
       value: CautionSticker
