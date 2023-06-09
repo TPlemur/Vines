@@ -182,7 +182,9 @@ public class InventoryManager : MonoBehaviour
             //Activate Security Room Door
             if (interact.tag == "SecurityDoorConsole")
             {
-                //interact.gameObject.GetComponent<SecurityRoomDoor>().startInteract(KeyMapper.interact);
+                //interact.gameObject.GetComponent<SecurityRoomDoor>().GetComponentInChildren<SecurityDoorLink>().toggleDoor();
+                DoorController.doorLinkTrigger = true;
+                Debug.Log("DoorButtonPressed");
             }
         }
     }
