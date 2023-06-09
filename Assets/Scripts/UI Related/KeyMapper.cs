@@ -71,8 +71,11 @@ public class KeyMapper : MonoBehaviour
         getKeyCodes();
         allCodes = (int[])System.Enum.GetValues(typeof(KeyCode));
 
-        Imode.value = PlayerPrefs.GetInt("itemMode", 1);
-        StartCoroutine(lateAwake());
+        if (Imode != null)
+        {
+            Imode.value = PlayerPrefs.GetInt("itemMode", 1);
+            StartCoroutine(lateAwake());
+        }
     }
 
     IEnumerator lateAwake()
@@ -171,27 +174,33 @@ public class KeyMapper : MonoBehaviour
     void getKeyCodes()
     {
         getkeyCode(ref forward,   "forward",   KeyCode.W,           forField);
-        forwardUi.text = forward.ToString();
         getkeyCode(ref backward,  "backward",  KeyCode.S,           bacField);
-        backwardUi.text = backward.ToString();
         getkeyCode(ref right,     "right",     KeyCode.D,           rigField);
-        rightUi.text = right.ToString();
         getkeyCode(ref left,      "left",      KeyCode.A,           lefField);
-        leftUi.text = left.ToString();
         getkeyCode(ref itemWheel, "itemWheel", KeyCode.Q,           iteField);
-        ItemWheelUi.text = itemWheel.ToString();
         getkeyCode(ref interact,  "interact",  KeyCode.E,           intField);
-        InteractUi.text = interact.ToString();
         getkeyCode(ref crouch,    "crouch",    KeyCode.LeftShift,   croField);
         getkeyCode(ref techNotes, "techNotes", KeyCode.T,           tecField);
-        techNoteUi.text = techNotes.ToString() + techNoteText;
+        if (forwardUi != null)
+        {
+            forwardUi.text = forward.ToString();
+            backwardUi.text = backward.ToString();
+            rightUi.text = right.ToString();
+            leftUi.text = left.ToString();
+            ItemWheelUi.text = itemWheel.ToString();
+            InteractUi.text = interact.ToString();
+            techNoteUi.text = techNotes.ToString() + techNoteText;
+        }
     }
 
     //Helper function for getKeyCodes
     void getkeyCode(ref KeyCode target, string pPref, KeyCode defKey, TMPro.TextMeshProUGUI targetUI)
     {
         target = (KeyCode)PlayerPrefs.GetFloat(pPref, (int)defKey);
-        targetUI.text = target.ToString();
+        if (targetUI != null)
+        {
+            targetUI.text = target.ToString();
+        }
     }
 
     //changes ItemWheel mode
