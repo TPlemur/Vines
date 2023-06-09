@@ -51,14 +51,14 @@ public class ChaseBehaviour : StateMachineBehaviour
         float playerAngle = Mathf.Acos(Vector3.Dot(playerDir, Mob.transform.forward));
         float visionAngle = 1f;
 
-        // Checks to see if the monster can still see the player and they're close
-        if(playerAngle < visionAngle && Physics.Raycast(monVis, out hit, 10, mask)){
-            canStillSeePlayer = true;
-        }else{
-            canStillSeePlayer = false;
-        }
+        // // Checks to see if the monster can still see the player and they're close
+        // if(playerAngle < visionAngle && Physics.Raycast(monVis, out hit, 10, mask)){
+        //     canStillSeePlayer = true;
+        // }else{
+        //     canStillSeePlayer = false;
+        // }
         // Exits chase state if the player is in a hiding hole (unless it can still see the player), otherwise charges them
-        if(Brain.isHiding && !canStillSeePlayer){
+        if(Brain.isHiding){
             Brain.detectsPlayer = false;
             Mob.Stop();
             Mob.ResetPath();

@@ -11,12 +11,16 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     NavMeshAgent Mob;
     Vector3 playerPos;
     Brain mobBrain;
+    GameObject[] hidingHoles;
     public static GameObject Lure;
+    bool tooCloseToPlayer = false;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("Investigating");
+        hidingHoles = GameObject.FindGameObjectsWithTag("HidingHole");
+        Debug.Log(hidingHoles.Length);
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         playerPos = Player.position;//getClosestNavPointToPlayer(Player);
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
@@ -34,7 +38,20 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
         // Walks towards player if they're not in a hiding spot
         if(Brain.currentTarget == Brain.target.player){
             if(!Mob.hasPath &! Brain.isHiding){
-                Mob.SetDestination(Player.position);
+                tooCloseToPlayer = false;
+                foreach(GameObject i in hidingHoles){   // For every hiding hole
+                    float distance = Vector3.Distance(i.transform.position, Player.position);
+                    Debug.Log("Distance: " + distance);
+                    if(distance <= 5){
+                        tooCloseToPlayer = true;
+                    }
+                }
+                if(!tooCloseToPlayer){
+                    Mob.SetDestination(Player.position);
+                }else{
+                    Mob.SetDestination(RandomNavmeshLocation(25));
+                }
+                Debug.Log("Too Close?: " + tooCloseToPlayer);
             }
         }else if(Brain.currentTarget == Brain.target.lure){
             if(!Mob.hasPath){
@@ -62,5 +79,25 @@ public class InvestigateHintBehaviour : StateMachineBehaviour
     {
        Brain.investigating = false;
        mobBrain.timeForHint = false;
+    }
+
+    // Finds a random location on the navmesh within a radius around the player, then returns it
+    public Vector3 RandomNavmeshLocation(float radius) {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += Player.transform.position;
+        NavMeshHit NavMeshEnemy;
+        Vector3 finalPosition = Vector3.zero;
+        tooCloseToPlayer = false;
+        foreach(GameObject i in hidingHoles){   // For every hiding hole
+            float distance = Vector3.Distance(i.transform.position, Player.position);
+            Debug.Log("Distance: " + distance);
+            if(distance <= 5){
+                tooCloseToPlayer = true;
+            }
+        }
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1) && !tooCloseToPlayer) {
+            finalPosition = NavMeshEnemy.position;            
+        }
+        return finalPosition;
     }
 }

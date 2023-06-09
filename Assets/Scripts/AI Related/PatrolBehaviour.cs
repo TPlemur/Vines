@@ -14,6 +14,8 @@ public class PatrolBehaviour : StateMachineBehaviour
     GameObject PlayerObj;
     NavMeshAgent Mob;
     Brain mobBrain;
+    GameObject[] hidingHoles;
+    bool tooCloseToPlayer = false;
 
     Vector3 patrolPos;
     public float visionAngle = 1f;
@@ -25,6 +27,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         Mob = animator.gameObject.GetComponentInParent<NavMeshAgent>();
         mobBrain = Mob.GetComponentInChildren<Brain>();
         mobBrain.currentMonState = Brain.monState.patrol;
+        hidingHoles = GameObject.FindGameObjectsWithTag("HidingHole");
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerObj = GameObject.FindGameObjectWithTag("Player");
         animator.gameObject.GetComponent<MonVineStateMachine>().currentState = MonVineStateMachine.state.walk;
@@ -84,7 +87,15 @@ public class PatrolBehaviour : StateMachineBehaviour
         randomDirection += Player.transform.position;
         NavMeshHit NavMeshEnemy;
         Vector3 finalPosition = Vector3.zero;
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
+        tooCloseToPlayer = false;
+        foreach(GameObject i in hidingHoles){   // For every hiding hole
+            float distance = Vector3.Distance(i.transform.position, Player.position);
+            Debug.Log("Distance: " + distance);
+            if(distance <= 5){
+                tooCloseToPlayer = true;
+            }
+        }
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1) && !tooCloseToPlayer) {
             finalPosition = NavMeshEnemy.position;            
         }
         return finalPosition;
