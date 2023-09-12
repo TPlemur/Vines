@@ -84,7 +84,7 @@ public class SmartSeeker : MonoBehaviour
             cycleTimer = 0;
             StartCoroutine(setSurroundOff());
         }
-        if (Brain.isHiding && (currentState == seekerState.seek || currentState == seekerState.report)) { setState(seekerState.surround); }
+        if (Brain.isHiding && (currentState == seekerState.report || currentState == seekerState.search || currentState == seekerState.seek)) { setState(seekerState.surround); }
     }
 
     IEnumerator setSurroundOff()
