@@ -112,12 +112,7 @@ public class PVTM : Item
                     obj.GetComponent<Collider>().enabled = false;
                     activeCams.Add(obj);
                     current = activeCams.Count - 1;
-                    //currentCam = activeCams[activeCams.Count - 1];
                     ConnectCurrent();
-                    //real.transform.SetParent(obj.transform);
-                    //real.transform.localPosition = obj.transform.GetChild(0).gameObject.transform.localPosition;
-                    //real.transform.localRotation = obj.transform.GetChild(0).gameObject.transform.localRotation;
-                    //real.GetComponent<Camera>().fieldOfView = currentCam.GetComponent<Camera>().fieldOfView;
                     CameraWhirUpSFX(obj);
                     StartCoroutine(cameraDeactivationTimer(activeCams.Count - 1));
                 }
@@ -147,12 +142,7 @@ public class PVTM : Item
     public override void CycleRight(){
         if(activeCams.Count > 1){
             current += current == activeCams.Count - 1 ? -1 * (activeCams.Count - 1) : 1;
-            //currentCam = activeCams[current];
             ConnectCurrent();
-            //real.transform.SetParent(currentCam.transform);
-            //real.transform.localPosition = currentCam.transform.GetChild(0).gameObject.transform.localPosition;
-            //real.transform.localRotation = currentCam.transform.GetChild(0).gameObject.transform.localRotation;
-            //real.GetComponent<Camera>().fieldOfView = currentCam.GetComponent<Camera>().fieldOfView;
             CameraChangeSFX();
         }
     }
@@ -162,12 +152,7 @@ public class PVTM : Item
     public override void CycleLeft(){
         if(activeCams.Count > 1){
             current -= current == 0 ? -1 * (activeCams.Count - 1) : 1;
-            //currentCam = activeCams[current];
             ConnectCurrent();
-            //real.transform.SetParent(currentCam.transform);
-            //real.transform.localPosition = currentCam.transform.GetChild(0).gameObject.transform.localPosition;
-            //real.transform.localRotation = currentCam.transform.GetChild(0).gameObject.transform.localRotation;
-            //real.GetComponent<Camera>().fieldOfView = currentCam.GetComponent<Camera>().fieldOfView;
             CameraChangeSFX();
         }
     }

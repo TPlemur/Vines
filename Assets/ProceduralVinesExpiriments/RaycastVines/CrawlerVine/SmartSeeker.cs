@@ -38,7 +38,7 @@ public class SmartSeeker : MonoBehaviour
         seek
     }
 
-    [SerializeField] float startDelay = 0.02f;
+    //[SerializeField] float startDelay = 0.02f;
     [SerializeField] Material flashMat;
     [SerializeField] Material baseMat;
     MeshRenderer vineRender;

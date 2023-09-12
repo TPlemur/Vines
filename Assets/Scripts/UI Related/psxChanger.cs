@@ -35,7 +35,7 @@ public class psxChanger : MonoBehaviour
         psx.Release();
         psx.width = (int)(142 * value);
         psx.height = (int)(80 * value);
-        if (hasOffice) { officeCam.fieldOfView = DoorCode.camRes[(int)value];PVTM.resupdate = true; }
+        if (hasOffice) { officeCam.fieldOfView = DoorCode.camRes[(int)value]; PVTM.resupdate = true; }
         PlayerPrefs.SetFloat("psxQuality", value);
         PlayerPrefs.Save();
     }

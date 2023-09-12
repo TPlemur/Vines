@@ -87,17 +87,13 @@ public class InventoryManager : MonoBehaviour
 
         //update outlines as necessasary
         //CheckOutlines();
-        // cycle left and right
+        // cycle left and right on pvtm cam
         if (Input.GetKeyDown(KeyMapper.cycleRightKey))
         {
             if (inventory.EquippedIsToggled() && inventory.EquippedIsPVTM())
             {
                 inventory.equipped.CycleRight();
             }
-            // else
-            // {
-            //     inventory.CycleRight();
-            // }
         }
 
         else if (Input.GetKeyDown(KeyMapper.cycleLeftKey))
@@ -106,10 +102,6 @@ public class InventoryManager : MonoBehaviour
             {
                 inventory.equipped.CycleLeft();
             }
-            // else
-            // {
-            //     inventory.CycleLeft();
-            // }
         }
 
         // left click

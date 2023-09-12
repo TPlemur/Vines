@@ -91,7 +91,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         if (NavMesh.SamplePosition(randomDirection, out NavMeshEnemy, radius, 1)) {
             foreach(GameObject i in hidingHoles){   // For every hiding hole
                 float distance = Vector3.Distance(i.transform.position, NavMeshEnemy.position);
-                Debug.Log("Distance: " + distance);
+                //Debug.Log("Distance: " + distance);
                 if(distance <= 5){
                     tooCloseToPlayer = true;
                 }
