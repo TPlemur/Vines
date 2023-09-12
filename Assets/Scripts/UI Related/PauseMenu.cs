@@ -48,7 +48,17 @@ public class PauseMenu : MonoBehaviour
     {
                                              //EE    SC    FL     BE     PV     TR     SH     CH     SZ
         EquipPagesActive = new List<bool>() { true, true, false, false, false, false, false, false, false };
+        //flash open settings to run settings start functions
+        StartCoroutine(startSetings());
         
+    }
+    IEnumerator startSetings()
+    {
+        PauseGame();
+        MainToSettings();
+        yield return 0;
+        PageToMain(SettingLevel);
+        ResumeGame();
     }
 
     // Update is called once per frame
