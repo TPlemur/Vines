@@ -195,6 +195,10 @@ public class InventoryManager : MonoBehaviour
                 PauseMenu.setTechActive(PauseMenu.techPage.SZ);
                 infoPop.wakeUp(PauseMenu.techPage.SZ);
             }
+            if(interact.tag == "DoorConsole")
+            {
+                interact.gameObject.GetComponent<DoorConsole>().activate();
+            }
 
         }
     }
@@ -219,7 +223,7 @@ public class InventoryManager : MonoBehaviour
             else if (interact.tag == "Valve")
             {
 
-                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Turn Valve";
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "TURN VALVE";
                 PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
@@ -243,6 +247,13 @@ public class InventoryManager : MonoBehaviour
             {
                 LMBtext.transform.GetComponentInChildren<TextMeshProUGUI>().text = "ELEVATOR INTERCOM (RETURN HERE WITH EVIDENCE)";
                 LMBtext.SetActive(true);
+                lastOutline = interact.GetComponent<OutlineToggle>();
+                lastOutline.On();
+            }
+            else if (interact.tag == "DoorConsole")
+            {
+                PText.transform.GetComponentInChildren<TextMeshProUGUI>().text = "ENTER CODE";
+                PText.SetActive(true);
                 lastOutline = interact.GetComponent<OutlineToggle>();
                 lastOutline.On();
             }
